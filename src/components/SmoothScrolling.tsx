@@ -5,7 +5,7 @@ const SmoothScrolling: React.FC<{ children: React.ReactNode }> = ({ children }) 
     const handleScroll = (event: WheelEvent) => {
       event.preventDefault();
       window.scrollBy({
-        top: event.deltaY < 0 ? -50 : 50,
+        top: event.deltaY < 0 ? -150 : 150,
         behavior: 'smooth',
       });
     };
