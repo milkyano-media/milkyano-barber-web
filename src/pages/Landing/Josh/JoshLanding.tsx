@@ -173,7 +173,7 @@ const JoshLanding: React.FC = () => {
         <div className='h-[1000px]'>
           <h1 className='font-extrabold text-4xl text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text'>REVIEWS</h1>
           <div className='my-[20px]'>
-            
+            CONTENT
           </div>
         </div>
       </section>
