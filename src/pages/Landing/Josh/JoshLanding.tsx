@@ -94,8 +94,6 @@ const JoshLanding: React.FC = () => {
   //   "/src/assets/images/josh/review_4.png"
   // ]
 
-  
-
   return (
     <>
       <Helmet>
@@ -122,65 +120,74 @@ const JoshLanding: React.FC = () => {
 
       {/* HERO SECTION */}
       <section>
-        <img className='w-full h-[1.5px] lg:h-[3px] object-cover object-top drop-shadow-[0_3px_3px_#24FF00]' src="/src/assets/svg/greenLines.svg" alt="top-lines" />
         <video className='absolute h-[600px] w-full object-cover' autoPlay muted loop src="/src/assets/videos/josh/hero.mp4"/>
-        <div className='h-[550px] relative z-10 flex justify-center items-center lg:w-[35%] lg:ml-[15%]'>
-          <div className='w-full flex flex-col'>
-            <div className='flex flex-col text-left border border-white rounded-3xl m-[20px] px-[30px] py-[40px] backdrop-blur-lg'>
-              <h1 className='font-extrabold lg:text-6xl text-3xl text-[#42FF00]'>HI, I&apos;M JOSH</h1> 
-              <h3 className='font-bold text-lg' >BEST BARBER IN MELBOURNE</h3>
-              <h5 className='max-w-[500px] text-sm mt-4'>I am specializing in design and it only takes one click to change everything including your look.</h5>
-            </div>
-            <div className='flex gap-10 mx-[20px] my-[10px]'>
-              <WhiteButton >HAIR</WhiteButton>
-              <WhiteButton>HAIR & BEARD</WhiteButton>
+        <div className='max-w-[2000px] lg:h-[1200px] text-center m-auto mb-[50px]'>
+          <img className='w-full h-[1.5px] lg:h-[3px] object-cover object-top drop-shadow-[0_3px_3px_#24FF00]' src="/src/assets/svg/greenLines.svg" alt="top-lines" />
+          <div className='h-[550px] relative z-10 flex justify-center items-center lg:w-[35%] lg:ml-[15%]'>
+            <div className='w-full flex flex-col'>
+              <div className='flex flex-col text-left border border-white rounded-3xl m-[20px] px-[30px] py-[40px] backdrop-blur-lg'>
+                <h1 className='font-extrabold lg:text-6xl text-3xl text-[#42FF00]'>HI, I&apos;M JOSH</h1> 
+                <h3 className='font-bold text-lg' >BEST BARBER IN MELBOURNE</h3>
+                <h5 className='max-w-[500px] text-sm mt-4'>I am specializing in design and it only takes one click to change everything including your look.</h5>
+              </div>
+              <div className='flex gap-10 mx-[20px] my-[10px]'>
+                <WhiteButton >HAIR</WhiteButton>
+                <WhiteButton>HAIR & BEARD</WhiteButton>
+              </div>
             </div>
           </div>
+          <img className='relative z-10 lg:h-[200px] w-full object-cover lg:top-[-2px] top-[35px]' src="/src/assets/svg/heroBottom.svg" alt="bottom-lines" />
         </div>
-        <img className='relative z-10 h-[200px] w-full object-cover' src="/src/assets/svg/heroBottom.svg" alt="bottom-lines" />
+
       </section>
 
       {/* TRANSFORMATION SECTION */}
       <section>
-        <div className='relative z-[-10] lg:top-[-40vh]'>
-          <img className='absolute w-full ' src="/src/assets/svg/topLineBg.svg" alt="top-background" />
-        </div>
-        <div className='h-[1000px]'>
-          <h1 className='font-extrabold text-4xl text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text'>TRANSFORMATION</h1>
-          CONTENT
+        <div className='max-w-[2000px] lg:h-[1200px] text-center m-auto'>
+          <div className='relative z-[-10%] lg:top-[-35%]'>
+            <img className='absolute w-full' src="/src/assets/svg/topLineBg.svg" alt="top-background" />
+          </div>
+          <div className='h-[1000px]'>
+            <h1 className='font-extrabold text-4xl text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text'>TRANSFORMATION</h1>
+            CONTENT
+          </div>
         </div>
       </section>
 
 
       {/* OUR VIDEOS SECTION */}
       <section>
-        <div className='relative z-20 top-[-20vh]'>
-          <img className='absolute w-full' src="/src/assets/svg/secondLineBg.svg" alt="top-background" />
-        </div>
-        <div className='h-[1000px]'>
-          <h1 className='font-extrabold text-4xl text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text'>OUR VIDEOS</h1>
-          <h3>Well known on TIktok with millions of views</h3>
-          CONTENT
+        <div className='max-w-[2000px] lg:h-[1200px] text-center m-auto'>
+          <div className='relative z-20 top-[-35%]'>
+            <img className='absolute w-full' src="/src/assets/svg/secondLineBg.svg" alt="top-background" />
+          </div>
+          <div className='h-[1000px]'>
+            <h1 className='font-extrabold text-4xl text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text'>OUR VIDEOS</h1>
+            <h3>Well known on TIktok with millions of views</h3>
+            CONTENT
+          </div>
         </div>
       </section>
 
 
       {/* REVIEWS SECTION */}
       <section>
-        <div className='relative z-20 top-[10vh]'>
-          <img className='absolute w-[300px] lg:w-[450px]' src="/src/assets/svg/thirdLineBg.svg" alt="top-background" />
-        </div>
-        <div className='h-[1000px]'>
-          <h1 className='font-extrabold text-4xl text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text'>REVIEWS</h1>
-          <div className='my-[20px]'>
-            CONTENT
+        <div className='max-w-[2000px] h-[1200px] text-center m-auto'>
+          <div className='relative z-20 top-[5%] lg:top-[-30%]'>
+            <img className='absolute w-[150px] lg:w-[750px]' src="/src/assets/svg/thirdLineBg.svg" alt="top-background" />
+          </div>
+          <div className='h-[1200px]'>
+            <h1 className='font-extrabold text-4xl text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text'>REVIEWS</h1>
+            <div className='my-[20px]'>
+              CONTENT
+            </div>
           </div>
         </div>
       </section>
 
       {/* FOOTER SECTION */}
       <section>
-        <div className=''>
+        <div className=' text-center'>
           CONTENT
         </div>
       </section>
