@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-import Header from './Header';
-import Footer from './Footer';
+import Header from './JoshHeader';
+import Footer from './JoshFooter';
 import SmoothScrolling from './SmoothScrolling';
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
