@@ -1,0 +1,22 @@
+.container {
+  background: lightblue;
+  cursor: url('https://uploads.codesandbox.io/uploads/user/b3e56831-8b98-4fee-b941-0e27f39883ab/Ad1_-cursor.png') 39 39,
+    auto;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+}
+.deck {
+  @apply w-[300px] h-[300px] md:w-[25rem] flex items-center justify-center;
+  position: absolute;
+  will-change: transform;
+  touch-action: none;
+}
+
+.deck > div {
+    @apply max-h-[345px] md:max-h-[100rem] max-w-[210px] md:max-w-[22rem] md:w-[30rem] md:h-[35rem] h-[85vh] w-[45vh] bg-white bg-center bg-no-repeat rounded-2xl;
+    background-size: auto 120%;
+    will-change: transform;
+    box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
+}
