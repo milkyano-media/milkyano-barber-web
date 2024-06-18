@@ -14,8 +14,6 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import FadeLinesText from "@/assets/svg/fadedlinesVertical.svg";
 import BgHero2 from "@/assets/svg/heroWeb.svg";
 import blackFadeHero from "@/assets/svg/blackFadeHero.svg";
-import Logo from "@/assets/svg/logo.svg"
-import PricingHome from "@/assets/svg/homepage/PricingHome.svg"
 
 import instagramPhotos1 from '/src/assets/images/instagram/instagramPhotos.png';
 import instagramPhotos2 from '/src/assets/images/instagram/instagramPhotos2.png';
@@ -116,7 +114,7 @@ export default function Home() {
               <p>0435 249 543.</p>
               <p>We&apos;re located in Oakleigh.</p>
             </div>
-            <div className="flex flex-col mt-4 md:py-12 gap-4 justify-center items-center md:w-6/12 mx-auto font-extrabold">
+            <div className="flex flex-col mt-4 md:py-12 md:py-0 gap-4 justify-center items-center md:w-6/12 mx-auto font-extrabold">
               <Button variant={"ghost"}
                 className="relative rounded-2xl w-fit  z-20 backdrop-blur-lg bg-transparent text-lg md:text-xl  border border-[#14FF00] px-20 py-6 transform hover:scale-110 transition-transform duration-400 ease-in-out hover:shadow-md hover:bg-[#14FF00] hover:shadow-[#14FF00]  font-extrabold hover:text-black"
                 style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
@@ -147,22 +145,16 @@ export default function Home() {
 
           <p className="text-stone-50 w-10/12 text-center  absolute bottom-14  2xl:bottom-24 z-10 left-1/2 transform -translate-x-1/2 ">55 PORTMAN ST; OAKLEIGH VIC 3166; AUSTRALIA</p>
         </section>
-        <section className="py-12 w-full md:min-h-[50vh] mt-0 pt-32 px-4 flex flex-col  items-center md:px-12 my-12 relative bg-black">
-          <img src={PricingHome} alt="barber shop faded lines" className='w-full h-full object-cover object-bottom absolute left-0 bottom-0 z-0' />
-         
-         <div className="flex flex-col gap-4 text-center items-center">
-            <img src={Logo} alt="barber shop faded lines" className='w-32 h-auto opacity-90' />
-            <h3 className="text-2xl md:text-3xl font-inter tracking-wider font-extrabold ">SIMPLE AND <span className="text-transparent bg-gradient-to-r from-[#4DFF20]  to-[#88FF7D] bg-clip-text">EFFECTIVE PRICING</span> <br className="hidden md:block " /> FOR THAT FRESH LOOK</h3>
-            <p className="text-lg md:text-xl w-8/12 mt-4">Anyone deserves a good haircut. Time to get yours.</p>
-         </div>
+        <section className="py-12 w-full md:h-[50vh] flex mt-32 px-4  md:px-12 my-12 relative">
+
           <div
-            className="relative px-4 flex flex-col gap-4 z-30 text-start backdrop-blur-lg text-white rounded-[50px] py-8 pb-16 md:px-16 md:my-12 mb-10 md:mx-6 border border-stone-50 md:w-5/12 shadow-lg bg-black/40  transform hover:scale-105 transition-transform duration-500 ease-in-out"
+            className="relative px-4 md:absolute  flex flex-col gap-4 z-30 text-start backdrop-blur-lg text-white rounded-[50px] py-8 pb-16 md:px-16 md:my-12 mb-10 md:mx-6 border border-stone-50 md:w-2/3 shadow-lg bg-black/40 md:left-1/2 md:top-1/2 transform md:-translate-x-1/2 md:-translate-y-1/2 hover:scale-105 transition-transform duration-500 ease-in-out"
             style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
           >
-            <h4 className="text-xl font-extrabold mb-2 tracking-wider">$50 - HAIRCUT</h4>
-            <p>Men&apos;s  haircut start from $50 and alongside a beard trim may cost up to $75 depending on your chosen barber.</p>
+            <h3 className="text-2xl md:text-3xl font-inter tracking-wider font-extrabold md:w-8/12">SIMPLE AND <span className="text-transparent bg-gradient-to-r from-[#4DFF20]  to-[#88FF7D] bg-clip-text">EFFECTIVE PRICING</span> <br className="hidden md:block " /> FOR THAT FRESH LOOK</h3>
+            <p className="text-sm">Anyone deserves a good haircut. Time to get yours.</p>
+            <div className="h-[4rem]"></div>
             <div className="flex flex-col gap-12 md:gap-0 md:flex-row align-bottom tracking-wider">
-             
               <div className="flex flex-col md:w-8/12 gap-3">
                 <h4 className="text-xl font-extrabold mb-2 tracking-wider">$50 - HAIRCUT</h4>
                 <p className="text-xs md:w-8/12 mb-2">Men&apos;s haircut start from $50 depending on <br /> which barber you would like.</p>
