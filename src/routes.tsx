@@ -6,6 +6,7 @@ import Gallery from './pages/Gallery';
 import AboutUs from './pages/AboutUs';
 import NotFound from './pages/NotFound';
 import JoshLanding from './pages/Landing/Josh/JoshLanding';
+import Careers from './pages/Careers';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/barbers" element={<Barbers />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/careers" element={<Careers />} />
         <Route path="/josh" element={<JoshLanding />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
