@@ -2,7 +2,7 @@
 import Layout from "@/components/WebLayout";
 import { Button } from "@/components/ui/button";
 
-import { useEffect,  } from "react";
+import { useEffect, useRef,  } from "react";
 import { Helmet } from 'react-helmet-async';
 import {
   Accordion,
@@ -10,36 +10,42 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { motion, useScroll } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import FadeLinesText from "@/assets/svg/fadedlinesVertical.svg";
 import BgHero2 from "@/assets/svg/heroWeb.svg";
 import blackFadeHero from "@/assets/svg/blackFadeHero.svg";
+import Logo from "@/assets/svg/logo.svg"
+import PricingHome from "@/assets/svg/homepage/PricingHome.svg"
 
-import instagramPhotos1 from '/src/assets/images/web/instagram/instagramPhotos.png';
-import instagramPhotos2 from '/src/assets/images/web/instagram/instagramPhotos2.png';
-import instagramPhotos3 from '/src/assets/images/web/instagram/instagramPhotos3.png';
-import instagramPhotos4 from '/src/assets/images/web/instagram/instagramPhotos4.png';
-import instagramPhotos5 from '/src/assets/images/web/instagram/instagramPhotos5.png';
+import instagramPhotos1 from '/src/assets/images/instagram/instagramPhotos.png';
+import instagramPhotos2 from '/src/assets/images/instagram/instagramPhotos2.png';
+import instagramPhotos3 from '/src/assets/images/instagram/instagramPhotos3.png';
+import instagramPhotos4 from '/src/assets/images/instagram/instagramPhotos4.png';
+import instagramPhotos5 from '/src/assets/images/instagram/instagramPhotos5.png';
 
-import instagramPhotosMobile1 from '/src/assets/images/web/instagram/mobile/instagramPhotos.png';
-import instagramPhotosMobile2 from '/src/assets/images/web/instagram/mobile/instagramPhotos2.png';
-import instagramPhotosMobile3 from '/src/assets/images/web/instagram/mobile/instagramPhotos3.png';
-import instagramPhotosMobile4 from '/src/assets/images/web/instagram/mobile/instagramPhotos4.png';
-import instagramPhotosMobile5 from '/src/assets/images/web/instagram/mobile/instagramPhotos5.png';
+import instagramPhotosMobile1 from '/src/assets/images/instagram/mobile/instagramPhotos.png';
+import instagramPhotosMobile2 from '/src/assets/images/instagram/mobile/instagramPhotos2.png';
+import instagramPhotosMobile3 from '/src/assets/images/instagram/mobile/instagramPhotos3.png';
+import instagramPhotosMobile4 from '/src/assets/images/instagram/mobile/instagramPhotos4.png';
+import instagramPhotosMobile5 from '/src/assets/images/instagram/mobile/instagramPhotos5.png';
 
 import BottomCta from "/src/assets/images/botoomCta.png"
 import InstagramSection from "@/components/InstagramSection"
 
 export default function Home() {
-  const { scrollYProgress } = useScroll();
 
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+  });
+  const scaleY = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
   const instagram_images_desktop = [
-    instagramPhotos1,
-    instagramPhotos2,
-    instagramPhotos3,
-    instagramPhotos4,
-    instagramPhotos5,
+    { image: instagramPhotos1, name: 'Mid Burst Fade' },
+    { image: instagramPhotos2, name: 'Mid Drop Fade' },
+    { image: instagramPhotos3, name: 'Mid Taper' },
+    { image: instagramPhotos4, name: 'V Low Drop Fade' },
+    { image: instagramPhotos5, name: '' },
   ];
 
   const instagram_images_mobile = [
@@ -83,8 +89,8 @@ export default function Home() {
         <meta property="og:url" content="URL to Fadelines' website" />
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
-      <div className={`flex flex-col text-stone-50 bg-stone-950 w-full h-full relative overflow-hidden`}>
-        <motion.div style={{ scaleX: scrollYProgress }} />
+      <div className={`flex flex-col text-stone-50 bg-stone-950 w-full h-full relative overflow-hidden`} >
+
         <img
           src={FadeLinesText}
           alt="FADED LINES FADED LINES "
@@ -99,7 +105,7 @@ export default function Home() {
             boxShadow: 'inset 0 10px 10px rgba(0, 0, 0, 0.5)'
           }}
         >
-          <div className="absolute w-11/12 rounded-[49px]  flex flex-col gap-4 z-30 text-center backdrop-blur-lg text-white py-8  px-4  md:mr-12 shadow-black shadow-xl xl:w-1/3  bg-black/40 left-1/2 top-[45%] md:mb-12 transform -translate-x-1/2 -translate-y-1/2" style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}>
+          <div id='gradientBoxHomepage' className="absolute w-11/12 rounded-[49px]  flex flex-col gap-4 z-30 text-center backdrop-blur-lg text-white py-8  px-4  md:mr-12 shadow-black shadow-xl xl:w-1/3  bg-black/40 left-1/2 top-[45%] md:mb-12 transform -translate-x-1/2 -translate-y-1/2" style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}>
             <h2 className="text-4xl md:text-6xl font-extrabold tracking-wider md:leading-[4.5rem] ">
               <span className="text-transparent bg-gradient-to-r from-[#4DFF20]  to-[#88FF7D] bg-clip-text">THE BEST</span> FOR YOUR HAIR </h2>
 
@@ -110,7 +116,7 @@ export default function Home() {
               <p>0435 249 543.</p>
               <p>We&apos;re located in Oakleigh.</p>
             </div>
-            <div className="flex flex-col mt-4 md:py-0 gap-4 justify-center items-center md:w-6/12 mx-auto font-extrabold">
+            <div className="flex flex-col mt-4 md:py-12 md:py-0 gap-4 justify-center items-center md:w-6/12 mx-auto font-extrabold">
               <Button variant={"ghost"}
                 className="relative rounded-2xl w-fit  z-20 backdrop-blur-lg bg-transparent text-lg md:text-xl  border border-[#14FF00] px-20 py-6 transform hover:scale-110 transition-transform duration-400 ease-in-out hover:shadow-md hover:bg-[#14FF00] hover:shadow-[#14FF00]  font-extrabold hover:text-black"
                 style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
@@ -141,16 +147,22 @@ export default function Home() {
 
           <p className="text-stone-50 w-10/12 text-center  absolute bottom-14  2xl:bottom-24 z-10 left-1/2 transform -translate-x-1/2 ">55 PORTMAN ST; OAKLEIGH VIC 3166; AUSTRALIA</p>
         </section>
-        <section className="py-12 w-full md:h-[50vh] flex mt-32 px-4  md:px-12 my-12 relative">
-
+        <section className="py-12 w-full md:min-h-[50vh] mt-0 pt-32 px-4 flex flex-col  items-center md:px-12 my-12 relative bg-black">
+          <img src={PricingHome} alt="barber shop faded lines" className='w-full h-full object-cover object-bottom absolute left-0 bottom-0 z-0' />
+         
+         <div className="flex flex-col gap-4 text-center items-center">
+            <img src={Logo} alt="barber shop faded lines" className='w-32 h-auto opacity-90' />
+            <h3 className="text-2xl md:text-3xl font-inter tracking-wider font-extrabold ">SIMPLE AND <span className="text-transparent bg-gradient-to-r from-[#4DFF20]  to-[#88FF7D] bg-clip-text">EFFECTIVE PRICING</span> <br className="hidden md:block " /> FOR THAT FRESH LOOK</h3>
+            <p className="text-lg md:text-xl w-8/12 mt-4">Anyone deserves a good haircut. Time to get yours.</p>
+         </div>
           <div
-            className="relative px-4 md:absolute  flex flex-col gap-4 z-30 text-start backdrop-blur-lg text-white rounded-[50px] py-8 pb-16 md:px-16 md:my-12 mb-10 md:mx-6 border border-stone-50 md:w-2/3 shadow-lg bg-black/40 md:left-1/2 md:top-1/2 transform md:-translate-x-1/2 md:-translate-y-1/2 hover:scale-105 transition-transform duration-500 ease-in-out"
+            className="relative px-4 flex flex-col gap-4 z-30 text-start backdrop-blur-lg text-white rounded-[50px] py-8 pb-16 md:px-16 md:my-12 mb-10 md:mx-6 border border-stone-50 md:w-5/12 shadow-lg bg-black/40  transform hover:scale-105 transition-transform duration-500 ease-in-out"
             style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
           >
-            <h3 className="text-2xl md:text-3xl font-inter tracking-wider font-extrabold md:w-8/12">SIMPLE AND <span className="text-transparent bg-gradient-to-r from-[#4DFF20]  to-[#88FF7D] bg-clip-text">EFFECTIVE PRICING</span> <br className="hidden md:block " /> FOR THAT FRESH LOOK</h3>
-            <p className="text-sm">Anyone deserves a good haircut. Time to get yours.</p>
-            <div className="h-[4rem]"></div>
+            <h4 className="text-xl font-extrabold mb-2 tracking-wider">$50 - HAIRCUT</h4>
+            <p>Men&apos;s  haircut start from $50 and alongside a beard trim may cost up to $75 depending on your chosen barber.</p>
             <div className="flex flex-col gap-12 md:gap-0 md:flex-row align-bottom tracking-wider">
+             
               <div className="flex flex-col md:w-8/12 gap-3">
                 <h4 className="text-xl font-extrabold mb-2 tracking-wider">$50 - HAIRCUT</h4>
                 <p className="text-xs md:w-8/12 mb-2">Men&apos;s haircut start from $50 depending on <br /> which barber you would like.</p>
@@ -169,9 +181,18 @@ export default function Home() {
           </div>
         </section>
 
-        <InstagramSection instagram_images_desktop={instagram_images_desktop} instagram_images_mobile={instagram_images_mobile} />
 
-        <section className="bg-stone-950  flex my-12  flex-col items-center py-32 w-full">
+        <div className="py-24 md:pb-12" >
+          <InstagramSection instagram_images_desktop={instagram_images_desktop} instagram_images_mobile={instagram_images_mobile} />
+        </div>
+        <section ref={ref}>
+          <div className=" w-full flex justify-center  relative" >
+            <div className="h-[20rem] w-[1px] bg-[#086600] z-0" />
+            <motion.div className="absolute h-[20rem] w-[2px] bg-gradient-to-b from-[#096601] to-[#15ff00] shadow-[0px_0px_70px_2px_#15ff00] origin-top z-10" style={{ scaleY }} />
+          </div>
+        </section>
+        <section className="bg-stone-950  flex my-12  flex-col items-center pt-12 pb-32 w-full">
+
           <div className="w-full flex justify-center ">
             <h3 className="text-3xl md:text-6xl font-extrabold text-center  text-transparent bg-gradient-to-r from-[#4DFF20]  to-[#88FF7D] bg-clip-text tracking-wider ">FREQUENTLY ASKED <br /> QUESTIONS</h3>
           </div>
@@ -205,6 +226,8 @@ export default function Home() {
           </div>
 
         </section>
+
+
         <section className="flex flex-col mt-12 justify-center items-end relative z-10 bg-stone-950 py-32">
           <img src={BottomCta} alt="botoom Cta" width={500} height={500} className="absolute top-0 left-0 w-full h-full object-cover object-top" />
           <div className="w-full flex flex-col px-4 md:px-0 md:items-center relative z-20 text-center">
