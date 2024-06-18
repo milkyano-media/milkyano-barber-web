@@ -116,7 +116,7 @@ export default function Home() {
               <p>0435 249 543.</p>
               <p>We&apos;re located in Oakleigh.</p>
             </div>
-            <div className="flex flex-col mt-4 md:py-12 md:py-0 gap-4 justify-center items-center md:w-6/12 mx-auto font-extrabold">
+            <div className="flex flex-col mt-4 md:py-12 gap-4 justify-center items-center md:w-6/12 mx-auto font-extrabold">
               <Button variant={"ghost"}
                 className="relative rounded-2xl w-fit  z-20 backdrop-blur-lg bg-transparent text-lg md:text-xl  border border-[#14FF00] px-20 py-6 transform hover:scale-110 transition-transform duration-400 ease-in-out hover:shadow-md hover:bg-[#14FF00] hover:shadow-[#14FF00]  font-extrabold hover:text-black"
                 style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
