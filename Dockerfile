@@ -1,5 +1,5 @@
 # Stage 1: Build the React + Vite app
-FROM node:16 AS build
+FROM node:20 AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
