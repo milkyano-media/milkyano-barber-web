@@ -23,8 +23,8 @@ const AppRoutes: React.FC = () => {
 
         {/* LANDING ROUTE */}
         <Route path="/josh" element={<JoshLanding />} />
-        <Route path="/meta/osh" element={<JoshLanding />} />
-        <Route path="/paid-ads/osh" element={<JoshLanding />} />
+        <Route path="/meta/josh" element={<JoshLanding />} />
+        <Route path="/paid-ads/josh" element={<JoshLanding />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
