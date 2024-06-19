@@ -39,7 +39,9 @@ const InstagramSection: React.FC<InstagramSectionProps> = ({ instagram_images_de
                 </div>
                 <div className="flex flex-col md:flex-row  self-center gap-4 py-12 md:pl-[15vw] ">
                     <Button variant={"ghost"} className="rounded-xl md:rounded-2xl w-full md:w-32 font-extrabold border-[#14FF00] border text-lg py-4 px-12 md:py-6 md:px-2 hover:bg-[#14FF00] shadow-md hover:shadow-[#14FF00] hover:scale-110 transition-transform duration-500 ease-in-out backdrop-blur-lg hover:text-black" style={{ backdropFilter: 'blur(16px) contrast(100%) uppercase', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}>
+                      <a href=" https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services">
                         Book Now
+                      </a>
                     </Button>
                 </div>
             </div>

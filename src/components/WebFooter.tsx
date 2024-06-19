@@ -53,7 +53,7 @@ const WebFooter: React.FC = () => {
                             <li><Link to="/barbers"  className="hover:text-stone-50" >Barbers</Link></li>
                             <li><Link to="/gallery"  className="hover:text-stone-50">Gallery</Link></li>
                             <li><Link to="/about"  className="hover:text-stone-50">About Us</Link></li>
-                            <li><Link to="/contact"  className="hover:text-stone-50">Book an Appointment</Link></li>
+                            <li><a href=" https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services"  className="hover:text-stone-50">Book an Appointment</a></li>
                            
                         </ul>
                     </div>
@@ -61,25 +61,25 @@ const WebFooter: React.FC = () => {
                         <h4 className='text-sm font-poppins font-medium'>Follow Us On</h4>
                         <ul className="flex gap-4 font-light text-xs relative z-40">
                             <li>
-                                <a href="/home" className="text-md uppercase font-black hover:text-stone-50 opacity-40 hover:opacity-100 relative z-50">
+                                <a href="https://www.instagram.com/fadedlinesbarbershop" className="text-md uppercase font-black hover:text-stone-50 opacity-40 hover:opacity-100 relative z-50">
                                     <img  alt='instagram' src={Instagram}  className='w-8 h-auto' />
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/home" className="text-md uppercase font-black hover:text-stone-50 opacity-40 hover:opacity-100 ">
+                                <a href="https://www.facebook.com/p/Faded-Lines-Barbershop-100066737611092/" className="text-md uppercase font-black hover:text-stone-50 opacity-40 hover:opacity-100 ">
                                     <img alt='Facebook' src={Facebook}  className='w-8 h-auto' />
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/home" className="text-md uppercase font-black hover:text-stone-50 opacity-40 hover:opacity-100 ">
+                                <a href="https://www.tiktok.com/@faded_lines" className="text-md uppercase font-black hover:text-stone-50 opacity-40 hover:opacity-100 ">
                                     <img alt='Tiktok' src={Tiktok}  className='w-8 h-auto' />
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/home" className="text-md uppercase font-black hover:text-stone-50 opacity-40 hover:opacity-100 ">
+                                <a href="https://www.youtube.com/@Faded_Lines" className="text-md uppercase font-black hover:text-stone-50 opacity-40 hover:opacity-100 ">
                                     <img alt='Youtube' src={Youtube} className='w-8 h-auto'  />
                                 </a>
                             </li>

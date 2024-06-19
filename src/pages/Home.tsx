@@ -28,6 +28,7 @@ import instagramPhotosMobile5 from '/src/assets/images/instagram/mobile/instagra
 
 import BottomCta from "/src/assets/images/botoomCta.png"
 import InstagramSection from "@/components/InstagramSection";
+import { Link } from "react-router-dom";
 
 
 export default function Home() {
@@ -119,9 +120,10 @@ export default function Home() {
                 className="relative rounded-2xl w-fit  z-20 backdrop-blur-lg bg-transparent text-lg md:text-xl  border border-[#14FF00] px-20 py-6 transform hover:scale-110 transition-transform duration-400 ease-in-out hover:shadow-md hover:bg-[#14FF00] hover:shadow-[#14FF00]  font-extrabold hover:text-black"
                 style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
               >
-                Book Now
+                <a href=" https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services">
+                  Book Now
+                </a>
               </Button>
-
             </div>
           </div>
           <img
@@ -159,14 +161,18 @@ export default function Home() {
                 <h4 className="text-xl font-extrabold mb-2 tracking-wider">$50 - HAIRCUT</h4>
                 <p className="text-xs md:w-8/12 mb-2">Men&apos;s haircut start from $50 depending on <br /> which barber you would like.</p>
                 <Button className="w-fit bg-gradient-to-r from-[#14FF00]  to-[#999999] rounded-xl px-6 text-stone-50 font-bold uppercase py-1 text-lg transform transition-all duration-500 hover:scale-110 hover:from-[#999999] hover:to-[#14FF00]">
+                <a href=" https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services">
                   PRICING PLANS
+                </a>
                 </Button>
               </div>
               <div className="flex flex-col md:justify-end md:items-end md:text-end md:w-8/12 gap-3 tracking-wider">
                 <h4 className="text-xl font-extrabold mb-2 tracking-wider">$75 - HAIRCUT & BEARD</h4>
                 <p className="text-xs  mb-2">Men&apos;s haircut and beard trims starts from $75 <br /> depending on which barber you would like.</p>
                 <Button className="w-fit bg-gradient-to-r from-[#14FF00]  to-[#999999] rounded-xl px-6 text-stone-50 font-bold uppercase py-1 text-lg transform transition-all duration-500 hover:scale-110 hover:from-[#999999] hover:to-[#14FF00]">
-                  PRICING PLANS
+                  <a href=" https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services">
+                    PRICING PLANS
+                  </a>
                 </Button>
               </div>
             </div>
@@ -226,10 +232,14 @@ export default function Home() {
             <h3 className="md:text-6xl text-4xl tracking-wider md:leading-[5rem] font-extrabold mb-6">SAVE TIME AND <br /> <span className="text-transparent bg-gradient-to-r from-[#4DFF20]  to-[#88FF7D] bg-clip-text">BOOK NOW</span></h3>
             <div className="flex gap-4 py-4 justify-center md:justify-start ">
               <Button variant={"ghost"} className="bg-gradient-to-r from-[#14FF00]  to-[#999999] rounded-xl px-6 text-stone-50 font-bold uppercase py-1 hover:from-[#999999] hover:to-[#14FF00] hover:scale-105 transition-transform ease-in-out duration-200">
-                Contact Us
+                <Link to="/contact">
+                  CONTACT US
+                </Link>
               </Button>
               <Button variant={"ghost"} className="bg-gradient-to-r from-[#14FF00]  to-[#999999] rounded-xl px-8 text-stone-50 font-bold uppercase py-1 hover:from-[#999999] hover:to-[#14FF00] hover:scale-105 transition-transform ease-in-out duration-200">
-                BOOK NOW
+                <a href=" https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services">
+                  BOOK NOW
+                </a>
               </Button>
             </div>
           </div>

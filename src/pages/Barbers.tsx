@@ -3,7 +3,6 @@ import Layout from "@/components/WebLayout";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
 
 import EmeraldFooter from "@/assets/svg/EmeraldFooter.svg";
 import EmeraldFooterRight from "@/assets/svg/EmeraldFooterRight.svg";
@@ -20,15 +19,15 @@ import JOSH from '@/assets/images/barbers/JOSH.svg';
 import NIKO from '@/assets/images/barbers/NIKO.svg';
 
 const barberSvgs = [
-    { svg: RAYHAN, link: '/rayhan' },
-    { svg: ANTHONY, link: '/anthony' },
-    { svg: JOSH, link: '/josh' },
-    { svg: JAY, link: '/jay' },
-    { svg: WYAATTSWICK, link: '/wyaattswick' },
-    { svg: EMMAN, link: '/emman' },
-    { svg: CHRISTOS, link: '/christos' },
-    { svg: NIKO, link: '/niko' },
-    { svg: DEJANTOMIC, link: '/dejantomic' },
+    { svg: RAYHAN, landing_link: '/rayhan', book_link: " https://book.squareup.com/appointments/qap0yzz8uy9vf4/location/LY7BZ89WAQ2QS/services", landing: false, book: true },
+    { svg: ANTHONY, landing_link: '/anthony', book_link: " https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services", landing: false, book: false  },
+    { svg: JOSH, landing_link: '/josh',book_link: " https://book.squareup.com/appointments/wmoppuqdw400fe/location/LY7BZ89WAQ2QS/services",  landing: true, book: true  },
+    { svg: JAY, landing_link: '/jay',book_link: "https://book.squareup.com/appointments/dmc232oqc8eb18/location/LY7BZ89WAQ2QS/services",  landing: false, book: true  },
+    { svg: WYAATTSWICK, landing_link: '/wyaattswick',book_link: " https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services",  landing: false, book: false  },
+    { svg: EMMAN, landing_link: '/emman',book_link: " https://book.squareup.com/appointments/nx0l5ymxq5gaox/location/LY7BZ89WAQ2QS/services",  landing: false, book: true  },
+    { svg: CHRISTOS, landing_link: '/christos',book_link: " https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services",  landing: false, book: false  },
+    { svg: NIKO, landing_link: '/niko',book_link: " https://book.squareup.com/appointments/5yrs0p1obxads9/location/LY7BZ89WAQ2QS/services",  landing: false, book: true  },
+    { svg: DEJANTOMIC, landing_link: '/dejantomic',book_link: " https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services",  landing: false, book: false  },
 ];
 
 export default function Barbers() {
@@ -79,9 +78,9 @@ export default function Barbers() {
 
                 <section className="w-full min-h-screen flex  justify-center md:max-w-screen-xl   mx-auto md:py-24 pb-[12rem] md:pb-[4rem] mb-12 relative">
                   
-                    <div className="w-full flex flex-wrap mx-auto justify-center items-center gap-y-24 px-4 md:px-0">   
+                    <div className="w-full flex flex-wrap mx-auto justify-center items-center gap-y-24 px-4 md:px-0">             
                         {barberSvgs.map((barber, index) => (
-                            <Link to={barber.link} key={index} className="w-6/12 md:w-[20rem] py-6 flex flex-col justify-center items-center relative " >
+                            <a href={barber.landing ? barber.landing_link : barber.book_link} key={index} className="w-6/12 md:w-[20rem] py-6 flex flex-col justify-center items-center relative " >
                                 <img src={barber.svg} alt={`Svg ${index}`} className="transition-transform duration-500 ease-in-out hover:scale-110 z-30 px-4 md:px-0 " />
                                 {/* <div className="" id="GradientBorder"></div> */}
                                 <div
@@ -96,11 +95,10 @@ export default function Barbers() {
                                 >
                                     LEARN MORE
                                 </Button>
-                            </Link>
+                            </a>
                         ))}
                     </div>
                 </section>
-                
             </div>
         </Layout>
     );

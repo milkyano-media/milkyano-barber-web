@@ -94,26 +94,26 @@ const Header: React.FC = () => {
                 <nav className='hidden xl:block'>
                     <ul className="flex gap-7 ">
                         <li>
-                            <a href="/home" className="text-md uppercase font-bold hover:text-stone-50 opacity-40 hover:opacity-100 ">
+                            <a href="https://www.instagram.com/fadedlinesbarbershop/" className="text-md uppercase font-bold hover:text-stone-50 opacity-40 hover:opacity-100 ">
                                 <img alt='instagram' src={Instagram}  className='w-10 h-auto' />
                             </a>
                         </li>
                        
                         <li>
-                            <a href="/home" className="text-md uppercase font-bold hover:text-stone-50 opacity-40 hover:opacity-100 ">
+                            <a href="https://www.facebook.com/p/Faded-Lines-Barbershop-100066737611092/" className="text-md uppercase font-bold hover:text-stone-50 opacity-40 hover:opacity-100 ">
                                 <img width={500} height={500} alt='Facebook' src={Facebook}  className='w-10 h-auto' />
                             </a>
                         </li>
                        
                         <li>
                             
-                            <a href="/home" className="text-md uppercase font-bold hover:text-stone-50 opacity-40 hover:opacity-100 ">
+                            <a href="https://www.tiktok.com/@faded_lines" className="text-md uppercase font-bold hover:text-stone-50 opacity-40 hover:opacity-100 ">
                                 <img width={500} height={500} alt='Tiktok' src={Tiktok}  className='w-10 h-auto' />
                             </a>
                         </li>
                        
                         <li>
-                            <a href="/home" className="text-md uppercase font-bold hover:text-stone-50 opacity-40 hover:opacity-100 ">
+                            <a href="https://www.youtube.com/@Faded_Lines" className="text-md uppercase font-bold hover:text-stone-50 opacity-40 hover:opacity-100 ">
                                 <img width={500} height={500} alt='Youtube' src={Youtube} className='w-10 h-auto'  />
                             </a>
                         </li>

@@ -13,13 +13,19 @@ const AppRoutes: React.FC = () => {
   return (
     <Router>
       <Routes>
+        {/* WEB ROUTE */}
         <Route path="/" element={<Home />} />
         <Route path="/barbers" element={<Barbers />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/careers" element={<Careers />} />
         <Route path="/contact" element={<Contacts />} />
+
+        {/* LANDING ROUTE */}
         <Route path="/josh" element={<JoshLanding />} />
+        <Route path="/meta/osh" element={<JoshLanding />} />
+        <Route path="/paid-ads/osh" element={<JoshLanding />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

@@ -57,10 +57,10 @@ const instagram_images_mobile = [
 
 const SocialMediaLinks: React.FC = () => {
     const socialMedia = [
-        { name: 'Instagram', icon: Instagram, url: 'https://www.instagram.com' },
-        { name: 'Facebook', icon: Facebook, url: 'https://www.facebook.com' },
-        { name: 'Tittok', icon: Tiktok, url: 'https://www.tiktok.com' },
-        { name: 'Youtube', icon: Youtube, url: 'https://www.youtube.com' },
+        { name: 'Instagram', icon: Instagram, url: 'https://www.instagram.com/fadedlinesbarbershop' },
+        { name: 'Facebook', icon: Facebook, url: 'https://www.facebook.com/p/Faded-Lines-Barbershop-100066737611092/' },
+        { name: 'Tittok', icon: Tiktok, url: 'https://www.tiktok.com/@faded_lines' },
+        { name: 'Youtube', icon: Youtube, url: 'https://www.youtube.com/@Faded_Lines' },
     ];
 
     return (
