@@ -1,8 +1,7 @@
 
 import Layout from "@/components/WebLayout";
 import { Button } from "@/components/ui/button";
-
-import { useEffect, useRef,  } from "react";
+import { useEffect, useRef, } from "react";
 import { Helmet } from 'react-helmet-async';
 import {
   Accordion,
@@ -11,15 +10,15 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { motion, useScroll, useTransform } from "framer-motion"
-import FadeLinesText from "@/assets/svg/fadedlinesVertical.svg";
-import BgHero2 from "@/assets/svg/heroWeb.svg";
+import FadeLinesText from "@/assets/svg/FADEDLINESFADEDLINES.svg";
+import BgHero2 from "@/assets/svg/hero.svg";
 import blackFadeHero from "@/assets/svg/blackFadeHero.svg";
 
-import instagramPhotos1 from '/src/assets/images/instagram/instagramPhotos.png';
-import instagramPhotos2 from '/src/assets/images/instagram/instagramPhotos2.png';
-import instagramPhotos3 from '/src/assets/images/instagram/instagramPhotos3.png';
-import instagramPhotos4 from '/src/assets/images/instagram/instagramPhotos4.png';
-import instagramPhotos5 from '/src/assets/images/instagram/instagramPhotos5.png';
+import instagramPhotos1 from '/src/assets/images/followUs/square/instagramPhotos.png';
+import instagramPhotos2 from '/src/assets/images/followUs/square/instagramPhotos2.png';
+import instagramPhotos3 from '/src/assets/images/followUs/square/instagramPhotos3.png';
+import instagramPhotos4 from '/src/assets/images/followUs/square/instagramPhotos4.png';
+import instagramPhotos5 from '/src/assets/images/followUs/square/instagramPhotos5.png';
 
 import instagramPhotosMobile1 from '/src/assets/images/instagram/mobile/instagramPhotos.png';
 import instagramPhotosMobile2 from '/src/assets/images/instagram/mobile/instagramPhotos2.png';
@@ -28,7 +27,8 @@ import instagramPhotosMobile4 from '/src/assets/images/instagram/mobile/instagra
 import instagramPhotosMobile5 from '/src/assets/images/instagram/mobile/instagramPhotos5.png';
 
 import BottomCta from "/src/assets/images/botoomCta.png"
-import InstagramSection from "@/components/InstagramSection"
+import InstagramSection from "@/components/InstagramSection";
+
 
 export default function Home() {
 
@@ -97,14 +97,14 @@ export default function Home() {
           className="absolute z-0 top-12 right-4 md:right-24 w-[12rem] lg:w-[15rem]"
         />
 
-        <section className="min-h-[100vh] md:min-h-[130vh] xl:min-h-[89vh] w-full relative py-32 border-t border-black"
+        <section className="min-h-[55rem] md:min-h-[58rem] w-full relative py-32 border-t border-black"
 
           style={{
             boxShadow: 'inset 0 10px 10px rgba(0, 0, 0, 0.5)'
           }}
         >
           <div id='gradientBoxHomepage' className="absolute w-11/12 rounded-[49px]  flex flex-col gap-4 z-30 text-center backdrop-blur-lg text-white py-8  px-4  md:mr-12 shadow-black shadow-xl xl:w-1/3  bg-black/40 left-1/2 top-[45%] md:mb-12 transform -translate-x-1/2 -translate-y-1/2" style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}>
-            <h2 className="text-4xl md:text-6xl font-extrabold tracking-wider md:leading-[4.5rem] ">
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-wider md:leading-[4.5rem] ">
               <span className="text-transparent bg-gradient-to-r from-[#4DFF20]  to-[#88FF7D] bg-clip-text">THE BEST</span> FOR YOUR HAIR </h2>
 
             <div className="flex text-sm flex-col gap-0 font-bold">
@@ -114,7 +114,7 @@ export default function Home() {
               <p>0435 249 543.</p>
               <p>We&apos;re located in Oakleigh.</p>
             </div>
-            <div className="flex flex-col mt-4 md:py-12 gap-4 justify-center items-center md:w-6/12 mx-auto font-extrabold">
+            <div className="flex flex-col mt-4 md:py-0 gap-4 justify-center items-center md:w-6/12 mx-auto font-extrabold">
               <Button variant={"ghost"}
                 className="relative rounded-2xl w-fit  z-20 backdrop-blur-lg bg-transparent text-lg md:text-xl  border border-[#14FF00] px-20 py-6 transform hover:scale-110 transition-transform duration-400 ease-in-out hover:shadow-md hover:bg-[#14FF00] hover:shadow-[#14FF00]  font-extrabold hover:text-black"
                 style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
@@ -136,7 +136,7 @@ export default function Home() {
             alt="FADED fade hero"
             width={500}
             height={500}
-            className="absolute z-10 w-full left-0 bottom-0 object-bottom object-cover"
+            className="absolute z-10 w-full left-0 bottom-0 object-bottom object-fill"
 
           />
           {/* <video autoPlay muted loop playsInline className="absolute z-10 w-full left-0 bottom-0 object-bottom object-cover" >

@@ -14,6 +14,7 @@ type UsePrevNextButtonsType = {
 }
 import styles from '@/styles/CarauselGallery.module.css';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const usePrevNextButtons = (
     emblaApi: EmblaCarouselType | undefined,
     onButtonClick?: (emblaApi: EmblaCarouselType) => void
@@ -105,7 +106,6 @@ PrevButton.displayName = 'PrevButton';
 
 export const NextButton = React.forwardRef<HTMLButtonElement, PropType>((props, ref) => {
     const { children, ...restProps } = props
-
     return (
         <button
             ref={ref}
@@ -136,8 +136,6 @@ export const NextButton = React.forwardRef<HTMLButtonElement, PropType>((props, 
                     </linearGradient>
                 </defs>
             </svg>
-
-
             {children}
         </button>
     )

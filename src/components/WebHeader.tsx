@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 // import img from 'next/img';
 
-import Logo from "@/assets/svg/logo.svg"
+// import Logo from "@/assets/svg/logo.svg"
+import Logo from "@/assets/react-svg/logo"
 
 // import { useRouter } from "next/router"
 import { Link, useLocation } from 'react-router-dom';
@@ -16,9 +17,11 @@ import {
 
 } from "@/components/ui/sheet"
 
-import { Squash as Hamburger } from 'hamburger-react'
+// import { Squash as Hamburger } from 'hamburger-react'
+import Hamburger from '@/components/hamburger'
 
 import Facebook from "@/assets/svg/Facebook.svg"
+
 import Instagram from "@/assets/svg/Instagram.svg"
 import Tiktok from "@/assets/svg/Tiktok.svg"
 import Youtube from "@/assets/svg/Youtube.svg"
@@ -48,16 +51,19 @@ const links = [
     { to: "/contact", label: "Contact" },
 ];
 
-const WebHeader: React.FC = () => {
+const Header: React.FC = () => {
+    // const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
+    // console.log(router.pathname, "path")
     return (
-        <header className="bg-black text-white py-0 relative shadow-lg shadow-black border-none z-[999999]">
+        <header className="bg-black text-white relative shadow-lg shadow-black border-none z-[999999] pt-4">
             <div className="container mx-auto flex justify-between items-center relative z-10 border-none px-2 md:px-4">
                 <h1 className="text-2xl font-bold text-transparent hidden ">Barber Shop</h1>
                 <div className='flex flex-col justify-center items-center'>
-                   <Link to={"/"}> 
-                        <img src={Logo} alt="barber shop faded lines" className='w-48 md:w-[18rem] h-auto'  />
+                    <Link to={"/"}  > 
+                        {/* <img src={Logo} alt="barber shop faded lines" className='w-48 md:w-[12rem] h-auto opacity-90 '  /> */}
+                          <Logo className='w-48 md:w-[12rem] h-auto opacity-90 ' />
                    </Link>
                 </div>
                 <nav className='hidden lg:block'>
@@ -65,6 +71,9 @@ const WebHeader: React.FC = () => {
                         <li>
                             <Link to="/" className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/' ? 'text-stone-50' : ''}`}>HOME</Link>
                         </li>
+                        {/* <li>
+                            <Link to="/zver-josh" className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/barbers' ? 'text-stone-50' : ''}`}>JOSH</Link>
+                        </li> */}
                         <li>
                             <Link to="/barbers" className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/barbers' ? 'text-stone-50' : ''}`}>BARBERS</Link>
                         </li>
@@ -128,9 +137,11 @@ const WebHeader: React.FC = () => {
                         </SheetContent>
                     </Sheet>
                </nav>
+
             </div>
+            {/* <img src="/web/gradeintHeader.png" width={500} height={500} alt="Your img" className="absolute z-0 w-full h-full bottom-[0] object-cover" /> */}
         </header>
     );
 };
 
-export default WebHeader;
+export default Header;

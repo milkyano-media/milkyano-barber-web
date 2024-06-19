@@ -6,7 +6,7 @@ import TiktokAboutUs from "@/assets/images/TiktokAboutUs.png";
 import salonBg from "@/assets/images/SalonBg.png";
 import Salon from "@/assets/images/Salon.png";
 import DejanXl from "@/assets/images/DejanXl.png";
-import { Facebook, TwitterX, Instagram, Linkedin } from 'react-bootstrap-icons';
+import { Facebook, Instagram, Tiktok, Youtube } from 'react-bootstrap-icons';
 
 import EmeraldFooter from "@/assets/svg/EmeraldFooter.svg";
 import EmeraldFooterRight from "@/assets/svg/EmeraldFooterRight.svg";
@@ -16,7 +16,6 @@ import { Helmet } from "react-helmet-async";
 import {
     AlertDialog,
     AlertDialogAction,
-    // AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
     AlertDialogFooter,
@@ -44,7 +43,7 @@ const instagram_images_desktop = [
     { image: instagramPhotos2, name: 'Mid Drop Fade' },
     { image: instagramPhotos3, name: 'Mid Taper' },
     { image: instagramPhotos4, name: 'V Low Drop Fade' },
-    { image: instagramPhotos5, name: 'Cut 1' },
+    { image: instagramPhotos5, name: '' },
 ];
 
 const instagram_images_mobile = [
@@ -58,10 +57,10 @@ const instagram_images_mobile = [
 
 const SocialMediaLinks: React.FC = () => {
     const socialMedia = [
-        { name: 'Facebook', icon: Facebook, url: 'https://www.facebook.com' },
-        { name: 'Twitter', icon: TwitterX, url: 'https://www.twitter.com' },
         { name: 'Instagram', icon: Instagram, url: 'https://www.instagram.com' },
-        { name: 'LinkedIn', icon: Linkedin, url: 'https://www.linkedin.com' },
+        { name: 'Facebook', icon: Facebook, url: 'https://www.facebook.com' },
+        { name: 'Tittok', icon: Tiktok, url: 'https://www.tiktok.com' },
+        { name: 'Youtube', icon: Youtube, url: 'https://www.youtube.com' },
     ];
 
     return (
@@ -162,7 +161,7 @@ export default function AboutUs() {
                             <h3 className="text-xl md:text-3xl font-extrabold w-full pb-4 text-transparent bg-gradient-to-r from-[#42FF00]  to-[#79FF86] bg-clip-text">
                                 OUR SALON
                             </h3>
-                            <p className="text-xs md:text-base tracking-wide flex-col flex gap-4 md:gap-3 md:pt-4 w-3/4 md:w-full font-light">
+                            <p className="text-xs md:text-base tracking-wide flex-col flex gap-4 md:gap-3 md:pt-4 w-3/4 md:w-full font-light text-justify">
                                 <span> Faded Lines Barbershop provides great services at a professional standard. Having clients feel welcome where professional barbers create a clean & safe environment to work and be around.</span>
 
                                 <span> Specializing in ALL types of hair textures, we will ensure to have you feeling and leaving confident. From traditional styled & dapper haircuts, to smooth razor shaves and close fades.</span>
@@ -207,9 +206,11 @@ export default function AboutUs() {
                     <div className="w-10/12 md:w-fit flex self-center md:self-start">
                         <img alt="background about us" src={TiktokAboutUs} className="" />
                     </div>
-                </section>
 
-                <InstagramSection instagram_images_desktop={instagram_images_desktop} instagram_images_mobile={instagram_images_mobile} />
+                </section>
+                <section className="mb-20">
+                  <InstagramSection instagram_images_desktop={instagram_images_desktop} instagram_images_mobile={instagram_images_mobile} />
+                </section>                 
             </div>
         </Layout>
     );

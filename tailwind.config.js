@@ -12,6 +12,7 @@ module.exports = {
   theme: {
     container: {
       center: true,
+      padding: "2rem",
       screens: {
         "2xl": "1400px",
       },
@@ -58,6 +59,34 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        scaleIn: {
+          "0%": { transform: "scale(0)", opacity: "0" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+        slideDown: {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(10px)" },
+        },
+        scaleDown: {
+          "0%": { transform: "scale(1)" },
+          "100%": { transform: "scale(0.2)" },
+        },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        slideUp: {
+          "0%": { transform: "translateY(10px)" },
+          "100%": { transform: "translateY(0)" },
+        },
+        scaleUp: {
+          "0%": { transform: "scale(0.2)" },
+          "100%": { transform: "scale(1)" },
+        },
+        fadeOut: {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -68,8 +97,11 @@ module.exports = {
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        scaleIn: "scaleIn 0.3s ease-in-out forwards",
+        "accordion-down":
+          "accordion-down 0.2s ease-out, fadeIn 0.5s ease-out, scaleUp 0.5s ease-out, slideUp 0.5s ease-out",
+        "accordion-up":
+          "accordion-up 0.2s ease-out, fadeOut 0.5s ease-out, scaleDown 0.5s ease-out, slideDown 0.5s ease-out",
       },
     },
   },
