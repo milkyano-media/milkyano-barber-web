@@ -27,7 +27,7 @@ import instagramPhotosMobile3 from '/src/assets/follow-us/mobile/instagram_photo
 import instagramPhotosMobile4 from '/src/assets/follow-us/mobile/instagram_photo_4.png';
 import instagramPhotosMobile5 from '/src/assets/follow-us/mobile/instagram_photo_5.png';
 
-import BottomCta from "/src/assets/images/botoomCta.png"
+import BottomCta from "/src/assets/web/home/bottom_cta.png"
 import InstagramSection from "@/components/web/InstagramSection";
 import { Link } from "react-router-dom";
 

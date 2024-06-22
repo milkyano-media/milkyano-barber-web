@@ -14,7 +14,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import InstagramSection from "@/components/InstagramSection";
+import InstagramSection from "@/components/web/InstagramSection";
 
 import AboutUsHero from "@/assets/web/about-us/about_us_hero.png";
 import TiktokAboutUs from "@/assets/web/about-us/about_us_tiktok.png";

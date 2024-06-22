@@ -8,7 +8,7 @@ import EmeraldFooter from "@/assets/web/emerald_footer_mobile.svg";
 import EmeraldFooterRight from "@/assets/web/emerald_footer_right.svg";
 import EmeraldFooterLeft from "@/assets/web/emerald_footer_left.svg";
 
-import Ryhan from '@/assets/web/barbers/rayhan.svg';
+import Rayhan from '@/assets/web/barbers/rayhan.svg';
 import Anthony from '@/assets/web/barbers/anthony.svg';
 import Jay from '@/assets/web/barbers/jay.svg';
 import Wyatt from '@/assets/web/barbers/wyatt.svg';
@@ -17,67 +17,44 @@ import Dejan from '@/assets/web/barbers/dejan.svg';
 import Christos from '@/assets/web/barbers/christos.svg';
 import Josh from '@/assets/web/barbers/josh.svg';
 import Niko from '@/assets/web/barbers/niko.svg';
+import { Link } from "react-router-dom";
 
 const barberSvgs = [
   {
-    svg: Ryhan,
-    landing_link: '/rayhan',
-    book_link: " https://book.squareup.com/appointments/qap0yzz8uy9vf4/location/LY7BZ89WAQ2QS/services",
-    landing: false,
-    book: true
+    svg: Rayhan,
+    link: '/rayhan',
   },
   {
     svg: Anthony,
-    landing_link: '/anthony',
-    book_link: " https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services",
-    landing: false,
-    book: false
+    link: '/anthony',
   },
   {
-    svg: Josh, landing_link: '/josh',
-    book_link: " https://book.squareup.com/appointments/wmoppuqdw400fe/location/LY7BZ89WAQ2QS/services",
-    landing: true,
-    book: true
+    svg: Josh,
+    link: '/josh',
   },
   {
     svg: Jay,
-    landing_link: '/jay',
-    book_link: "https://book.squareup.com/appointments/dmc232oqc8eb18/location/LY7BZ89WAQ2QS/services",
-    landing: false,
-    book: true
+    link: '/jay',
   },
   {
     svg: Wyatt,
-    landing_link: '/wyaattswick',
-    book_link: " https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services",
-    landing: false,
-    book: false
+    link: '/wyatt',
   },
   {
-    svg: Emman, landing_link: '/emman',
-    book_link: " https://book.squareup.com/appointments/nx0l5ymxq5gaox/location/LY7BZ89WAQ2QS/services",
-    landing: false,
-    book: true
+    svg: Emman,
+    link: '/emman',
   },
   {
-    svg: Christos, landing_link: '/christos',
-    book_link: " https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services",
-    landing: false,
-    book: false
+    svg: Christos,
+    link: '/christos',
   },
   {
     svg: Niko,
-    landing_link: '/niko',
-    book_link: " https://book.squareup.com/appointments/5yrs0p1obxads9/location/LY7BZ89WAQ2QS/services",
-    landing: false,
-    book: true
+    link: '/niko',
   },
   {
     svg: Dejan,
-    landing_link: '/dejantomic',
-    book_link: " https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services",
-    landing: false,
-    book: false
+    link: '/dejan',
   },
 ];
 
@@ -129,7 +106,7 @@ export default function Barbers() {
         <section className="w-full min-h-screen flex  justify-center md:max-w-screen-xl   mx-auto md:py-24 pb-[12rem] md:pb-[4rem] mb-12 relative">
           <div className="w-full flex flex-wrap mx-auto justify-center items-center gap-y-24 px-4 md:px-0">
             {barberSvgs.map((barber, index) => (
-              <a href={barber.landing ? barber.landing_link : barber.book_link} key={index} className="w-6/12 md:w-[20rem] py-6 flex flex-col justify-center items-center relative " >
+              <Link to={barber.link} key={index} className="w-6/12 md:w-[20rem] py-6 flex flex-col justify-center items-center relative " >
                 <img src={barber.svg} alt={`Svg ${index}`} className="transition-transform duration-500 ease-in-out hover:scale-110 z-30 px-4 md:px-0 " />
                 <div
                   className="mt-12 relative bottom-[-0rem] md:bottom-[-0.2rem] w-[110%] "
@@ -142,7 +119,7 @@ export default function Barbers() {
                 >
                   LEARN MORE
                 </Button>
-              </a>
+              </Link>
             ))}
           </div>
         </section>
