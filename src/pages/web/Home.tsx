@@ -103,7 +103,7 @@ export default function Home() {
           }}
         >
           <div id='gradientBoxHomepage' className="absolute w-11/12 rounded-[49px]  flex flex-col gap-4 z-30 text-center backdrop-blur-lg text-white py-8  px-4  md:mr-12 shadow-black shadow-xl xl:w-1/3  bg-black/40 left-1/2 top-[45%] md:mb-12 transform -translate-x-1/2 -translate-y-1/2" style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}>
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-wider md:leading-[4.5rem] ">
+            <h2 className="text-4xl md:text-6xl font-extrabold tracking-wider md:leading-[4.5rem] ">
               <span className="text-transparent bg-gradient-to-r from-[#4DFF20]  to-[#88FF7D] bg-clip-text">THE BEST</span> FOR YOUR HAIR </h2>
 
             <div className="flex text-sm flex-col gap-0 font-bold">
@@ -224,7 +224,7 @@ export default function Home() {
             <h3 className="md:text-6xl text-4xl tracking-wider md:leading-[5rem] font-extrabold mb-6">SAVE TIME AND <br /> <span className="text-transparent bg-gradient-to-r from-[#4DFF20]  to-[#88FF7D] bg-clip-text">BOOK NOW</span></h3>
             <div className="flex gap-4 py-4 justify-center md:justify-start ">
               <Button variant={"ghost"} className="bg-gradient-to-r from-[#14FF00]  to-[#999999] rounded-xl px-6 text-stone-50 font-bold uppercase py-1 hover:from-[#999999] hover:to-[#14FF00] hover:scale-105 transition-transform ease-in-out duration-200">
-                <Link to="/contact">
+                <Link to="/contact-us">
                   CONTACT US
                 </Link>
               </Button>

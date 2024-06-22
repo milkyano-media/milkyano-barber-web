@@ -15,32 +15,20 @@ import { useMediaQuery } from 'react-responsive';
 
 const TWEEN_FACTOR_BASE = 0.52
 
-import video1 from '@/assets/landing/josh/tiktok_1.mp4';
-import video2 from '@/assets/landing/josh/tiktok_2.mp4';
-import video3 from '@/assets/landing/josh/tiktok_3.mp4';
-import video4 from '@/assets/landing/josh/tiktok_1.mp4';
-import video5 from '@/assets/landing/josh/tiktok_2.mp4';
-import video6 from '@/assets/landing/josh/tiktok_3.mp4';
 
-const videos = [
-  video1,
-  video2,
-  video3,
-  video4,
-  video5,
-  video6,
-];
 
 const numberWithinRange = (number: number, min: number, max: number): number =>
   Math.min(Math.max(number, min), max)
 
+
 type PropType = {
-  slides: number[]
-  options?: EmblaOptionsType
-}
+  slides: number[];
+  videos: string[]; // Add this line to include videos
+  options?: EmblaOptionsType;
+};
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { options } = props
+  const { options, videos } = props
   const [emblaRef, emblaApi] = useEmblaCarousel(options)
   const tweenFactor = useRef(0)
   const tweenNodes = useRef<HTMLElement[]>([])

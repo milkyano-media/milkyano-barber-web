@@ -15,10 +15,11 @@ const SLIDE_COUNT = 5
 const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
 
-export default function Gallery() {
+export default function GalleriesPage() {
 
   const { scrollYProgress } = useScroll();
   const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
 
   return (
     <Layout>
@@ -50,14 +51,17 @@ export default function Gallery() {
             </h3>
             <div className="flex flex-col gap-2 pt-4 w-full md:w-9/12 justify-end md:items-end self-end items-center justify-self-end ">
               <Button className="bg-gradient-to-r from-[#14FF00]  to-[#999999] rounded-full px-6 text-stone-50 font-bold uppercase md:py-1 md:h-auto md:text-lg text-md transform transition-all duration-500 hover:scale-110 hover:from-[#999999] hover:to-[#14FF00] py-0 w-5/12 ">
-                <a href=" https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services">
-                  BOOK NOW
-                </a>
+                Book Now
               </Button>
             </div>
           </div>
-          <div className="w-full overflow-hidden flex justify-end md:justify-center items-center min-h-[25rem] md:min-h-[40rem] rotate-[10deg] md:rotate-[12deg]">
-            <CardStack />
+          <div className="relative w-full min-h-[25rem] md:min-h-[40rem]">
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="w-full h-full flex justify-end md:justify-center items-center rotate-[10deg] md:rotate-[12deg]">
+                <CardStack />
+              </div>
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black opacity-50 pointer-events-none"></div>
           </div>
         </section>
 

@@ -7,7 +7,6 @@
   height: 100%;
   justify-content: center;
 }
-
 .deck {
   @apply w-[300px] h-[300px] md:w-[25rem] flex items-center justify-center;
   position: absolute;
@@ -15,9 +14,9 @@
   touch-action: none;
 }
 
-.deck>div {
-  @apply max-h-[345px] md:max-h-[100rem] max-w-[210px] md:max-w-[22rem] md:w-[30rem] md:h-[35rem] h-[85vh] w-[45vh] bg-white bg-center bg-no-repeat rounded-2xl;
-  background-size: auto 120%;
-  will-change: transform;
-  box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
+.deck > div {
+    @apply max-h-[345px] md:max-h-[100rem] max-w-[210px] md:max-w-[22rem] md:w-[30rem] md:h-[35rem] h-[85vh] w-[45vh] bg-white bg-center bg-no-repeat rounded-2xl;
+    background-size: auto 120%;
+    will-change: transform;
+    box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
 }

@@ -33,6 +33,67 @@ import HeroBottom from "@/assets/landing/hero_bottom_line.svg";
 
 import Josh from "@/assets/landing/josh/hero.mp4";
 import { useLocation } from "react-router-dom";
+import video1 from '@/assets/landing/josh/tiktok_1.mp4';
+import video2 from '@/assets/landing/josh/tiktok_2.mp4';
+import video3 from '@/assets/landing/josh/tiktok_3.mp4';
+import video4 from '@/assets/landing/josh/tiktok_1.mp4';
+import video5 from '@/assets/landing/josh/tiktok_2.mp4';
+import video6 from '@/assets/landing/josh/tiktok_3.mp4';
+
+const videos = [
+  video1,
+  video2,
+  video3,
+  video4,
+  video5,
+  video6,
+];
+
+import image1 from '@/assets/landing/cuts/anthony/cuts_1.png';
+import image2 from '@/assets/landing/cuts/anthony/cuts_2.png';
+import image3 from '@/assets/landing/cuts/anthony/cuts_3.png';
+import image4 from '@/assets/landing/cuts/anthony/cuts_4.png';
+import image5 from '@/assets/landing/cuts/anthony/cuts_5.png';
+import image6 from '@/assets/landing/cuts/anthony/cuts_6.png';
+import image7 from '@/assets/landing/cuts/anthony/cuts_7.png';
+import image8 from '@/assets/landing/cuts/anthony/cuts_8.png';
+import image9 from '@/assets/landing/cuts/anthony/cuts_9.png';
+import image10 from '@/assets/landing/cuts/anthony/cuts_10.png';
+import image11 from '@/assets/landing/cuts/anthony/cuts_11.png';
+import image12 from '@/assets/landing/cuts/anthony/cuts_12.png';
+import image13 from '@/assets/landing/cuts/anthony/cuts_13.png';
+import image14 from '@/assets/landing/cuts/anthony/cuts_14.png';
+import image15 from '@/assets/landing/cuts/anthony/cuts_15.png';
+import image16 from '@/assets/landing/cuts/anthony/cuts_16.png';
+import image17 from '@/assets/landing/cuts/anthony/cuts_17.png';
+import image18 from '@/assets/landing/cuts/anthony/cuts_18.png';
+import image19 from '@/assets/landing/cuts/anthony/cuts_19.png';
+import image20 from '@/assets/landing/cuts/anthony/cuts_20.png';
+
+
+const cutsImages = [
+  { src: image1, name: ' ' },
+  { src: image2, name: '' },
+  { src: image3, name: '' },
+  { src: image4, name: '' },
+  { src: image5, name: '' },
+  { src: image6, name: '' },
+  { src: image7, name: '' },
+  { src: image8, name: '' },
+  { src: image9, name: '' },
+  { src: image10, name: '' },
+  { src: image11, name: '' },
+  { src: image12, name: '' },
+  { src: image13, name: '' },
+  { src: image14, name: '' },
+  { src: image15, name: '' },
+  { src: image16, name: '' },
+  { src: image17, name: '' },
+  { src: image18, name: '' },
+  { src: image19, name: '' },
+  { src: image20, name: '' },
+];
+
 
 
 export default function JoshLanding() {
@@ -124,7 +185,7 @@ export default function JoshLanding() {
             />
           </div>
           <div className="relative z-10 flex flex-col gap-12 justify-center items-center overflow-hidden">
-            <Srolled />
+            <Srolled cutsImages={cutsImages} />
           </div>
           <img src={ParticlesTwo} width={500} height={500} alt="Your img" className="absolute z-0 w-auto h-full object-fill bottom-[0]" />
         </section>
@@ -133,7 +194,7 @@ export default function JoshLanding() {
             <h3 className=" text-4xl md:text-6xl  font-poppins font-extrabold text-center py-2 uppercase text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text">Our Videos</h3>
             <p className="text-center text-lg w-10/12 md:w-full mx-auto">well known on TIktok with millions of views</p>
             <div className="py-12 md:py-0 w-full md:px-12  ">
-              <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+              <EmblaCarousel slides={SLIDES} options={OPTIONS} videos={videos} />
             </div>
             <div className="flex gap-10 justify-center items-center flex-col w-full ">
               <Button variant={"ghost"} className="border border-[#00FF1A] rounded-full font-extrabold font-poppins px-12 py-10 uppercase  text-xl md:text-3xl transform hover:scale-110 transition-transform duration-200 ease-in-out hover:bg-[#24FF00] hover:shadow-md hover:text-stone-950 hover:shadow-[#44813a] ">
