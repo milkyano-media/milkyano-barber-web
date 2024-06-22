@@ -40,7 +40,7 @@ const links = [
   { to: "/gallery", label: "Gallery" },
   { to: "/about-us", label: "About Us" },
   { to: "/careers", label: "Careers" },
-  { to: "/contact", label: "Contact" },
+  { to: "/contact-us", label: "Contact" },
 ];
 
 const Header: React.FC = () => {
@@ -73,7 +73,7 @@ const Header: React.FC = () => {
               <Link to="/careers" className={`text-md uppercase font-bold   px-4 border-r border-stone-50 hover:text-stone-50 ${location.pathname === '/careers' ? 'text-stone-50' : ''}`}>Careers</Link>
             </li>
             <li>
-              <Link to="/contact" className={`text-md uppercase font-bold   px-4 hover:text-stone-50 ${location.pathname === '/contact' ? 'text-stone-50' : ''}`}>CONTACT</Link>
+              <Link to="/contact-us" className={`text-md uppercase font-bold   px-4 hover:text-stone-50 ${location.pathname === '/contact-us' ? 'text-stone-50' : ''}`}>CONTACT</Link>
             </li>
           </ul>
         </nav>

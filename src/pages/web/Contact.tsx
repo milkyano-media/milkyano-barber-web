@@ -62,6 +62,7 @@ export default function Contacts() {
         'PU6n8YWPBebpTnMYU'
       )
       .then(() => {
+        // alert('Message successfully sent!');
         // Set status to 'succeeded'
         setStatus('succeeded');
 
@@ -150,46 +151,46 @@ export default function Contacts() {
                 Or get in touch directly through
               </h4>
               <div className="flex flex-col w-full px-4 md:px-0 font-medium py-4 gap-4 pb-24 md:pb-0 text-xs md:text-base">
-                <a href='https://mail.google.com/mail/u/0/?fs=1&to=mail@dejan@fadedlinesbarbershop.com&su=Hello,+I+Want+to+Collaborate&body&bcc=%22&tf=cm' style={{
+                <a href='https://mail.google.com/mail/u/0/?fs=1&to=dejan@fadelinesbarbeshop.com&su=Hello,+I+Want+to+Collaborate&body&bcc=%22&tf=cm' style={{
                   backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)'
-                }} className="group grid grid-cols-5 md:flex md gap-4 justify-start items-center p-4 pr-10 backdrop-blur-lg bg-stone-950/60 shadow-xl shadow-black/80 rounded-xl hover:bg-stone-50 cursor-pointer hover:text-stone-950 text-stone-50 transition-all duration-500 delay-100 md:w-[30rem]">
-                  <div className="group-hover:bg-stone-900 bg-stone-100 rounded-2xl p-2 w-fit flex justify-center items-center shadow-lg shadow-black/30 transition-all duration-500 ">
+                }} className="group grid grid-cols-5 md:flex md gap-4 justify-start items-center p-4 pr-10 backdrop-blur-lg bg-stone-950/60 shadow-xl shadow-black/80 rounded-xl hover:bg-stone-50 cursor-pointer hover:text-stone-950 text-stone-50 transition-all   md:w-[30rem]">
+                  <div className="group-hover:bg-stone-900 bg-stone-100 rounded-2xl p-2 w-fit flex justify-center items-center shadow-lg shadow-black/30 transition-all duration-100 ">
                     <Mail className="w-6 h-auto text-[#00FF19]" />
                   </div>
-                  <div className="flex flex-col col-span-3 gap-0  break-all opacity-100 group-hover:opacity-0 transition-opacity duration-300 ">
+                  <div className="flex flex-col col-span-3 gap-0  break-all opacity-100 group-hover:opacity-0 transition-all duration-100 ">
                     <p className="text-xs font-light">Email:</p>
                     <h5 className="font-medium">dejan@fadelinesbarbershop.com</h5>
                   </div>
-                  <div className="flex absolute left-20 flex-col col-span-3 gap-0  break-all opacity-0 group-hover:opacity-100 transition-opacity delay-100 duration-300 ">
+                  <div className="flex absolute left-20 flex-col col-span-3 gap-0  break-all opacity-0 group-hover:opacity-100 transition-all  duration-100 ">
                     <h5 className="font-medium">Send Email</h5>
                   </div>
                 </a>
-                <div className="grid grid-cols-5 md:flex  gap-4 md:justify-start justify-center items-center p-4 backdrop-blur-lg bg-stone-950/60 shadow-xl shadow-black/80  rounded-xl hover:bg-stone-50 cursor-pointer hover:text-stone-950 text-stone-50 transition-all duration-500 delay-100 group" style={{
+                <a href='tel:0390021055' className="grid grid-cols-5 md:flex  gap-4 md:justify-start justify-center items-center p-4 backdrop-blur-lg bg-stone-950/60 shadow-xl shadow-black/80  rounded-xl hover:bg-stone-50 cursor-pointer hover:text-stone-950 text-stone-50 transition-all  group" style={{
                   backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)'
                 }} >
                   <div className="group-hover:bg-stone-900 bg-stone-100 rounded-2xl p-2 w-fit flex justify-center items-center shadow-lg shadow-black/30 transition-all duration-500 ">
                     <Phone className="w-6 h-auto text-[#00FF19]" />
                   </div>
 
-                  <div className="flex flex-col col-span-3 gap-0  break-all opacity-100 group-hover:opacity-0 transition-opacity duration-300 ">
+                  <div className="flex flex-col col-span-3 gap-0  break-all opacity-100 group-hover:opacity-0 transition-all duration-100 ">
                     <p className="text-xs font-light">Phone:</p>
                     <h5 className="font-medium">(03) 9002 1055</h5>
                   </div>
-                  <div className="flex absolute left-20 flex-col col-span-3 gap-0  break-all opacity-0 group-hover:opacity-100 transition-opacity delay-100 duration-300 ">
+                  <div className="flex absolute left-20 flex-col col-span-3 gap-0  break-all opacity-0 group-hover:opacity-100 transition-all  duration-100 ">
                     <h5 className="font-medium">Call Us</h5>
                   </div>
-                </div>
-                <a href='https://www.instagram.com/fadedlinesbarbershop' target='_blank' className="grid grid-cols-5 md:flex gap-4 justify-center md:justify-start items-center p-4 backdrop-blur-lg bg-stone-950/60 shadow-xl shadow-black/80 rounded-xl  hover:bg-stone-50 cursor-pointer hover:text-stone-950 text-stone-50 transition-all duration-500 delay-100 group" style={{
+                </a>
+                <a href='https://www.instagram.com/fadedlinesbarbershop' target='_blank' className="grid grid-cols-5 md:flex gap-4 justify-center md:justify-start items-center p-4 backdrop-blur-lg bg-stone-950/60 shadow-xl shadow-black/80 rounded-xl  hover:bg-stone-50 cursor-pointer hover:text-stone-950 text-stone-50 transition-all group" style={{
                   backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)'
                 }} >
                   <div className="group-hover:bg-stone-900 bg-stone-100 rounded-2xl p-2 w-fit flex justify-center items-center shadow-lg shadow-black/30 transition-all duration-500 ">
                     <Instagram className="w-6 h-auto text-[#00FF19]" />
                   </div>
-                  <div className="flex flex-col col-span-3 gap-0  break-all opacity-100 group-hover:opacity-0 transition-opacity duration-300 ">
+                  <div className="flex flex-col col-span-3 gap-0  break-all opacity-100 group-hover:opacity-0 transition-all duration-100 ">
                     <p className="text-xs font-light">Instagram Page:</p>
                     <h5 className="font-medium">@fadedlinesbarbershop</h5>
                   </div>
-                  <div className="flex absolute left-20 flex-col col-span-3 gap-0  break-all opacity-0 group-hover:opacity-100 transition-opacity delay-100 duration-300 ">
+                  <div className="flex absolute left-20 flex-col col-span-3 gap-0  break-all opacity-0 group-hover:opacity-100 transition-all  duration-100 ">
                     <h5 className="font-medium">Follow Us</h5>
                   </div>
                 </a>
@@ -282,44 +283,54 @@ export default function Contacts() {
               Or get in touch directly through
             </h4>
             <div className="flex flex-col w-full px-4 md:px-0 font-medium py-4 gap-4 pb-24 md:pb-0 text-xs md:text-base">
-              <div style={{
+              <a href='https://mail.google.com/mail/u/0/?fs=1&to=dejan@fadelinesbarbeshop.com&su=Hello,+I+Want+to+Collaborate&body&bcc=%22&tf=cm' style={{
                 backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)'
-              }} className="grid grid-cols-5 md:flex md gap-4 justify-center items-center p-4 pr-10 backdrop-blur-lg bg-stone-950/60 shadow-xl shadow-black/80 rounded-xl ">
-                <div className="bg-stone-100 rounded-2xl p-2 w-fit flex justify-center items-center shadow-lg shadow-black/30">
+              }} className="group grid grid-cols-5 md:flex md gap-4 justify-start items-center p-4 pr-10 backdrop-blur-lg bg-stone-950/60 shadow-xl shadow-black/80 rounded-xl hover:bg-stone-50 cursor-pointer hover:text-stone-950 text-stone-50 transition-all   md:w-[30rem]">
+                <div className="group-hover:bg-stone-900 bg-stone-100 rounded-2xl p-2 w-fit flex justify-center items-center shadow-lg shadow-black/30 transition-all duration-100 ">
                   <Mail className="w-6 h-auto text-[#00FF19]" />
                 </div>
-                <div className="flex flex-col col-span-3 gap-0 text-stone-50 break-all">
+                <div className="flex flex-col col-span-3 gap-0  break-all opacity-100 group-hover:opacity-0 transition-all duration-100 ">
                   <p className="text-xs font-light">Email:</p>
                   <h5 className="font-medium">dejan@fadelinesbarbershop.com</h5>
                 </div>
-              </div>
-              <div className="grid grid-cols-5 md:flex  gap-4 md:justify-start justify-center items-center p-4 backdrop-blur-lg bg-stone-950/60 shadow-xl shadow-black/80  rounded-xl" style={{
+                <div className="flex absolute left-20 flex-col col-span-3 gap-0  break-all opacity-0 group-hover:opacity-100 transition-all  duration-100 ">
+                  <h5 className="font-medium">Send Email</h5>
+                </div>
+              </a>
+              <a href='tel:0390021055' className="grid grid-cols-5 md:flex  gap-4 md:justify-start justify-center items-center p-4 backdrop-blur-lg bg-stone-950/60 shadow-xl shadow-black/80  rounded-xl hover:bg-stone-50 cursor-pointer hover:text-stone-950 text-stone-50 transition-all  group" style={{
                 backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)'
               }} >
-                <div className="bg-stone-100 rounded-2xl p-2 w-fit flex justify-center items-center shadow-lg shadow-black/30">
+                <div className="group-hover:bg-stone-900 bg-stone-100 rounded-2xl p-2 w-fit flex justify-center items-center shadow-lg shadow-black/30 transition-all duration-500 ">
                   <Phone className="w-6 h-auto text-[#00FF19]" />
                 </div>
 
-                <div className="flex flex-col col-span-3 gap-0 text-stone-50">
+                <div className="flex flex-col col-span-3 gap-0  break-all opacity-100 group-hover:opacity-0 transition-all duration-100 ">
                   <p className="text-xs font-light">Phone:</p>
                   <h5 className="font-medium">(03) 9002 1055</h5>
                 </div>
-              </div>
-              <div className="grid grid-cols-5 md:flex gap-4 justify-center md:justify-start items-center p-4 backdrop-blur-lg bg-stone-950/60 shadow-xl shadow-black/80 rounded-xl text-stone-50" style={{
+                <div className="flex absolute left-20 flex-col col-span-3 gap-0  break-all opacity-0 group-hover:opacity-100 transition-all  duration-100 ">
+                  <h5 className="font-medium">Call Us</h5>
+                </div>
+              </a>
+              <a href='https://www.instagram.com/fadedlinesbarbershop' target='_blank' className="grid grid-cols-5 md:flex gap-4 justify-center md:justify-start items-center p-4 backdrop-blur-lg bg-stone-950/60 shadow-xl shadow-black/80 rounded-xl  hover:bg-stone-50 cursor-pointer hover:text-stone-950 text-stone-50 transition-all group" style={{
                 backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)'
               }} >
-                <div className="bg-stone-100 rounded-2xl p-2 w-fit flex justify-center items-center shadow-lg shadow-black/30">
+                <div className="group-hover:bg-stone-900 bg-stone-100 rounded-2xl p-2 w-fit flex justify-center items-center shadow-lg shadow-black/30 transition-all duration-500 ">
                   <Instagram className="w-6 h-auto text-[#00FF19]" />
                 </div>
-                <div className="flex flex-col col-span-3 gap-0">
+                <div className="flex flex-col col-span-3 gap-0  break-all opacity-100 group-hover:opacity-0 transition-all duration-100 ">
                   <p className="text-xs font-light">Instagram Page:</p>
                   <h5 className="font-medium">@fadedlinesbarbershop</h5>
                 </div>
-
-              </div>
+                <div className="flex absolute left-20 flex-col col-span-3 gap-0  break-all opacity-0 group-hover:opacity-100 transition-all  duration-100 ">
+                  <h5 className="font-medium">Follow Us</h5>
+                </div>
+              </a>
             </div>
           </section>
         </div>
+
+
       </div>
     </Layout>
   );

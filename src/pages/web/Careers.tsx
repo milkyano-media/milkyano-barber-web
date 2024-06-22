@@ -15,7 +15,15 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";
 import { motion, useScroll, useTransform } from "framer-motion"
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import emailjs from '@emailjs/browser'
 
 import EmeraldFooter from "@/assets/web/emerald_footer_mobile.svg";
 import EmeraldFooterRight from "@/assets/web/emerald_footer_right.svg";
@@ -25,12 +33,18 @@ import TiktokUpBefore from "@/assets/web/careers/tiktok_before.svg";
 import TiktokUpAfter from "@/assets/web/careers/tiktok_after.svg";
 import ArrowTiktokTrans from "@/assets/web/careers/arrow_tiktok_trans.svg";
 import Clipper from "@/assets/web/careers/clipper.svg"
+import Spinner from "@/components/web/Spinner";
+import { Check, X } from "react-bootstrap-icons";
 
 export default function Careers() {
   const ref = useRef(null)
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState('loading');
+
   const { scrollYProgress } = useScroll({
     target: ref,
   });
+
   const scaleY = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
   // Define your form schema.
@@ -49,22 +63,67 @@ export default function Careers() {
       phoneNumber: "",
     },
   });
+  // Define your states
+
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Define the base URL of your Typeform.
-    const typeformUrl = "https://muhzulzidan.typeform.com/to/JbH9TjLn";
+  const sendEmail = (values: z.infer<typeof formSchema>) => {
+    // Set loading state to true
+    setIsLoading(true);
+    // Set status to 'loading'
+    setStatus('loading');
 
-    // Replace 'name', 'email', and 'phone' with the actual field IDs from your Typeform.
-    const params = new URLSearchParams({
-      'email': values.email,
-      'name': values.fullName,
-      'phone': values.phoneNumber,
-    });
+    emailjs
+      .send(
+        'service_17yipta',
+        'template_ggm2lyr',
+        values,
+        'PU6n8YWPBebpTnMYU'
+      )
+      .then(() => {
+        // alert('Message successfully sent!');
+        // Set status to 'succeeded'
+        setStatus('succeeded');
 
-    // Redirect to the Typeform with the fields pre-filled.
-    window.location.href = `${typeformUrl}#${params.toString()}`;
-  }
+        // Wait for 2 seconds before setting isLoading to false
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
+      })
+      .catch(() => {
+        // Set status to 'failed'
+        setStatus('failed');
+
+        // Wait for 2 seconds before setting isLoading to false
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
+        // alert('Failed to send the message, please try again!');
+      });
+  };
+
+  // // 2. Define a submit handler.
+  // function onSubmit(values: z.infer<typeof formSchema>) {
+  //     // Do something with the form values.
+  //     // ✅ This will be type-safe and validated.
+  //     console.log(values)
+
+  //     // Define the base URL of your Typeform.
+  //     const typeformUrl = "https://muhzulzidan.typeform.com/to/JbH9TjLn";
+
+  //     // Define the parameters for pre-filling the Typeform.
+  //     // Replace 'name', 'email', and 'phone' with the actual field IDs from your Typeform.
+  //     const params = new URLSearchParams({
+  //         'email': values.email,
+  //         'name': values.fullName,
+  //         'phone': values.phoneNumber,
+  //     });
+
+  //     // https://muhzulzidan.typeform.com/to/JbH9TjLn#email=xxxxx&name=xxxxx&phone=xxxxx
+
+  //     // Redirect to the Typeform with the fields pre-filled.
+  //     window.location.href = `${typeformUrl}#${params.toString()}`;
+  // }
   return (
     <Layout>
       <Helmet>
@@ -77,10 +136,38 @@ export default function Careers() {
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
       <div className="flex flex-col text-stone-50 bg-black w-full relative tracking-wider">
+
         <img src={EmeraldFooter} alt="EmeraldFooter.svg" className="md:hidden block absolute bottom-[-10rem] md:bottom-[-26rem] z-0 left-0" />
 
         <img src={EmeraldFooterRight} alt="EmeraldFooter.svg" className="absolute hidden md:block bottom-[-10rem] md:bottom-[-26rem] z-0 right-0" />
         <img src={EmeraldFooterLeft} alt="EmeraldFooter.svg" className="absolute hidden md:block bottom-[-10rem] md:bottom-[-26rem] z-0 left-0" />
+
+        {/* {isLoading && <Spinner />} */}
+        <AlertDialog open={isLoading} onOpenChange={setIsLoading} >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle className='text-center'>
+                Sending Email
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                {status === 'loading' ? <Spinner /> :
+                  status === 'succeeded' ?
+                    <div className="flex justify-center items-center p-4  md:p-12 animate-scaleIn">
+                      <div className='p-1  rounded-full border border-[#24FF00]'>
+                        <Check className="h-24 w-auto md:h-24 md:w-24 text-[#24FF00] " />
+                      </div>
+                    </div>
+                    :
+                    status === 'failed' ? <div className="flex justify-center items-center p-4  md:p-12 animate-scaleIn">
+                      <div className='p-1  rounded-full border border-red-600'>
+                        <X className="h-24 w-auto md:h-24 md:w-24 text-red-600 " />
+                      </div>
+                    </div> : null}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+          </AlertDialogContent>
+        </AlertDialog>
+
         <section className="flex gap-4 md:gap-32 flex-col md:flex-row relative z-30 container justify-center md:pt-12  items-center ">
           <section className="md:w-6/12">
             <section className="pb-12 md:pb-14 ">
@@ -97,7 +184,7 @@ export default function Careers() {
             </section>
             <section className="">
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1  gap-4 pb-12 ">
+                <form onSubmit={form.handleSubmit(sendEmail)} className="grid grid-cols-1  gap-4 pb-12 ">
                   <FormField
                     control={form.control}
                     name="fullName"
@@ -161,12 +248,14 @@ export default function Careers() {
         </section>
         <section className="w-1/2 flex flex-col md:flex-row self-center justify-center items-center relative z-30 py-32 pb-[20rem] gap-8 font-bold text-center">
           <div className="flex flex-col gap-4 items-center">
-            <h3>Before working with us 👉</h3>
+            <h3 className="text-3xl rotate-90 md:rotate-0">👉</h3>
+            <h4><span className="text-transparent bg-gradient-to-r from-[#AE0000]  to-[#FF7979] bg-clip-text">Before</span> working with us </h4>
             <img src={TiktokUpBefore} alt="TiktokUp" className="w-full hover:scale-105 transform transition-transform ease-out duration-500 cursor-pointer delay-75" />
           </div>
           <img src={ArrowTiktokTrans} alt="TiktokUp" className="w-fit rotate-90 md:rotate-0" />
           <div className="flex flex-col gap-4 items-center">
-            <h3>After working with us 👑</h3>
+            <h3 className="text-3xl">👑</h3>
+            <h4><span className="text-transparent bg-gradient-to-r from-[#00FF29]  to-[#B2FFBF] bg-clip-text">After</span> working with us </h4>
             <img src={TiktokUpAfter} alt="TiktokUp" className="w-full hover:scale-105 transform transition-transform ease-out duration-500 cursor-pointer delay-75" />
           </div>
         </section>
