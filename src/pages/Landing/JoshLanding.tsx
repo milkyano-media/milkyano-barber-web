@@ -34,6 +34,61 @@ import HeroBottom from "@/assets/landing/hero_bottom_line.svg";
 import Josh from "@/assets/landing/josh/hero.mp4";
 import { useLocation } from "react-router-dom";
 
+import video1 from '@/assets/landing/josh/tiktok_1.mp4';
+import video2 from '@/assets/landing/josh/tiktok_2.mp4';
+import video3 from '@/assets/landing/josh/tiktok_3.mp4';
+import video4 from '@/assets/landing/josh/tiktok_1.mp4';
+import video5 from '@/assets/landing/josh/tiktok_2.mp4';
+import video6 from '@/assets/landing/josh/tiktok_3.mp4';
+
+const videos = [
+  video1,
+  video2,
+  video3,
+  video4,
+  video5,
+  video6,
+];
+
+
+import image1 from '@/assets/landing/cuts/josh/Blow Out Taper Fade-1.png';
+import image2 from '@/assets/landing/cuts/josh/Blow Out Taper Fade.png';
+import image3 from '@/assets/landing/cuts/josh/Burst Fade-1.png';
+import image4 from '@/assets/landing/cuts/josh/Burst Fade 2.png';
+import image5 from '@/assets/landing/cuts/josh/Burst Fade.png';
+import image6 from '@/assets/landing/cuts/josh/Drop Fade.png';
+import image7 from '@/assets/landing/cuts/josh/Drop V Burst Fade.png';
+import image8 from '@/assets/landing/cuts/josh/High Skin Fade-1.png';
+import image9 from '@/assets/landing/cuts/josh/High Skin Fade.png';
+import image10 from '@/assets/landing/cuts/josh/High V Drop Fade.png';
+import image11 from '@/assets/landing/cuts/josh/Mid Burst Fade.png';
+import image12 from '@/assets/landing/cuts/josh/Mid to High Burst Fade.png';
+import image13 from '@/assets/landing/cuts/josh/Taper Fade.png';
+import image14 from '@/assets/landing/cuts/josh/Textured Burst Fade-1.png';
+import image15 from '@/assets/landing/cuts/josh/Textured Burst Fade.png';
+import image16 from '@/assets/landing/cuts/josh/Textured Crop Skin Fade.png';
+import image17 from '@/assets/landing/cuts/josh/V Mid Drop Fade.png';
+
+const cutsImages = [
+  { src: image1, name: 'Blow Out Taper Fade-1' },
+  { src: image2, name: 'Blow Out Taper Fade' },
+  { src: image3, name: 'Burst Fade-1' },
+  { src: image4, name: 'Burst Fade 2' },
+  { src: image5, name: 'Burst Fade' },
+  { src: image6, name: 'Drop Fade' },
+  { src: image7, name: 'Drop V Burst Fade' },
+  { src: image8, name: 'High Skin Fade-1' },
+  { src: image9, name: 'High Skin Fade' },
+  { src: image10, name: 'High V Drop Fade' },
+  { src: image11, name: 'Mid Burst Fade' },
+  { src: image12, name: 'Mid to High Burst Fade' },
+  { src: image13, name: 'Taper Fade' },
+  { src: image14, name: 'Textured Burst Fade-1' },
+  { src: image15, name: 'Textured Burst Fade' },
+  { src: image16, name: 'Textured Crop Skin Fade' },
+  { src: image17, name: 'V Mid Drop Fade' },
+];
+
 
 export default function JoshLanding() {
   const location = useLocation();
@@ -124,7 +179,7 @@ export default function JoshLanding() {
             />
           </div>
           <div className="relative z-10 flex flex-col gap-12 justify-center items-center overflow-hidden">
-            <Srolled />
+            <Srolled cutsImages={cutsImages} />
           </div>
           <img src={ParticlesTwo} width={500} height={500} alt="Your img" className="absolute z-0 w-auto h-full object-fill bottom-[0]" />
         </section>
@@ -133,7 +188,7 @@ export default function JoshLanding() {
             <h3 className=" text-4xl md:text-6xl  font-poppins font-extrabold text-center py-2 uppercase text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text">Our Videos</h3>
             <p className="text-center text-lg w-10/12 md:w-full mx-auto">well known on TIktok with millions of views</p>
             <div className="py-12 md:py-0 w-full md:px-12  ">
-              <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+              <EmblaCarousel slides={SLIDES} options={OPTIONS} videos={videos} />
             </div>
             <div className="flex gap-10 justify-center items-center flex-col w-full ">
               <Button variant={"ghost"} className="border border-[#00FF1A] rounded-full font-extrabold font-poppins px-12 py-10 uppercase  text-xl md:text-3xl transform hover:scale-110 transition-transform duration-200 ease-in-out hover:bg-[#24FF00] hover:shadow-md hover:text-stone-950 hover:shadow-[#44813a] ">

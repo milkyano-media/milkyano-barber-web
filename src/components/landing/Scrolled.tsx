@@ -5,44 +5,6 @@ import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import styles from '@/styles/EmblaCarousel.module.css';
 
-import image1 from '@/assets/landing/cuts/Blow Out Taper Fade-1.png';
-import image2 from '@/assets/landing/cuts/Blow Out Taper Fade.png';
-import image3 from '@/assets/landing/cuts/Burst Fade-1.png';
-import image4 from '@/assets/landing/cuts/Burst Fade 2.png';
-import image5 from '@/assets/landing/cuts/Burst Fade.png';
-import image6 from '@/assets/landing/cuts/Drop Fade.png';
-import image7 from '@/assets/landing/cuts/Drop V Burst Fade.png';
-import image8 from '@/assets/landing/cuts/High Skin Fade-1.png';
-import image9 from '@/assets/landing/cuts/High Skin Fade.png';
-import image10 from '@/assets/landing/cuts/High V Drop Fade.png';
-import image11 from '@/assets/landing/cuts/Mid Burst Fade.png';
-import image12 from '@/assets/landing/cuts/Mid to High Burst Fade.png';
-import image13 from '@/assets/landing/cuts/Taper Fade.png';
-import image14 from '@/assets/landing/cuts/Textured Burst Fade-1.png';
-import image15 from '@/assets/landing/cuts/Textured Burst Fade.png';
-import image16 from '@/assets/landing/cuts/Textured Crop Skin Fade.png';
-import image17 from '@/assets/landing/cuts/V Mid Drop Fade.png';
-
-const cutsImages = [
-  { src: image1, name: 'Blow Out Taper Fade-1' },
-  { src: image2, name: 'Blow Out Taper Fade' },
-  { src: image3, name: 'Burst Fade-1' },
-  { src: image4, name: 'Burst Fade 2' },
-  { src: image5, name: 'Burst Fade' },
-  { src: image6, name: 'Drop Fade' },
-  { src: image7, name: 'Drop V Burst Fade' },
-  { src: image8, name: 'High Skin Fade-1' },
-  { src: image9, name: 'High Skin Fade' },
-  { src: image10, name: 'High V Drop Fade' },
-  { src: image11, name: 'Mid Burst Fade' },
-  { src: image12, name: 'Mid to High Burst Fade' },
-  { src: image13, name: 'Taper Fade' },
-  { src: image14, name: 'Textured Burst Fade-1' },
-  { src: image15, name: 'Textured Burst Fade' },
-  { src: image16, name: 'Textured Crop Skin Fade' },
-  { src: image17, name: 'V Mid Drop Fade' },
-];
-
 const EmblaCarouselComponent = ({ children, options }: { children: React.ReactNode, options?: object }) => {
   const carouselRef = useRef(null);
 
@@ -251,8 +213,16 @@ const EmblaCarouselComponent = ({ children, options }: { children: React.ReactNo
   )
 }
 
+type ImageType = {
+  src: string;
+  name: string;
+};
 
-const Srolled = () => {
+type ScrolledProps = {
+  cutsImages: ImageType[];
+};
+
+const Srolled: React.FC<ScrolledProps> = ({ cutsImages }) => {
   const observers = useRef<(HTMLDivElement | null)[]>([]);
   useEffect(() => {
     observers.current.forEach((observerInstance) => {
