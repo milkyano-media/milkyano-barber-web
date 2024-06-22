@@ -27,13 +27,12 @@ import instagramPhotosMobile3 from '/src/assets/follow-us/mobile/instagram_photo
 import instagramPhotosMobile4 from '/src/assets/follow-us/mobile/instagram_photo_4.png';
 import instagramPhotosMobile5 from '/src/assets/follow-us/mobile/instagram_photo_5.png';
 
-import BottomCta from "@/assets/web/home/botoom_cta.png"
+import BottomCta from "/src/assets/images/botoomCta.png"
 import InstagramSection from "@/components/web/InstagramSection";
 import { Link } from "react-router-dom";
 
 
 export default function Home() {
-
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -66,8 +65,7 @@ export default function Home() {
             0% { transform: translateX(100%); opacity: 0; }
             50% { opacity: 1; }
             100% { transform: translateX(-100%); opacity: 0; }
-        }
-    `;
+        }`;
 
     // Append the style element to the document head
     document.head.appendChild(style);
@@ -100,7 +98,6 @@ export default function Home() {
         />
 
         <section className="min-h-[55rem] md:min-h-[58rem] w-full relative py-32 border-t border-black"
-
           style={{
             boxShadow: 'inset 0 10px 10px rgba(0, 0, 0, 0.5)'
           }}
@@ -145,7 +142,6 @@ export default function Home() {
           <p className="text-stone-50 w-10/12 text-center  absolute bottom-14  2xl:bottom-24 z-10 left-1/2 transform -translate-x-1/2 ">55 PORTMAN ST; OAKLEIGH VIC 3166; AUSTRALIA</p>
         </section>
         <section className="py-12 w-full md:h-[50vh] flex mt-32 px-4  md:px-12 my-12 relative">
-
           <div
             className="relative px-4 md:absolute  flex flex-col gap-4 z-30 text-start backdrop-blur-lg text-white rounded-[50px] py-8 pb-16 md:px-16 md:my-12 mb-10 md:mx-6 border border-stone-50 md:w-2/3 shadow-lg bg-black/40 md:left-1/2 md:top-1/2 transform md:-translate-x-1/2 md:-translate-y-1/2 hover:scale-105 transition-transform duration-500 ease-in-out"
             style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
@@ -175,7 +171,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
 
         <div className="py-24 md:pb-12" >
           <InstagramSection instagram_images_desktop={instagram_images_desktop} instagram_images_mobile={instagram_images_mobile} />
