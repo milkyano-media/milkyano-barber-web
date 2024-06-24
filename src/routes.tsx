@@ -17,6 +17,7 @@ import EmmanLanding from '@/pages/Landing/EmmanLanding';
 import DejanLanding from '@/pages/Landing/DejanLanding';
 import ChristosLanding from '@/pages/Landing/ChristosLanding';
 import AnthonyLanding from '@/pages/Landing/AnthonyLanding';
+import JoshLandingBook from './pages/book/joshBook';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const AppRoutes: React.FC = () => {
       <Routes>
         {/* LANDING ROUTE */}
         <Route path="/josh" element={<JoshLanding />} />
+        <Route path="/josh/book" element={<JoshLandingBook />} />
         <Route path="/meta/josh" element={<JoshLanding />} />
         <Route path="/wyatt" element={<WyattLanding />} />
         <Route path="/meta/wyatt" element={<WyattLanding />} />
