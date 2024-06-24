@@ -49,8 +49,8 @@ const videos = [
   video5,
   video6,
 ];
-import burstFadeMullet from '@/assets/landing/cuts/wyatt/BURST FADE MULLET.png';
-import midDropFade1 from '@/assets/landing/cuts/wyatt/MID DROP FADE(1).png';
+import burstFadeMullet from '@/assets/landing/cuts/wyatt/burst fade mullet.png';
+import midDropFade1 from '@/assets/landing/cuts/wyatt/mid drop fade(1).png';
 import highBurstFade1 from '@/assets/landing/cuts/wyatt/high burst fade(1).png';
 import highBurstFade from '@/assets/landing/cuts/wyatt/high burst fade.png';
 import highSkinFadeLine from '@/assets/landing/cuts/wyatt/high skin fade line.png';
