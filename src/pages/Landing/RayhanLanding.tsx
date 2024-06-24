@@ -49,49 +49,48 @@ const videos = [
   video6,
 ];
 
-import image1 from '@/assets/landing/cuts/rayhan/cuts_1.png';
-import image2 from '@/assets/landing/cuts/rayhan/cuts_2.png';
-import image3 from '@/assets/landing/cuts/rayhan/cuts_3.png';
-import image4 from '@/assets/landing/cuts/rayhan/cuts_4.png';
-import image5 from '@/assets/landing/cuts/rayhan/cuts_5.png';
-import image6 from '@/assets/landing/cuts/rayhan/cuts_6.png';
-import image7 from '@/assets/landing/cuts/rayhan/cuts_7.png';
-import image8 from '@/assets/landing/cuts/rayhan/cuts_8.png';
-import image9 from '@/assets/landing/cuts/rayhan/cuts_9.png';
-import image10 from '@/assets/landing/cuts/rayhan/cuts_10.png';
-import image11 from '@/assets/landing/cuts/rayhan/cuts_11.png';
-import image12 from '@/assets/landing/cuts/rayhan/cuts_12.png';
-import image13 from '@/assets/landing/cuts/rayhan/cuts_13.png';
-import image14 from '@/assets/landing/cuts/rayhan/cuts_14.png';
-import image15 from '@/assets/landing/cuts/rayhan/cuts_15.png';
-import image16 from '@/assets/landing/cuts/rayhan/cuts_16.png';
-import image17 from '@/assets/landing/cuts/rayhan/cuts_17.png';
-import image18 from '@/assets/landing/cuts/rayhan/cuts_18.png';
-import image19 from '@/assets/landing/cuts/rayhan/cuts_19.png';
-import image20 from '@/assets/landing/cuts/rayhan/cuts_20.png';
-
+import highBurstFade1 from '@/assets/landing/cuts/rayhan/high burst fade(1).png';
+import highBurstFade2 from '@/assets/landing/cuts/rayhan/high burst fade(2).png';
+import highBurstFade3 from '@/assets/landing/cuts/rayhan/high burst fade(3).png';
+import highBurstFade4 from '@/assets/landing/cuts/rayhan/high burst fade(4).png';
+import highBurstFade5 from '@/assets/landing/cuts/rayhan/high burst fade(5).png';
+import highBurstFade6 from '@/assets/landing/cuts/rayhan/high burst fade(6).png';
+import highBurstFade from '@/assets/landing/cuts/rayhan/high burst fade.png';
+import highDropFade1 from '@/assets/landing/cuts/rayhan/high drop fade(1).png';
+import highDropFade2 from '@/assets/landing/cuts/rayhan/high drop fade(2).png';
+import highDropFade3 from '@/assets/landing/cuts/rayhan/high drop fade(3).png';
+import highDropFade4 from '@/assets/landing/cuts/rayhan/high drop fade(4).png';
+import highDropFade from '@/assets/landing/cuts/rayhan/high drop fade.png';
+import highSkinFade1 from '@/assets/landing/cuts/rayhan/high skin fade(1).png';
+import highSkinFade2 from '@/assets/landing/cuts/rayhan/high skin fade(2).png';
+import highSkinFade3 from '@/assets/landing/cuts/rayhan/high skin fade(3).png';
+import highSkinFade4 from '@/assets/landing/cuts/rayhan/high skin fade(4).png';
+import highSkinFade from '@/assets/landing/cuts/rayhan/high skin fade.png';
+import midTaper from '@/assets/landing/cuts/rayhan/mid taper.png';
+import midToHighDropFade from '@/assets/landing/cuts/rayhan/mid to high drop fade.png';
+import midToHighTaper from '@/assets/landing/cuts/rayhan/mid to high taper.png';
 
 const cutsImages = [
-  { src: image1, name: ' ' },
-  { src: image2, name: '' },
-  { src: image3, name: '' },
-  { src: image4, name: '' },
-  { src: image5, name: '' },
-  { src: image6, name: '' },
-  { src: image7, name: '' },
-  { src: image8, name: '' },
-  { src: image9, name: '' },
-  { src: image10, name: '' },
-  { src: image11, name: '' },
-  { src: image12, name: '' },
-  { src: image13, name: '' },
-  { src: image14, name: '' },
-  { src: image15, name: '' },
-  { src: image16, name: '' },
-  { src: image17, name: '' },
-  { src: image18, name: '' },
-  { src: image19, name: '' },
-  { src: image20, name: '' },
+  { src: highBurstFade1, name: 'high burst fade(1)' },
+  { src: highBurstFade2, name: 'high burst fade(2)' },
+  { src: highBurstFade3, name: 'high burst fade(3)' },
+  { src: highBurstFade4, name: 'high burst fade(4)' },
+  { src: highBurstFade5, name: 'high burst fade(5)' },
+  { src: highBurstFade6, name: 'high burst fade(6)' },
+  { src: highBurstFade, name: 'high burst fade' },
+  { src: highDropFade1, name: 'high drop fade(1)' },
+  { src: highDropFade2, name: 'high drop fade(2)' },
+  { src: highDropFade3, name: 'high drop fade(3)' },
+  { src: highDropFade4, name: 'high drop fade(4)' },
+  { src: highDropFade, name: 'high drop fade' },
+  { src: highSkinFade1, name: 'high skin fade(1)' },
+  { src: highSkinFade2, name: 'high skin fade(2)' },
+  { src: highSkinFade3, name: 'high skin fade(3)' },
+  { src: highSkinFade4, name: 'high skin fade(4)' },
+  { src: highSkinFade, name: 'high skin fade' },
+  { src: midTaper, name: 'mid taper' },
+  { src: midToHighDropFade, name: 'mid to high drop fade' },
+  { src: midToHighTaper, name: 'mid to high taper' },
 ];
 
 

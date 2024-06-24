@@ -49,49 +49,49 @@ const videos = [
   video5,
   video6,
 ];
-import image1 from '@/assets/landing/cuts/niko/cuts_1.png';
-import image2 from '@/assets/landing/cuts/niko/cuts_2.png';
-import image3 from '@/assets/landing/cuts/niko/cuts_3.png';
-import image4 from '@/assets/landing/cuts/niko/cuts_4.png';
-import image5 from '@/assets/landing/cuts/niko/cuts_5.png';
-import image6 from '@/assets/landing/cuts/niko/cuts_6.png';
-import image7 from '@/assets/landing/cuts/niko/cuts_7.png';
-import image8 from '@/assets/landing/cuts/niko/cuts_8.png';
-import image9 from '@/assets/landing/cuts/niko/cuts_9.png';
-import image10 from '@/assets/landing/cuts/niko/cuts_10.png';
-import image11 from '@/assets/landing/cuts/niko/cuts_11.png';
-import image12 from '@/assets/landing/cuts/niko/cuts_12.png';
-import image13 from '@/assets/landing/cuts/niko/cuts_13.png';
-import image14 from '@/assets/landing/cuts/niko/cuts_14.png';
-import image15 from '@/assets/landing/cuts/niko/cuts_15.png';
-import image16 from '@/assets/landing/cuts/niko/cuts_16.png';
-import image17 from '@/assets/landing/cuts/niko/cuts_17.png';
-import image18 from '@/assets/landing/cuts/niko/cuts_18.png';
-import image19 from '@/assets/landing/cuts/niko/cuts_19.png';
-import image20 from '@/assets/landing/cuts/niko/cuts_20.png';
 
+import highBurstFade1 from '@/assets/landing/cuts/niko/high burst fade(1).png';
+import highBurstFade2 from '@/assets/landing/cuts/niko/high burst fade(2).png';
+import highBurstFade from '@/assets/landing/cuts/niko/high burst fade.png';
+import highDropFade1 from '@/assets/landing/cuts/niko/high drop fade(1).png';
+import highDropFade2 from '@/assets/landing/cuts/niko/high drop fade(2).png';
+import highDropFade from '@/assets/landing/cuts/niko/high drop fade.png';
+import highSkinFade1 from '@/assets/landing/cuts/niko/high skin fade(1).png';
+import highSkinFade2 from '@/assets/landing/cuts/niko/high skin fade(2).png';
+import highSkinFade3 from '@/assets/landing/cuts/niko/high skin fade(3).png';
+import highSkinFade4 from '@/assets/landing/cuts/niko/high skin fade(4).png';
+import highSkinFade5 from '@/assets/landing/cuts/niko/high skin fade(5).png';
+import highSkinFade6 from '@/assets/landing/cuts/niko/high skin fade(6).png';
+import highSkinFade from '@/assets/landing/cuts/niko/high skin fade.png';
+import highTaper from '@/assets/landing/cuts/niko/high taper.png';
+import midBurstFade1 from '@/assets/landing/cuts/niko/mid burst fade(1).png';
+import midBurstFade from '@/assets/landing/cuts/niko/mid burst fade.png';
+import midDropFade1 from '@/assets/landing/cuts/niko/mid drop fade(1).png';
+import midDropFade2 from '@/assets/landing/cuts/niko/mid drop fade(2).png';
+import midDropFade from '@/assets/landing/cuts/niko/mid drop fade.png';
+import midTaper from '@/assets/landing/cuts/niko/mid taper.png';
 
 const cutsImages = [
-  { src: image1, name: ' ' },
-  { src: image2, name: '' },
-  { src: image3, name: '' },
-  { src: image4, name: '' },
-  { src: image5, name: '' },
-  { src: image6, name: '' },
-  { src: image7, name: '' },
-  { src: image8, name: '' },
-  { src: image9, name: '' },
-  { src: image10, name: '' },
-  { src: image11, name: '' },
-  { src: image12, name: '' },
-  { src: image13, name: '' },
-  { src: image14, name: '' },
-  { src: image15, name: '' },
-  { src: image16, name: '' },
-  { src: image17, name: '' },
-  { src: image18, name: '' },
-  { src: image19, name: '' },
-  { src: image20, name: '' },
+  { src: highBurstFade1, name: 'high burst fade(1)' },
+  { src: highBurstFade2, name: 'high burst fade(2)' },
+  { src: highBurstFade, name: 'high burst fade' },
+  { src: highDropFade1, name: 'high drop fade(1)' },
+  { src: highDropFade2, name: 'high drop fade(2)' },
+  { src: highDropFade, name: 'high drop fade' },
+  { src: highSkinFade1, name: 'high skin fade(1)' },
+  { src: highSkinFade2, name: 'high skin fade(2)' },
+  { src: highSkinFade3, name: 'high skin fade(3)' },
+  { src: highSkinFade4, name: 'high skin fade(4)' },
+  { src: highSkinFade5, name: 'high skin fade(5)' },
+  { src: highSkinFade6, name: 'high skin fade(6)' },
+  { src: highSkinFade, name: 'high skin fade' },
+  { src: highTaper, name: 'high taper' },
+  { src: midBurstFade1, name: 'mid burst fade(1)' },
+  { src: midBurstFade, name: 'mid burst fade' },
+  { src: midDropFade1, name: 'mid drop fade(1)' },
+  { src: midDropFade2, name: 'mid drop fade(2)' },
+  { src: midDropFade, name: 'mid drop fade' },
+  { src: midTaper, name: 'mid taper' },
 ];
 
 
