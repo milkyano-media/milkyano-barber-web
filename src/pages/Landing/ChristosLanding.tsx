@@ -49,41 +49,38 @@ const videos = [
   video5,
   video6,
 ];
-
-import image1 from '@/assets/landing/cuts/christos/cuts_1.png';
-import image2 from '@/assets/landing/cuts/christos/cuts_2.png';
-import image3 from '@/assets/landing/cuts/christos/cuts_3.png';
-import image4 from '@/assets/landing/cuts/christos/cuts_4.png';
-import image5 from '@/assets/landing/cuts/christos/cuts_5.png';
-import image6 from '@/assets/landing/cuts/christos/cuts_6.png';
-import image7 from '@/assets/landing/cuts/christos/cuts_7.png';
-import image8 from '@/assets/landing/cuts/christos/cuts_8.png';
-import image9 from '@/assets/landing/cuts/christos/cuts_9.png';
-import image10 from '@/assets/landing/cuts/christos/cuts_10.png';
-import image11 from '@/assets/landing/cuts/christos/cuts_11.png';
-import image12 from '@/assets/landing/cuts/christos/cuts_12.png';
-import image13 from '@/assets/landing/cuts/christos/cuts_13.png';
-import image14 from '@/assets/landing/cuts/christos/cuts_14.png';
-
-
+import highSkinFade1 from '@/assets/landing/cuts/christos/high skin fade(1).png';
+import highSkinFade2 from '@/assets/landing/cuts/christos/high skin fade(2).png';
+import highSkinFade3 from '@/assets/landing/cuts/christos/high skin fade(3).png';
+import highSkinFade4 from '@/assets/landing/cuts/christos/high skin fade(4).png';
+import highSkinFade5 from '@/assets/landing/cuts/christos/high skin fade(5).png';
+import highSkinFade from '@/assets/landing/cuts/christos/high skin fade.png';
+import midBurstFade from '@/assets/landing/cuts/christos/mid burst fade.png';
+import midDropFade1 from '@/assets/landing/cuts/christos/mid drop fade(1).png';
+import midDropFade from '@/assets/landing/cuts/christos/mid drop fade.png';
+import midSkinFadeMullet from '@/assets/landing/cuts/christos/mid skin fade mullet.png';
+import midSkinFade1 from '@/assets/landing/cuts/christos/mid skin fade(1).png';
+import midSkinFade from '@/assets/landing/cuts/christos/mid skin fade.png';
+import midToHighBurstFaade from '@/assets/landing/cuts/christos/mid to high burst faade.png';
+import midToHighSkinFade from '@/assets/landing/cuts/christos/mid to high skin fade.png';
 
 const cutsImages = [
-  { src: image1, name: ' ' },
-  { src: image2, name: '' },
-  { src: image3, name: '' },
-  { src: image4, name: '' },
-  { src: image5, name: '' },
-  { src: image6, name: '' },
-  { src: image7, name: '' },
-  { src: image8, name: '' },
-  { src: image9, name: '' },
-  { src: image10, name: '' },
-  { src: image11, name: '' },
-  { src: image12, name: '' },
-  { src: image13, name: '' },
-  { src: image14, name: '' },
-
+  { src: highSkinFade1, name: 'high skin fade(1)' },
+  { src: highSkinFade2, name: 'high skin fade(2)' },
+  { src: highSkinFade3, name: 'high skin fade(3)' },
+  { src: highSkinFade4, name: 'high skin fade(4)' },
+  { src: highSkinFade5, name: 'high skin fade(5)' },
+  { src: highSkinFade, name: 'high skin fade' },
+  { src: midBurstFade, name: 'mid burst fade' },
+  { src: midDropFade1, name: 'mid drop fade(1)' },
+  { src: midDropFade, name: 'mid drop fade' },
+  { src: midSkinFadeMullet, name: 'mid skin fade mullet' },
+  { src: midSkinFade1, name: 'mid skin fade(1)' },
+  { src: midSkinFade, name: 'mid skin fade' },
+  { src: midToHighBurstFaade, name: 'mid to high burst faade' },
+  { src: midToHighSkinFade, name: 'mid to high skin fade' },
 ];
+
 
 
 export default function JoshLanding() {

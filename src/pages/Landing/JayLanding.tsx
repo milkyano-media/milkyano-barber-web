@@ -2,13 +2,13 @@ import { Button } from "@/components/ui/button";
 import { useEffect, } from "react";
 import { Helmet } from "react-helmet-async";
 
-import { EmblaOptionsType } from 'embla-carousel'
-import EmblaCarousel from "@/components/landing/CarouselScaled";
+// import { EmblaOptionsType } from 'embla-carousel'
+// import EmblaCarousel from "@/components/landing/CarouselScaled";
 import Srolled from "@/components/landing/Scrolled";
 
-const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
-const SLIDE_COUNT = 5
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+// const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
+// const SLIDE_COUNT = 5
+// const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 import LandingLayout from "@/components/landing/LandingLayout";
@@ -34,66 +34,52 @@ import HeroBottom from "@/assets/landing/hero_bottom_line.svg";
 import jay from "@/assets/landing/jay/hero.mp4";
 import { useLocation } from "react-router-dom";
 
-import video1 from '@/assets/landing/josh/tiktok_1.mp4';
-import video2 from '@/assets/landing/josh/tiktok_2.mp4';
-import video3 from '@/assets/landing/josh/tiktok_3.mp4';
-import video4 from '@/assets/landing/josh/tiktok_1.mp4';
-import video5 from '@/assets/landing/josh/tiktok_2.mp4';
-import video6 from '@/assets/landing/josh/tiktok_3.mp4';
-
-const videos = [
-  video1,
-  video2,
-  video3,
-  video4,
-  video5,
-  video6,
-];
+import video1 from '@/assets/landing/jay/tiktok_1.mp4';
 
 
-import image1 from '@/assets/landing/cuts/anthony/cuts_1.png';
-import image2 from '@/assets/landing/cuts/anthony/cuts_2.png';
-import image3 from '@/assets/landing/cuts/anthony/cuts_3.png';
-import image4 from '@/assets/landing/cuts/anthony/cuts_4.png';
-import image5 from '@/assets/landing/cuts/anthony/cuts_5.png';
-import image6 from '@/assets/landing/cuts/anthony/cuts_6.png';
-import image7 from '@/assets/landing/cuts/anthony/cuts_7.png';
-import image8 from '@/assets/landing/cuts/anthony/cuts_8.png';
-import image9 from '@/assets/landing/cuts/anthony/cuts_9.png';
-import image10 from '@/assets/landing/cuts/anthony/cuts_10.png';
-import image11 from '@/assets/landing/cuts/anthony/cuts_11.png';
-import image12 from '@/assets/landing/cuts/anthony/cuts_12.png';
-import image13 from '@/assets/landing/cuts/anthony/cuts_13.png';
-import image14 from '@/assets/landing/cuts/anthony/cuts_14.png';
-import image15 from '@/assets/landing/cuts/anthony/cuts_15.png';
-import image16 from '@/assets/landing/cuts/anthony/cuts_16.png';
-import image17 from '@/assets/landing/cuts/anthony/cuts_17.png';
-import image18 from '@/assets/landing/cuts/anthony/cuts_18.png';
-import image19 from '@/assets/landing/cuts/anthony/cuts_19.png';
-import image20 from '@/assets/landing/cuts/anthony/cuts_20.png';
-
+// const videos = [
+//   video1,
+// ];
+import highDropFade1 from '@/assets/landing/cuts/jay/high drop fade(1).png';
+import midBurstFade1 from '@/assets/landing/cuts/jay/mid burst fade(1).png';
+import midDropFade from '@/assets/landing/cuts/jay/mid drop fade.png';
+import midToHighBurstFade2 from '@/assets/landing/cuts/jay/mid to high burst fade(2).png';
+import highDropFade from '@/assets/landing/cuts/jay/high drop fade.png';
+import midBurstFade2 from '@/assets/landing/cuts/jay/mid burst fade(2).png';
+import midSkinFadeMullet1 from '@/assets/landing/cuts/jay/mid skin fade mullet(1).png';
+import midToHighBurstFade from '@/assets/landing/cuts/jay/mid to high burst fade.png';
+import highSkinFadeMullet from '@/assets/landing/cuts/jay/high skin fade mullet.png';
+import highSkinFade1 from '@/assets/landing/cuts/jay/high skin fade(1).png';
+import highSkinFade from '@/assets/landing/cuts/jay/high skin fade.png';
+import midDropFade1 from '@/assets/landing/cuts/jay/mid drop fade(1).png';
+import midBurstFade3 from '@/assets/landing/cuts/jay/mid burst fade(3).png';
+import midBurstFade from '@/assets/landing/cuts/jay/mid burst fade.png';
+import midTaper from '@/assets/landing/cuts/jay/mid taper.png';
+import midToHighBurstFade1 from '@/assets/landing/cuts/jay/mid to high burst fade(1).png';
+import midToHighDropFade from '@/assets/landing/cuts/jay/mid to high drop fade.png';
+import midToHighSkinFade from '@/assets/landing/cuts/jay/mid to high skin fade.png';
+import midToLowBurstFade from '@/assets/landing/cuts/jay/mid to low burst fade.png';
 
 const cutsImages = [
-  { src: image1, name: ' ' },
-  { src: image2, name: '' },
-  { src: image3, name: '' },
-  { src: image4, name: '' },
-  { src: image5, name: '' },
-  { src: image6, name: '' },
-  { src: image7, name: '' },
-  { src: image8, name: '' },
-  { src: image9, name: '' },
-  { src: image10, name: '' },
-  { src: image11, name: '' },
-  { src: image12, name: '' },
-  { src: image13, name: '' },
-  { src: image14, name: '' },
-  { src: image15, name: '' },
-  { src: image16, name: '' },
-  { src: image17, name: '' },
-  { src: image18, name: '' },
-  { src: image19, name: '' },
-  { src: image20, name: '' },
+  { src: highDropFade1, name: 'high drop fade(1)' },
+  { src: midBurstFade1, name: 'mid burst fade(1)' },
+  { src: midDropFade, name: 'mid drop fade' },
+  { src: midToHighBurstFade2, name: 'mid to high burst fade(2)' },
+  { src: highDropFade, name: 'high drop fade' },
+  { src: midBurstFade2, name: 'mid burst fade(2)' },
+  { src: midSkinFadeMullet1, name: 'mid skin fade mullet(1)' },
+  { src: midToHighBurstFade, name: 'mid to high burst fade' },
+  { src: highSkinFadeMullet, name: 'high skin fade mullet' },
+  { src: highSkinFade1, name: 'high skin fade(1)' },
+  { src: highSkinFade, name: 'high skin fade' },
+  { src: midDropFade1, name: 'mid drop fade(1)' },
+  { src: midBurstFade3, name: 'mid burst fade(3)' },
+  { src: midBurstFade, name: 'mid burst fade' },
+  { src: midTaper, name: 'mid taper' },
+  { src: midToHighBurstFade1, name: 'mid to high burst fade(1)' },
+  { src: midToHighDropFade, name: 'mid to high drop fade' },
+  { src: midToHighSkinFade, name: 'mid to high skin fade' },
+  { src: midToLowBurstFade, name: 'mid to low burst fade' },
 ];
 
 
@@ -151,7 +137,7 @@ export default function JayLanding() {
           <div className="max-w-screen-lg mx-auto w-full">
             <div className="relative z-30 backdrop-blur-lg text-white rounded-3xl py-12 px-12 my-12 mb-10 mx-6 md:mx-12 border border-stone-50 md:w-1/2" style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
             >
-              <h2 className="text-4xl md:text-5xl uppercase font-poppins font-extrabold mb-2 text-[#42FF00] tracking-wider">Hi, I&apos;m josh</h2>
+              <h2 className="text-4xl md:text-5xl uppercase font-poppins font-extrabold mb-2 text-[#42FF00] tracking-wider">Hi, I&apos;m jay</h2>
               <h2 className="text-xl font-bold mb-4">BEST BARBER IN MELBOURNE</h2>
               <p className="text-lg mb-8">I am specializing in design and it only takes one click to change everything including your look</p>
               <div className="bg-black"></div>
@@ -194,8 +180,12 @@ export default function JayLanding() {
           <div className="relative z-10">
             <h3 className=" text-4xl md:text-6xl  font-poppins font-extrabold text-center py-2 uppercase text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text">Our Videos</h3>
             <p className="text-center text-lg w-10/12 md:w-full mx-auto">well known on TIktok with millions of views</p>
-            <div className="py-12 md:py-0 w-full md:px-12  ">
-              <EmblaCarousel slides={SLIDES} options={OPTIONS} videos={videos} />
+            <div className="py-12 md:py-0 w-full md:px-12 justify-center items-center flex m md:my-32">
+              {/* <EmblaCarousel slides={SLIDES} options={OPTIONS} videos={videos} /> */}
+              <video autoPlay muted loop playsInline className="w-fit rounded-3xl relative z-0  h-[23rem] md:h-[35rem] " >
+                <source type="video/mp4" src={video1} />
+              </video>
+              
             </div>
             <div className="flex gap-10 justify-center items-center flex-col w-full ">
               <Button variant={"ghost"} className="border border-[#00FF1A] rounded-full font-extrabold font-poppins px-12 py-10 uppercase  text-xl md:text-3xl transform hover:scale-110 transition-transform duration-200 ease-in-out hover:bg-[#24FF00] hover:shadow-md hover:text-stone-950 hover:shadow-[#44813a] ">

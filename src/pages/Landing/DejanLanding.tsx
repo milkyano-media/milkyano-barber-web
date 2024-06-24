@@ -49,49 +49,43 @@ const videos = [
   video6,
 ];
 
-import image1 from '@/assets/landing/cuts/anthony/cuts_1.png';
-import image2 from '@/assets/landing/cuts/anthony/cuts_2.png';
-import image3 from '@/assets/landing/cuts/anthony/cuts_3.png';
-import image4 from '@/assets/landing/cuts/anthony/cuts_4.png';
-import image5 from '@/assets/landing/cuts/anthony/cuts_5.png';
-import image6 from '@/assets/landing/cuts/anthony/cuts_6.png';
-import image7 from '@/assets/landing/cuts/anthony/cuts_7.png';
-import image8 from '@/assets/landing/cuts/anthony/cuts_8.png';
-import image9 from '@/assets/landing/cuts/anthony/cuts_9.png';
-import image10 from '@/assets/landing/cuts/anthony/cuts_10.png';
-import image11 from '@/assets/landing/cuts/anthony/cuts_11.png';
-import image12 from '@/assets/landing/cuts/anthony/cuts_12.png';
-import image13 from '@/assets/landing/cuts/anthony/cuts_13.png';
-import image14 from '@/assets/landing/cuts/anthony/cuts_14.png';
-import image15 from '@/assets/landing/cuts/anthony/cuts_15.png';
-import image16 from '@/assets/landing/cuts/anthony/cuts_16.png';
-import image17 from '@/assets/landing/cuts/anthony/cuts_17.png';
-import image18 from '@/assets/landing/cuts/anthony/cuts_18.png';
-import image19 from '@/assets/landing/cuts/anthony/cuts_19.png';
-import image20 from '@/assets/landing/cuts/anthony/cuts_20.png';
 
+import image1 from '@/assets/landing/cuts/josh/Blow Out Taper Fade-1.png';
+import image2 from '@/assets/landing/cuts/josh/Blow Out Taper Fade.png';
+import image3 from '@/assets/landing/cuts/josh/Burst Fade-1.png';
+import image4 from '@/assets/landing/cuts/josh/Burst Fade 2.png';
+import image5 from '@/assets/landing/cuts/josh/Burst Fade.png';
+import image6 from '@/assets/landing/cuts/josh/Drop Fade.png';
+import image7 from '@/assets/landing/cuts/josh/Drop V Burst Fade.png';
+import image8 from '@/assets/landing/cuts/josh/High Skin Fade-1.png';
+import image9 from '@/assets/landing/cuts/josh/High Skin Fade.png';
+import image10 from '@/assets/landing/cuts/josh/High V Drop Fade.png';
+import image11 from '@/assets/landing/cuts/josh/Mid Burst Fade.png';
+import image12 from '@/assets/landing/cuts/josh/Mid to High Burst Fade.png';
+import image13 from '@/assets/landing/cuts/josh/Taper Fade.png';
+import image14 from '@/assets/landing/cuts/josh/Textured Burst Fade-1.png';
+import image15 from '@/assets/landing/cuts/josh/Textured Burst Fade.png';
+import image16 from '@/assets/landing/cuts/josh/Textured Crop Skin Fade.png';
+import image17 from '@/assets/landing/cuts/josh/V Mid Drop Fade.png';
 
 const cutsImages = [
-  { src: image1, name: ' ' },
-  { src: image2, name: '' },
-  { src: image3, name: '' },
-  { src: image4, name: '' },
-  { src: image5, name: '' },
-  { src: image6, name: '' },
-  { src: image7, name: '' },
-  { src: image8, name: '' },
-  { src: image9, name: '' },
-  { src: image10, name: '' },
-  { src: image11, name: '' },
-  { src: image12, name: '' },
-  { src: image13, name: '' },
-  { src: image14, name: '' },
-  { src: image15, name: '' },
-  { src: image16, name: '' },
-  { src: image17, name: '' },
-  { src: image18, name: '' },
-  { src: image19, name: '' },
-  { src: image20, name: '' },
+  { src: image1, name: 'Blow Out Taper Fade-1' },
+  { src: image2, name: 'Blow Out Taper Fade' },
+  { src: image3, name: 'Burst Fade-1' },
+  { src: image4, name: 'Burst Fade 2' },
+  { src: image5, name: 'Burst Fade' },
+  { src: image6, name: 'Drop Fade' },
+  { src: image7, name: 'Drop V Burst Fade' },
+  { src: image8, name: 'High Skin Fade-1' },
+  { src: image9, name: 'High Skin Fade' },
+  { src: image10, name: 'High V Drop Fade' },
+  { src: image11, name: 'Mid Burst Fade' },
+  { src: image12, name: 'Mid to High Burst Fade' },
+  { src: image13, name: 'Taper Fade' },
+  { src: image14, name: 'Textured Burst Fade-1' },
+  { src: image15, name: 'Textured Burst Fade' },
+  { src: image16, name: 'Textured Crop Skin Fade' },
+  { src: image17, name: 'V Mid Drop Fade' },
 ];
 
 
