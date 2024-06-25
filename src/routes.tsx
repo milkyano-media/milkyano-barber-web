@@ -8,16 +8,18 @@ import Careers from '@/pages/web/Careers';
 import Contacts from '@/pages/web/Contact';
 import NotFound from '@/pages/web/NotFound';
 
-import JoshLanding from '@/pages/Landing/JoshLanding';
-import WyattLanding from '@/pages/Landing/WyattLanding';
-import RayhanLanding from '@/pages/Landing/RayhanLanding';
-import JayLanding from '@/pages/Landing/JayLanding';
-import NikoLanding from '@/pages/Landing/NikoLanding';
-import EmmanLanding from '@/pages/Landing/EmmanLanding';
-import DejanLanding from '@/pages/Landing/DejanLanding';
-import ChristosLanding from '@/pages/Landing/ChristosLanding';
-import AnthonyLanding from '@/pages/Landing/AnthonyLanding';
-import JoshLandingBook from './pages/book/joshBook';
+import JoshLanding from '@/pages/landing/JoshLanding';
+import WyattLanding from '@/pages/landing/WyattLanding';
+import RayhanLanding from '@/pages/landing/RayhanLanding';
+import JayLanding from '@/pages/landing/JayLanding';
+import NikoLanding from '@/pages/landing/NikoLanding';
+import EmmanLanding from '@/pages/landing/EmmanLanding';
+import DejanLanding from '@/pages/landing/DejanLanding';
+import ChristosLanding from '@/pages/landing/ChristosLanding';
+import AnthonyLanding from '@/pages/landing/AnthonyLanding';
+import JoshLandingBook from '@/pages/SquareBook';
+import ThankYou from './pages/ThankYou';
+import EmbeddedPage from './pages/Embedded';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -25,7 +27,7 @@ const AppRoutes: React.FC = () => {
       <Routes>
         {/* LANDING ROUTE */}
         <Route path="/josh" element={<JoshLanding />} />
-        <Route path="/josh/book" element={<JoshLandingBook />} />
+
         <Route path="/meta/josh" element={<JoshLanding />} />
         <Route path="/wyatt" element={<WyattLanding />} />
         <Route path="/meta/wyatt" element={<WyattLanding />} />
@@ -53,6 +55,11 @@ const AppRoutes: React.FC = () => {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/careers" element={<Careers />} />
         <Route path="/contact-us" element={<Contacts />} />
+
+        <Route path="/josh/book" element={<JoshLandingBook />} />
+        <Route path="/josh/book/list" element={<EmbeddedPage />} />
+
+        <Route path="/thank-you" element={<ThankYou />} />
 
       </Routes>
     </Router>
