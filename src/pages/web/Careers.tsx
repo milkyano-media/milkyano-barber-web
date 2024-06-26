@@ -75,10 +75,10 @@ export default function Careers() {
 
     emailjs
       .send(
-        'service_17yipta',
-        'template_ggm2lyr',
+        'service_8g1wzub',
+        'template_oqnkkb8',
         values,
-        'PU6n8YWPBebpTnMYU'
+        'dVQ8-b1hMOSkncafw'
       )
       .then(() => {
         // alert('Message successfully sent!');

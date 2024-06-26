@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, } from "react";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 import { EmblaOptionsType } from 'embla-carousel'
@@ -90,14 +90,14 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 export default function JoshLanding() {
-  const location = useLocation();
-  let squareLink;
+  // const location = useLocation();
+  const squareLink = "/josh/book";
 
-  if (location.pathname === '/josh') {
-    squareLink = 'https://book.squareup.com/appointments/wmoppuqdw400fe/location/LY7BZ89WAQ2QS/services';
-  } else if (location.pathname === '/meta/josh') {
-    squareLink = 'https://book.squareup.com/appointments/7pq6yd98or1cr9/location/LY7BZ89WAQ2QS/services';
-  }
+  // if (location.pathname === '/josh') {
+  //   squareLink = 'https://book.squareup.com/appointments/wmoppuqdw400fe/location/LY7BZ89WAQ2QS/services';
+  // } else if (location.pathname === '/meta/josh') {
+  //   squareLink = 'https://book.squareup.com/appointments/7pq6yd98or1cr9/location/LY7BZ89WAQ2QS/services';
+  // }
 
   useEffect(() => {
     // Create a new style element

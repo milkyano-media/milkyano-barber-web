@@ -7,6 +7,9 @@ import AboutUs from '@/pages/web/AboutUs';
 import Careers from '@/pages/web/Careers';
 import Contacts from '@/pages/web/Contact';
 import NotFound from '@/pages/web/NotFound';
+import JoshLandingBook from '@/pages/SquareBook';
+import ThankYou from './pages/ThankYou';
+import EmbeddedPage from './pages/Embedded';
 
 import JoshLanding from '@/pages/landing/JoshLanding';
 import WyattLanding from '@/pages/landing/WyattLanding';
@@ -24,6 +27,7 @@ const AppRoutes: React.FC = () => {
       <Routes>
         {/* LANDING ROUTE */}
         <Route path="/josh" element={<JoshLanding />} />
+
         <Route path="/meta/josh" element={<JoshLanding />} />
         <Route path="/wyatt" element={<WyattLanding />} />
         <Route path="/meta/wyatt" element={<WyattLanding />} />
@@ -51,6 +55,11 @@ const AppRoutes: React.FC = () => {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/careers" element={<Careers />} />
         <Route path="/contact-us" element={<Contacts />} />
+
+        <Route path="/josh/book" element={<JoshLandingBook />} />
+        <Route path="/josh/book/list" element={<EmbeddedPage />} />
+
+        <Route path="/thank-you" element={<ThankYou />} />
 
       </Routes>
     </Router>
