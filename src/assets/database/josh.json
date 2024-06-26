@@ -1,0 +1,36 @@
+{
+  "josh": [
+    {
+      "name": "Haircut",
+      "url": "https://book.squareup.com/appointments/wmoppuqdw400fe/location/LY7BZ89WAQ2QS/services/CUHM7PKD2KRAGTX3GDL6VZQP",
+      "description": "Josh [IG@Josh.blendz] (Available Now)",
+      "details": "Haircut By Josh (Available Now) (O)",
+      "price": "$60.00 + [15% Surcharge On Sundays]",
+      "duration": "30 min"
+    },
+    {
+      "name": "Hair and Beard",
+      "url": "https://book.squareup.com/appointments/wmoppuqdw400fe/location/LY7BZ89WAQ2QS/services/QG4U6VH66ECURCJWEOV5FSA3",
+      "description": "Josh [IG@Josh.blendz] (Available Now)",
+      "details": "Hair & Beard By Josh (Available Now) (O)",
+      "price": "$85.00 + [15% Surcharge On Sundays]",
+      "duration": "45 min"
+    },
+    {
+      "name": "Hair Transformation",
+      "url": "https://book.squareup.com/appointments/wmoppuqdw400fe/location/LY7BZ89WAQ2QS/services/KBIEJ256RJIX2RA3BL2M2GXT",
+      "description": "Josh [IG@Josh.blendz] (Available Now)",
+      "details": "Hair Transformation By Josh (No Haircut In 2 Months +) (O)",
+      "price": "$90.00 + [15% Surcharge On Sundays]",
+      "duration": "45 min"
+    },
+    {
+      "name": "Hair Restyle",
+      "url": "https://book.squareup.com/appointments/wmoppuqdw400fe/location/LY7BZ89WAQ2QS/services/4XSI3XC3DJFJS4N3Y3MO4LOE",
+      "description": "Josh [IG@Josh.blendz] (Available Now)",
+      "details": "Hair Restyle By Josh (Changing Hairstyle) (O)",
+      "price": "$120.00 + [15% Surcharge On Sundays]",
+      "duration": "1 hr"
+    }
+  ]
+}

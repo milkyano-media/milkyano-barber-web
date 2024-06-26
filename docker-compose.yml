@@ -1,0 +1,15 @@
+services:
+  baber-web:
+    image: aldovadev/barber-web:latest
+    container_name: barber-web
+    restart: unless-stopped
+    environment:
+      MINIO_BASE_URL: ${MINIO_BASE_URL}
+    ports:
+      - "4080:80"
+    networks:
+      - barber_default
+
+networks:
+  barber_default:
+    external: true

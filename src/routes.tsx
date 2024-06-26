@@ -27,7 +27,6 @@ const AppRoutes: React.FC = () => {
       <Routes>
         {/* LANDING ROUTE */}
         <Route path="/josh" element={<JoshLanding />} />
-
         <Route path="/meta/josh" element={<JoshLanding />} />
         <Route path="/wyatt" element={<WyattLanding />} />
         <Route path="/meta/wyatt" element={<WyattLanding />} />
@@ -58,9 +57,7 @@ const AppRoutes: React.FC = () => {
 
         <Route path="/josh/book" element={<JoshLandingBook />} />
         <Route path="/josh/book/list" element={<EmbeddedPage />} />
-
-        <Route path="/thank-you" element={<ThankYou />} />
-
+        <Route path="/josh/thank-you" element={<ThankYou />} />
       </Routes>
     </Router>
   );
