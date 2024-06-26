@@ -56,10 +56,10 @@ export default function Contacts() {
 
     emailjs
       .send(
-        'service_17yipta',
-        'template_7ntlsoq',
+        'service_8g1wzub',
+        'template_36pulhw',
         values,
-        'PU6n8YWPBebpTnMYU'
+        'dVQ8-b1hMOSkncafw'
       )
       .then(() => {
         // alert('Message successfully sent!');
