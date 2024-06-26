@@ -1,44 +1,60 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, } from "react";
+import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 import { EmblaOptionsType } from 'embla-carousel'
 import EmblaCarousel from "@/components/landing/CarouselScaled";
 import Srolled from "@/components/landing/Scrolled";
-
-const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
-const SLIDE_COUNT = 5
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
-const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
-
+import getAsset from "@/utils/getAssets";
 import LandingLayout from "@/components/landing/LandingLayout";
 
-import cardFour from '@/assets/landing/reviews/cards_four.svg';
 import cardOne from '@/assets/landing/reviews/cards_one.svg';
 import cardTwo from '@/assets/landing/reviews/cards_two.svg';
 import cardThree from '@/assets/landing/reviews/cards_three.svg';
+import cardFour from '@/assets/landing/reviews/cards_four.svg';
 
-import Top from "@/assets/landing/top_line.svg";
-import Mid from "@/assets/landing/mid_line.svg";
-import Bottom from "@/assets/landing/bottom_line.svg";
+import Top from '@/assets/landing/top_line.svg';
+import Mid from '@/assets/landing/mid_line.svg';
+import Bottom from '@/assets/landing/bottom_line.svg';
 
-import ParticlesTwo from "@/assets/landing/section_2_particles.svg";
-import ParticlesThree from "@/assets/landing/section_3_particles.svg";
+import ParticlesTwo from '@/assets/landing/section_2_particles.svg';
+import ParticlesThree from '@/assets/landing/section_3_particles.svg';
 
-import SwipeGif from "@/assets/landing/arrow_animation.gif";
-import SwipedtoSee from "@/assets/landing/swipe_to_see.svg";
+import SwipeGif from '@/assets/landing/arrow_animation.gif';
+import SwipedtoSee from '@/assets/landing/swipe_to_see.svg';
 
-import HeroTop from "@/assets/landing/hero_top_line.svg";
-import HeroBottom from "@/assets/landing/hero_bottom_line.svg";
+import HeroTop from '@/assets/landing/hero_top_line.svg';
+import HeroBottom from '@/assets/landing/hero_bottom_line.svg';
 
-import emman from "@/assets/landing/emman/hero.mp4";
-import { useLocation } from "react-router-dom";
-import video1 from '@/assets/landing/emman/tiktok_1.mp4';
-import video2 from '@/assets/landing/emman/tiktok_2.mp4';
-import video3 from '@/assets/landing/emman/tiktok_3.mp4';
-import video4 from '@/assets/landing/emman/tiktok_1.mp4';
-import video5 from '@/assets/landing/emman/tiktok_2.mp4';
-import video6 from '@/assets/landing/emman/tiktok_3.mp4';
+import highBurstFadeMullet from '@/assets/landing/cuts/emman/high_burst_fade_mullet.png';
+import highDropFade1 from '@/assets/landing/cuts/emman/high_drop_fade_1.png';
+import highDropFade2 from '@/assets/landing/cuts/emman/high_drop_fade_2.png';
+import highDropFade3 from '@/assets/landing/cuts/emman/high_drop_fade_3.png';
+import highDropFade from '@/assets/landing/cuts/emman/high_drop_fade.png';
+import highFade from '@/assets/landing/cuts/emman/high_fade.png';
+import highSkinFade1 from '@/assets/landing/cuts/emman/high_skin_fade_1.png';
+import highSkinFade2 from '@/assets/landing/cuts/emman/high_skin_fade_2.png';
+import highSkinFade3 from '@/assets/landing/cuts/emman/high_skin_fade_3.png';
+import highSkinFade4 from '@/assets/landing/cuts/emman/high_skin_fade_4.png';
+import highSkinFade5 from '@/assets/landing/cuts/emman/high_skin_fade_5.png';
+import highSkinFade6 from '@/assets/landing/cuts/emman/high_skin_fade_6.png';
+import highSkinFade from '@/assets/landing/cuts/emman/high_skin_fade.png';
+import lowTaper from '@/assets/landing/cuts/emman/low_taper.png';
+import midBurstFade from '@/assets/landing/cuts/emman/mid_burst_fade.png';
+import midToHighBurstFade1 from '@/assets/landing/cuts/emman/mid_to_high_burst_fade_1.png';
+import midToHighBurstFade from '@/assets/landing/cuts/emman/mid_to_high_burst_fade.png';
+import midToHighSkinFade from '@/assets/landing/cuts/emman/mid_to_high_skin_fade.png';
+
+
+const Hero = getAsset('/assets/landing/videos/emman/hero.mp4');
+
+const video1 = getAsset('/assets/landing/videos/emman/tiktok_1.mp4');
+const video2 = getAsset('/assets/landing/videos/emman/tiktok_2.mp4');
+const video3 = getAsset('/assets/landing/videos/emman/tiktok_3.mp4');
+const video4 = getAsset('/assets/landing/videos/emman/tiktok_1.mp4');
+const video5 = getAsset('/assets/landing/videos/emman/tiktok_2.mp4');
+const video6 = getAsset('/assets/landing/videos/emman/tiktok_3.mp4');
 
 const videos = [
   video1,
@@ -48,48 +64,32 @@ const videos = [
   video5,
   video6,
 ];
-import highBurstFadeMullet from '@/assets/landing/cuts/emman/high burst fade mullet.png';
-import highDropFade1 from '@/assets/landing/cuts/emman/high drop fade(1).png';
-import highDropFade2 from '@/assets/landing/cuts/emman/high drop fade(2).png';
-import highDropFade3 from '@/assets/landing/cuts/emman/high drop fade(3).png';
-import highDropFade from '@/assets/landing/cuts/emman/high drop fade.png';
-import highFade from '@/assets/landing/cuts/emman/high fade.png';
-import highSkinFade1 from '@/assets/landing/cuts/emman/high skin fade(1).png';
-import highSkinFade2 from '@/assets/landing/cuts/emman/high skin fade(2).png';
-import highSkinFade3 from '@/assets/landing/cuts/emman/high skin fade(3).png';
-import highSkinFade4 from '@/assets/landing/cuts/emman/high skin fade(4).png';
-import highSkinFade5 from '@/assets/landing/cuts/emman/high skin fade(5).png';
-import highSkinFade6 from '@/assets/landing/cuts/emman/high skin fade(6).png';
-import highSkinFade from '@/assets/landing/cuts/emman/high skin fade.png';
-import lowTaper from '@/assets/landing/cuts/emman/low taper.png';
-import midBurstFade from '@/assets/landing/cuts/emman/mid burst fade.png';
-import midToHighBurstFade1 from '@/assets/landing/cuts/emman/mid to high burst fade(1).png';
-import midToHighBurstFade from '@/assets/landing/cuts/emman/mid to high burst fade.png';
-import midToHighSkinFade from '@/assets/landing/cuts/emman/mid to high skin fade.png';
 
 const cutsImages = [
-  { src: highBurstFadeMullet, name: 'high burst fade mullet' },
-  { src: highDropFade1, name: 'high drop fade(1)' },
-  { src: highDropFade2, name: 'high drop fade(2)' },
-  { src: highDropFade3, name: 'high drop fade(3)' },
-  { src: highDropFade, name: 'high drop fade' },
-  { src: highFade, name: 'high fade' },
-  { src: highSkinFade1, name: 'high skin fade(1)' },
-  { src: highSkinFade2, name: 'high skin fade(2)' },
-  { src: highSkinFade3, name: 'high skin fade(3)' },
-  { src: highSkinFade4, name: 'high skin fade(4)' },
-  { src: highSkinFade5, name: 'high skin fade(5)' },
-  { src: highSkinFade6, name: 'high skin fade(6)' },
-  { src: highSkinFade, name: 'high skin fade' },
-  { src: lowTaper, name: 'low taper' },
-  { src: midBurstFade, name: 'mid burst fade' },
-  { src: midToHighBurstFade1, name: 'mid to high burst fade(1)' },
-  { src: midToHighBurstFade, name: 'mid to high burst fade' },
-  { src: midToHighSkinFade, name: 'mid to high skin fade' },
+  { src: highBurstFadeMullet, name: 'High Burst Fade Mullet' },
+  { src: highDropFade1, name: 'High Drop Fade 1' },
+  { src: highDropFade2, name: 'High Drop Fade 2' },
+  { src: highDropFade3, name: 'High Drop Fade 3' },
+  { src: highDropFade, name: 'High Drop Fade' },
+  { src: highFade, name: 'High Fade' },
+  { src: highSkinFade1, name: 'High Skin Fade 1' },
+  { src: highSkinFade2, name: 'High Skin Fade 2' },
+  { src: highSkinFade3, name: 'High Skin Fade 3' },
+  { src: highSkinFade4, name: 'High Skin Fade 4' },
+  { src: highSkinFade5, name: 'High Skin Fade 5' },
+  { src: highSkinFade6, name: 'High Skin Fade 6' },
+  { src: highSkinFade, name: 'High Skin Fade' },
+  { src: lowTaper, name: 'Low Taper' },
+  { src: midBurstFade, name: 'Mid Burst Fade' },
+  { src: midToHighBurstFade1, name: 'Mid to High Burst Fade 1' },
+  { src: midToHighBurstFade, name: 'Mid to High Burst Fade' },
+  { src: midToHighSkinFade, name: 'Mid to High Skin Fade' },
 ];
 
-
-
+const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
+const SLIDE_COUNT = 5
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 export default function EmmanLanding() {
   const location = useLocation();
@@ -124,9 +124,9 @@ export default function EmmanLanding() {
     <LandingLayout>
       <Helmet>
         <title>emman Fadelines BEST BARBER IN MELBOURNE</title>
-        <meta name="description" content="emman Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
-        <meta property="og:title" content="emman Fadelines BEST BARBER IN MELBOURNE" />
-        <meta property="og:description" content="emman Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
+        <meta name="description" content="Emman Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
+        <meta property="og:title" content="Emman Fadelines BEST BARBER IN MELBOURNE" />
+        <meta property="og:description" content="Emman Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
         <meta property="og:image" content="URL to Fadelines' preview image" />
         <meta property="og:url" content="URL to Fadelines' website" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -140,7 +140,7 @@ export default function EmmanLanding() {
 
         <section className="relative w-full h-[35rem] md:h-[35rem] " >
           <video autoPlay muted loop playsInline className="absolute z-0 w-full h-[40rem] md:h-[35rem] object-cover" >
-            <source src={emman} type="video/mp4" />
+            <source src={Hero} type="video/mp4" />
           </video>
           <div className="max-w-screen-lg mx-auto w-full">
             <div className="relative z-30 backdrop-blur-lg text-white rounded-3xl py-12 px-12 my-12 mb-10 mx-6 md:mx-12 border border-stone-50 md:w-1/2 bg-black/40" style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
@@ -189,7 +189,7 @@ export default function EmmanLanding() {
             <h3 className=" text-4xl md:text-6xl  font-poppins font-extrabold text-center py-2 uppercase text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text">Our Videos</h3>
             <p className="text-center text-lg w-10/12 md:w-full mx-auto">well known on TIktok with millions of views</p>
             <div className="py-12 md:py-0 w-full md:px-12  ">
-              <EmblaCarousel slides={SLIDES} options={OPTIONS} videos={videos}/>
+              <EmblaCarousel slides={SLIDES} options={OPTIONS} videos={videos} />
             </div>
             <div className="flex gap-10 justify-center items-center flex-col w-full ">
               <Button variant={"ghost"} className="border border-[#00FF1A] rounded-full font-extrabold font-poppins px-12 py-10 uppercase  text-xl md:text-3xl transform hover:scale-110 transition-transform duration-200 ease-in-out hover:bg-[#24FF00] hover:shadow-md hover:text-stone-950 hover:shadow-[#44813a] ">

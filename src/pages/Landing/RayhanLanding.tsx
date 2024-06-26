@@ -1,44 +1,62 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, } from "react";
+import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 import { EmblaOptionsType } from 'embla-carousel'
 import EmblaCarousel from "@/components/landing/CarouselScaled";
 import Srolled from "@/components/landing/Scrolled";
-
-const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
-const SLIDE_COUNT = 5
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
-const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
-
+import getAsset from "@/utils/getAssets";
 import LandingLayout from "@/components/landing/LandingLayout";
 
-import cardFour from '@/assets/landing/reviews/cards_four.svg';
 import cardOne from '@/assets/landing/reviews/cards_one.svg';
 import cardTwo from '@/assets/landing/reviews/cards_two.svg';
 import cardThree from '@/assets/landing/reviews/cards_three.svg';
+import cardFour from '@/assets/landing/reviews/cards_four.svg';
 
-import Top from "@/assets/landing/top_line.svg";
-import Mid from "@/assets/landing/mid_line.svg";
-import Bottom from "@/assets/landing/bottom_line.svg";
+import Top from '@/assets/landing/top_line.svg';
+import Mid from '@/assets/landing/mid_line.svg';
+import Bottom from '@/assets/landing/bottom_line.svg';
 
-import ParticlesTwo from "@/assets/landing/section_2_particles.svg";
-import ParticlesThree from "@/assets/landing/section_3_particles.svg";
+import ParticlesTwo from '@/assets/landing/section_2_particles.svg';
+import ParticlesThree from '@/assets/landing/section_3_particles.svg';
 
-import SwipeGif from "@/assets/landing/arrow_animation.gif";
-import SwipedtoSee from "@/assets/landing/swipe_to_see.svg";
+import SwipeGif from '@/assets/landing/arrow_animation.gif';
+import SwipedtoSee from '@/assets/landing/swipe_to_see.svg';
 
-import HeroTop from "@/assets/landing/hero_top_line.svg";
-import HeroBottom from "@/assets/landing/hero_bottom_line.svg";
+import HeroTop from '@/assets/landing/hero_top_line.svg';
+import HeroBottom from '@/assets/landing/hero_bottom_line.svg';
 
-import Josh from "@/assets/landing/rayhan/hero.mp4";
-import { useLocation } from "react-router-dom";
-import video1 from '@/assets/landing/rayhan/tiktok_1.mp4';
-import video2 from '@/assets/landing/rayhan/tiktok_2.mp4';
-import video3 from '@/assets/landing/rayhan/tiktok_3.mp4';
-import video4 from '@/assets/landing/rayhan/tiktok_1.mp4';
-import video5 from '@/assets/landing/rayhan/tiktok_2.mp4';
-import video6 from '@/assets/landing/rayhan/tiktok_3.mp4';
+import highBurstFade1 from '@/assets/landing/cuts/rayhan/high_burst_fade_1.png';
+import highBurstFade2 from '@/assets/landing/cuts/rayhan/high_burst_fade_2.png';
+import highBurstFade3 from '@/assets/landing/cuts/rayhan/high_burst_fade_3.png';
+import highBurstFade4 from '@/assets/landing/cuts/rayhan/high_burst_fade_4.png';
+import highBurstFade5 from '@/assets/landing/cuts/rayhan/high_burst_fade_5.png';
+import highBurstFade6 from '@/assets/landing/cuts/rayhan/high_burst_fade_6.png';
+import highBurstFade from '@/assets/landing/cuts/rayhan/high_burst_fade.png';
+import highDropFade1 from '@/assets/landing/cuts/rayhan/high_drop_fade_1.png';
+import highDropFade2 from '@/assets/landing/cuts/rayhan/high_drop_fade_2.png';
+import highDropFade3 from '@/assets/landing/cuts/rayhan/high_drop_fade_3.png';
+import highDropFade4 from '@/assets/landing/cuts/rayhan/high_drop_fade_4.png';
+import highDropFade from '@/assets/landing/cuts/rayhan/high_drop_fade.png';
+import highSkinFade1 from '@/assets/landing/cuts/rayhan/high_skin_fade_1.png';
+import highSkinFade2 from '@/assets/landing/cuts/rayhan/high_skin_fade_2.png';
+import highSkinFade3 from '@/assets/landing/cuts/rayhan/high_skin_fade_3.png';
+import highSkinFade4 from '@/assets/landing/cuts/rayhan/high_skin_fade_4.png';
+import highSkinFade from '@/assets/landing/cuts/rayhan/high_skin_fade.png';
+import midTaper from '@/assets/landing/cuts/rayhan/mid_taper.png';
+import midToHighDropFade from '@/assets/landing/cuts/rayhan/mid_to_high_drop_fade.png';
+import midToHighTaper from '@/assets/landing/cuts/rayhan/mid_to_high_taper.png';
+
+
+const Hero = getAsset('/assets/landing/videos/rayhan/hero.mp4');
+
+const video1 = getAsset('/assets/landing/videos/rayhan/tiktok_1.mp4');
+const video2 = getAsset('/assets/landing/videos/rayhan/tiktok_2.mp4');
+const video3 = getAsset('/assets/landing/videos/rayhan/tiktok_3.mp4');
+const video4 = getAsset('/assets/landing/videos/rayhan/tiktok_1.mp4');
+const video5 = getAsset('/assets/landing/videos/rayhan/tiktok_2.mp4');
+const video6 = getAsset('/assets/landing/videos/rayhan/tiktok_3.mp4');
 
 const videos = [
   video1,
@@ -49,51 +67,33 @@ const videos = [
   video6,
 ];
 
-import highBurstFade1 from '@/assets/landing/cuts/rayhan/high burst fade(1).png';
-import highBurstFade2 from '@/assets/landing/cuts/rayhan/high burst fade(2).png';
-import highBurstFade3 from '@/assets/landing/cuts/rayhan/high burst fade(3).png';
-import highBurstFade4 from '@/assets/landing/cuts/rayhan/high burst fade(4).png';
-import highBurstFade5 from '@/assets/landing/cuts/rayhan/high burst fade(5).png';
-import highBurstFade6 from '@/assets/landing/cuts/rayhan/high burst fade(6).png';
-import highBurstFade from '@/assets/landing/cuts/rayhan/high burst fade.png';
-import highDropFade1 from '@/assets/landing/cuts/rayhan/high drop fade(1).png';
-import highDropFade2 from '@/assets/landing/cuts/rayhan/high drop fade(2).png';
-import highDropFade3 from '@/assets/landing/cuts/rayhan/high drop fade(3).png';
-import highDropFade4 from '@/assets/landing/cuts/rayhan/high drop fade(4).png';
-import highDropFade from '@/assets/landing/cuts/rayhan/high drop fade.png';
-import highSkinFade1 from '@/assets/landing/cuts/rayhan/high skin fade(1).png';
-import highSkinFade2 from '@/assets/landing/cuts/rayhan/high skin fade(2).png';
-import highSkinFade3 from '@/assets/landing/cuts/rayhan/high skin fade(3).png';
-import highSkinFade4 from '@/assets/landing/cuts/rayhan/high skin fade(4).png';
-import highSkinFade from '@/assets/landing/cuts/rayhan/high skin fade.png';
-import midTaper from '@/assets/landing/cuts/rayhan/mid taper.png';
-import midToHighDropFade from '@/assets/landing/cuts/rayhan/mid to high drop fade.png';
-import midToHighTaper from '@/assets/landing/cuts/rayhan/mid to high taper.png';
-
 const cutsImages = [
-  { src: highBurstFade1, name: 'high burst fade(1)' },
-  { src: highBurstFade2, name: 'high burst fade(2)' },
-  { src: highBurstFade3, name: 'high burst fade(3)' },
-  { src: highBurstFade4, name: 'high burst fade(4)' },
-  { src: highBurstFade5, name: 'high burst fade(5)' },
-  { src: highBurstFade6, name: 'high burst fade(6)' },
-  { src: highBurstFade, name: 'high burst fade' },
-  { src: highDropFade1, name: 'high drop fade(1)' },
-  { src: highDropFade2, name: 'high drop fade(2)' },
-  { src: highDropFade3, name: 'high drop fade(3)' },
-  { src: highDropFade4, name: 'high drop fade(4)' },
-  { src: highDropFade, name: 'high drop fade' },
-  { src: highSkinFade1, name: 'high skin fade(1)' },
-  { src: highSkinFade2, name: 'high skin fade(2)' },
-  { src: highSkinFade3, name: 'high skin fade(3)' },
-  { src: highSkinFade4, name: 'high skin fade(4)' },
-  { src: highSkinFade, name: 'high skin fade' },
-  { src: midTaper, name: 'mid taper' },
-  { src: midToHighDropFade, name: 'mid to high drop fade' },
-  { src: midToHighTaper, name: 'mid to high taper' },
+  { src: highBurstFade1, name: 'High Burst Fade 1' },
+  { src: highBurstFade2, name: 'High Burst Fade 2' },
+  { src: highBurstFade3, name: 'High Burst Fade 3' },
+  { src: highBurstFade4, name: 'High Burst Fade 4' },
+  { src: highBurstFade5, name: 'High Burst Fade 5' },
+  { src: highBurstFade6, name: 'High Burst Fade 6' },
+  { src: highBurstFade, name: 'High Burst Fade' },
+  { src: highDropFade1, name: 'High Drop Fade 1' },
+  { src: highDropFade2, name: 'High Drop Fade 2' },
+  { src: highDropFade3, name: 'High Drop Fade 3' },
+  { src: highDropFade4, name: 'High Drop Fade 4' },
+  { src: highDropFade, name: 'High Drop Fade' },
+  { src: highSkinFade1, name: 'High Skin Fade 1' },
+  { src: highSkinFade2, name: 'High Skin Fade 2' },
+  { src: highSkinFade3, name: 'High Skin Fade 3' },
+  { src: highSkinFade4, name: 'High Skin Fade 4' },
+  { src: highSkinFade, name: 'High Skin Fade' },
+  { src: midTaper, name: 'Mid Taper' },
+  { src: midToHighDropFade, name: 'Mid to High Drop Fade' },
+  { src: midToHighTaper, name: 'Mid to High Taper' }
 ];
 
-
+const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
+const SLIDE_COUNT = 5
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 export default function RayhanLanding() {
   const location = useLocation();
@@ -127,10 +127,10 @@ export default function RayhanLanding() {
   return (
     <LandingLayout>
       <Helmet>
-        <title>Josh Fadelines BEST BARBER IN MELBOURNE</title>
-        <meta name="description" content="Josh Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
-        <meta property="og:title" content="Josh Fadelines BEST BARBER IN MELBOURNE" />
-        <meta property="og:description" content="Josh Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
+        <title>rayhan Fadelines BEST BARBER IN MELBOURNE</title>
+        <meta name="description" content="Rayhan Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
+        <meta property="og:title" content="Rayhan Fadelines BEST BARBER IN MELBOURNE" />
+        <meta property="og:description" content="Rayhan Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
         <meta property="og:image" content="URL to Fadelines' preview image" />
         <meta property="og:url" content="URL to Fadelines' website" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -144,7 +144,7 @@ export default function RayhanLanding() {
 
         <section className="relative w-full h-[35rem] md:h-[35rem] " >
           <video autoPlay muted loop playsInline className="absolute z-0 w-full h-[40rem] md:h-[35rem] object-cover" >
-            <source src={Josh} type="video/mp4" />
+            <source src={Hero} type="video/mp4" />
           </video>
           <div className="max-w-screen-lg mx-auto w-full">
             <div className="relative z-30 backdrop-blur-lg text-white rounded-3xl py-12 px-12 my-12 mb-10 mx-6 md:mx-12 border border-stone-50 md:w-1/2" style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}

@@ -23,40 +23,51 @@ const barberSvgs = [
   {
     svg: Rayhan,
     link: '/rayhan',
+    landing: true
   },
   {
     svg: Anthony,
     link: '/anthony',
+    landing: true
   },
   {
     svg: Josh,
     link: '/josh',
+    landing: true
   },
   {
     svg: Jay,
     link: '/jay',
+    landing: true
   },
   {
     svg: Wyatt,
     link: '/wyatt',
+    landing: true
   },
   {
     svg: Emman,
     link: '/emman',
+    landing: true
   },
   {
     svg: Christos,
     link: '/christos',
+    landing: true
   },
   {
     svg: Niko,
     link: '/niko',
+    landing: true
   },
   {
     svg: Dejan,
     link: '/dejan',
+    landing: false
   },
 ];
+
+const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
 
 export default function Barbers() {
 
@@ -106,7 +117,7 @@ export default function Barbers() {
         <section className="w-full min-h-screen flex  justify-center md:max-w-screen-xl   mx-auto md:py-24 pb-[12rem] md:pb-[4rem] mb-12 relative">
           <div className="w-full flex flex-wrap mx-auto justify-center items-center gap-y-24 px-4 md:px-0">
             {barberSvgs.map((barber, index) => (
-              <Link to={barber.link} key={index} className="w-6/12 md:w-[20rem] py-6 flex flex-col justify-center items-center relative " >
+              <Link to={barber.landing ? barber.link : squareLink} key={index} className="w-6/12 md:w-[20rem] py-6 flex flex-col justify-center items-center relative " >
                 <img src={barber.svg} alt={`Svg ${index}`} className="transition-transform duration-500 ease-in-out hover:scale-110 z-30 px-4 md:px-0 " />
                 <div
                   className="mt-12 relative bottom-[-0rem] md:bottom-[-0.2rem] w-[110%] "

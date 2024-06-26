@@ -1,45 +1,61 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, } from "react";
+import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 import { EmblaOptionsType } from 'embla-carousel'
 import EmblaCarousel from "@/components/landing/CarouselScaled";
 import Srolled from "@/components/landing/Scrolled";
-
-const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
-const SLIDE_COUNT = 5
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
-const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
-
+import getAsset from "@/utils/getAssets";
 import LandingLayout from "@/components/landing/LandingLayout";
 
-import cardFour from '@/assets/landing/reviews/cards_four.svg';
 import cardOne from '@/assets/landing/reviews/cards_one.svg';
 import cardTwo from '@/assets/landing/reviews/cards_two.svg';
 import cardThree from '@/assets/landing/reviews/cards_three.svg';
+import cardFour from '@/assets/landing/reviews/cards_four.svg';
 
-import Top from "@/assets/landing/top_line.svg";
-import Mid from "@/assets/landing/mid_line.svg";
-import Bottom from "@/assets/landing/bottom_line.svg";
+import Top from '@/assets/landing/top_line.svg';
+import Mid from '@/assets/landing/mid_line.svg';
+import Bottom from '@/assets/landing/bottom_line.svg';
 
-import ParticlesTwo from "@/assets/landing/section_2_particles.svg";
-import ParticlesThree from "@/assets/landing/section_3_particles.svg";
+import ParticlesTwo from '@/assets/landing/section_2_particles.svg';
+import ParticlesThree from '@/assets/landing/section_3_particles.svg';
 
-import SwipeGif from "@/assets/landing/arrow_animation.gif";
-import SwipedtoSee from "@/assets/landing/swipe_to_see.svg";
+import SwipeGif from '@/assets/landing/arrow_animation.gif';
+import SwipedtoSee from '@/assets/landing/swipe_to_see.svg';
 
-import HeroTop from "@/assets/landing/hero_top_line.svg";
-import HeroBottom from "@/assets/landing/hero_bottom_line.svg";
+import HeroTop from '@/assets/landing/hero_top_line.svg';
+import HeroBottom from '@/assets/landing/hero_bottom_line.svg';
 
-import wyatt from "@/assets/landing/wyatt/hero.mp4";
-import { useLocation } from "react-router-dom";
+import burstFadeMullet from '@/assets/landing/cuts/wyatt/burst_fade_mullet.png';
+import midDropFade1 from '@/assets/landing/cuts/wyatt/mid_drop_fade_1.png';
+import highBurstFade1 from '@/assets/landing/cuts/wyatt/high_burst_fade_1.png';
+import highBurstFade from '@/assets/landing/cuts/wyatt/high_burst_fade.png';
+import highSkinFadeLine from '@/assets/landing/cuts/wyatt/high_skin_fade_line.png';
+import highSkinFadeMulletLine from '@/assets/landing/cuts/wyatt/high_skin_fade_mullet_line.png';
+import highSkinFadeMullet from '@/assets/landing/cuts/wyatt/high_skin_fade_mullet.png';
+import highSkinFade1 from '@/assets/landing/cuts/wyatt/high_skin_fade_1.png';
+import highSkinFade2 from '@/assets/landing/cuts/wyatt/high_skin_fade_2.png';
+import highSkinFade from '@/assets/landing/cuts/wyatt/high_skin_fade.png';
+import highSkinfade from '@/assets/landing/cuts/wyatt/high_skin_fade.png';
+import lowBurstFade1 from '@/assets/landing/cuts/wyatt/low_burst_fade_1.png';
+import lowBurstFade from '@/assets/landing/cuts/wyatt/low_burst_fade.png';
+import midBurstFade1 from '@/assets/landing/cuts/wyatt/mid_burst_fade_1.png';
+import midBurstFade2 from '@/assets/landing/cuts/wyatt/mid_burst_fade_2.png';
+import midBurstFade from '@/assets/landing/cuts/wyatt/mid_burst_fade.png';
+import midDropFade from '@/assets/landing/cuts/wyatt/mid_drop_fade.png';
+import midSkinFade from '@/assets/landing/cuts/wyatt/mid_skin_fade.png';
+import midTaper from '@/assets/landing/cuts/wyatt/mid_taper.png';
+import midToHighBlowoutTaper from '@/assets/landing/cuts/wyatt/mid_to_high_blowout_taper.png';
 
-import video1 from '@/assets/landing/wyatt/tiktok_1.mp4';
-import video2 from '@/assets/landing/wyatt/tiktok_2.mp4';
-import video3 from '@/assets/landing/wyatt/tiktok_3.mp4';
-import video4 from '@/assets/landing/wyatt/tiktok_1.mp4';
-import video5 from '@/assets/landing/wyatt/tiktok_2.mp4';
-import video6 from '@/assets/landing/wyatt/tiktok_3.mp4';
+const Hero = getAsset('/assets/landing/videos/wyatt/hero.mp4');
+
+const video1 = getAsset('/assets/landing/videos/wyatt/tiktok_1.mp4');
+const video2 = getAsset('/assets/landing/videos/wyatt/tiktok_2.mp4');
+const video3 = getAsset('/assets/landing/videos/wyatt/tiktok_3.mp4');
+const video4 = getAsset('/assets/landing/videos/wyatt/tiktok_1.mp4');
+const video5 = getAsset('/assets/landing/videos/wyatt/tiktok_2.mp4');
+const video6 = getAsset('/assets/landing/videos/wyatt/tiktok_3.mp4');
 
 const videos = [
   video1,
@@ -49,52 +65,34 @@ const videos = [
   video5,
   video6,
 ];
-import burstFadeMullet from '@/assets/landing/cuts/wyatt/burst fade mullet.png';
-import midDropFade1 from '@/assets/landing/cuts/wyatt/mid drop fade(1).png';
-import highBurstFade1 from '@/assets/landing/cuts/wyatt/high burst fade(1).png';
-import highBurstFade from '@/assets/landing/cuts/wyatt/high burst fade.png';
-import highSkinFadeLine from '@/assets/landing/cuts/wyatt/high skin fade line.png';
-import highSkinFadeMulletLine from '@/assets/landing/cuts/wyatt/high skin fade mullet line.png';
-import highSkinFadeMullet from '@/assets/landing/cuts/wyatt/high skin fade mullet.png';
-import highSkinFade1 from '@/assets/landing/cuts/wyatt/high skin fade(1).png';
-import highSkinFade2 from '@/assets/landing/cuts/wyatt/high skin fade(2).png';
-import highSkinFade from '@/assets/landing/cuts/wyatt/high skin fade.png';
-import highSkinfade from '@/assets/landing/cuts/wyatt/high skinfade.png';
-import lowBurstFade1 from '@/assets/landing/cuts/wyatt/low burst fade(1).png';
-import lowBurstFade from '@/assets/landing/cuts/wyatt/low burst fade.png';
-import midBurstFade1 from '@/assets/landing/cuts/wyatt/mid burst fade(1).png';
-import midBurstFade2 from '@/assets/landing/cuts/wyatt/mid burst fade(2).png';
-import midBurstFade from '@/assets/landing/cuts/wyatt/mid burst fade.png';
-import midDropFade from '@/assets/landing/cuts/wyatt/mid drop fade.png';
-import midSkinFade from '@/assets/landing/cuts/wyatt/mid skin fade.png';
-import midTaper from '@/assets/landing/cuts/wyatt/mid taper.png';
-import midToHighBlowoutTaper from '@/assets/landing/cuts/wyatt/mid to high blowout taper.png';
 
 const cutsImages = [
-  { src: burstFadeMullet, name: 'BURST FADE MULLET' },
-  { src: midDropFade1, name: 'MID DROP FADE(1)' },
-  { src: highBurstFade1, name: 'high burst fade(1)' },
-  { src: highBurstFade, name: 'high burst fade' },
-  { src: highSkinFadeLine, name: 'high skin fade line' },
-  { src: highSkinFadeMulletLine, name: 'high skin fade mullet line' },
-  { src: highSkinFadeMullet, name: 'high skin fade mullet' },
-  { src: highSkinFade1, name: 'high skin fade(1)' },
-  { src: highSkinFade2, name: 'high skin fade(2)' },
-  { src: highSkinFade, name: 'high skin fade' },
-  { src: highSkinfade, name: 'high skinfade' },
-  { src: lowBurstFade1, name: 'low burst fade(1)' },
-  { src: lowBurstFade, name: 'low burst fade' },
-  { src: midBurstFade1, name: 'mid burst fade(1)' },
-  { src: midBurstFade2, name: 'mid burst fade(2)' },
-  { src: midBurstFade, name: 'mid burst fade' },
-  { src: midDropFade, name: 'mid drop fade' },
-  { src: midSkinFade, name: 'mid skin fade' },
-  { src: midTaper, name: 'mid taper' },
-  { src: midToHighBlowoutTaper, name: 'mid to high blowout taper' },
+  { src: burstFadeMullet, name: 'Burst Fade Mullet' },
+  { src: midDropFade1, name: 'Mid Drop Fade 1' },
+  { src: highBurstFade1, name: 'High Burst Fade 1' },
+  { src: highBurstFade, name: 'High Burst Fade' },
+  { src: highSkinFadeLine, name: 'High Skin Fade Line' },
+  { src: highSkinFadeMulletLine, name: 'High Skin Fade Mullet Line' },
+  { src: highSkinFadeMullet, name: 'High Skin Fade Mullet' },
+  { src: highSkinFade1, name: 'High Skin Fade 1' },
+  { src: highSkinFade2, name: 'High Skin Fade 2' },
+  { src: highSkinFade, name: 'High Skin Fade' },
+  { src: highSkinfade, name: 'High Skinfade' },
+  { src: lowBurstFade1, name: 'Low Burst Fade 1' },
+  { src: lowBurstFade, name: 'Low Burst Fade' },
+  { src: midBurstFade1, name: 'Mid Burst Fade 1' },
+  { src: midBurstFade2, name: 'Mid Burst Fade 2' },
+  { src: midBurstFade, name: 'Mid Burst Fade' },
+  { src: midDropFade, name: 'Mid Drop Fade' },
+  { src: midSkinFade, name: 'Mid Skin Fade' },
+  { src: midTaper, name: 'Mid Taper' },
+  { src: midToHighBlowoutTaper, name: 'Mid to High Blowout Taper' }
 ];
 
-
-
+const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
+const SLIDE_COUNT = 5
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 export default function WyattLanding() {
   const location = useLocation();
@@ -129,9 +127,9 @@ export default function WyattLanding() {
     <LandingLayout>
       <Helmet>
         <title>wyatt Fadelines BEST BARBER IN MELBOURNE</title>
-        <meta name="description" content="wyatt Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
-        <meta property="og:title" content="wyatt Fadelines BEST BARBER IN MELBOURNE" />
-        <meta property="og:description" content="wyatt Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
+        <meta name="description" content="Wyatt Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
+        <meta property="og:title" content="Wyatt Fadelines BEST BARBER IN MELBOURNE" />
+        <meta property="og:description" content="Wyatt Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
         <meta property="og:image" content="URL to Fadelines' preview image" />
         <meta property="og:url" content="URL to Fadelines' website" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -145,7 +143,7 @@ export default function WyattLanding() {
 
         <section className="relative w-full h-[35rem] md:h-[35rem] " >
           <video autoPlay muted loop playsInline className="absolute z-0 w-full h-[40rem] md:h-[35rem] object-cover" >
-            <source src={wyatt} type="video/mp4" />
+            <source src={Hero} type="video/mp4" />
           </video>
           <div className="max-w-screen-lg mx-auto w-full">
             <div className="relative z-30 backdrop-blur-lg text-white rounded-3xl py-12 px-12 my-12 mb-10 mx-6 md:mx-12 border border-stone-50 md:w-1/2" style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}

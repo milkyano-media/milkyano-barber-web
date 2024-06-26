@@ -1,44 +1,59 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, } from "react";
+import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 import { EmblaOptionsType } from 'embla-carousel'
 import EmblaCarousel from "@/components/landing/CarouselScaled";
 import Srolled from "@/components/landing/Scrolled";
-
-const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
-const SLIDE_COUNT = 5
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
-const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
-
+import getAsset from "@/utils/getAssets";
 import LandingLayout from "@/components/landing/LandingLayout";
 
-import cardFour from '@/assets/landing/reviews/cards_four.svg';
 import cardOne from '@/assets/landing/reviews/cards_one.svg';
 import cardTwo from '@/assets/landing/reviews/cards_two.svg';
 import cardThree from '@/assets/landing/reviews/cards_three.svg';
+import cardFour from '@/assets/landing/reviews/cards_four.svg';
 
-import Top from "@/assets/landing/top_line.svg";
-import Mid from "@/assets/landing/mid_line.svg";
-import Bottom from "@/assets/landing/bottom_line.svg";
+import Top from '@/assets/landing/top_line.svg';
+import Mid from '@/assets/landing/mid_line.svg';
+import Bottom from '@/assets/landing/bottom_line.svg';
 
-import ParticlesTwo from "@/assets/landing/section_2_particles.svg";
-import ParticlesThree from "@/assets/landing/section_3_particles.svg";
+import ParticlesTwo from '@/assets/landing/section_2_particles.svg';
+import ParticlesThree from '@/assets/landing/section_3_particles.svg';
 
-import SwipeGif from "@/assets/landing/arrow_animation.gif";
-import SwipedtoSee from "@/assets/landing/swipe_to_see.svg";
+import SwipeGif from '@/assets/landing/arrow_animation.gif';
+import SwipedtoSee from '@/assets/landing/swipe_to_see.svg';
 
-import HeroTop from "@/assets/landing/hero_top_line.svg";
-import HeroBottom from "@/assets/landing/hero_bottom_line.svg";
+import HeroTop from '@/assets/landing/hero_top_line.svg';
+import HeroBottom from '@/assets/landing/hero_bottom_line.svg';
 
-import Josh from "@/assets/landing/josh/hero.mp4";
-import { useLocation } from "react-router-dom";
-import video1 from '@/assets/landing/josh/tiktok_1.mp4';
-import video2 from '@/assets/landing/josh/tiktok_2.mp4';
-import video3 from '@/assets/landing/josh/tiktok_3.mp4';
-import video4 from '@/assets/landing/josh/tiktok_1.mp4';
-import video5 from '@/assets/landing/josh/tiktok_2.mp4';
-import video6 from '@/assets/landing/josh/tiktok_3.mp4';
+import image1 from '@/assets/landing/cuts/josh/blow_out_taper_fade_1.png';
+import image2 from '@/assets/landing/cuts/josh/blow_out_taper_fade.png';
+import image3 from '@/assets/landing/cuts/josh/burst_fade_1.png';
+import image4 from '@/assets/landing/cuts/josh/burst_fade_2.png';
+import image5 from '@/assets/landing/cuts/josh/burst_fade.png';
+import image6 from '@/assets/landing/cuts/josh/drop_fade.png';
+import image7 from '@/assets/landing/cuts/josh/drop_v_burst_fade.png';
+import image8 from '@/assets/landing/cuts/josh/high_skin_fade_1.png';
+import image9 from '@/assets/landing/cuts/josh/high_skin_fade.png';
+import image10 from '@/assets/landing/cuts/josh/high_v_drop_fade.png';
+import image11 from '@/assets/landing/cuts/josh/mid_burst_fade.png';
+import image12 from '@/assets/landing/cuts/josh/mid_to_high_burst_fade.png';
+import image13 from '@/assets/landing/cuts/josh/taper_fade.png';
+import image14 from '@/assets/landing/cuts/josh/textured_burst_fade_1.png';
+import image15 from '@/assets/landing/cuts/josh/textured_burst_fade.png';
+import image16 from '@/assets/landing/cuts/josh/textured_crop_skin_fade.png';
+import image17 from '@/assets/landing/cuts/josh/v_mid_drop_fade.png';
+
+
+const Hero = getAsset('/assets/landing/videos/josh/hero.mp4');
+
+const video1 = getAsset('/assets/landing/videos/josh/tiktok_1.mp4');
+const video2 = getAsset('/assets/landing/videos/josh/tiktok_2.mp4');
+const video3 = getAsset('/assets/landing/videos/josh/tiktok_3.mp4');
+const video4 = getAsset('/assets/landing/videos/josh/tiktok_1.mp4');
+const video5 = getAsset('/assets/landing/videos/josh/tiktok_2.mp4');
+const video6 = getAsset('/assets/landing/videos/josh/tiktok_3.mp4');
 
 const videos = [
   video1,
@@ -49,55 +64,39 @@ const videos = [
   video6,
 ];
 
-
-import image1 from '@/assets/landing/cuts/josh/Blow Out Taper Fade-1.png';
-import image2 from '@/assets/landing/cuts/josh/Blow Out Taper Fade.png';
-import image3 from '@/assets/landing/cuts/josh/Burst Fade-1.png';
-import image4 from '@/assets/landing/cuts/josh/Burst Fade 2.png';
-import image5 from '@/assets/landing/cuts/josh/Burst Fade.png';
-import image6 from '@/assets/landing/cuts/josh/Drop Fade.png';
-import image7 from '@/assets/landing/cuts/josh/Drop V Burst Fade.png';
-import image8 from '@/assets/landing/cuts/josh/High Skin Fade-1.png';
-import image9 from '@/assets/landing/cuts/josh/High Skin Fade.png';
-import image10 from '@/assets/landing/cuts/josh/High V Drop Fade.png';
-import image11 from '@/assets/landing/cuts/josh/Mid Burst Fade.png';
-import image12 from '@/assets/landing/cuts/josh/Mid to High Burst Fade.png';
-import image13 from '@/assets/landing/cuts/josh/Taper Fade.png';
-import image14 from '@/assets/landing/cuts/josh/Textured Burst Fade-1.png';
-import image15 from '@/assets/landing/cuts/josh/Textured Burst Fade.png';
-import image16 from '@/assets/landing/cuts/josh/Textured Crop Skin Fade.png';
-import image17 from '@/assets/landing/cuts/josh/V Mid Drop Fade.png';
-
 const cutsImages = [
-  { src: image1, name: 'Blow Out Taper Fade-1' },
+  { src: image1, name: 'Blow Out Taper Fade 1' },
   { src: image2, name: 'Blow Out Taper Fade' },
-  { src: image3, name: 'Burst Fade-1' },
+  { src: image3, name: 'Burst Fade 1' },
   { src: image4, name: 'Burst Fade 2' },
   { src: image5, name: 'Burst Fade' },
   { src: image6, name: 'Drop Fade' },
   { src: image7, name: 'Drop V Burst Fade' },
-  { src: image8, name: 'High Skin Fade-1' },
+  { src: image8, name: 'High Skin Fade 1' },
   { src: image9, name: 'High Skin Fade' },
   { src: image10, name: 'High V Drop Fade' },
   { src: image11, name: 'Mid Burst Fade' },
   { src: image12, name: 'Mid to High Burst Fade' },
   { src: image13, name: 'Taper Fade' },
-  { src: image14, name: 'Textured Burst Fade-1' },
+  { src: image14, name: 'Textured Burst Fade 1' },
   { src: image15, name: 'Textured Burst Fade' },
   { src: image16, name: 'Textured Crop Skin Fade' },
   { src: image17, name: 'V Mid Drop Fade' },
 ];
 
+const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
+const SLIDE_COUNT = 5
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
-
-export default function JoshLanding() {
+export default function DejanLanding() {
   const location = useLocation();
   let squareLink;
 
-  if (location.pathname === '/dejan') {
-    squareLink = ' https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
-  } else if (location.pathname === '/meta/dejan') {
-    squareLink = 'https://book.squareup.com/appointments/haerh9sux2ppbh/location/LY7BZ89WAQ2QS/services';
+  if (location.pathname === '/josh') {
+    squareLink = 'https://book.squareup.com/appointments/wmoppuqdw400fe/location/LY7BZ89WAQ2QS/services';
+  } else if (location.pathname === '/meta/josh') {
+    squareLink = 'https://book.squareup.com/appointments/7pq6yd98or1cr9/location/LY7BZ89WAQ2QS/services';
   }
 
   useEffect(() => {
@@ -139,7 +138,7 @@ export default function JoshLanding() {
 
         <section className="relative w-full h-[35rem] md:h-[35rem] " >
           <video autoPlay muted loop playsInline className="absolute z-0 w-full h-[40rem] md:h-[35rem] object-cover" >
-            <source src={Josh} type="video/mp4" />
+            <source src={Hero} type="video/mp4" />
           </video>
           <div className="max-w-screen-lg mx-auto w-full">
             <div className="relative z-30 backdrop-blur-lg text-white rounded-3xl py-12 px-12 my-12 mb-10 mx-6 md:mx-12 border border-stone-50 md:w-1/2" style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}

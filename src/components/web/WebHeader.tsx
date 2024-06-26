@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Logo from "@/assets/react-svg/logo"
+import Logo from "@/components/react-svg/logo"
 import { Link, useLocation } from 'react-router-dom';
 
 import {

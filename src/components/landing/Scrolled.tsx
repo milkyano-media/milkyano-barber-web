@@ -223,6 +223,7 @@ type ScrolledProps = {
 };
 
 const Srolled: React.FC<ScrolledProps> = ({ cutsImages }) => {
+  console.log(cutsImages)
   const observers = useRef<(HTMLDivElement | null)[]>([]);
   useEffect(() => {
     observers.current.forEach((observerInstance) => {

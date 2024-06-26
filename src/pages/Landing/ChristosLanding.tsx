@@ -1,45 +1,56 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, } from "react";
+import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 import { EmblaOptionsType } from 'embla-carousel'
 import EmblaCarousel from "@/components/landing/CarouselScaled";
 import Srolled from "@/components/landing/Scrolled";
-
-const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
-const SLIDE_COUNT = 5
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
-const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
-
+import getAsset from "@/utils/getAssets";
 import LandingLayout from "@/components/landing/LandingLayout";
 
-import cardFour from '@/assets/landing/reviews/cards_four.svg';
 import cardOne from '@/assets/landing/reviews/cards_one.svg';
 import cardTwo from '@/assets/landing/reviews/cards_two.svg';
 import cardThree from '@/assets/landing/reviews/cards_three.svg';
+import cardFour from '@/assets/landing/reviews/cards_four.svg';
 
-import Top from "@/assets/landing/top_line.svg";
-import Mid from "@/assets/landing/mid_line.svg";
-import Bottom from "@/assets/landing/bottom_line.svg";
+import Top from '@/assets/landing/top_line.svg';
+import Mid from '@/assets/landing/mid_line.svg';
+import Bottom from '@/assets/landing/bottom_line.svg';
 
-import ParticlesTwo from "@/assets/landing/section_2_particles.svg";
-import ParticlesThree from "@/assets/landing/section_3_particles.svg";
+import ParticlesTwo from '@/assets/landing/section_2_particles.svg';
+import ParticlesThree from '@/assets/landing/section_3_particles.svg';
 
-import SwipeGif from "@/assets/landing/arrow_animation.gif";
-import SwipedtoSee from "@/assets/landing/swipe_to_see.svg";
+import SwipeGif from '@/assets/landing/arrow_animation.gif';
+import SwipedtoSee from '@/assets/landing/swipe_to_see.svg';
 
-import HeroTop from "@/assets/landing/hero_top_line.svg";
-import HeroBottom from "@/assets/landing/hero_bottom_line.svg";
+import HeroTop from '@/assets/landing/hero_top_line.svg';
+import HeroBottom from '@/assets/landing/hero_bottom_line.svg';
 
-import christos from "@/assets/landing/christos/hero.mp4";
-import { useLocation } from "react-router-dom";
+import highSkinFade1 from '@/assets/landing/cuts/christos/high_skin_fade_1.png';
+import highSkinFade2 from '@/assets/landing/cuts/christos/high_skin_fade_2.png';
+import highSkinFade3 from '@/assets/landing/cuts/christos/high_skin_fade_3.png';
+import highSkinFade4 from '@/assets/landing/cuts/christos/high_skin_fade_4.png';
+import highSkinFade5 from '@/assets/landing/cuts/christos/high_skin_fade_5.png';
+import highSkinFade from '@/assets/landing/cuts/christos/high_skin_fade.png';
+import midBurstFade from '@/assets/landing/cuts/christos/mid_burst_fade.png';
+import midDropFade1 from '@/assets/landing/cuts/christos/mid_drop_fade_1.png';
+import midDropFade from '@/assets/landing/cuts/christos/mid_drop_fade.png';
+import midSkinFadeMullet from '@/assets/landing/cuts/christos/mid_skin_fade_mullet.png';
+import midSkinFade1 from '@/assets/landing/cuts/christos/mid_skin_fade_1.png';
+import midSkinFade from '@/assets/landing/cuts/christos/mid_skin_fade.png';
+import midToHighBurstFaade from '@/assets/landing/cuts/christos/mid_to_high_burst_fade.png';
+import midToHighSkinFade from '@/assets/landing/cuts/christos/mid_to_high_skin_fade.png';
 
-import video1 from '@/assets/landing/christos/tiktok_1.mp4';
-import video2 from '@/assets/landing/christos/tiktok_2.mp4';
-import video3 from '@/assets/landing/christos/tiktok_3.mp4';
-import video4 from '@/assets/landing/christos/tiktok_1.mp4';
-import video5 from '@/assets/landing/christos/tiktok_2.mp4';
-import video6 from '@/assets/landing/christos/tiktok_3.mp4';
+
+const Hero = getAsset('/assets/landing/videos/christos/hero.mp4');
+
+const video1 = getAsset('/assets/landing/videos/christos/tiktok_1.mp4');
+const video2 = getAsset('/assets/landing/videos/christos/tiktok_2.mp4');
+const video3 = getAsset('/assets/landing/videos/christos/tiktok_3.mp4');
+const video4 = getAsset('/assets/landing/videos/christos/tiktok_1.mp4');
+const video5 = getAsset('/assets/landing/videos/christos/tiktok_2.mp4');
+const video6 = getAsset('/assets/landing/videos/christos/tiktok_3.mp4');
 
 const videos = [
   video1,
@@ -49,41 +60,30 @@ const videos = [
   video5,
   video6,
 ];
-import highSkinFade1 from '@/assets/landing/cuts/christos/high skin fade(1).png';
-import highSkinFade2 from '@/assets/landing/cuts/christos/high skin fade(2).png';
-import highSkinFade3 from '@/assets/landing/cuts/christos/high skin fade(3).png';
-import highSkinFade4 from '@/assets/landing/cuts/christos/high skin fade(4).png';
-import highSkinFade5 from '@/assets/landing/cuts/christos/high skin fade(5).png';
-import highSkinFade from '@/assets/landing/cuts/christos/high skin fade.png';
-import midBurstFade from '@/assets/landing/cuts/christos/mid burst fade.png';
-import midDropFade1 from '@/assets/landing/cuts/christos/mid drop fade(1).png';
-import midDropFade from '@/assets/landing/cuts/christos/mid drop fade.png';
-import midSkinFadeMullet from '@/assets/landing/cuts/christos/mid skin fade mullet.png';
-import midSkinFade1 from '@/assets/landing/cuts/christos/mid skin fade(1).png';
-import midSkinFade from '@/assets/landing/cuts/christos/mid skin fade.png';
-import midToHighBurstFaade from '@/assets/landing/cuts/christos/mid to high burst faade.png';
-import midToHighSkinFade from '@/assets/landing/cuts/christos/mid to high skin fade.png';
 
 const cutsImages = [
-  { src: highSkinFade1, name: 'high skin fade(1)' },
-  { src: highSkinFade2, name: 'high skin fade(2)' },
-  { src: highSkinFade3, name: 'high skin fade(3)' },
-  { src: highSkinFade4, name: 'high skin fade(4)' },
-  { src: highSkinFade5, name: 'high skin fade(5)' },
-  { src: highSkinFade, name: 'high skin fade' },
-  { src: midBurstFade, name: 'mid burst fade' },
-  { src: midDropFade1, name: 'mid drop fade(1)' },
-  { src: midDropFade, name: 'mid drop fade' },
-  { src: midSkinFadeMullet, name: 'mid skin fade mullet' },
-  { src: midSkinFade1, name: 'mid skin fade(1)' },
-  { src: midSkinFade, name: 'mid skin fade' },
-  { src: midToHighBurstFaade, name: 'mid to high burst faade' },
-  { src: midToHighSkinFade, name: 'mid to high skin fade' },
+  { src: highSkinFade1, name: 'High Skin Fade 1' },
+  { src: highSkinFade2, name: 'High Skin Fade 2' },
+  { src: highSkinFade3, name: 'High Skin Fade 3' },
+  { src: highSkinFade4, name: 'High Skin Fade 4' },
+  { src: highSkinFade5, name: 'High Skin Fade 5' },
+  { src: highSkinFade, name: 'High Skin Fade' },
+  { src: midBurstFade, name: 'Mid Burst Fade' },
+  { src: midDropFade1, name: 'Mid Drop Fade 1' },
+  { src: midDropFade, name: 'Mid Drop Fade' },
+  { src: midSkinFadeMullet, name: 'Mid Skin Fade Mullet' },
+  { src: midSkinFade1, name: 'Mid Skin Fade 1' },
+  { src: midSkinFade, name: 'Mid Skin Fade' },
+  { src: midToHighBurstFaade, name: 'Mid to High Burst Faade' },
+  { src: midToHighSkinFade, name: 'Mid to High Skin Fade' },
 ];
 
+const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
+const SLIDE_COUNT = 5
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
-
-export default function JoshLanding() {
+export default function ChristosLanding() {
   const location = useLocation();
   let squareLink;
 
@@ -116,9 +116,9 @@ export default function JoshLanding() {
     <LandingLayout>
       <Helmet>
         <title>christos Fadelines BEST BARBER IN MELBOURNE</title>
-        <meta name="description" content="christos Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
-        <meta property="og:title" content="christos Fadelines BEST BARBER IN MELBOURNE" />
-        <meta property="og:description" content="christos Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
+        <meta name="description" content="Christos Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
+        <meta property="og:title" content="Christos Fadelines BEST BARBER IN MELBOURNE" />
+        <meta property="og:description" content="Christos Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
         <meta property="og:image" content="URL to Fadelines' preview image" />
         <meta property="og:url" content="URL to Fadelines' website" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -132,7 +132,7 @@ export default function JoshLanding() {
 
         <section className="relative w-full h-[35rem] md:h-[35rem] " >
           <video autoPlay muted loop playsInline className="absolute z-0 w-full h-[40rem] md:h-[35rem] object-cover" >
-            <source src={christos} type="video/mp4" />
+            <source src={Hero} type="video/mp4" />
           </video>
           <div className="max-w-screen-lg mx-auto w-full">
             <div className="relative z-30 backdrop-blur-lg text-white rounded-3xl py-12 px-12 my-12 mb-10 mx-6 md:mx-12 border border-stone-50 md:w-1/2 bg-black/40" style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}

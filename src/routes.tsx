@@ -8,15 +8,15 @@ import Careers from '@/pages/web/Careers';
 import Contacts from '@/pages/web/Contact';
 import NotFound from '@/pages/web/NotFound';
 
-import JoshLanding from '@/pages/Landing/JoshLanding';
-import WyattLanding from '@/pages/Landing/WyattLanding';
-import RayhanLanding from '@/pages/Landing/RayhanLanding';
-import JayLanding from '@/pages/Landing/JayLanding';
-import NikoLanding from '@/pages/Landing/NikoLanding';
-import EmmanLanding from '@/pages/Landing/EmmanLanding';
-import DejanLanding from '@/pages/Landing/DejanLanding';
-import ChristosLanding from '@/pages/Landing/ChristosLanding';
-import AnthonyLanding from '@/pages/Landing/AnthonyLanding';
+import JoshLanding from '@/pages/landing/JoshLanding';
+import WyattLanding from '@/pages/landing/WyattLanding';
+import RayhanLanding from '@/pages/landing/RayhanLanding';
+import JayLanding from '@/pages/landing/JayLanding';
+import NikoLanding from '@/pages/landing/NikoLanding';
+import EmmanLanding from '@/pages/landing/EmmanLanding';
+import DejanLanding from '@/pages/landing/DejanLanding';
+import ChristosLanding from '@/pages/landing/ChristosLanding';
+import AnthonyLanding from '@/pages/landing/AnthonyLanding';
 
 const AppRoutes: React.FC = () => {
   return (

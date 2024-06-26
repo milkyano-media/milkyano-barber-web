@@ -1,44 +1,62 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, } from "react";
+import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 import { EmblaOptionsType } from 'embla-carousel'
 import EmblaCarousel from "@/components/landing/CarouselScaled";
 import Srolled from "@/components/landing/Scrolled";
-
-const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
-const SLIDE_COUNT = 5
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
-const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
-
+import getAsset from "@/utils/getAssets";
 import LandingLayout from "@/components/landing/LandingLayout";
 
-import cardFour from '@/assets/landing/reviews/cards_four.svg';
 import cardOne from '@/assets/landing/reviews/cards_one.svg';
 import cardTwo from '@/assets/landing/reviews/cards_two.svg';
 import cardThree from '@/assets/landing/reviews/cards_three.svg';
+import cardFour from '@/assets/landing/reviews/cards_four.svg';
 
-import Top from "@/assets/landing/top_line.svg";
-import Mid from "@/assets/landing/mid_line.svg";
-import Bottom from "@/assets/landing/bottom_line.svg";
+import Top from '@/assets/landing/top_line.svg';
+import Mid from '@/assets/landing/mid_line.svg';
+import Bottom from '@/assets/landing/bottom_line.svg';
 
-import ParticlesTwo from "@/assets/landing/section_2_particles.svg";
-import ParticlesThree from "@/assets/landing/section_3_particles.svg";
+import ParticlesTwo from '@/assets/landing/section_2_particles.svg';
+import ParticlesThree from '@/assets/landing/section_3_particles.svg';
 
-import SwipeGif from "@/assets/landing/arrow_animation.gif";
-import SwipedtoSee from "@/assets/landing/swipe_to_see.svg";
+import SwipeGif from '@/assets/landing/arrow_animation.gif';
+import SwipedtoSee from '@/assets/landing/swipe_to_see.svg';
 
-import HeroTop from "@/assets/landing/hero_top_line.svg";
-import HeroBottom from "@/assets/landing/hero_bottom_line.svg";
+import HeroTop from '@/assets/landing/hero_top_line.svg';
+import HeroBottom from '@/assets/landing/hero_bottom_line.svg';
 
-import Josh from "@/assets/landing/anthony/hero.mp4";
-import { useLocation } from "react-router-dom";
-import video1 from '@/assets/landing/anthony/tiktok_1.mp4';
-import video2 from '@/assets/landing/anthony/tiktok_2.mp4';
-import video3 from '@/assets/landing/anthony/tiktok_3.mp4';
-import video4 from '@/assets/landing/anthony/tiktok_1.mp4';
-import video5 from '@/assets/landing/anthony/tiktok_2.mp4';
-import video6 from '@/assets/landing/anthony/tiktok_3.mp4';
+import highDropFade1 from '@/assets/landing/cuts/anthony/high_drop_fade_1.png';
+import highDropFade from '@/assets/landing/cuts/anthony/high_drop_fade.png';
+import highSkinFadeMullet from '@/assets/landing/cuts/anthony/high_skin_fade_mullet.png';
+import highSkinFade1 from '@/assets/landing/cuts/anthony/high_skin_fade_1.png';
+import highSkinFade from '@/assets/landing/cuts/anthony/high_skin_fade.png';
+import midBurstFade1 from '@/assets/landing/cuts/anthony/mid_burst_fade_1.png';
+import midBurstFade2 from '@/assets/landing/cuts/anthony/mid_burst_fade_2.png';
+import midBurstFade3 from '@/assets/landing/cuts/anthony/mid_burst_fade_3.png';
+import midBurstFade from '@/assets/landing/cuts/anthony/mid_burst_fade.png';
+import midDropFade1 from '@/assets/landing/cuts/anthony/mid_drop_fade_1.png';
+import midDropFade from '@/assets/landing/cuts/anthony/mid_drop_fade.png';
+import midSkinFadeMullet1 from '@/assets/landing/cuts/anthony/mid_skin_fade_mullet_1.png';
+import midSkinFadeMullet from '@/assets/landing/cuts/anthony/mid_skin_fade_mullet.png';
+import midTaper from '@/assets/landing/cuts/anthony/mid_taper.png';
+import midToHighBurstFade1 from '@/assets/landing/cuts/anthony/mid_to_high_burst_fade_1.png';
+import midToHighBurstFade2 from '@/assets/landing/cuts/anthony/mid_to_high_burst_fade_2.png';
+import midToHighBurstFade from '@/assets/landing/cuts/anthony/mid_to_high_burst_fade.png';
+import midToHighDropFade from '@/assets/landing/cuts/anthony/mid_to_high_drop_fade.png';
+import midToHighSkinFade from '@/assets/landing/cuts/anthony/mid_to_high_skin_fade.png';
+import midToLowBurstFade from '@/assets/landing/cuts/anthony/mid_to_low_burst_fade.png';
+
+
+const Hero = getAsset('/assets/landing/videos/anthony/hero.mp4');
+
+const video1 = getAsset('/assets/landing/videos/anthony/tiktok_1.mp4');
+const video2 = getAsset('/assets/landing/videos/anthony/tiktok_2.mp4');
+const video3 = getAsset('/assets/landing/videos/anthony/tiktok_3.mp4');
+const video4 = getAsset('/assets/landing/videos/anthony/tiktok_1.mp4');
+const video5 = getAsset('/assets/landing/videos/anthony/tiktok_2.mp4');
+const video6 = getAsset('/assets/landing/videos/anthony/tiktok_3.mp4');
 
 const videos = [
   video1,
@@ -49,50 +67,33 @@ const videos = [
   video6,
 ];
 
-
-import highDropFade1 from '@/assets/landing/cuts/anthony/high drop fade(1).png';
-import highDropFade from '@/assets/landing/cuts/anthony/high drop fade.png';
-import highSkinFadeMullet from '@/assets/landing/cuts/anthony/high skin fade mullet.png';
-import highSkinFade1 from '@/assets/landing/cuts/anthony/high skin fade(1).png';
-import highSkinFade from '@/assets/landing/cuts/anthony/high skin fade.png';
-import midBurstFade1 from '@/assets/landing/cuts/anthony/mid burst fade(1).png';
-import midBurstFade2 from '@/assets/landing/cuts/anthony/mid burst fade(2).png';
-import midBurstFade3 from '@/assets/landing/cuts/anthony/mid burst fade(3).png';
-import midBurstFade from '@/assets/landing/cuts/anthony/mid burst fade.png';
-import midDropFade1 from '@/assets/landing/cuts/anthony/mid drop fade(1).png';
-import midDropFade from '@/assets/landing/cuts/anthony/mid drop fade.png';
-import midSkinFadeMullet1 from '@/assets/landing/cuts/anthony/mid skin fade mullet(1).png';
-import midSkinFadeMullet from '@/assets/landing/cuts/anthony/mid skin fade mullet.png';
-import midTaper from '@/assets/landing/cuts/anthony/mid taper.png';
-import midToHighBurstFade1 from '@/assets/landing/cuts/anthony/mid to high burst fade(1).png';
-import midToHighBurstFade2 from '@/assets/landing/cuts/anthony/mid to high burst fade(2).png';
-import midToHighBurstFade from '@/assets/landing/cuts/anthony/mid to high burst fade.png';
-import midToHighDropFade from '@/assets/landing/cuts/anthony/mid to high drop fade.png';
-import midToHighSkinFade from '@/assets/landing/cuts/anthony/mid to high skin fade.png';
-import midToLowBurstFade from '@/assets/landing/cuts/anthony/mid to low burst fade.png';
-
 const cutsImages = [
-  { src: highDropFade1, name: 'high drop fade(1)' },
-  { src: highDropFade, name: 'high drop fade' },
-  { src: highSkinFadeMullet, name: 'high skin fade mullet' },
-  { src: highSkinFade1, name: 'high skin fade(1)' },
-  { src: highSkinFade, name: 'high skin fade' },
-  { src: midBurstFade1, name: 'mid burst fade(1)' },
-  { src: midBurstFade2, name: 'mid burst fade(2)' },
-  { src: midBurstFade3, name: 'mid burst fade(3)' },
-  { src: midBurstFade, name: 'mid burst fade' },
-  { src: midDropFade1, name: 'mid drop fade(1)' },
-  { src: midDropFade, name: 'mid drop fade' },
-  { src: midSkinFadeMullet1, name: 'mid skin fade mullet(1)' },
-  { src: midSkinFadeMullet, name: 'mid skin fade mullet' },
-  { src: midTaper, name: 'mid taper' },
-  { src: midToHighBurstFade1, name: 'mid to high burst fade(1)' },
-  { src: midToHighBurstFade2, name: 'mid to high burst fade(2)' },
-  { src: midToHighBurstFade, name: 'mid to high burst fade' },
-  { src: midToHighDropFade, name: 'mid to high drop fade' },
-  { src: midToHighSkinFade, name: 'mid to high skin fade' },
-  { src: midToLowBurstFade, name: 'mid to low burst fade' },
+  { src: highDropFade1, name: 'High Drop Fade 1' },
+  { src: highDropFade, name: 'High Drop Fade' },
+  { src: highSkinFadeMullet, name: 'High Skin Fade Mullet' },
+  { src: highSkinFade1, name: 'High Skin Fade 1' },
+  { src: highSkinFade, name: 'High Skin Fade' },
+  { src: midBurstFade1, name: 'Mid Burst Fade 1' },
+  { src: midBurstFade2, name: 'Mid Burst Fade 2' },
+  { src: midBurstFade3, name: 'Mid Burst Fade 3' },
+  { src: midBurstFade, name: 'Mid Burst Fade' },
+  { src: midDropFade1, name: 'Mid Drop Fade 1' },
+  { src: midDropFade, name: 'Mid Drop Fade' },
+  { src: midSkinFadeMullet1, name: 'Mid Skin Fade Mullet 1' },
+  { src: midSkinFadeMullet, name: 'Mid Skin Fade Mullet' },
+  { src: midTaper, name: 'Mid Taper' },
+  { src: midToHighBurstFade1, name: 'Mid To High Burst Fade 1' },
+  { src: midToHighBurstFade2, name: 'Mid To High Burst Fade 2' },
+  { src: midToHighBurstFade, name: 'Mid To High Burst Fade' },
+  { src: midToHighDropFade, name: 'Mid To High Drop Fade' },
+  { src: midToHighSkinFade, name: 'Mid To High Skin Fade' },
+  { src: midToLowBurstFade, name: 'Mid To Low Burst Fade' },
 ];
+
+const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
+const SLIDE_COUNT = 5
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
+const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 
 export default function AnthonyLanding() {
@@ -128,9 +129,9 @@ export default function AnthonyLanding() {
     <LandingLayout>
       <Helmet>
         <title>anthony Fadelines BEST BARBER IN MELBOURNE</title>
-        <meta name="description" content="anthony Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
-        <meta property="og:title" content="anthony Fadelines BEST BARBER IN MELBOURNE" />
-        <meta property="og:description" content="anthony Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
+        <meta name="description" content="Anthony Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
+        <meta property="og:title" content="Anthony Fadelines BEST BARBER IN MELBOURNE" />
+        <meta property="og:description" content="Anthony Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles." />
         <meta property="og:image" content="URL to Fadelines' preview image" />
         <meta property="og:url" content="URL to Fadelines' website" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -144,7 +145,7 @@ export default function AnthonyLanding() {
 
         <section className="relative w-full h-[35rem] md:h-[35rem] " >
           <video autoPlay muted loop playsInline className="absolute z-0 w-full h-[40rem] md:h-[35rem] object-cover" >
-            <source src={Josh} type="video/mp4" />
+            <source src={Hero} type="video/mp4" />
           </video>
           <div className="max-w-screen-lg mx-auto w-full">
             <div className="relative z-30 backdrop-blur-lg text-white rounded-3xl py-12 px-12 my-12 mb-10 mx-6 md:mx-12 border border-stone-50 md:w-1/2 bg-black/40" style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
