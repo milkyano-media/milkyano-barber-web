@@ -22,11 +22,9 @@ export default function SquareBook() {
   const [services, setServices] = useState<Service[]>([]);
 
   useEffect(() => {
-    console.log(servicesData.josh);
+    // console.log(servicesData.josh);
     return setServices(servicesData.josh);
   }, []);
-
-
 
   return (
     <LandingLayout>
@@ -44,12 +42,6 @@ export default function SquareBook() {
         <img src={Top} alt="Vector Top" width={500} height={500} className="absolute top-[60rem] md:top-[30rem] z-10 left-0 w-full h-auto" />
         <img src={Mid} alt="Vector Mid" width={500} height={500} className="absolute bottom-[85rem] z-0 left-0 w-full h-auto" />
         <img src={Bottom} alt="Vector Bottom" width={500} height={500} className="absolute bottom-0 z-0 left-0 w-[40vw] h-auto" />
-        <div className="relative z-30 mx-auto w-full md:w-8/12 py-12 ">
-          <BookSection bookData={services} title="Josh" instagramHandle="Josh.blendz_" />
-        </div>
-        <div className="relative z-30 mx-auto w-full md:w-8/12 py-12 ">
-          <BookSection bookData={services} title="Josh" instagramHandle="Josh.blendz_" />
-        </div>
         <div className="relative z-30 mx-auto w-full md:w-8/12 py-12 ">
           <BookSection bookData={services} title="Josh" instagramHandle="Josh.blendz_" />
         </div>

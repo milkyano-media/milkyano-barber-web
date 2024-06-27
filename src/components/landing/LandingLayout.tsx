@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import JoshHeader from '@/components/landing/JoshHeader';
 import JoshFooter from '@/components/landing/JoshFooter';
 
-const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
+const LandingLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <div style={{ height: "1px" }} className="font-inter h-px">
       {/* <SmoothScrolling> */}
@@ -16,4 +16,4 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-export default Layout;
+export default LandingLayout;

@@ -46,7 +46,6 @@ const AppRoutes: React.FC = () => {
         <Route path="/meta/anthony" element={<AnthonyLanding />} />
         <Route path="*" element={<NotFound />} />
 
-
         {/* WEB ROUTE */}
         <Route path="/" element={<Home />} />
         <Route path="/barbers" element={<Barbers />} />
