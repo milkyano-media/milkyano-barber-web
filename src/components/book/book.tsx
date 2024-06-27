@@ -4,7 +4,6 @@ import LogoIconSvg from "@/assets/svg/Fadedlines.svg"
 import GradientTop from "@/assets/landing/book_circle_top.svg"
 import GradientBottom from "@/assets/landing/book_circle_bottom.svg"
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 interface Book {
   [x: string]: string;
@@ -22,10 +21,8 @@ interface BookSectionProps {
 }
 
 const BookSection: React.FC<BookSectionProps> = ({ bookData, title, instagramHandle }) => {
-  console.log(bookData, "bookData")
   return (
     <section className="relative bg-[#010401] flex flex-col gap-4 p-4 py-12 items-center justify-center z-30 md:px-24 rounded-[3rem] mx-4" id='gradientBoxContactUs' >
-      {/* <LogoIcon className='w-1/2'/> */}
 
       <img src={GradientTop} alt="gradient top" className='absolute top-0 right-0 w-[20rem] rounded-[3rem]' />
       <img src={GradientBottom} alt="gradient top" className='absolute bottom-0 left-0 w-[20rem] rounded-[3rem]' />
@@ -53,9 +50,9 @@ const BookSection: React.FC<BookSectionProps> = ({ bookData, title, instagramHan
               </div>
               <div>
                 <Button className='bg-[#155601] text-[#3CE800] hover:text-[#155601] hover:bg-[#42FF00] rounded-md text-sm md:text-xs px-6 py-2 h-fit '>
-                  <Link to={`/josh/book/list?url=${item.url}`}>
+                  <a href={`/josh/book/list?url=${item.url}`}>
                     Book Now
-                  </Link>
+                  </a>
                 </Button>
               </div>
             </div>

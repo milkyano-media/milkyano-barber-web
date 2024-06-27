@@ -81,7 +81,6 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
       emblaApi.scrollSnapList().forEach((scrollSnap, snapIndex) => {
         let diffToTarget = scrollSnap - scrollProgress
         const slidesInSnap = engine.slideRegistry[snapIndex]
-        // console.log(slidesInSnap, "slidesInSnap")
         slidesInSnap.forEach((slideIndex) => {
           if (isScrollEvent && !slidesInView.includes(slideIndex)) return
 
