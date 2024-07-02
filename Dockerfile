@@ -24,5 +24,5 @@ COPY package.json package-lock.json ./
 RUN NODE_ENV=production npm i
 COPY . .
 
-EXPOSE 80
+EXPOSE 5173
 CMD ["npm", "run", "dev"]
