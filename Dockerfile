@@ -5,7 +5,7 @@ LABEL maintainer="Milkyano Developer <milkyanocreativemedia@gmail.com>"
 
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install --production
+RUN NODE_ENV=production npm i
 COPY . .
 RUN npm run build
 
