@@ -5,9 +5,9 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "*",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["*"]
     },
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -21,6 +21,7 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
+    "src/**/*.tsx",
     "src/**/*.ts",
     "src/**/*.json",
     ".env",
