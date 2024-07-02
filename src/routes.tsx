@@ -7,7 +7,7 @@ import AboutUs from './pages/web/AboutUs';
 import Careers from './pages/web/Careers';
 import Contacts from './pages/web/Contact';
 import NotFound from './pages/web/NotFound';
-import JoshLandingBook from '@/pages/SquareBook';
+import JoshLandingBook from './pages/SquareBook';
 import ThankYou from './pages/ThankYou';
 import EmbeddedPage from './pages/Embedded';
 
