@@ -1,5 +1,5 @@
 
-FROM node:20-alpine
+FROM node:20 AS builder
 
 LABEL maintainer="Milkyano Developer <milkyanocreativemedia@gmail.com>"
 
@@ -7,9 +7,9 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm i
 COPY . .
-RUN npm run dev
+RUN npm run build
 
-# FROM nginx:alpine
-# COPY --from=builder /app/dist /usr/share/nginx/html
-# EXPOSE 80
-# CMD ["nginx", "-g", "daemon off;"]
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
