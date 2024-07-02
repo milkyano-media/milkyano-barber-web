@@ -23,6 +23,6 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN NODE_ENV=production npm i
 COPY . .
-RUN npm run dev
 
 EXPOSE 80
+CMD ["npm", "run", "dev"]
