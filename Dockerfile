@@ -4,7 +4,7 @@ LABEL maintainer="Milkyano Developer <milkyanocreativemedia@gmail.com>"
 
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN ODE_ENV=production npm i
 COPY . .
 RUN npm run build
 
