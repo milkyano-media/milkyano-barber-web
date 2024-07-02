@@ -4,7 +4,9 @@ services:
     container_name: barber-web
     restart: unless-stopped
     environment:
-      MINIO_BASE_URL: ${MINIO_BASE_URL}
+      - VITE_BASE_URL_MINIO=${VITE_BASE_URL_MINIO}
+      - VITE_BASE_URL_SQUARE=${VITE_BASE_URL_SQUARE}
+      - VITE_API_KEY_SQUARE=${VITE_API_KEY_SQUARE}
     ports:
       - "4080:80"
     networks:
