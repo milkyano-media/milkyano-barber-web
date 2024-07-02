@@ -19,7 +19,7 @@ import NikoLanding from '@/pages/landing/NikoLanding';
 import EmmanLanding from '@/pages/landing/EmmanLanding';
 import DejanLanding from '@/pages/landing/DejanLanding';
 import ChristosLanding from '@/pages/landing/ChristosLanding';
-import AnthonyLanding from './pages/landing/AnthonyLanding.tsx';
+import AnthonyLanding from './pages/landing/AnthonyLanding';
 
 const AppRoutes: React.FC = () => {
   return (
