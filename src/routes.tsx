@@ -1,25 +1,25 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from '@/pages/web/Home';
-import Barbers from '@/pages/web/Barbers';
-import Gallery from '@/pages/web/Gallery';
-import AboutUs from '@/pages/web/AboutUs';
-import Careers from '@/pages/web/Careers';
-import Contacts from '@/pages/web/Contact';
-import NotFound from '@/pages/web/NotFound';
+import Home from './pages/web/Home';
+import Barbers from './pages/web/Barbers';
+import Gallery from './pages/web/Gallery';
+import AboutUs from './pages/web/AboutUs';
+import Careers from './pages/web/Careers';
+import Contacts from './pages/web/Contact';
+import NotFound from './pages/web/NotFound';
 import JoshLandingBook from '@/pages/SquareBook';
 import ThankYou from './pages/ThankYou';
 import EmbeddedPage from './pages/Embedded';
 
-import JoshLanding from '@/pages/landing/JoshLanding';
-import WyattLanding from '@/pages/landing/WyattLanding';
-import RayhanLanding from '@/pages/landing/RayhanLanding';
-import JayLanding from '@/pages/landing/JayLanding';
-import NikoLanding from '@/pages/landing/NikoLanding';
-import EmmanLanding from '@/pages/landing/EmmanLanding';
-import DejanLanding from '@/pages/landing/DejanLanding';
-import ChristosLanding from '@/pages/landing/ChristosLanding';
-import AnthonyLanding from '@/pages/landing/AnthonyLanding';
+import JoshLanding from './pages/landing/JoshLanding';
+import WyattLanding from './pages/landing/WyattLanding';
+import RayhanLanding from './pages/landing/RayhanLanding';
+import JayLanding from './pages/landing/JayLanding';
+import NikoLanding from './pages/landing/NikoLanding';
+import EmmanLanding from './pages/landing/EmmanLanding';
+import DejanLanding from './pages/landing/DejanLanding';
+import ChristosLanding from './pages/landing/ChristosLanding';
+import AnthonyLanding from './pages/landing/AnthonyLanding';
 
 const AppRoutes: React.FC = () => {
   return (
