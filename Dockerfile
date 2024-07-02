@@ -7,7 +7,6 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install --production
 COPY . .
-RUN ls -alh src/pages/landing/
 RUN npm run build
 
 FROM nginx:alpine
