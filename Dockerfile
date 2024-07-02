@@ -1,4 +1,6 @@
-FROM node:20 AS builder
+FROM node:20-alpine AS builder
+
+LABEL maintainer="Milkyano Developer <milkyanocreativemedia@gmail.com>"
 
 WORKDIR /app
 COPY package*.json ./
