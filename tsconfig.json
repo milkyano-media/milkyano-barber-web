@@ -5,10 +5,9 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "typeRoots": ["node_modules/@types", "src/types"],
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["./src/*"]
     },
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -21,13 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "src/**/*.tsx",
-    "src/**/*.ts",
-    "src/**/*.json",
-    ".env",
-    "tests",
-    "src/components/react-svg"
-  ],
+  "include": ["src/*", "src/components/react-svg"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
