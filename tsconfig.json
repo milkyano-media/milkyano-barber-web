@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/components/react-svg"],
+  "include": ["src/components/react-svg"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
