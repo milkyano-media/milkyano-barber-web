@@ -1,5 +1,5 @@
 
-FROM node:20-alphine
+FROM node:20-alpine
 
 LABEL maintainer="Milkyano Developer <milkyanocreativemedia@gmail.com>"
 
