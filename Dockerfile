@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN NODE_ENV=production npm i
 COPY . .
-RUN npm run build
+RUN npm run build --verbose
 
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
