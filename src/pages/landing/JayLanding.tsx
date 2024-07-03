@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 // import { EmblaOptionsType } from 'embla-carousel'
@@ -81,13 +81,7 @@ const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 export default function JayLanding() {
   const location = useLocation();
-  let squareLink;
-
-  if (location.pathname === '/jay') {
-    squareLink = ' https://book.squareup.com/appointments/dmc232oqc8eb18/location/LY7BZ89WAQ2QS/services';
-  } else if (location.pathname === '/meta/jay') {
-    squareLink = 'https://book.squareup.com/appointments/igd3a3im7w3nsf/location/LY7BZ89WAQ2QS/services';
-  }
+  const bookLink = `${location.pathname}/book`;
 
   useEffect(() => {
     // Create a new style element
@@ -145,9 +139,9 @@ export default function JayLanding() {
                 transform hover:scale-110 transition-transform duration-200 ease-in-out hover:shadow-md hover:shadow-stone-50 hover:bg-stone-50 hover:text-stone-950"
                 style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
               >
-                <a href={squareLink}>
+                <Link to={bookLink}>
                   BOOK NOW
-                </a>
+                </Link>
               </Button>
             </div>
           </div>
@@ -185,9 +179,9 @@ export default function JayLanding() {
             </div>
             <div className="flex gap-10 justify-center items-center flex-col w-full ">
               <Button variant={"ghost"} className="border border-[#00FF1A] rounded-full font-extrabold font-poppins px-12 py-10 uppercase  text-xl md:text-3xl transform hover:scale-110 transition-transform duration-200 ease-in-out hover:bg-[#24FF00] hover:shadow-md hover:text-stone-950 hover:shadow-[#44813a] ">
-                <a href={squareLink}>
+                <Link to={bookLink}>
                   BOOK NOW
-                </a>
+                </Link>
               </Button>
             </div>
           </div>
@@ -203,9 +197,9 @@ export default function JayLanding() {
             ))}
           </div>
           <Button variant={"ghost"} className="border border-[#00FF19] px-12 py-8 text-2xl font-bold font-poppins rounded-full my-24 transform hover:scale-110 transition-transform duration-200 ease-in-out hover:bg-[#24FF00] hover:shadow-md hover:text-stone-950 hover:shadow-[#44813a] ">
-            <a href={squareLink}>
+            <Link to={bookLink}>
               LIMITED SLOT ONLY!
-            </a>
+            </Link>
           </Button>
         </section>
 
@@ -224,9 +218,9 @@ export default function JayLanding() {
               <p className="my-12 tracking-wider w-8/12 md:w-full">Life is too short to get a bad hair cut.</p>
               <div className="flex flex-col md:flex-row gap-2 py-4 uppercase" >
                 <Button variant={"ghost"} className="border border-stone-400 rounded-full uppercase px-12 py-6 bg-[#1ABC00]/5 transform hover:scale-110 transition-transform duration-200 ease-in-out hover:shadow-lg hover:shadow-stone-800 hover:bg-[#24FF00] hover:text-stone-950">
-                  <a href={squareLink}>
+                  <Link to={bookLink}>
                     BOOK NOW
-                  </a>
+                  </Link>
                 </Button>
               </div>
             </div>

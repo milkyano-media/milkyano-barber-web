@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, } from "react";
-// import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 import { EmblaOptionsType } from 'embla-carousel'
@@ -91,8 +91,8 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 export default function JoshLanding() {
-  // const location = useLocation();
-  const squareLink = "/josh/book";
+  const location = useLocation();
+  const bookLink = `${location.pathname}/book`;
 
   useEffect(() => {
     // Create a new style element
@@ -150,7 +150,7 @@ export default function JoshLanding() {
                 transform hover:scale-110 transition-transform duration-200 ease-in-out hover:shadow-md hover:shadow-stone-50 hover:bg-stone-50 hover:text-stone-950"
                 style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
               >
-                <Link to={squareLink}>
+                <Link to={bookLink}>
                   BOOK NOW
                 </Link>
               </Button>
@@ -185,7 +185,7 @@ export default function JoshLanding() {
             </div>
             <div className="flex gap-10 justify-center items-center flex-col w-full ">
               <Button variant={"ghost"} className="border border-[#00FF1A] rounded-full font-extrabold font-poppins px-12 py-10 uppercase  text-xl md:text-3xl transform hover:scale-110 transition-transform duration-200 ease-in-out hover:bg-[#24FF00] hover:shadow-md hover:text-stone-950 hover:shadow-[#44813a] ">
-                <Link to={squareLink}>
+                <Link to={bookLink}>
                   BOOK NOW
                 </Link>
               </Button>
@@ -202,7 +202,7 @@ export default function JoshLanding() {
             ))}
           </div>
           <Button variant={"ghost"} className="border border-[#00FF19] px-12 py-8 text-2xl font-bold font-poppins rounded-full my-24 transform hover:scale-110 transition-transform duration-200 ease-in-out hover:bg-[#24FF00] hover:shadow-md hover:text-stone-950 hover:shadow-[#44813a] ">
-            <Link to={squareLink}>
+            <Link to={bookLink}>
               LIMITED SLOT ONLY!
             </Link>
           </Button>
@@ -222,7 +222,7 @@ export default function JoshLanding() {
               <p className="my-12 tracking-wider w-8/12 md:w-full">Life is too short to get a bad hair cut.</p>
               <div className="flex flex-col md:flex-row gap-2 py-4 uppercase" >
                 <Button variant={"ghost"} className="border border-stone-400 rounded-full uppercase px-12 py-6 bg-[#1ABC00]/5 transform hover:scale-110 transition-transform duration-200 ease-in-out hover:shadow-lg hover:shadow-stone-800 hover:bg-[#24FF00] hover:text-stone-950">
-                  <Link to={squareLink}>
+                  <Link to={bookLink}>
                     LIMITED SLOT ONLY!
                   </Link>
                 </Button>

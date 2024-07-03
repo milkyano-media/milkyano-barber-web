@@ -7,9 +7,6 @@ import AboutUs from '@/pages/web/AboutUs';
 import Careers from '@/pages/web/Careers';
 import Contacts from '@/pages/web/Contact';
 import NotFound from '@/pages/web/NotFound';
-import JoshLandingBook from '@/pages/SquareBook';
-import ThankYou from '@/pages/ThankYou';
-import EmbeddedPage from '@/pages/Embedded';
 
 import JoshLanding from '@/pages/landing/JoshLanding';
 import WyattLanding from '@/pages/landing/WyattLanding';
@@ -20,31 +17,51 @@ import EmmanLanding from '@/pages/landing/EmmanLanding';
 import DejanLanding from '@/pages/landing/DejanLanding';
 import ChristosLanding from '@/pages/landing/ChristosLanding';
 import AnthonyLanding from '@/pages/landing/AnthonyLanding';
+import { BookList } from './components/book/BookList';
+
+const landingRoutes = [
+  { path: 'anthony', component: AnthonyLanding },
+  { path: 'christos', component: ChristosLanding },
+  { path: 'dejan', component: DejanLanding },
+  { path: 'emman', component: EmmanLanding },
+  { path: 'jay', component: JayLanding },
+  { path: 'josh', component: JoshLanding },
+  { path: 'niko', component: NikoLanding },
+  { path: 'rayhan', component: RayhanLanding },
+  { path: 'wyatt', component: WyattLanding },
+];
+
+const bookRoutes = [
+  { path: 'anthony/book', component: BookList },
+  { path: 'christos/book', component: BookList },
+  { path: 'dejan/book', component: BookList },
+  { path: 'emman/book', component: BookList },
+  { path: 'jay/book', component: BookList },
+  { path: 'josh/book', component: BookList },
+  { path: 'niko/book', component: BookList },
+  { path: 'rayhan/book', component: BookList },
+  { path: 'wyatt/book', component: BookList },
+];
 
 const AppRoutes: React.FC = () => {
   return (
     <Router>
       <Routes>
-        {/* LANDING ROUTE */}
-        <Route path="/josh" element={<JoshLanding />} />
-        <Route path="/meta/josh" element={<JoshLanding />} />
-        <Route path="/wyatt" element={<WyattLanding />} />
-        <Route path="/meta/wyatt" element={<WyattLanding />} />
-        <Route path="/rayhan" element={<RayhanLanding />} />
-        <Route path="/meta/rayhan" element={<RayhanLanding />} />
-        <Route path="/niko" element={<NikoLanding />} />
-        <Route path="/meta/niko" element={<NikoLanding />} />
-        <Route path="/jay" element={<JayLanding />} />
-        <Route path="/meta/jay" element={<JayLanding />} />
-        <Route path="/emman" element={<EmmanLanding />} />
-        <Route path="/meta/emman" element={<EmmanLanding />} />
-        <Route path="/dejan" element={<DejanLanding />} />
-        <Route path="/meta/dejan" element={<DejanLanding />} />
-        <Route path="/christos" element={<ChristosLanding />} />
-        <Route path="/meta/christos" element={<ChristosLanding />} />
-        <Route path="/anthony" element={<AnthonyLanding />} />
-        <Route path="/meta/anthony" element={<AnthonyLanding />} />
-        <Route path="*" element={<NotFound />} />
+        {/* LANDING ROUTES */}
+        {landingRoutes.map(({ path, component: Component }) => (
+          <React.Fragment key={path}>
+            <Route path={`/${path}`} element={<Component />} />
+            <Route path={`/meta/${path}`} element={<Component />} />
+          </React.Fragment>
+        ))}
+
+        {/* BOOKING ROUTES */}
+        {bookRoutes.map(({ path, component: Component }) => (
+          <React.Fragment key={path}>
+            <Route path={`/${path}`} element={<Component />} />
+            <Route path={`/meta/${path}`} element={<Component />} />
+          </React.Fragment>
+        ))}
 
         {/* WEB ROUTE */}
         <Route path="/" element={<Home />} />
@@ -54,9 +71,8 @@ const AppRoutes: React.FC = () => {
         <Route path="/careers" element={<Careers />} />
         <Route path="/contact-us" element={<Contacts />} />
 
-        <Route path="/josh/book" element={<JoshLandingBook />} />
-        <Route path="/josh/book/list" element={<EmbeddedPage />} />
-        <Route path="/josh/thank-you" element={<ThankYou />} />
+        {/* NOT FOUND ROUTE */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
