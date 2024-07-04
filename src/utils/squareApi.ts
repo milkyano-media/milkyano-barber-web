@@ -1,4 +1,4 @@
-import { AvailabilityRequest, AvailabilityResponse, BarberResponse, ServicesResponse } from '@/interfaces/BookingInterface';
+import { AvailabilityRequest, AvailabilityResponse, BarberResponse, BookingRequest, BookingResponse, CustomerRequest, CustomerResponse, ServicesResponse } from '@/interfaces/BookingInterface';
 import { apiSquare } from './apiClients';
 import { AxiosResponse } from 'axios';
 
@@ -17,4 +17,15 @@ export const getAvailability = async (data: AvailabilityRequest): Promise<Availa
   const response: AxiosResponse<AvailabilityResponse> = await apiSquare.post('/squareup/availability', data);
   return response.data;
 };
+
+export const createCustomer = async (data: CustomerRequest): Promise<CustomerResponse> => {
+  const response: AxiosResponse<CustomerResponse> = await apiSquare.post('/squareup/customers', data);
+  return response.data;
+};
+
+export const createBooking = async (data: BookingRequest): Promise<BookingResponse> => {
+  const response: AxiosResponse<BookingResponse> = await apiSquare.post('/squareup/bookings', data);
+  return response.data;
+};
+
 

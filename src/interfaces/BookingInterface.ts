@@ -181,10 +181,10 @@ interface BookingRequest {
       team_member_id: string;
     }[];
     customer_note: string;
-    location_id: string;
+    location_id: string | null | undefined;
     location_type: string;
     seller_note: string;
-    start_at: string;
+    start_at: string | null | undefined;
   };
 }
 

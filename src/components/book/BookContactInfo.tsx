@@ -1,4 +1,3 @@
-
 import { Button } from '@/components/ui/button';
 import GradientTop from "@/assets/landing/book_circle_top.svg"
 import GradientBottom from '@/assets/landing/book_circle_bottom.svg'
@@ -18,7 +17,6 @@ import { Input } from "@/components/ui/input"
 import { PhoneInput } from '@/components/ui/phone-input';
 import CancelationBar from "@/assets/book/cancelation_bar.svg"
 import { v4 as uuidv4 } from 'uuid';
-import axios from 'axios';
 import { useState } from 'react';
 import {
   AlertDialog,
@@ -29,6 +27,8 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Check, X } from 'react-bootstrap-icons';
 import Spinner from '@/components/web/Spinner';
+import { createBooking, createCustomer } from '@/utils/squareApi';
+import { BookingRequest, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
 
 const BookContactInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +43,6 @@ const BookContactInfo = () => {
     month?: number;
   }
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.checked);
     setIsChecked(event.target.checked);
   };
 
@@ -90,6 +89,7 @@ const BookContactInfo = () => {
 
   if (selectedAppointmentString) {
     const [time, modifier] = selectedAppointmentString.split(' ');
+    // eslint-disable-next-line prefer-const
     let [startHour, startMinute] = time.split(':').map(Number);
 
     if (modifier === 'pm' && startHour !== 12) {
@@ -128,24 +128,21 @@ const BookContactInfo = () => {
   const total = amountInDollars + twoPercent;
 
   const submitContactForm = async (values: z.infer<typeof formSchema>) => {
-    const valuesWithIdempotencyKey = {
+    const valuesWithIdempotencyKey: CustomerRequest = {
       ...values,
       idempotency_key: uuidv4(),
     };
     setIsLoading(true);
     setStatus('loading');
     try {
-      const customerResponse = await axios.post('http://localhost:8800/api/v1/squareup/customers', valuesWithIdempotencyKey);
-      console.log('Customer Response:', customerResponse.data);
-      const customerId = customerResponse.data.customer.id;
+      const customerResponse: CustomerResponse = await createCustomer(valuesWithIdempotencyKey);
+      const customerId = customerResponse.customer.id;
 
       if (!customerId) {
         throw new Error('Customer ID is missing from the response.');
       }
 
       localStorage.setItem('customerId', customerId);
-      console.log(customerId, "customerId");
-
       let appointment_segments;
       let location_id;
       let start_at;
@@ -156,7 +153,7 @@ const BookContactInfo = () => {
         console.error('Error parsing appointmentSegment from local storage:', error);
       }
       try {
-        location_id = JSON.parse(localStorage.getItem('locationId'));
+        location_id = JSON.parse(localStorage.getItem('locationId') || "");
       } catch (error) {
         console.error('Error parsing locationId from local storage:', error);
       }
@@ -166,29 +163,24 @@ const BookContactInfo = () => {
         console.error('Error parsing appointmentStartAt from local storage:', error);
       }
 
-      console.log(appointment_segments, "appointment_segments");
-
-      const bookingPayload = {
-        "booking": {
-          "start_at": start_at,
-          "location_id": location_id,
-          "appointment_segments": appointment_segments,
-          "customer_id": customerId,
-          "customer_note": "Window seat, please",
-          "location_type": "BUSINESS_LOCATION",
-          "seller_note": "Complementary VIP service"
+      const bookingPayload: BookingRequest = {
+        booking: {
+          start_at: start_at,
+          location_id: location_id,
+          appointment_segments: appointment_segments,
+          customer_id: customerId,
+          customer_note: "Window seat, please",
+          location_type: "BUSINESS_LOCATION",
+          seller_note: "Complementary VIP service"
         }
       };
 
-      console.log('Booking Payload:', bookingPayload);
-
-      const bookingResponse = await axios.post('http://localhost:8800/api/v1/squareup/bookings', bookingPayload);
+      await createBooking(bookingPayload);
       setStatus('succeeded');
       setTimeout(() => {
         setIsLoading(false);
-        navigate("/josh/book/appointment/thank-you");
+        navigate("/josh/book/thank-you");
       }, 2000);
-      console.log('Booking Response:', bookingResponse.data);
     } catch (error) {
       setStatus('failed');
       setTimeout(() => {
@@ -264,7 +256,6 @@ const BookContactInfo = () => {
               </div>
 
               <div className='col-span-2'>
-
                 <FormField
                   control={form.control}
                   name="phone_number"
