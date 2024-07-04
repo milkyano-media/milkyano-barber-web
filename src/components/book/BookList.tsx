@@ -43,8 +43,7 @@ export const BookList = () => {
 
     fetchBarbers()
     fetchServices();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location.pathname]);
 
   const findFirstMatchingProfile = (profiles: BarberResponse, substring: string) => {
     const regex = new RegExp(substring, 'i');

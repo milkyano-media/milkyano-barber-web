@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useId, useState } from 'react'
 import { Button } from '@/components/ui/button';
 import GradientTop from "@/assets/landing/book_circle_top.svg"
@@ -8,24 +10,36 @@ import { Link } from 'react-router-dom';
 import { format, isValid, parse } from "date-fns";
 import moment from 'moment-timezone';
 import { useNavigate } from "react-router-dom";
+import { getAvailability } from '@/utils/squareApi';
+import { Availability, AvailabilityResponse, ServicesItem } from '@/interfaces/BookingInterface';
 
-const JoshAppointment = () => {
+interface appointmentData {
+  start_at: string;
+  readable_time: string;
+}
+
+interface TimeOfDay {
+  title: string,
+  appointments: appointmentData[]
+}
+
+const BookAppointment = () => {
   const inputId = useId();
   const navigate = useNavigate();
   const [month, setMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [availableDates, setAvailableDates] = useState(new Set());
-  const [availabilitybyDate, setAvailabilitybyDate] = useState([]);
-  const [availableDatesAppointments, setAvailableDatesAppointments] = useState([]);
+  const [availableDates, setAvailableDates] = useState<AvailabilityResponse>();
+  const [availabilitybyDate, setAvailabilitybyDate] = useState<Availability[] | undefined>([]);
   const [inputValue, setInputValue] = useState("");
-  const [bookedItems, setBookedItems] = useState<{ id: string }[]>([]);
+  const [bookedItems, setBookedItems] = useState<ServicesItem[]>([]);
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth(); // Note: January is 0, February is 1, and so on.
-  const startAt = new Date(currentYear, currentMonth, 3);
+  const currentMonth = currentDate.getMonth();
+  const startAt = new Date(currentYear, currentMonth, currentDate.getDate() + 1);
   const endAt = new Date(startAt.getTime());
-  endAt.setDate(startAt.getDate() + 31); // Adding 31 days to include the start day in the count
-  const [startAtDates, setStartAtDates] = useState([]);
+  endAt.setDate(startAt.getDate() + 31);
+  const [startAtDates, setStartAtDates] = useState<string[]>([]);
+
 
   useEffect(() => {
     const items = localStorage.getItem('bookedItems');
@@ -35,32 +49,19 @@ const JoshAppointment = () => {
   }, []);
 
   useEffect(() => {
-    // Ensure bookedItems is populated and has an id before proceeding
-    if (bookedItems.length > 0 && bookedItems[0].id) {
-      console.log(bookedItems[0].id, 'bookedItems')
-
-      // Define the request body
+    if (bookedItems.length > 0) {
       const requestBody = {
         "service_variation_id": bookedItems[0].item_data.variations[0].id,
         "start_at": startAt.toISOString(),
         "end_at": endAt.toISOString()
       };
 
+
       const fetchAvailableDates = async () => {
         try {
-          const response = await fetch('http://localhost:8800/api/v1/squareup/availability', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestBody)
-          });
+          const response = await getAvailability(requestBody);
 
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-
-          const data = await response.json();
+          const data = response
           const availableDates = data;
 
           console.log(availableDates.availabilities[0]);
@@ -68,13 +69,11 @@ const JoshAppointment = () => {
           const appointmentSegment = availableDates.availabilities[0].appointment_segments;
           const locationId = availableDates.availabilities[0].location_id;
 
-          // Save appointment segment to local storage
           localStorage.setItem('appointmentSegment', JSON.stringify(appointmentSegment));
           localStorage.setItem('locationId', JSON.stringify(locationId));
 
-          // Ensure availableDates.availabilities is an array before mapping
           if (Array.isArray(availableDates.availabilities)) {
-            const dates = availableDates.availabilities.map((appointment: { start_at: string }) => appointment.start_at);
+            const dates = availableDates.availabilities.map((appointment: { start_at: string; }) => appointment.start_at);
             setStartAtDates(dates);
           } else {
             console.error('availableDates.availabilities is not an array:', availableDates.availabilities);
@@ -86,7 +85,8 @@ const JoshAppointment = () => {
       };
       fetchAvailableDates();
     }
-  }, [bookedItems,]);
+
+  }, [bookedItems]);
 
 
   function findAvailabilityByDate(date: string | number | Date) {
@@ -94,11 +94,10 @@ const JoshAppointment = () => {
     inputDate = moment.tz(date, "Australia/Sydney").format();
     inputDate = inputDate.split('T')[0];
 
-    const results = availableDates.availabilities.filter((item: { start_at: string; }) => item.start_at.split('T')[0] === inputDate);
+    const results = availableDates?.availabilities.filter((item: { start_at: string; }) => item.start_at.split('T')[0] === inputDate);
 
     setAvailabilitybyDate(results);
-    console.log(availabilitybyDate, 'availabilitybyDate');
-    return results.length > 0 ? results : "This date is not available";
+    return results ? results : "This date is not available";
   }
 
   const handleDayPickerSelect = async (date: Date | undefined) => {
@@ -130,13 +129,13 @@ const JoshAppointment = () => {
       };
 
       localStorage.setItem('dateObject', JSON.stringify(dateObject));
+
       localStorage.setItem('formattedDate', formattedDate);
 
       const startAtDate = new Date(new Date(date).setDate(new Date(date).getDate() - 0));
       const startAt = new Date(startAtDate.setHours(0, 0, 0, 0));
       const endAt = new Date(new Date(date).setHours(23, 59, 59, 999));
 
-      // Define the request body
       const requestBody = {
         "service_variation_id": bookedItems[0].item_data.variations[0].id,
         "start_at": startAt.toISOString(),
@@ -161,7 +160,7 @@ const JoshAppointment = () => {
     }
   };
   const updateTimesOfDayWithAppointments = () => {
-    const timesOfDay = [
+    const timesOfDay: TimeOfDay[] = [
       { title: "Morning", appointments: [] },
       { title: "Afternoon", appointments: [] },
       { title: "Evening", appointments: [] }
@@ -169,26 +168,28 @@ const JoshAppointment = () => {
 
     console.log(availabilitybyDate, 'availabilitybyDate');
 
-    availabilitybyDate.forEach(appointment => {
+    availabilitybyDate?.forEach(appointment => {
       const startAt = new Date(appointment.start_at);
       const hour = startAt.toLocaleString('en-AU', { timeZone: 'Australia/Sydney', hour: '2-digit', hour12: false });
 
       let timeOfDayIndex;
-      if (hour < 12) timeOfDayIndex = 0;
-      else if (hour >= 12 && hour < 17) timeOfDayIndex = 1;
-      else timeOfDayIndex = 2; // Evening
+      if (parseInt(hour) < 12) timeOfDayIndex = 0;
+      else if (parseInt(hour) >= 12 && parseInt(hour) < 17) timeOfDayIndex = 1;
+      else timeOfDayIndex = 2;
 
       const readableTime = startAt.toLocaleString('en-AU', { timeZone: 'Australia/Sydney', hour: 'numeric', minute: 'numeric', hour12: true });
-      timesOfDay[timeOfDayIndex].appointments.push({
-        start_at: appointment.start_at,
-        readableTime: readableTime
-      });
+      timesOfDay[timeOfDayIndex].appointments.push(
+        {
+          start_at: appointment.start_at,
+          readable_time: readableTime
+        }
+      );
     });
 
     return timesOfDay;
   };
-
   const timesOfDayWithAppointments = updateTimesOfDayWithAppointments();
+
   return (
     <section className="relative bg-[#010401] flex flex-col p-4 py-12 items-center md:items-start justify-center z-30 md:px-40 min-h-screen gap-0"  >
       <div className='flex flex-col justify-center items-center absolute left-6 top-6'>
@@ -258,21 +259,20 @@ const JoshAppointment = () => {
                     className='w-fit text-xs h-fit py-1 rounded'
                     onClick={() => {
                       localStorage.setItem('appointmentStartAt', appointment.start_at);
-                      localStorage.setItem('selectedAppointment', appointment.readableTime);
+                      localStorage.setItem('selectedAppointment', appointment.readable_time);
                       navigate("/josh/book/appointment/contact-info");
                     }}
                   >
-                    {appointment.readableTime}
+                    {appointment.readable_time}
                   </Button>
                 ))}
               </ul>
             </div>
           ))}
         </section>
-
       </section>
     </section>
   )
 }
 
-export default JoshAppointment
+export default BookAppointment

@@ -31,6 +31,7 @@
     "framer-motion": "^11.2.10",
     "hamburger-react": "^2.5.1",
     "lucide-react": "^0.387.0",
+    "moment-timezone": "^0.5.45",
     "react": "^18.2.0",
     "react-bootstrap-icons": "^1.11.4",
     "react-day-picker": "^8.10.1",

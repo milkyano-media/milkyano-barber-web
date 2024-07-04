@@ -6,6 +6,8 @@ interface BarberProfile {
 }
 
 interface BarberResponse {
+  json(): unknown;
+  ok: any;
   team_member_booking_profiles: BarberProfile[];
   errors?: unknown[];
 }
@@ -128,7 +130,6 @@ interface BusinessBookingProfile {
   business_appointment_settings: BusinessAppointmentSettings;
 }
 
-
 interface BusinessBookingProfileResponse {
   business_booking_profile: BusinessBookingProfile;
   errors?: unknown[];
@@ -219,4 +220,4 @@ interface BookingResponse {
   errors: any[];
 }
 
-export type { BarberProfile, BookingRequest, BookingResponse, AvailabilityRequest, AvailabilityQuery, AvailabilityResponse, BusinessBookingProfileResponse, CustomerRequest, ServicesResponse, BarberResponse, CustomerResponse };
+export type { AppointmentSegment, Availability, ServicesItem, BarberProfile, BookingRequest, BookingResponse, AvailabilityRequest, AvailabilityQuery, AvailabilityResponse, BusinessBookingProfileResponse, CustomerRequest, ServicesResponse, BarberResponse, CustomerResponse };
