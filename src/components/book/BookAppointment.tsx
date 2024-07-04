@@ -38,7 +38,6 @@ const BookAppointment = () => {
   const startAt = new Date(currentYear, currentMonth, currentDate.getDate() + 1);
   const endAt = new Date(startAt.getTime());
   endAt.setDate(startAt.getDate() + 31);
-  const [startAtDates, setStartAtDates] = useState<string[]>([]);
 
 
   useEffect(() => {
@@ -58,30 +57,17 @@ const BookAppointment = () => {
 
 
       const fetchAvailableDates = async () => {
-        try {
-          const response = await getAvailability(requestBody);
+        const response = await getAvailability(requestBody);
 
-          const data = response
-          const availableDates = data;
+        const data = response
+        const availableDates = data;
+        setAvailableDates(availableDates);
+        const appointmentSegment = availableDates.availabilities[0].appointment_segments;
+        const locationId = availableDates.availabilities[0].location_id;
 
-          console.log(availableDates.availabilities[0]);
-          setAvailableDates(availableDates);
-          const appointmentSegment = availableDates.availabilities[0].appointment_segments;
-          const locationId = availableDates.availabilities[0].location_id;
-
-          localStorage.setItem('appointmentSegment', JSON.stringify(appointmentSegment));
-          localStorage.setItem('locationId', JSON.stringify(locationId));
-
-          if (Array.isArray(availableDates.availabilities)) {
-            const dates = availableDates.availabilities.map((appointment: { start_at: string; }) => appointment.start_at);
-            setStartAtDates(dates);
-          } else {
-            console.error('availableDates.availabilities is not an array:', availableDates.availabilities);
-          }
-          return availableDates.availabilities;
-        } catch (error) {
-          console.error('Failed to fetch available dates:', error);
-        }
+        localStorage.setItem('appointmentSegment', JSON.stringify(appointmentSegment));
+        localStorage.setItem('locationId', JSON.stringify(locationId));
+        return availableDates.availabilities;
       };
       fetchAvailableDates();
     }
@@ -110,15 +96,12 @@ const BookAppointment = () => {
       setInputValue(format(date, "MM/dd/yyyy"));
       const formattedDate = date.toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' }).replace(/(\w+), (\w+) (\d+)/, '$1, $2 $3');
 
-      console.log(date.toISOString(), 'date');
-
       const day = date.getDate();
       const dayName = date.toLocaleDateString('en-AU', { weekday: 'long' });
       const monthName = date.toLocaleDateString('en-AU', { month: 'short' });
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
 
-      console.log(availableDates, "availableDates")
 
       const dateObject = {
         dayName: dayName,
@@ -129,20 +112,8 @@ const BookAppointment = () => {
       };
 
       localStorage.setItem('dateObject', JSON.stringify(dateObject));
-
       localStorage.setItem('formattedDate', formattedDate);
 
-      const startAtDate = new Date(new Date(date).setDate(new Date(date).getDate() - 0));
-      const startAt = new Date(startAtDate.setHours(0, 0, 0, 0));
-      const endAt = new Date(new Date(date).setHours(23, 59, 59, 999));
-
-      const requestBody = {
-        "service_variation_id": bookedItems[0].item_data.variations[0].id,
-        "start_at": startAt.toISOString(),
-        "end_at": endAt.toISOString()
-      };
-
-      console.log(requestBody, 'requestBody');
       findAvailabilityByDate(date)
     }
   };
@@ -165,8 +136,6 @@ const BookAppointment = () => {
       { title: "Afternoon", appointments: [] },
       { title: "Evening", appointments: [] }
     ];
-
-    console.log(availabilitybyDate, 'availabilitybyDate');
 
     availabilitybyDate?.forEach(appointment => {
       const startAt = new Date(appointment.start_at);
@@ -260,7 +229,7 @@ const BookAppointment = () => {
                     onClick={() => {
                       localStorage.setItem('appointmentStartAt', appointment.start_at);
                       localStorage.setItem('selectedAppointment', appointment.readable_time);
-                      navigate("/josh/book/appointment/contact-info");
+                      navigate("/josh/book/contact-info");
                     }}
                   >
                     {appointment.readable_time}

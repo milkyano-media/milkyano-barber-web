@@ -19,6 +19,7 @@ import ChristosLanding from '@/pages/landing/ChristosLanding';
 import AnthonyLanding from '@/pages/landing/AnthonyLanding';
 import { BookList } from './components/book/BookList';
 import BookAppointment from './components/book/BookAppointment';
+import BookContactInfo from './components/book/BookContactInfo';
 
 const landingRoutes = [
   { path: 'anthony', component: AnthonyLanding },
@@ -56,6 +57,18 @@ const appointmentRoutes = [
   { path: 'wyatt/book/appointment', component: BookAppointment },
 ];
 
+const contactInfoRoutes = [
+  { path: 'anthony/book/contact-info', component: BookContactInfo },
+  { path: 'christos/book/contact-info', component: BookContactInfo },
+  { path: 'dejan/book/contact-info', component: BookContactInfo },
+  { path: 'emman/book/contact-info', component: BookContactInfo },
+  { path: 'jay/book/contact-info', component: BookContactInfo },
+  { path: 'josh/book/contact-info', component: BookContactInfo },
+  { path: 'niko/book/contact-info', component: BookContactInfo },
+  { path: 'rayhan/book/contact-info', component: BookContactInfo },
+  { path: 'wyatt/book/contact-info', component: BookContactInfo },
+];
+
 const AppRoutes: React.FC = () => {
   return (
     <Router>
@@ -78,6 +91,14 @@ const AppRoutes: React.FC = () => {
 
         {/* APPOINTMENT ROUTES */}
         {appointmentRoutes.map(({ path, component: Component }) => (
+          <React.Fragment key={path}>
+            <Route path={`/${path}`} element={<Component />} />
+            <Route path={`/meta/${path}`} element={<Component />} />
+          </React.Fragment>
+        ))}
+
+        {/* CONTACT INFO ROUTES */}
+        {contactInfoRoutes.map(({ path, component: Component }) => (
           <React.Fragment key={path}>
             <Route path={`/${path}`} element={<Component />} />
             <Route path={`/meta/${path}`} element={<Component />} />
