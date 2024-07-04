@@ -1,7 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import GradientTop from "@/assets/landing/book_circle_top.svg"
-import GradientBottom from "@/assets/book_circle_bottom.svg"
+import GradientBottom from '@/assets/landing/book_circle_bottom.svg'
 import Logo from "@/components/react-svg/logo"
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from "zod"
