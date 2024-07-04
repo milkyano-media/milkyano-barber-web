@@ -1,7 +1,7 @@
 
 import Layout from "@/components/web/WebLayout";
 import { Button } from "@/components/ui/button";
-import { useEffect, useRef, } from "react";
+import { useEffect, useRef, useState, } from "react";
 import { Helmet } from 'react-helmet-async';
 import {
   Accordion,
@@ -38,6 +38,8 @@ export default function Home() {
     target: ref,
   });
   const scaleY = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+  const [headerHeight, setHeaderHeight] = useState(0);
 
   const instagram_images_desktop = [
     { image: instagramPhotosDesktop1, name: 'Mid Burst Fade' },
@@ -55,8 +57,8 @@ export default function Home() {
     instagramPhotosMobile5,
   ];
 
+
   useEffect(() => {
-    // Create a new style element
     const style = document.createElement('style');
 
     // Define the animation
@@ -70,11 +72,26 @@ export default function Home() {
     // Append the style element to the document head
     document.head.appendChild(style);
 
-    // Clean up function
+    const handleResize = () => {
+      setScreenHeight(window.innerHeight);
+      const header = document.querySelector('header');
+      if (header) {
+        setHeaderHeight(header.clientHeight);
+      }
+    };
+
+    // Initial calculation
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    console.log('screenHeight', screenHeight);
     return () => {
+      window.removeEventListener('resize', handleResize);
       document.head.removeChild(style);
     };
-  }, []);
+  }, [screenHeight]);
+
+  const availableHeight = screenHeight - headerHeight - 1;
 
   return (
     <Layout>
@@ -97,8 +114,9 @@ export default function Home() {
           className="absolute z-0 top-12 right-4 md:right-24 w-[12rem] lg:w-[15rem]"
         />
 
-        <section className="min-h-[55rem] md:min-h-[58rem] w-full relative py-32 border-t border-black"
+        <section className="w-full relative py-32 border-t border-black"
           style={{
+            height: `${availableHeight}px`,
             boxShadow: 'inset 0 10px 10px rgba(0, 0, 0, 0.5)'
           }}
         >
@@ -129,6 +147,7 @@ export default function Home() {
             width={500}
             height={500}
             src={BgHero2}
+            // style={{ height: `${availableHeight}px` }}
             className="top-0 absolute w-full h-full object-cover object-top z-[0] border-t border-black "
           />
           <img
