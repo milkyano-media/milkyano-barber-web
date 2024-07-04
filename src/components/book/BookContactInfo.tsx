@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { PhoneInput } from '@/components/ui/phone-input';
-import CancelationBar from "@/assets/svg/book/cancelation_bar.svg"
+import CancelationBar from "@/assets/book/cancelation_bar.svg"
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import { useState } from 'react';
