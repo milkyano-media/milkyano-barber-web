@@ -154,18 +154,18 @@ export default function Home() {
                 <h4 className="text-xl font-extrabold mb-2 tracking-wider">$50 - HAIRCUT</h4>
                 <p className="text-xs md:w-8/12 mb-2">Men&apos;s haircut start from $50 depending on <br /> which barber you would like.</p>
                 <Button className="w-fit bg-gradient-to-r from-[#14FF00]  to-[#999999] rounded-xl px-6 text-stone-50 font-bold uppercase py-1 text-lg transform transition-all duration-500 hover:scale-110 hover:from-[#999999] hover:to-[#14FF00]">
-                  <a href=" https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services">
+                  <Link to="/barbers">
                     PRICING PLANS
-                  </a>
+                  </Link>
                 </Button>
               </div>
               <div className="flex flex-col md:justify-end md:items-end md:text-end md:w-8/12 gap-3 tracking-wider">
                 <h4 className="text-xl font-extrabold mb-2 tracking-wider">$75 - HAIRCUT & BEARD</h4>
                 <p className="text-xs  mb-2">Men&apos;s haircut and beard trims starts from $75 <br /> depending on which barber you would like.</p>
                 <Button className="w-fit bg-gradient-to-r from-[#14FF00]  to-[#999999] rounded-xl px-6 text-stone-50 font-bold uppercase py-1 text-lg transform transition-all duration-500 hover:scale-110 hover:from-[#999999] hover:to-[#14FF00]">
-                  <a href=" https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services">
+                  <Link to="/barbers">
                     PRICING PLANS
-                  </a>
+                  </Link>
                 </Button>
               </div>
             </div>
