@@ -8,7 +8,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BarberResponse, ServicesResponse } from '@/interfaces/BookingInterface';
 import { getBarbers, getServices } from '@/utils/squareApi';
 
-export const BookList = () => {
+const BookList = () => {
   const location = useLocation();
   const navigate = useNavigate()
   const [services, setServices] = useState<ServicesResponse>();
@@ -115,3 +115,5 @@ export const BookList = () => {
     </section>
   )
 }
+
+export default BookList

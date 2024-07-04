@@ -17,9 +17,10 @@ import EmmanLanding from '@/pages/landing/EmmanLanding';
 import DejanLanding from '@/pages/landing/DejanLanding';
 import ChristosLanding from '@/pages/landing/ChristosLanding';
 import AnthonyLanding from '@/pages/landing/AnthonyLanding';
-import { BookList } from './components/book/BookList';
+import BookList from './components/book/BookList';
 import BookAppointment from './components/book/BookAppointment';
 import BookContactInfo from './components/book/BookContactInfo';
+import ThankYou from './components/book/ThankYou';
 
 const landingRoutes = [
   { path: 'anthony', component: AnthonyLanding },
@@ -69,6 +70,18 @@ const contactInfoRoutes = [
   { path: 'wyatt/book/contact-info', component: BookContactInfo },
 ];
 
+const ThankYouRoutes = [
+  { path: 'anthony/book/thank-you', component: ThankYou },
+  { path: 'christos/book/thank-you', component: ThankYou },
+  { path: 'dejan/book/thank-you', component: ThankYou },
+  { path: 'emman/book/thank-you', component: ThankYou },
+  { path: 'jay/book/thank-you', component: ThankYou },
+  { path: 'josh/book/thank-you', component: ThankYou },
+  { path: 'niko/book/thank-you', component: ThankYou },
+  { path: 'rayhan/book/thank-you', component: ThankYou },
+  { path: 'wyatt/book/thank-you', component: ThankYou },
+];
+
 const AppRoutes: React.FC = () => {
   return (
     <Router>
@@ -99,6 +112,22 @@ const AppRoutes: React.FC = () => {
 
         {/* CONTACT INFO ROUTES */}
         {contactInfoRoutes.map(({ path, component: Component }) => (
+          <React.Fragment key={path}>
+            <Route path={`/${path}`} element={<Component />} />
+            <Route path={`/meta/${path}`} element={<Component />} />
+          </React.Fragment>
+        ))}
+
+        {/* CONTACT INFO ROUTES */}
+        {contactInfoRoutes.map(({ path, component: Component }) => (
+          <React.Fragment key={path}>
+            <Route path={`/${path}`} element={<Component />} />
+            <Route path={`/meta/${path}`} element={<Component />} />
+          </React.Fragment>
+        ))}
+
+        {/* THANK YOU ROUTES */}
+        {ThankYouRoutes.map(({ path, component: Component }) => (
           <React.Fragment key={path}>
             <Route path={`/${path}`} element={<Component />} />
             <Route path={`/meta/${path}`} element={<Component />} />

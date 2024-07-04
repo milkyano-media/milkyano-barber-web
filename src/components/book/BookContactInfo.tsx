@@ -29,19 +29,24 @@ import { Check, X } from 'react-bootstrap-icons';
 import Spinner from '@/components/web/Spinner';
 import { createBooking, createCustomer } from '@/utils/squareApi';
 import { BookingRequest, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
+import { GTMBookEvent } from '@/interfaces/GTMInterface';
+import { useGtm } from '../hooks/UseGtm';
+
 
 const BookContactInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState('loading');
-
   const [isChecked, setIsChecked] = useState(false);
-  const navigate = useNavigate();
   interface ContactInfo {
     monthName?: string;
     day?: number;
     dayName?: string;
     month?: number;
   }
+
+  const navigate = useNavigate();
+  const { sendEvent } = useGtm();
+
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
   };
@@ -188,6 +193,15 @@ const BookContactInfo = () => {
       }, 2000);
       console.error('Error:', error);
     }
+  };
+
+  const handleGtmEvent = (total: number) => {
+    const eventData: GTMBookEvent = {
+      event: 'purchase',
+      value: total,
+      currency: 'AUD'
+    };
+    sendEvent(eventData);
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -385,7 +399,11 @@ const BookContactInfo = () => {
                 </div>
 
               </div>
-              <Button variant={"ghost"} type="submit" disabled={!isChecked} className=" w-full bg-[#036901] mt-10 h-fit py-4 rounded-xl font-light"  >
+              <Button
+                onClick={
+                  () => { handleGtmEvent(total) }
+                }
+                variant={"ghost"} type="submit" disabled={!isChecked} className=" w-full bg-[#036901] mt-10 h-fit py-4 rounded-xl font-light"  >
                 Book an Appointement
               </Button>
             </div>
