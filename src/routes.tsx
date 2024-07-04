@@ -20,6 +20,7 @@ import EmmanLanding from '@/pages/landing/EmmanLanding';
 import DejanLanding from '@/pages/landing/DejanLanding';
 import ChristosLanding from '@/pages/landing/ChristosLanding';
 import AnthonyLanding from '@/pages/landing/AnthonyLanding';
+import PrivacyPolicyPage from './pages/web/PrivacyPolicy';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -51,6 +52,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/barbers" element={<Barbers />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/careers" element={<Careers />} />
         <Route path="/contact-us" element={<Contacts />} />
 
