@@ -7,6 +7,7 @@ import AboutUs from '@/pages/web/AboutUs';
 import Careers from '@/pages/web/Careers';
 import Contacts from '@/pages/web/Contact';
 import NotFound from '@/pages/web/NotFound';
+import PrivacyPolicyPage from '@/pages/web/PrivacyPolicy';
 
 import JoshLanding from '@/pages/landing/JoshLanding';
 import WyattLanding from '@/pages/landing/WyattLanding';
@@ -82,6 +83,7 @@ const ThankYouRoutes = [
   { path: 'wyatt/book/thank-you', component: ThankYou },
 ];
 
+
 const AppRoutes: React.FC = () => {
   return (
     <Router>
@@ -139,6 +141,7 @@ const AppRoutes: React.FC = () => {
         <Route path="/barbers" element={<Barbers />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/careers" element={<Careers />} />
         <Route path="/contact-us" element={<Contacts />} />
 
