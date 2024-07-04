@@ -10,6 +10,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import EmeraldFooter from "@/assets/web/emerald_footer_mobile.svg";
 import EmeraldFooterRight from "@/assets/web/emerald_footer_right.svg";
 import EmeraldFooterLeft from "@/assets/web/emerald_footer_left.svg";
+import { Link } from "react-router-dom";
 
 const SLIDE_COUNT = 5
 const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
@@ -51,9 +52,9 @@ export default function GalleriesPage() {
             </h3>
             <div className="flex flex-col gap-2 pt-4 w-full md:w-9/12 justify-end md:items-end self-end items-center justify-self-end ">
               <Button className="bg-gradient-to-r from-[#14FF00]  to-[#999999] rounded-full px-6 text-stone-50 font-bold uppercase md:py-1 md:h-auto md:text-lg text-md transform transition-all duration-500 hover:scale-110 hover:from-[#999999] hover:to-[#14FF00] py-0 w-5/12 ">
-                <a href=" https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services">
+                <Link to="/barbers">
                   BOOK NOW
-                </a>
+                </Link>
               </Button>
             </div>
           </div>
