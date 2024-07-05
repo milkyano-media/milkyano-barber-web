@@ -4,7 +4,7 @@ import GradientTop from "@/assets/landing/book_circle_top.svg"
 import GradientBottom from "@/assets/landing/book_circle_bottom.svg"
 import { ClockHistory, ChevronRight, ReplyFill, XCircleFill } from "react-bootstrap-icons"
 import Logo from "@/components/react-svg/logo"
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import CancelationBar from "@/assets/book/cancelation_bar.svg"
 import {
   AlertDialog,
@@ -15,10 +15,24 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useGtm } from '../hooks/UseGtm';
 
 
 const ThankYouPage = () => {
+  const location = useLocation();
+  const { sendEvent } = useGtm();
+
+  useEffect(() => {
+    if (location.pathname == "/thank-you") {
+      sendEvent({
+        event: 'purchase_event',
+        value: localStorage.getItem('purchaseValue'),
+        Currency: 'AUD'
+      });
+    }
+  }, [location.pathname, sendEvent]);
+
   interface ContactInfo {
     monthName?: string;
     day?: number;

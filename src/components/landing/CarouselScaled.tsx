@@ -90,12 +90,10 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 
               if (slideIndex === loopItem.index && target !== 0) {
                 const sign = Math.sign(target)
-
                 if (sign === -1) {
                   diffToTarget = scrollSnap - (1 + scrollProgress)
                 }
                 if (sign === 1) {
-
                   diffToTarget = scrollSnap + (1 - scrollProgress)
                 }
               }

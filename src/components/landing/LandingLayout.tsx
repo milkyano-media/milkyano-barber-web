@@ -9,13 +9,6 @@ const LandingLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { sendEvent } = useGtm();
 
   useEffect(() => {
-    if (location.pathname == "/thank-you") {
-      sendEvent({
-        event: 'purchase_event',
-        value: localStorage.getItem('purchaseValue'),
-        Currency: 'AUD'
-      });
-    }
     sendEvent({
       event: 'route_event',
       path: location.pathname
