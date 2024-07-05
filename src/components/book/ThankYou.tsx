@@ -24,10 +24,16 @@ const ThankYouPage = () => {
   const { sendEvent } = useGtm();
 
   useEffect(() => {
-    if (location.pathname == "/thank-you") {
+    if (location.pathname.includes("thank-you")) {
+      const purchaseValue = localStorage.getItem('purchaseValue');
+      const value = purchaseValue ? JSON.parse(purchaseValue) : null;
+      const customerValue = localStorage.getItem('newCustomer');
+      const new_customer = customerValue ? JSON.parse(customerValue) : null;
+
       sendEvent({
         event: 'purchase_event',
-        value: localStorage.getItem('purchaseValue'),
+        value: value,
+        new_customer: new_customer,
         Currency: 'AUD'
       });
     }

@@ -30,7 +30,6 @@ import Spinner from '@/components/web/Spinner';
 import { createBooking, createCustomer } from '@/utils/squareApi';
 import { BookingRequest, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
 
-
 const BookContactInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState('loading');
@@ -47,6 +46,7 @@ const BookContactInfo = () => {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
   };
+
 
   const formSchema = z.object({
     given_name: z.string().min(1, { message: 'Given name is required' }),
@@ -165,6 +165,20 @@ const BookContactInfo = () => {
         console.error('Error parsing appointmentStartAt from local storage:', error);
       }
 
+      const handlePurchase = () => {
+        let new_customer: boolean
+        const phoneValue = localStorage.getItem('phoneNumber');
+        const local_phone_number = phoneValue ? JSON.parse(phoneValue) : null;
+        const emailValue = localStorage.getItem('customerEmail');
+        const local_email = emailValue ? JSON.parse(emailValue) : null;
+
+        if (valuesWithIdempotencyKey.phone_number === local_phone_number || valuesWithIdempotencyKey.email_address === local_email) { new_customer = true }
+        else { new_customer = false }
+
+        localStorage.setItem('purchaseValue', total.toString())
+        localStorage.setItem('newCustomer', new_customer.toString())
+      }
+
       const bookingPayload: BookingRequest = {
         booking: {
           start_at: start_at,
@@ -178,6 +192,8 @@ const BookContactInfo = () => {
       };
 
       await createBooking(bookingPayload);
+      await handlePurchase();
+
       setStatus('succeeded');
       setTimeout(() => {
         setIsLoading(false);
