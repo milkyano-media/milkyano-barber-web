@@ -172,8 +172,8 @@ const BookContactInfo = () => {
         const emailValue = localStorage.getItem('customerEmail');
         const local_email = emailValue ? JSON.parse(emailValue) : null;
 
-        if (valuesWithIdempotencyKey.phone_number === local_phone_number || valuesWithIdempotencyKey.email_address === local_email) { new_customer = true }
-        else { new_customer = false }
+        if (valuesWithIdempotencyKey.phone_number === local_phone_number || valuesWithIdempotencyKey.email_address === local_email) { new_customer = false }
+        else { new_customer = true }
 
         localStorage.setItem('purchaseValue', total.toString())
         localStorage.setItem('newCustomer', new_customer.toString())
