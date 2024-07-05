@@ -208,7 +208,6 @@ export default function AboutUs() {
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex items-center sm:justify-center w-full px-4">
-                  {/* <AlertDialogCancel>Cancel</AlertDialogCancel> */}
                   <AlertDialogAction>Continue</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

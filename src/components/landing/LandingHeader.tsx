@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import Logo from "@/assets/landing/logo.png"
 import HeaderParticles from "@/assets/landing/header_particles.svg"
 
-const JoshHeader: React.FC = () => {
+const LandingHeader: React.FC = () => {
   return (
     <header className="bg-stone-950 text-white py-6 md:py-10 relative">
       <div className="container mx-auto flex justify-center md:justify-between items-center relative z-10">
@@ -25,4 +25,4 @@ const JoshHeader: React.FC = () => {
   );
 };
 
-export default JoshHeader;
+export default LandingHeader;

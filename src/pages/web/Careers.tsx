@@ -47,14 +47,12 @@ export default function Careers() {
 
   const scaleY = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
-  // Define your form schema.
   const formSchema = z.object({
     fullName: z.string().min(2).max(50),
     email: z.string().email(),
     phoneNumber: z.string().min(10).max(15),
   });
 
-  // Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,14 +61,9 @@ export default function Careers() {
       phoneNumber: "",
     },
   });
-  // Define your states
 
-
-  // 2. Define a submit handler.
   const sendEmail = (values: z.infer<typeof formSchema>) => {
-    // Set loading state to true
     setIsLoading(true);
-    // Set status to 'loading'
     setStatus('loading');
 
     emailjs
@@ -81,49 +74,20 @@ export default function Careers() {
         'dVQ8-b1hMOSkncafw'
       )
       .then(() => {
-        // alert('Message successfully sent!');
-        // Set status to 'succeeded'
         setStatus('succeeded');
 
-        // Wait for 2 seconds before setting isLoading to false
         setTimeout(() => {
           setIsLoading(false);
         }, 2000);
       })
       .catch(() => {
-        // Set status to 'failed'
         setStatus('failed');
-
-        // Wait for 2 seconds before setting isLoading to false
         setTimeout(() => {
           setIsLoading(false);
         }, 2000);
-        // alert('Failed to send the message, please try again!');
       });
   };
 
-  // // 2. Define a submit handler.
-  // function onSubmit(values: z.infer<typeof formSchema>) {
-  //     // Do something with the form values.
-  //     // ✅ This will be type-safe and validated.
-  //     console.log(values)
-
-  //     // Define the base URL of your Typeform.
-  //     const typeformUrl = "https://muhzulzidan.typeform.com/to/JbH9TjLn";
-
-  //     // Define the parameters for pre-filling the Typeform.
-  //     // Replace 'name', 'email', and 'phone' with the actual field IDs from your Typeform.
-  //     const params = new URLSearchParams({
-  //         'email': values.email,
-  //         'name': values.fullName,
-  //         'phone': values.phoneNumber,
-  //     });
-
-  //     // https://muhzulzidan.typeform.com/to/JbH9TjLn#email=xxxxx&name=xxxxx&phone=xxxxx
-
-  //     // Redirect to the Typeform with the fields pre-filled.
-  //     window.location.href = `${typeformUrl}#${params.toString()}`;
-  // }
   return (
     <Layout>
       <Helmet>
@@ -142,7 +106,6 @@ export default function Careers() {
         <img src={EmeraldFooterRight} alt="EmeraldFooter.svg" className="absolute hidden md:block bottom-[-10rem] md:bottom-[-26rem] z-0 right-0" />
         <img src={EmeraldFooterLeft} alt="EmeraldFooter.svg" className="absolute hidden md:block bottom-[-10rem] md:bottom-[-26rem] z-0 left-0" />
 
-        {/* {isLoading && <Spinner />} */}
         <AlertDialog open={isLoading} onOpenChange={setIsLoading} >
           <AlertDialogContent>
             <AlertDialogHeader>

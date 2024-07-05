@@ -6,7 +6,7 @@ import EmeraldFooterRight from "@/assets/web/emerald_footer_right.svg";
 import EmeraldFooterLeft from "@/assets/web/emerald_footer_left.svg";
 
 
-export default function PrivacyPolicyPage() {
+export default function PrivacyPolicy() {
 
   return (
     <Layout>
@@ -23,7 +23,7 @@ export default function PrivacyPolicyPage() {
         <img src={EmeraldFooter} alt="EmeraldFooter.svg" className="md:hidden block absolute bottom-[-10rem] md:bottom-[-26rem] z-0 left-0" />
         <img src={EmeraldFooterRight} alt="EmeraldFooter.svg" className="absolute hidden md:block bottom-[-10rem] md:bottom-[-26rem] z-0 right-0" />
         <img src={EmeraldFooterLeft} alt="EmeraldFooter.svg" className="absolute hidden md:block bottom-[-10rem] md:bottom-[-26rem] z-0 left-0" />
-       
+
         <div className="prose-invert prose-headings:text-3xl prose-headings:py-4  max-w-none px-8 container prose-headings:font-bold prose-headings:text-stone-100 prose-p:font-extralight prose-ul:font-extralight prose-stone font-inter leading-8 py-12 prose-ul:list-disc prose-ul:pl-12 pb-40 prose-p:text-stone-200 prose-ul:text-stone-200 prose-headings:pt-12">
 
           <h3> Privacy Policy for <br /> <span className="text-transparent bg-gradient-to-r from-[#42FF00]  to-[#79FF86] bg-clip-text">Fadedlines Barbershop</span></h3>
@@ -36,9 +36,9 @@ export default function PrivacyPolicyPage() {
 
           <ul>
             <li><b>Personal Information:</b> When you visit our website, we may collect personal information that you voluntarily provide to us, such as your name, email address, phone number, and any other details you submit through contact forms or when booking appointments online.</li>
-  
+
             <li><b> Usage Data:</b> We may automatically collect certain information about your visit to our website, including your IP address, browser type, referring/exit pages, and the pages you view. This information helps us analyze trends, administer the site, and improve our services.</li>
-  
+
             <li><b> Cookies and Tracking Technologies: </b>We use cookies and similar tracking technologies to enhance your experience on our website and to analyze how visitors use our site. You can control cookies through your browser settings and other tools. However, please note that disabling cookies may affect your ability to access certain features of our website.</li>
           </ul>
 
@@ -56,10 +56,10 @@ export default function PrivacyPolicyPage() {
           <h4> Sharing of Information</h4>
 
           <p>
-            We do not sell, trade, or otherwise transfer your personal information to outside parties except as outlined below: 
+            We do not sell, trade, or otherwise transfer your personal information to outside parties except as outlined below:
             [10:30 AM]
           </p>
-          
+
           <ul>
 
             <li>   Service Providers: We may share your information with third-party service providers who assist us in operating our website, conducting our business, or servicing you. These parties are contractually obligated to keep your information confidential and secure.</li>
@@ -99,7 +99,6 @@ export default function PrivacyPolicyPage() {
             <li>(03) 9002 1055 </li>
           </ul>
         </div>
-     
       </div>
     </Layout>
   );

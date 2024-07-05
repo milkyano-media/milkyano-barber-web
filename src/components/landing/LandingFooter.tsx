@@ -1,7 +1,7 @@
 import React from 'react';
 import backgroundImage from '@/assets/landing/footer_line.svg';
 
-const JoshFooter: React.FC = () => {
+const LandingFooter: React.FC = () => {
   return (
     <footer className="bg-transparent backdrop-blur-lg text-stone-50 py-12 relative z-40 "
       style={{ backgroundImage: `url("${backgroundImage}")`, backgroundSize: 'cover', backgroundRepeat: "center", backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
@@ -14,4 +14,4 @@ const JoshFooter: React.FC = () => {
   );
 };
 
-export default JoshFooter;
+export default LandingFooter;

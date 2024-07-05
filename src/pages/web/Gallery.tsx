@@ -10,14 +10,32 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import EmeraldFooter from "@/assets/web/emerald_footer_mobile.svg";
 import EmeraldFooterRight from "@/assets/web/emerald_footer_right.svg";
 import EmeraldFooterLeft from "@/assets/web/emerald_footer_left.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const SLIDE_COUNT = 5
 const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
 
 export default function GalleriesPage() {
+  const location = useLocation();
 
+  const generateLink = (text: string): JSX.Element => {
+    let bookLink: string
+    if (location.pathname.includes('meta')) {
+      bookLink = `meta/book`;
+      return (
+        <Link to={bookLink}>
+          {text}
+        </Link>)
+    }
+    else {
+      bookLink = "https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services";
+      return (
+        <a href={bookLink}>
+          {text}
+        </a>)
+    }
+  }
   const { scrollYProgress } = useScroll();
   const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
@@ -52,9 +70,7 @@ export default function GalleriesPage() {
             </h3>
             <div className="flex flex-col gap-2 pt-4 w-full md:w-9/12 justify-end md:items-end self-end items-center justify-self-end ">
               <Button className="bg-gradient-to-r from-[#14FF00]  to-[#999999] rounded-full px-6 text-stone-50 font-bold uppercase md:py-1 md:h-auto md:text-lg text-md transform transition-all duration-500 hover:scale-110 hover:from-[#999999] hover:to-[#14FF00] py-0 w-5/12 ">
-                <Link to="/barbers">
-                  BOOK NOW
-                </Link>
+                {generateLink('BOOK NOW')}
               </Button>
             </div>
           </div>

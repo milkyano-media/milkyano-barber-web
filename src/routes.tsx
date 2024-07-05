@@ -5,9 +5,9 @@ import Barbers from '@/pages/web/Barbers';
 import Gallery from '@/pages/web/Gallery';
 import AboutUs from '@/pages/web/AboutUs';
 import Careers from '@/pages/web/Careers';
-import Contacts from '@/pages/web/Contact';
+import Contacts from '@/pages/web/Contacts';
+import PrivacyPolicy from '@/pages/web/PrivacyPolicy';
 import NotFound from '@/pages/web/NotFound';
-import PrivacyPolicyPage from '@/pages/web/PrivacyPolicy';
 
 import JoshLanding from '@/pages/landing/JoshLanding';
 import WyattLanding from '@/pages/landing/WyattLanding';
@@ -22,6 +22,19 @@ import BookList from './components/book/BookList';
 import BookAppointment from './components/book/BookAppointment';
 import BookContactInfo from './components/book/BookContactInfo';
 import ThankYou from './components/book/ThankYou';
+
+
+
+const webRoutes = [
+  { path: '', component: Home },
+  { path: 'barbers', component: Barbers },
+  { path: 'galery', component: Gallery },
+  { path: 'about-us', component: AboutUs },
+  { path: 'careers', component: Careers },
+  { path: 'contact', component: Contacts },
+  { path: 'privacy-policy', component: PrivacyPolicy },
+];
+
 
 const landingRoutes = [
   { path: 'anthony', component: AnthonyLanding },
@@ -137,13 +150,12 @@ const AppRoutes: React.FC = () => {
         ))}
 
         {/* WEB ROUTE */}
-        <Route path="/" element={<Home />} />
-        <Route path="/barbers" element={<Barbers />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/about-us" element={<AboutUs />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/careers" element={<Careers />} />
-        <Route path="/contact-us" element={<Contacts />} />
+        {webRoutes.map(({ path, component: Component }) => (
+          <React.Fragment key={path}>
+            <Route path={`/${path}`} element={<Component />} />
+            <Route path={`/meta/${path}`} element={<Component />} />
+          </React.Fragment>
+        ))}
 
         {/* NOT FOUND ROUTE */}
         <Route path="*" element={<NotFound />} />

@@ -1,7 +1,5 @@
-import { GTMBookEvent } from "@/interfaces/GTMInterface";
-
 export const useGtm = () => {
-  const sendEvent = (eventData: GTMBookEvent) => {
+  const sendEvent = (eventData: unknown) => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(eventData);
   };

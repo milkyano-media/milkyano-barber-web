@@ -98,7 +98,24 @@ const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 export default function AnthonyLanding() {
   const location = useLocation();
-  const bookLink = `${location.pathname}/book`;
+
+  const generateLink = (text: string): JSX.Element => {
+    let bookLink: string
+    if (location.pathname.includes('meta')) {
+      bookLink = `${location.pathname}/book`;
+      return (
+        <Link to={bookLink}>
+          {text}
+        </Link>)
+    }
+    else {
+      bookLink = "https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services";
+      return (
+        <a href={bookLink}>
+          {text}
+        </a>)
+    }
+  }
 
   useEffect(() => {
     // Create a new style element
@@ -156,9 +173,7 @@ export default function AnthonyLanding() {
                 transform hover:scale-110 transition-transform duration-200 ease-in-out hover:shadow-md hover:shadow-stone-50 hover:bg-stone-50 hover:text-stone-950"
                 style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
               >
-                <Link to={bookLink}>
-                  BOOK NOW
-                </Link>
+                {generateLink("BOOK NOW")}
               </Button>
             </div>
           </div>
@@ -192,15 +207,12 @@ export default function AnthonyLanding() {
             </div>
             <div className="flex gap-10 justify-center items-center flex-col w-full ">
               <Button variant={"ghost"} className="border border-[#00FF1A] rounded-full font-extrabold font-poppins px-12 py-10 uppercase  text-xl md:text-3xl transform hover:scale-110 transition-transform duration-200 ease-in-out hover:bg-[#24FF00] hover:shadow-md hover:text-stone-950 hover:shadow-[#44813a] ">
-                <Link to={bookLink}>
-                  BOOK NOW
-                </Link>
+                {generateLink("BOOK NOW")}
               </Button>
             </div>
           </div>
           <img src={ParticlesThree} width={500} height={500} alt="Your img" className="absolute left-0 z-0 w-auto h-full object-fill bottom-[0]" />
         </section>
-
 
         <section className="container mx-auto px-6 sm:px-6 lg:px-8 py-12 text-stone-50 rounded-lg relative z-10 flex flex-col justify-center items-center">
           <h4 className="text-4xl md:text-7xl my-6 md:my-12 uppercase   items-center justify-center text-center font-extrabold text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text">Reviews</h4>
@@ -210,9 +222,7 @@ export default function AnthonyLanding() {
             ))}
           </div>
           <Button variant={"ghost"} className="border border-[#00FF19] px-12 py-8 text-2xl font-bold font-poppins rounded-full my-24 transform hover:scale-110 transition-transform duration-200 ease-in-out hover:bg-[#24FF00] hover:shadow-md hover:text-stone-950 hover:shadow-[#44813a] ">
-            <Link to={bookLink}>
-              LIMITED SLOT ONLY!
-            </Link>
+            {generateLink("LIMITED SLOT ONLY!")}
           </Button>
         </section>
 
@@ -231,9 +241,7 @@ export default function AnthonyLanding() {
               <p className="my-12 tracking-wider w-8/12 md:w-full">Life is too short to get a bad hair cut.</p>
               <div className="flex flex-col md:flex-row gap-2 py-4 uppercase" >
                 <Button variant={"ghost"} className="border border-stone-400 rounded-full uppercase px-12 py-6 bg-[#1ABC00]/5 transform hover:scale-110 transition-transform duration-200 ease-in-out hover:shadow-lg hover:shadow-stone-800 hover:bg-[#24FF00] hover:text-stone-950">
-                  <Link to={bookLink}>
-                    BOOK NOW
-                  </Link>
+                  {generateLink("BOOK NOW")}
                 </Button>
               </div>
             </div>

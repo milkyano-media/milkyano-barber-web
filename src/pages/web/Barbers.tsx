@@ -67,9 +67,19 @@ const barberSvgs = [
   },
 ];
 
-const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
-
 export default function Barbers() {
+
+  const generateLink = () => {
+    let bookLink: string
+    if (location.pathname.includes('meta')) {
+      bookLink = `meta/book`;
+    }
+    else {
+      bookLink = "https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services";
+    }
+
+    return bookLink
+  }
 
   useEffect(() => {
     // Create a new style element
@@ -117,38 +127,22 @@ export default function Barbers() {
         <section className="w-full min-h-screen flex  justify-center md:max-w-screen-xl   mx-auto md:py-24 pb-[12rem] md:pb-[4rem] mb-12 relative">
           <div className="w-full flex flex-wrap mx-auto justify-center items-center gap-y-24 px-4 md:px-0">
             {barberSvgs.map((barber, index) => (
-              barber.landing ? (
-                <Link to={barber.landing ? barber.link : squareLink} key={index} className="w-6/12 md:w-[20rem] py-6 flex flex-col justify-center items-center relative " >
-                  <img src={barber.svg} alt={`Svg ${index}`} className="transition-transform duration-500 ease-in-out hover:scale-110 z-30 px-4 md:px-0 " />
-                  <div
-                    className="mt-12 relative bottom-[-0rem] md:bottom-[-0.2rem] w-[110%] "
-                    style={{
-                      height: '4px ',
-                      background: 'linear-gradient(90deg, rgba(36,255,0,0) 0%, rgba(36,255,0,1) 50%, rgba(36,255,0,0.0) 100%)',
-                    }} />
-                  <Button variant={"ghost"} className="border absolute  md:relative bottom-[.5rem] md:bottom-[1rem] rounded-xl border-[#14FF00] bg-transparent  backdrop-blur-md z-30 transform hover:scale-110 transition-transform duration-400 ease-in-out hover:shadow-md hover:bg-[#14FF00] hover:shadow-[#14FF00] text-xs md:text-base hover:text-stone-950"
-                    style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
-                  >
-                    LEARN MORE
-                  </Button>
-                </Link>
-              ) :
-                (
-                  <div className="w-6/12 md:w-[20rem] py-6 flex flex-col justify-center items-center relative " >
-                    <img src={barber.svg} alt={`Svg ${index}`} className="transition-transform duration-500 ease-in-out hover:scale-110 z-30 px-4 md:px-0 " />
-                    <div
-                      className="mt-12 relative bottom-[-0rem] md:bottom-[-0.2rem] w-[110%] "
-                      style={{
-                        height: '4px ',
-                        background: 'linear-gradient(90deg, rgba(36,255,0,0) 0%, rgba(36,255,0,1) 50%, rgba(36,255,0,0.0) 100%)',
-                      }} />
-                    <Button disabled variant={"ghost"} className="border absolute  md:relative bottom-[.5rem] md:bottom-[1rem] rounded-xl border-[#14FF00] bg-transparent  backdrop-blur-md z-30 transform hover:scale-110 transition-transform duration-400 ease-in-out hover:shadow-md hover:bg-[#14FF00] hover:shadow-[#14FF00] text-xs md:text-base hover:text-stone-950"
-                      style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
-                    >
-                      LEARN MORE
-                    </Button>
-                  </div>
-                )
+
+              <Link to={barber.landing ? barber.link : generateLink()} key={index} className="w-6/12 md:w-[20rem] py-6 flex flex-col justify-center items-center relative " >
+                <img src={barber.svg} alt={`Svg ${index}`} className="transition-transform duration-500 ease-in-out hover:scale-110 z-30 px-4 md:px-0 " />
+                <div
+                  className="mt-12 relative bottom-[-0rem] md:bottom-[-0.2rem] w-[110%] "
+                  style={{
+                    height: '4px ',
+                    background: 'linear-gradient(90deg, rgba(36,255,0,0) 0%, rgba(36,255,0,1) 50%, rgba(36,255,0,0.0) 100%)',
+                  }} />
+                <Button variant={"ghost"} className="border absolute  md:relative bottom-[.5rem] md:bottom-[1rem] rounded-xl border-[#14FF00] bg-transparent  backdrop-blur-md z-30 transform hover:scale-110 transition-transform duration-400 ease-in-out hover:shadow-md hover:bg-[#14FF00] hover:shadow-[#14FF00] text-xs md:text-base hover:text-stone-950"
+                  style={{ backdropFilter: 'blur(16px) contrast(100%)', WebkitBackdropFilter: 'blur(16px) contrast(100%)' }}
+                >
+                  LEARN MORE
+                </Button>
+              </Link>
+
             ))}
           </div>
         </section>

@@ -29,8 +29,6 @@ import { Check, X } from 'react-bootstrap-icons';
 import Spinner from '@/components/web/Spinner';
 import { createBooking, createCustomer } from '@/utils/squareApi';
 import { BookingRequest, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
-import { GTMBookEvent } from '@/interfaces/GTMInterface';
-import { useGtm } from '../hooks/UseGtm';
 
 
 const BookContactInfo = () => {
@@ -45,7 +43,6 @@ const BookContactInfo = () => {
   }
 
   const navigate = useNavigate();
-  const { sendEvent } = useGtm();
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
@@ -193,15 +190,6 @@ const BookContactInfo = () => {
       }, 2000);
       console.error('Error:', error);
     }
-  };
-
-  const handleGtmEvent = (total: number) => {
-    const eventData: GTMBookEvent = {
-      event: 'purchase',
-      value: total,
-      currency: 'AUD'
-    };
-    sendEvent(eventData);
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -401,7 +389,7 @@ const BookContactInfo = () => {
               </div>
               <Button
                 onClick={
-                  () => { handleGtmEvent(total) }
+                  () => { localStorage.setItem('purchaseValue', total.toString()) }
                 }
                 variant={"ghost"} type="submit" disabled={!isChecked} className=" w-full bg-[#036901] mt-10 h-fit py-4 rounded-xl font-light"  >
                 Book an Appointement
