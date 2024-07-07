@@ -7,42 +7,37 @@ import Logo from "@/components/react-svg/logo"
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BarberResponse, ServicesResponse } from '@/interfaces/BookingInterface';
 import { getBarbers, getServices } from '@/utils/squareApi';
+import Spinner from '../web/Spinner';
 
 const BookList = () => {
   const location = useLocation();
   const navigate = useNavigate()
   const [services, setServices] = useState<ServicesResponse>();
   const [title, setTitle] = useState<string>()
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchBarbers = async () => {
       const routeArray = location.pathname.split('/').filter(segment => segment !== '');
-      if (routeArray[0] === 'meta') {
-        const fetchedBarbers = await getBarbers();
-        const teamData = findFirstMatchingProfile(fetchedBarbers, routeArray[1])
-        setTitle(teamData?.display_name)
-      }
-      else {
-        const fetchedBarbers = await getBarbers();
-        const teamData = findFirstMatchingProfile(fetchedBarbers, routeArray[0])
-        setTitle(teamData?.display_name)
-      }
+      const fetchedBarbers = await getBarbers();
+      const teamData = findFirstMatchingProfile(fetchedBarbers, routeArray[0] === 'meta' ? routeArray[1] : routeArray[0]);
+      setTitle(teamData?.display_name);
     };
 
     const fetchServices = async () => {
       const routeArray = location.pathname.split('/').filter(segment => segment !== '');
-      let fetchedServices: ServicesResponse;
-      if (routeArray[0] === 'meta') {
-        fetchedServices = await getServices(routeArray[1], 'M');
-      }
-      else {
-        fetchedServices = await getServices(routeArray[0], 'O');
-      }
-      setServices(fetchedServices)
+      const fetchedServices = await getServices(routeArray[0] === 'meta' ? routeArray[1] : routeArray[0], routeArray[0] === 'meta' ? 'M' : 'O');
+      setServices(fetchedServices);
     };
 
-    fetchBarbers()
-    fetchServices();
+    const fetchData = async () => {
+      setIsLoading(true);
+      await fetchBarbers();
+      await fetchServices();
+      setIsLoading(false);
+    };
+
+    fetchData();
   }, [location.pathname]);
 
   const findFirstMatchingProfile = (profiles: BarberResponse, substring: string) => {
@@ -56,8 +51,11 @@ const BookList = () => {
       localStorage.removeItem('bookedItems');
       const updatedBookings = [item];
       localStorage.setItem('bookedItems', JSON.stringify(updatedBookings));
-
-      navigate(`${location.pathname}/appointment`);
+      let newPath = location.pathname;
+      if (!newPath.endsWith('/')) {
+        newPath += '/';
+      }
+      navigate(`${newPath}appointment`);
     } catch (error) {
       console.error('Error booking the item:', error);
     }
@@ -72,18 +70,23 @@ const BookList = () => {
       </div>
       <img src={GradientTop} alt="gradient top" className='absolute top-0 right-0 w-5/12 ' />
       <img src={GradientBottom} alt="gradient top" className='absolute bottom-0 left-0 w-8/12 ' />
-
-      <div className='flex flex-col gap-2 pb-4 text-stone-200'>
-        <div className='flex flex-col gap-1 text-center md:w-full w-10/12 mx-auto md:mx-0'>
-          <h3 className=' text-base font-bold'>{title} on Instagram (Available Now)</h3>
-        </div>
-        <div className='relative h-8 w-full'>
-          <hr className='absolute top-0 left-0 w-[25rem] h-[2px] bg-[#42FF00] transform  z-10' />
-          <hr className='absolute top-1 left-0 w-full h-px bg-[#248B00] z-0' />
-        </div>
-      </div>
+      {
+        isLoading ?
+          <div></div>
+          :
+          <div className='flex flex-col gap-2 pb-4 text-stone-200'>
+            <div className='flex flex-col gap-1 text-center md:w-full w-10/12 mx-auto md:mx-0'>
+              <h3 className='text-base font-bold'>{title} on Instagram (Available Now)</h3>
+            </div>
+            <div className='relative h-8 w-full'>
+              <hr className='absolute top-0 left-0 w-[25rem] h-[2px] bg-[#42FF00] transform  z-10' />
+              <hr className='absolute top-1 left-0 w-full h-px bg-[#248B00] z-0' />
+            </div>
+          </div>
+      }
+      
       <section className=" flex flex-col relative z-40 text-center w-10/12 md:w-full md:text-start gap-4 text-stone-300">
-        {services && services.items ? (
+        {!isLoading && services && services.items ? (
           <div>
             {services.items.map((item) => (
               <React.Fragment key={item.id}>
@@ -109,7 +112,10 @@ const BookList = () => {
             ))}
           </div>
         ) : (
-          <p>Loading services...</p>
+          <section className='flex flex-col gap-6 justify-center items-center'>
+            <h3 className='text-xl font-bold'>Loading Data</h3>
+            <Spinner />
+          </section>
         )}
       </section>
     </section>

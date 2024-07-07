@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -16,22 +15,26 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: CalendarProps) {
+  const [currentMonth, setCurrentMonth] = React.useState(new Date());
 
+  const handleMonthChange = (month: Date) => {
+    setCurrentMonth(month);
+  };
   return (
     <div>
-
       <DayPicker
         showOutsideDays={showOutsideDays}
         className={cn("p-3", className)}
         classNames={{
           months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 w-full",
           month: "space-y-4",
-          caption: "flex  justify-between pt-1 relative items-center mb-8",
+          caption: "flex justify-between pt-1 relative items-center mb-8",
           caption_label: "text-sm font-medium uppercase",
           nav: "space-x-1 flex items-center",
           nav_button: cn(
             buttonVariants({ variant: "outline" }),
-            "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+            "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 disabled:opacity-20 disabled:pointer-events-none",
+            
           ),
           nav_button_previous: "",
           nav_button_next: "",
@@ -61,12 +64,12 @@ function Calendar({
           IconLeft: () => <ChevronLeft className="h-4 w-4" />,
           IconRight: () => <ChevronRight className="h-4 w-4" />,
         }}
-
+        month={currentMonth}
+        onMonthChange={handleMonthChange}
+       
         {...props}
       />
-
     </div>
-
   )
 }
 Calendar.displayName = "Calendar"

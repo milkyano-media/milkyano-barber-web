@@ -108,7 +108,7 @@ const EmblaCarouselComponent = ({ children, options }: { children: React.ReactNo
     } else {
       tweenFactor.current = 1;
     }
-    // console.log(tweenFactor.current, "set tween factor");  // Add this line
+
   }, []);
 
   useEffect(() => {

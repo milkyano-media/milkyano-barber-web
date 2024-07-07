@@ -59,8 +59,6 @@ function CardStack() {
       if (gone.size === cards.length) {
         opacity = 1;
       }
-      // console.log(x, "x")
-      // console.log(opacity, "opacity")
       return {
         x,
         rot,

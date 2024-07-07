@@ -50,6 +50,21 @@ const ThankYouPage = () => {
   let formattedDate = '';
   let dateObject: ContactInfo = {};
 
+  const nameMap: { [key: string]: string } = {
+    anthony: 'Anthony Campanelli',
+    christos: 'Christos Kazanas',
+    dejan: 'Dejan Tomic',
+    emman: 'Emman Theodorou',
+    jay: 'Jay Robertson',
+    josh: 'Josh Vatansever Ly',
+    niko: 'Niko Atsis',
+    rayhan: 'Rayhan J',
+    wyatt: 'Wyatt Swick',
+  };
+  const nameMatch = location.pathname.match(/\/(\w+)\/book\/thank-you/);
+  const nameKey = nameMatch ? nameMatch[1] : 'josh'; // Default to 'josh' if no match
+  const fullName = nameMap[nameKey] || 'Josh Vatansever Ly'; // Default to 'Josh Vatansever Ly' if no match
+
   try {
     const bookedItemsString = localStorage.getItem('bookedItems');
     if (bookedItemsString) {
@@ -185,7 +200,7 @@ const ThankYouPage = () => {
                 <h3 className='text-lg'>
                   {bookedItems[0].item_data.name}
                 </h3>
-                <p className='text-xs font-light text-stone-400 pl-4'>With Josh.blendz</p>
+                <p className='text-xs font-light text-stone-400 pl-4'>With {fullName}</p>
               </div>
             </div>
             <div className='rounded-b-xl px-4 pt-10 pb-4 border border-stone-400'>
@@ -225,7 +240,7 @@ const ThankYouPage = () => {
               Location
             </h3>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.8195613507864!3d-6.194741395493371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5390917b759%3A0x6b45e67356080477!2sPT%20Kulkul%20Teknologi%20Internasional!5e0!3m2!1sen!2sid!4v1601138221085!5m2!1sen!2sid"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44520.783413964426!2d145.06891445638522!3d-37.904472621963905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad66bc0e74de7c9%3A0x58d6bfb2ed811b32!2sFaded%20Lines%20Barbershop%20Oakleigh!5e0!3m2!1sen!2sid!4v1720231134790!5m2!1sen!2sid"
 
               className='w-full rounded-xl'
               frameBorder="0"

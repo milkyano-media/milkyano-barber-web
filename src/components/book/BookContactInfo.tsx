@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import GradientTop from "@/assets/landing/book_circle_top.svg"
 import GradientBottom from '@/assets/landing/book_circle_bottom.svg'
 import Logo from "@/components/react-svg/logo"
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -29,11 +29,20 @@ import { Check, X } from 'react-bootstrap-icons';
 import Spinner from '@/components/web/Spinner';
 import { createBooking, createCustomer } from '@/utils/squareApi';
 import { BookingRequest, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 const BookContactInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState('loading');
   const [isChecked, setIsChecked] = useState(false);
+  const location = useLocation();
+
+  const [showForm, setShowForm] = useState(false);
+
+  const handleAddClick = () => {
+    setShowForm(!showForm);
+  };
+
   interface ContactInfo {
     monthName?: string;
     day?: number;
@@ -47,12 +56,14 @@ const BookContactInfo = () => {
     setIsChecked(event.target.checked);
   };
 
-
   const formSchema = z.object({
     given_name: z.string().min(1, { message: 'Given name is required' }),
     family_name: z.string().min(1, { message: 'Family name is required' }),
     email_address: z.string().email({ message: 'Invalid email address' }).min(1, { message: 'Email is required' }),
-    phone_number: z.string().min(10, { message: 'Phone number must be at least 10 digits' }),
+    phone_number: z
+      .string()
+      .refine(isValidPhoneNumber, { message: "Invalid phone number" }),
+    appointment_note: z.string().optional(),
   });
 
   let bookedItems = [];
@@ -127,11 +138,19 @@ const BookContactInfo = () => {
   const amountInDollars = amount / 100;
   const twoPercent = amountInDollars * 0.02;
   const formattedTwoPercent = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(twoPercent / 100);
-  const total = amountInDollars + twoPercent;
+  
+  // Extract numbers from the strings
+  const formattedTwoPercentNumber = parseFloat(formattedTwoPercent.replace(/[^0-9.]/g, ''));
+
+  // Sum the numbers
+  const total = amountInDollars + formattedTwoPercentNumber;
 
   const submitContactForm = async (values: z.infer<typeof formSchema>) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { appointment_note, ...restValues } = values;
+
     const valuesWithIdempotencyKey: CustomerRequest = {
-      ...values,
+      ...restValues,
       idempotency_key: uuidv4(),
     };
     setIsLoading(true);
@@ -185,9 +204,9 @@ const BookContactInfo = () => {
           location_id: location_id,
           appointment_segments: appointment_segments,
           customer_id: customerId,
-          customer_note: "Window seat, please",
-          location_type: "BUSINESS_LOCATION",
-          seller_note: "Complementary VIP service"
+          customer_note: values.appointment_note?.toString() || "",
+          location_type: "",
+          seller_note: ""
         }
       };
 
@@ -197,7 +216,10 @@ const BookContactInfo = () => {
       setStatus('succeeded');
       setTimeout(() => {
         setIsLoading(false);
-        navigate("/josh/book/thank-you");
+        const nameMatch = location.pathname.match(/\/(\w+)\/book\/contact-info/);
+        const name = nameMatch ? nameMatch[1] : 'josh'; 
+        const thankYouPath = `/${name}/book/thank-you`;
+        navigate(thankYouPath);
       }, 2000);
     } catch (error) {
       setStatus('failed');
@@ -215,8 +237,10 @@ const BookContactInfo = () => {
       family_name: "",
       email_address: "",
       phone_number: "",
+      appointment_note: "",
     },
   });
+
   return (
     <section className="relative bg-[#010401] flex flex-col p-4 py-12 items-center md:items-start justify-center z-30 md:px-40 min-h-screen gap-0"  >
       <div className='flex flex-col justify-center items-center absolute left-6 top-6'>
@@ -293,7 +317,6 @@ const BookContactInfo = () => {
                     name="given_name"
                     render={({ field }) => (
                       <FormItem>
-
                         <FormControl>
                           <Input className='bg-transparent w-full border border-stone-500 rounded-lg' placeholder="John" {...field} />
                         </FormControl>
@@ -306,7 +329,6 @@ const BookContactInfo = () => {
                     name="family_name"
                     render={({ field }) => (
                       <FormItem>
-
                         <FormControl>
                           <Input className='bg-transparent w-full border border-stone-500 rounded-lg' placeholder="Doe" {...field} />
                         </FormControl>
@@ -321,7 +343,6 @@ const BookContactInfo = () => {
                     name="email_address"
                     render={({ field }) => (
                       <FormItem>
-
                         <FormControl>
                           <Input className='bg-transparent w-full border border-stone-500 rounded-md' placeholder="mail@fade.com" {...field} />
                         </FormControl>
@@ -332,10 +353,32 @@ const BookContactInfo = () => {
 
                 </div>
                 <hr className='h-[2px] opacity-50 bg-[#048301] w-full my-6' />
-                <div className='flex justify-between'>
-                  <h3>Appointment Note</h3>
-                  <h3>Add</h3>
-                </div>
+           
+
+                    <div className='flex justify-between'>
+                      <h3>Appointment Note</h3>
+                      <h3 onClick={handleAddClick} className='cursor-pointer'>Add</h3>
+                    </div>
+                   <div>
+                      {showForm && (
+                        <div className='mt-4'>
+                          <FormField
+                            control={form.control}
+                            name="appointment_note"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <Input className='bg-transparent w-full border border-stone-500 rounded-md' placeholder="Enter appointment note" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      )}
+                   </div>
+
+              
                 <hr className='h-[2px] opacity-50 bg-[#048301] w-full my-6' />
                 <div className='flex flex-col gap-8 text-sm'>
                   <div>
