@@ -28,7 +28,7 @@ import ThankYou from './components/book/ThankYou';
 const webRoutes = [
   { path: '', component: Home },
   { path: 'barbers', component: Barbers },
-  { path: 'galery', component: Gallery },
+  { path: 'gallery', component: Gallery },
   { path: 'about-us', component: AboutUs },
   { path: 'careers', component: Careers },
   { path: 'contact', component: Contacts },
@@ -49,15 +49,15 @@ const landingRoutes = [
 ];
 
 const bookRoutes = [
-  { path: 'anthony/book', component: BookList },
-  { path: 'christos/book', component: BookList },
-  { path: 'dejan/book', component: BookList },
-  { path: 'emman/book', component: BookList },
-  { path: 'jay/book', component: BookList },
-  { path: 'josh/book', component: BookList },
-  { path: 'niko/book', component: BookList },
-  { path: 'rayhan/book', component: BookList },
-  { path: 'wyatt/book', component: BookList },
+  { path: 'anthony/book/services', component: BookList },
+  { path: 'christos/book/services', component: BookList },
+  { path: 'dejan/book/services', component: BookList },
+  { path: 'emman/book/services', component: BookList },
+  { path: 'jay/book/services', component: BookList },
+  { path: 'josh/book/services', component: BookList },
+  { path: 'niko/book/services', component: BookList },
+  { path: 'rayhan/book/services', component: BookList },
+  { path: 'wyatt/book/services', component: BookList },
 ];
 
 const appointmentRoutes = [
