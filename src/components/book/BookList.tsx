@@ -51,11 +51,9 @@ const BookList = () => {
       localStorage.removeItem('bookedItems');
       const updatedBookings = [item];
       localStorage.setItem('bookedItems', JSON.stringify(updatedBookings));
-      let newPath = location.pathname;
-      if (!newPath.endsWith('/')) {
-        newPath += '/';
-      }
-      navigate(`${newPath}appointment`);
+      const parts = location.pathname.split('/');
+      const newPath = '/' + parts.slice(1, parts.length - 1).join('/');
+      navigate(`${newPath}/appointment`);
     } catch (error) {
       console.error('Error booking the item:', error);
     }
@@ -84,7 +82,7 @@ const BookList = () => {
             </div>
           </div>
       }
-      
+
       <section className=" flex flex-col relative z-40 text-center w-10/12 md:w-full md:text-start gap-4 text-stone-300">
         {!isLoading && services && services.items ? (
           <div>
