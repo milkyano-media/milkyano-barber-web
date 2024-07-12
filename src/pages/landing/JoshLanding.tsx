@@ -93,7 +93,7 @@ const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 export default function JoshLanding() {
   const location = useLocation();
   const generateLink = (text: string): JSX.Element => {
-    const bookLink: string = `${location.pathname}/book`;
+    const bookLink: string = `${location.pathname}/book/services`;
     return (
       <Link to={bookLink}>
         {text}
