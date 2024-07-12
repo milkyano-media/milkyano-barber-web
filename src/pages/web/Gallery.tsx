@@ -10,32 +10,21 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import EmeraldFooter from "@/assets/web/emerald_footer_mobile.svg";
 import EmeraldFooterRight from "@/assets/web/emerald_footer_right.svg";
 import EmeraldFooterLeft from "@/assets/web/emerald_footer_left.svg";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SLIDE_COUNT = 5
 const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
 
 export default function GalleriesPage() {
-  const location = useLocation();
-
   const generateLink = (text: string): JSX.Element => {
-    let bookLink: string
-    if (location.pathname.includes('meta')) {
-      bookLink = `meta/book`;
-      return (
-        <Link to={bookLink}>
-          {text}
-        </Link>)
-    }
-    else {
-      bookLink = "https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services";
-      return (
-        <a href={bookLink}>
-          {text}
-        </a>)
-    }
+    const bookLink: string = `/book/services`;
+    return (
+      <Link to={bookLink}>
+        {text}
+      </Link>)
   }
+
   const { scrollYProgress } = useScroll();
   const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
 

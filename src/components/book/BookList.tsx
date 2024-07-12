@@ -47,7 +47,10 @@ const BookList = () => {
       let query: string
       const parts = location.pathname.split("/");
       parts[1] === 'meta' ? barber = parts[2] : barber = parts[1];
-      barber === 'anthony' || barber === 'dejan' ? query = '' : query = barber;
+      if (parts.length > 3)
+        barber === 'anthony' || barber === 'dejan' ? query = '' : query = barber;
+      else
+        query = ''
       const fetchedBarbers = await getBarbers();
       const fetchedServices = await getServices(query, 'O');
       joinBarbersAndServices(fetchedBarbers, fetchedServices)
@@ -85,10 +88,9 @@ const BookList = () => {
       <img src={GradientBottom} alt="gradient top" className='absolute bottom-0 left-0 w-8/12 ' />
       {
         !isLoading && barberServices ? (
-          barberServices?.data.map((item) => (
+          barberServices?.data.map((item, index) => (
             <div className='w-full flex flex-col p-4 items-center md:items-start justify-center'>
-              <React.Fragment key={item.barber.team_member_id}>
-
+              <React.Fragment key={index}>
                 {item.services.length > 0 ?
                   (
                     <div className='flex flex-col gap-2 pb-4 text-stone-200 mt-20'>
@@ -107,8 +109,8 @@ const BookList = () => {
 
                 <section className="flex flex-col relative z-40 text-center w-10/12 md:w-full md:text-start gap-4 text-stone-300">
                   <div>
-                    {item.services.map((service) => (
-                      <React.Fragment key={service.id}>
+                    {item.services.map((service, index) => (
+                      <React.Fragment key={index}>
                         <div className='flex flex-col md:grid md:grid-cols-2 justify-between items-center'>
                           <div className='flex flex-col gap-1 pb-2'>
                             <h4 className='text-sm m-0 font-medium'>

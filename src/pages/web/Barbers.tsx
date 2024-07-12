@@ -68,16 +68,8 @@ const barberSvgs = [
 ];
 
 export default function Barbers() {
-
   const generateLink = () => {
-    let bookLink: string
-    if (location.pathname.includes('meta')) {
-      bookLink = `meta/book`;
-    }
-    else {
-      bookLink = "https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services";
-    }
-
+    const bookLink: string = `/book/services`;
     return bookLink
   }
 

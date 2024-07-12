@@ -33,6 +33,10 @@ const webRoutes = [
   { path: 'careers', component: Careers },
   { path: 'contact', component: Contacts },
   { path: 'privacy-policy', component: PrivacyPolicy },
+  { path: 'book/services', component: BookList },
+  { path: 'book/appointment', component: BookAppointment },
+  { path: 'book/contact-info', component: BookContactInfo },
+  { path: 'book/thank-you', component: ThankYou },
 ];
 
 
