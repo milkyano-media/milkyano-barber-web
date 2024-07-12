@@ -35,7 +35,7 @@ const BookAppointment = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
-  const startAt = new Date(currentYear, currentMonth, currentDate.getMinutes() + 1);
+  const startAt = new Date(currentYear, currentMonth, currentDate.getDate());
   const endAt = new Date(startAt.getTime());
   endAt.setDate(startAt.getDate() + 31);
 
@@ -52,10 +52,9 @@ const BookAppointment = () => {
     if (bookedItems.length > 0) {
       const requestBody = {
         "service_variation_id": bookedItems[0].item_data.variations[0].id,
-        "start_at": startAt.toISOString(),
-        "end_at": endAt.toISOString()
+        "start_at": moment.tz(startAt, "Australia/Sydney").format(),
+        "end_at": moment.tz(endAt, "Australia/Sydney").format()
       };
-
 
       const fetchAvailableDates = async () => {
         const response = await getAvailability(requestBody);
