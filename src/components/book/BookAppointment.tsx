@@ -35,7 +35,7 @@ const BookAppointment = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
-  const startAt = new Date(currentYear, currentMonth, currentDate.getDate() + 1);
+  const startAt = new Date(currentYear, currentMonth, currentDate.getMinutes() + 1);
   const endAt = new Date(startAt.getTime());
   endAt.setDate(startAt.getDate() + 31);
 
@@ -182,7 +182,7 @@ const BookAppointment = () => {
             onSelect={handleDayPickerSelect}
             month={month}
             onMonthChange={setMonth}
-            fromMonth={new Date()} 
+            fromMonth={new Date()}
             disabled={{ before: new Date() }}
           />
         </div>

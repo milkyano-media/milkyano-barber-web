@@ -98,21 +98,11 @@ const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 export default function RayhanLanding() {
   const location = useLocation();
   const generateLink = (text: string): JSX.Element => {
-    let bookLink: string
-    if (location.pathname.includes('meta')) {
-      bookLink = `${location.pathname}/book`;
-      return (
-        <Link to={bookLink}>
-          {text}
-        </Link>)
-    }
-    else {
-      bookLink = "https://book.squareup.com/appointments/qap0yzz8uy9vf4/location/LY7BZ89WAQ2QS/services";
-      return (
-        <a href={bookLink}>
-          {text}
-        </a>)
-    }
+    const bookLink: string = `${location.pathname}/book`;
+    return (
+      <Link to={bookLink}>
+        {text}
+      </Link>)
   }
 
   useEffect(() => {
