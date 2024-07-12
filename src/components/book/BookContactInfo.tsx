@@ -138,13 +138,9 @@ const BookContactInfo = () => {
   const formattedAmount = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(amount / 100);
   const amountInDollars = amount / 100;
   const twoPercent = amountInDollars * 0.02;
-  const formattedTwoPercent = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(twoPercent / 100);
-
   // Extract numbers from the strings
-  const formattedTwoPercentNumber = parseFloat(formattedTwoPercent.replace(/[^0-9.]/g, ''));
-
   // Sum the numbers
-  const total = amountInDollars + formattedTwoPercentNumber;
+  const total = amountInDollars + twoPercent;
 
   const submitContactForm = async (values: z.infer<typeof formSchema>) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -422,7 +418,7 @@ const BookContactInfo = () => {
                 </div>
                 <div className='w-full grid grid-cols-3'>
                   <p className='text-xs col-span-2 font-light'>Taxes</p>
-                  <p className='text-xs justify-self-end font-light'>A{formattedTwoPercent}</p>
+                  <p className='text-xs justify-self-end font-light'>A${twoPercent}</p>
                 </div>
                 <div className='w-full grid grid-cols-3'>
                   <p className='text-xs col-span-2 font-light'>Total</p>
