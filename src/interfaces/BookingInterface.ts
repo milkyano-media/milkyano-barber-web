@@ -220,4 +220,13 @@ interface BookingResponse {
   errors: any[];
 }
 
-export type { AppointmentSegment, Availability, ServicesItem, BarberProfile, BookingRequest, BookingResponse, AvailabilityRequest, AvailabilityQuery, AvailabilityResponse, BusinessBookingProfileResponse, CustomerRequest, ServicesResponse, BarberResponse, CustomerResponse };
+
+interface BarberServicesData {
+  barber: BarberProfile,
+  services: ServicesItem[]
+}
+interface BarberServices {
+  data: BarberServicesData[]
+}
+
+export type { BarberServicesData, BarberServices, AppointmentSegment, Availability, ServicesItem, BarberProfile, BookingRequest, BookingResponse, AvailabilityRequest, AvailabilityQuery, AvailabilityResponse, BusinessBookingProfileResponse, CustomerRequest, ServicesResponse, BarberResponse, CustomerResponse };

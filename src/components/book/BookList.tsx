@@ -5,45 +5,59 @@ import GradientTop from "@/assets/landing/book_circle_top.svg"
 import GradientBottom from "@/assets/landing/book_circle_bottom.svg"
 import Logo from "@/components/react-svg/logo"
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { BarberResponse, ServicesResponse } from '@/interfaces/BookingInterface';
+import { BarberResponse, BarberServices, BarberServicesData, ServicesResponse } from '@/interfaces/BookingInterface';
 import { getBarbers, getServices } from '@/utils/squareApi';
 import Spinner from '../web/Spinner';
 
 const BookList = () => {
   const location = useLocation();
   const navigate = useNavigate()
-  const [services, setServices] = useState<ServicesResponse>();
-  const [title, setTitle] = useState<string>()
+  const [barberServices, SetBarberServices] = useState<BarberServices>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchBarbers = async () => {
-      const routeArray = location.pathname.split('/').filter(segment => segment !== '');
-      const fetchedBarbers = await getBarbers();
-      const teamData = findFirstMatchingProfile(fetchedBarbers, routeArray[0] === 'meta' ? routeArray[1] : routeArray[0]);
-      setTitle(teamData?.display_name);
-    };
+    interface BarberServices {
+      data: BarberServicesData[];
+    }
 
-    const fetchServices = async () => {
-      const routeArray = location.pathname.split('/').filter(segment => segment !== '');
-      const fetchedServices = await getServices(routeArray[0] === 'meta' ? routeArray[1] : routeArray[0], routeArray[0] === 'meta' ? 'M' : 'O');
-      setServices(fetchedServices);
+    const joinBarbersAndServices = (barbers: BarberResponse | undefined, services: ServicesResponse | undefined) => {
+      const barberServices: BarberServices = { data: [] };
+
+      if (barbers && services) {
+        for (let i = 0; i < barbers.team_member_booking_profiles.length; i++) {
+          const servicesForBarber = services.items.filter(service =>
+            service.item_data.variations.some(variation =>
+              variation.item_variation_data.team_member_ids.includes(barbers.team_member_booking_profiles[i].team_member_id)
+            )
+          );
+
+          barberServices.data.push({
+            barber: barbers.team_member_booking_profiles[i],
+            services: servicesForBarber
+          });
+        }
+      }
+
+      SetBarberServices(barberServices)
     };
 
     const fetchData = async () => {
       setIsLoading(true);
-      await fetchBarbers();
-      await fetchServices();
+      let barber: string
+      let query: string
+      const parts = location.pathname.split("/");
+      parts[1] === 'meta' ? barber = parts[2] : barber = parts[1];
+      barber === 'anthony' || barber === 'dejan' ? query = '' : query = barber;
+      const fetchedBarbers = await getBarbers();
+      const fetchedServices = await getServices(query, 'O');
+      joinBarbersAndServices(fetchedBarbers, fetchedServices)
       setIsLoading(false);
     };
 
     fetchData();
-  }, [location.pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const findFirstMatchingProfile = (profiles: BarberResponse, substring: string) => {
-    const regex = new RegExp(substring, 'i');
-    return profiles.team_member_booking_profiles.find(profile => regex.test(profile.display_name));
-  };
 
   const handleBookNowClick = async (item: any) => {
     try {
@@ -59,63 +73,73 @@ const BookList = () => {
     }
   };
 
+
   return (
     <section className="relative bg-[#010401] flex flex-col p-4 py-12 items-center md:items-start justify-center z-30 md:px-40 min-h-screen gap-0"  >
-      <div className='flex flex-col justify-center items-center absolute left-6 top-6'>
+      <div className='flex flex-col justify-center items-center absolute left-6 top-6 mb-30'>
         <Link to={"/"}  >
-          <Logo className='w-48 md:w-[12rem] h-auto opacity-90 ' />
+          <Logo className='w-48 md:w-[12rem] h-auto opacity-90' />
         </Link>
       </div>
       <img src={GradientTop} alt="gradient top" className='absolute top-0 right-0 w-5/12 ' />
       <img src={GradientBottom} alt="gradient top" className='absolute bottom-0 left-0 w-8/12 ' />
       {
-        isLoading ?
-          <div></div>
-          :
-          <div className='flex flex-col gap-2 pb-4 text-stone-200'>
-            <div className='flex flex-col gap-1 text-center md:w-full w-10/12 mx-auto md:mx-0'>
-              <h3 className='text-base font-bold'>{title} on Instagram (Available Now)</h3>
-            </div>
-            <div className='relative h-8 w-full'>
-              <hr className='absolute top-0 left-0 w-[25rem] h-[2px] bg-[#42FF00] transform  z-10' />
-              <hr className='absolute top-1 left-0 w-full h-px bg-[#248B00] z-0' />
-            </div>
-          </div>
-      }
+        !isLoading && barberServices ? (
+          barberServices?.data.map((item) => (
+            <div className='w-full flex flex-col p-4 items-center md:items-start justify-center'>
+              <React.Fragment key={item.barber.team_member_id}>
 
-      <section className=" flex flex-col relative z-40 text-center w-10/12 md:w-full md:text-start gap-4 text-stone-300">
-        {!isLoading && services && services.items ? (
-          <div>
-            {services.items.map((item) => (
-              <React.Fragment key={item.id}>
-                <div className='flex flex-col md:grid md:grid-cols-2 justify-between items-center'>
-                  <div className='flex flex-col gap-1 pb-2'>
-                    <h4 className='text-sm m-0 font-medium'>
-                      {item.item_data.name}
-                    </h4>
-                    <p className='text-xs font-extralight text-stone-400'>
-                      {item.item_data.variations[0].item_variation_data.price_description}
-                    </p>
-                    <hr className='w-full h-[2px] bg-[#b56a6a] opacity-5 my-2' />
-                  </div>
-                  <div className='self-center justify-self-end'>
-                    <Button className='bg-[#155601] text-[#3CE800] hover:text-[#155601] hover:bg-[#42FF00] rounded-md text-base  px-6 py-2 h-fit '
-                      onClick={() => handleBookNowClick(item)}>
-                      Book Now
-                    </Button>
-                  </div>
-                </div>
+                {item.services.length > 0 ?
+                  (
+                    <div className='flex flex-col gap-2 pb-4 text-stone-200 mt-20'>
+                      <div className='flex flex-col gap-1 text-center md:w-full w-10/12 mx-auto md:mx-0'>
+                        <h3 className='text-base font-bold'>{item.barber.display_name} on Instagram (Available Now)</h3>
+                      </div>
+                      <div className='relative h-8 w-full'>
+                        <hr className='absolute top-0 left-0 w-[25rem] h-[2px] bg-[#42FF00] transform z-10' />
+                        <hr className='absolute top-1 left-0 w-full h-px bg-[#248B00] z-0' />
+                      </div>
+                    </div>
+                  ) : (
+                    <div></div>
+                  )
+                }
 
+                <section className="flex flex-col relative z-40 text-center w-10/12 md:w-full md:text-start gap-4 text-stone-300">
+                  <div>
+                    {item.services.map((service) => (
+                      <React.Fragment key={service.id}>
+                        <div className='flex flex-col md:grid md:grid-cols-2 justify-between items-center'>
+                          <div className='flex flex-col gap-1 pb-2'>
+                            <h4 className='text-sm m-0 font-medium'>
+                              {service.item_data.name}
+                            </h4>
+                            <p className='text-xs font-extralight text-stone-400'>
+                              {service.item_data.variations[0].item_variation_data.price_description}
+                            </p>
+                            <hr className='w-full h-[2px] bg-[#b56a6a] opacity-5 my-2' />
+                          </div>
+                          <div className='self-center justify-self-end'>
+                            <Button className='bg-[#155601] text-[#3CE800] hover:text-[#155601] hover:bg-[#42FF00] rounded-md text-base px-6 py-2 h-fit'
+                              onClick={() => handleBookNowClick(service)}>
+                              Book Now
+                            </Button>
+                          </div>
+                        </div>
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </section>
               </React.Fragment>
-            ))}
-          </div>
+            </div>
+          ))
         ) : (
-          <section className='flex flex-col gap-6 justify-center items-center'>
+          <div className='w-full flex flex-col gap-6 justify-center items-center'>
             <h3 className='text-xl font-bold'>Loading Data</h3>
             <Spinner />
-          </section>
-        )}
-      </section>
+          </div>
+        )
+      }
     </section>
   )
 }

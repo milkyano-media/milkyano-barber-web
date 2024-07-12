@@ -1,6 +1,7 @@
 import { AvailabilityRequest, AvailabilityResponse, BarberResponse, BookingRequest, BookingResponse, CustomerRequest, CustomerResponse, ServicesResponse } from '@/interfaces/BookingInterface';
 import { apiSquare } from './apiClients';
 import { AxiosResponse } from 'axios';
+import { UserStatus } from '@/interfaces/UserInterface';
 
 
 export const getServices = async (filter: string, type: string): Promise<ServicesResponse> => {
@@ -28,4 +29,8 @@ export const createBooking = async (data: BookingRequest): Promise<BookingRespon
   return response.data;
 };
 
+export const checkUserStatus = async (data: CustomerRequest): Promise<UserStatus> => {
+  const response: AxiosResponse<UserStatus> = await apiSquare.post('/users/status', data);
+  return response.data;
+};
 

@@ -27,9 +27,10 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Check, X } from 'react-bootstrap-icons';
 import Spinner from '@/components/web/Spinner';
-import { createBooking, createCustomer } from '@/utils/squareApi';
+import { checkUserStatus, createBooking, createCustomer } from '@/utils/squareApi';
 import { BookingRequest, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { UserStatus } from '@/interfaces/UserInterface';
 
 const BookContactInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -138,7 +139,7 @@ const BookContactInfo = () => {
   const amountInDollars = amount / 100;
   const twoPercent = amountInDollars * 0.02;
   const formattedTwoPercent = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(twoPercent / 100);
-  
+
   // Extract numbers from the strings
   const formattedTwoPercentNumber = parseFloat(formattedTwoPercent.replace(/[^0-9.]/g, ''));
 
@@ -157,6 +158,7 @@ const BookContactInfo = () => {
     setStatus('loading');
     try {
       const customerResponse: CustomerResponse = await createCustomer(valuesWithIdempotencyKey);
+      const userResponse: UserStatus = await checkUserStatus(valuesWithIdempotencyKey);
       const customerId = customerResponse.customer.id;
 
       if (!customerId) {
@@ -184,16 +186,8 @@ const BookContactInfo = () => {
         console.error('Error parsing appointmentStartAt from local storage:', error);
       }
 
-      const handlePurchase = () => {
-        let new_customer: boolean
-        const phoneValue = localStorage.getItem('phoneNumber');
-        const local_phone_number = phoneValue ? JSON.parse(phoneValue) : null;
-        const emailValue = localStorage.getItem('customerEmail');
-        const local_email = emailValue ? JSON.parse(emailValue) : null;
-
-        if (valuesWithIdempotencyKey.phone_number === local_phone_number || valuesWithIdempotencyKey.email_address === local_email) { new_customer = false }
-        else { new_customer = true }
-
+      const handlePurchase = (data: UserStatus) => {
+        const new_customer: boolean = data.new_customer
         localStorage.setItem('purchaseValue', total.toString())
         localStorage.setItem('newCustomer', new_customer.toString())
       }
@@ -211,13 +205,13 @@ const BookContactInfo = () => {
       };
 
       await createBooking(bookingPayload);
-      await handlePurchase();
+      await handlePurchase(userResponse);
 
       setStatus('succeeded');
       setTimeout(() => {
         setIsLoading(false);
         const nameMatch = location.pathname.match(/\/(\w+)\/book\/contact-info/);
-        const name = nameMatch ? nameMatch[1] : 'josh'; 
+        const name = nameMatch ? nameMatch[1] : 'josh';
         const thankYouPath = `/${name}/book/thank-you`;
         navigate(thankYouPath);
       }, 2000);
@@ -353,32 +347,32 @@ const BookContactInfo = () => {
 
                 </div>
                 <hr className='h-[2px] opacity-50 bg-[#048301] w-full my-6' />
-           
 
-                    <div className='flex justify-between'>
-                      <h3>Appointment Note</h3>
-                      <h3 onClick={handleAddClick} className='cursor-pointer'>Add</h3>
+
+                <div className='flex justify-between'>
+                  <h3>Appointment Note</h3>
+                  <h3 onClick={handleAddClick} className='cursor-pointer'>Add</h3>
+                </div>
+                <div>
+                  {showForm && (
+                    <div className='mt-4'>
+                      <FormField
+                        control={form.control}
+                        name="appointment_note"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input className='bg-transparent w-full border border-stone-500 rounded-md' placeholder="Enter appointment note" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </div>
-                   <div>
-                      {showForm && (
-                        <div className='mt-4'>
-                          <FormField
-                            control={form.control}
-                            name="appointment_note"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormControl>
-                                  <Input className='bg-transparent w-full border border-stone-500 rounded-md' placeholder="Enter appointment note" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-                      )}
-                   </div>
+                  )}
+                </div>
 
-              
+
                 <hr className='h-[2px] opacity-50 bg-[#048301] w-full my-6' />
                 <div className='flex flex-col gap-8 text-sm'>
                   <div>
