@@ -96,12 +96,26 @@ const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 export default function NikoLanding() {
   const location = useLocation();
+
   const generateLink = (text: string): JSX.Element => {
+    const customize: boolean = false;
+    const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
     const bookLink: string = `${location.pathname}/book/services`;
-    return (
-      <Link to={bookLink}>
-        {text}
-      </Link>)
+
+    if (customize) {
+      return (
+        <Link to={bookLink}>
+          {text}
+        </Link>
+      )
+    }
+    else {
+      return (
+        <a href={squareLink}>
+          {text}
+        </a>
+      )
+    }
   }
 
   useEffect(() => {

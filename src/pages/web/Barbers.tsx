@@ -70,7 +70,13 @@ const barberSvgs = [
 export default function Barbers() {
   const generateLink = () => {
     const bookLink: string = `/book/services`;
-    return bookLink
+    const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
+    const custumize: boolean = false;
+    if (custumize) {
+      return bookLink
+    } else {
+      return squareLink
+    }
   }
 
   useEffect(() => {

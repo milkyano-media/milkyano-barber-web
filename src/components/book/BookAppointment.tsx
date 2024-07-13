@@ -32,12 +32,10 @@ const BookAppointment = () => {
   const [availabilitybyDate, setAvailabilitybyDate] = useState<Availability[] | undefined>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const [bookedItems, setBookedItems] = useState<ServicesItem[]>([]);
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
-  const currentMonth = currentDate.getMonth();
-  const startAt = new Date(currentYear, currentMonth, currentDate.getDate());
-  const endAt = new Date(startAt.getTime());
-  endAt.setDate(startAt.getDate() + 31);
+  const currentDate = new Date()
+  const startAt = new Date(currentDate)
+  const endAt = new Date(currentDate)
+  endAt.setDate(endAt.getDate() + 31);
 
   useEffect(() => {
     const currentDate = new Date();
