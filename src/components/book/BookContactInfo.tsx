@@ -101,6 +101,8 @@ const BookContactInfo = () => {
 
   const selectedAppointmentString = localStorage.getItem('selectedAppointment');
   let appointmentEndTime = '';
+  let cancelTime = '';
+  let heldTimeHeader = '';
 
   if (selectedAppointmentString) {
     const [time, modifier] = selectedAppointmentString.split(' ');
@@ -133,14 +135,42 @@ const BookContactInfo = () => {
     const timezone = `GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`;
 
     appointmentEndTime = `${formattedStartTime} – ${formattedEndTime} ${endPeriod} ${timezone}`;
+
+    const startPeriod = startHour >= 12 ? 'PM' : 'AM';
+    const tempCancelTime = `${formattedStartTime} ${startPeriod}`;
+    heldTimeHeader = tempCancelTime;
+
+    const adjustTime = (timeString: string, hoursToSubtract: number): string => {
+      const [time, modifier] = timeString.split(' ');
+      // eslint-disable-next-line prefer-const
+      let [hours, minutes] = time.split(':').map(Number);
+      if (modifier === 'PM' && hours !== 12) {
+        hours += 12;
+      } else if (modifier === 'AM' && hours === 12) {
+        hours = 0;
+      }
+      hours -= hoursToSubtract;
+      if (hours < 0) {
+        hours = 24 + hours;
+      }
+      const newModifier = hours >= 12 ? 'PM' : 'AM';
+      if (hours > 12) {
+        hours -= 12;
+      } else if (hours === 0) {
+        hours = 12;
+      }
+      const formattedMinutes = minutes.toString().padStart(2, '0');
+      return `${hours}:${formattedMinutes} ${newModifier}`;
+    };
+
+
+    cancelTime = adjustTime(tempCancelTime, 2)
   }
 
   const amount = bookedItems[0].item_data.variations[0].item_variation_data.price_money.amount;
   const formattedAmount = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(amount / 100);
   const amountInDollars = amount / 100;
   const twoPercent = amountInDollars * 0.02;
-  // Extract numbers from the strings
-  // Sum the numbers
   const total = amountInDollars + twoPercent;
 
   const submitContactForm = async (values: z.infer<typeof formSchema>) => {
@@ -272,7 +302,7 @@ const BookContactInfo = () => {
         <div className='flex flex-col'>
           <div className='text-center w-full text-stone-200 text-sm py-2'>
             <h3 className='text-lg font-medium '>Checkout</h3>
-            <p className='font-extralight'>Appointment held for 10:00</p>
+            <p className='font-extralight'>Appointment held for {heldTimeHeader}</p>
           </div>
           <div className='relative  h-8 w-full px-4'>
             <hr className='absolute top-0 left-1/2 -translate-x-1/2 w-[15rem] h-[3px] bg-[#42FF00] transform  z-10' />
@@ -381,7 +411,7 @@ const BookContactInfo = () => {
                       <img src={CancelationBar} alt="cancel before" />
                     </div>
                   </div>
-                  <p className='text-sm font-extralight opacity-80'>Please cancel or reschedule before  {dateObject.time} on {dateObject.dayName}, {dateObject.monthName} {dateObject.day}. After that, you may be charged a cancellation fee. <a className='text-[#04C600] underline'>See full policy</a></p>
+                  <p className='text-sm font-extralight opacity-80'>Please cancel or reschedule before {cancelTime} on {dateObject.time}. After that, you may be charged a cancellation fee. <a className='text-[#04C600] underline'>See full policy</a></p>
                   <div className="flex items-center space-x-2">
                     <input className='peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground' type="checkbox" id="terms" onChange={handleCheckboxChange} />
                     <label

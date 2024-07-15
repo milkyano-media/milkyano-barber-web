@@ -94,23 +94,16 @@ const BookAppointment = () => {
       setMonth(date);
       setInputValue(format(date, "MM/dd/yyyy"));
       const formattedDate = date.toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' }).replace(/(\w+), (\w+) (\d+)/, '$1, $2 $3');
+      date.setHours(currentDate.getHours() - 2);
+
 
       const day = date.getDate();
       const dayName = date.toLocaleDateString('en-AU', { weekday: 'long' });
       const monthName = date.toLocaleDateString('en-AU', { month: 'short' });
       const month = date.getMonth();
       const year = date.getFullYear();
-      const hour = date.getHours() - 2;
-      const minute = date.getMinutes();
 
-      const convertToAmPm = (hour: number, minute: number): string => {
-        const period = hour >= 12 ? 'PM' : 'AM';
-        const formattedHour = hour % 12 || 12;
-        const formattedMinute = minute.toString().padStart(2, '0');
-        return `${formattedHour}:${formattedMinute} ${period}`;
-      };
-
-      const timeInAmPm = convertToAmPm(hour, minute);
+      const time = date.toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' }).replace(/(\w+), (\w+) (\d+)/, '$1, $2 $3');
 
       const dateObject = {
         dayName: dayName,
@@ -118,7 +111,7 @@ const BookAppointment = () => {
         day: day,
         month: month,
         year: year,
-        time: timeInAmPm
+        time: time
       };
 
       localStorage.setItem('dateObject', JSON.stringify(dateObject));
