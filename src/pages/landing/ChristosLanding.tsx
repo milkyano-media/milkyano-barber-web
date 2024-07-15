@@ -87,7 +87,7 @@ export default function ChristosLanding() {
   const location = useLocation();
 
   const generateLink = (text: string): JSX.Element => {
-    const customize: boolean = true;
+    const customize: boolean = false;
     const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
     const bookLink: string = `${location.pathname}/book/services`;
 
