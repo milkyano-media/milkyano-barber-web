@@ -226,8 +226,6 @@ const BookContactInfo = () => {
           appointment_segments: appointment_segments,
           customer_id: customerId,
           customer_note: values.appointment_note?.toString() || "",
-          location_type: "",
-          seller_note: ""
         }
       };
 

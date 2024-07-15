@@ -36,6 +36,7 @@ const BookAppointment = () => {
   const startAt = new Date(currentDate)
   const endAt = new Date(currentDate)
   endAt.setDate(endAt.getDate() + 31);
+  const threeMonthsAhead = moment().add(3, 'months').toDate();
 
   useEffect(() => {
     const currentDate = new Date();
@@ -73,6 +74,7 @@ const BookAppointment = () => {
   };
 
 
+
   function findAvailabilityByDate(date: string | number | Date) {
     const inputDate = moment.tz(date, "Australia/Sydney").format('YYYY-MM-DD');
 
@@ -86,6 +88,7 @@ const BookAppointment = () => {
   }
 
   const handleDayPickerSelect = async (date: Date | undefined) => {
+
     if (!date) {
       setInputValue("");
       setSelectedDate(undefined);
@@ -185,7 +188,7 @@ const BookAppointment = () => {
             month={month}
             onMonthChange={setMonth}
             fromMonth={new Date()}
-            disabled={{ before: new Date() }}
+            disabled={{ before: new Date(), after: threeMonthsAhead }}
           />
         </div>
         <div className='flex flex-col rounded-3xl p-4 '>
