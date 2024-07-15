@@ -10,7 +10,7 @@ interface InstagramSectionProps {
 const InstagramSection: React.FC<InstagramSectionProps> = ({ instagram_images_desktop, instagram_images_mobile }) => {
   const bookLink: string = '/book/services'
   const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
-  const customize: boolean = false
+  const customize: boolean = true;
 
   return (
     <section className="md:h-screen flex  flex-col justify-center items-start pt-24 relative z-10">

@@ -71,7 +71,7 @@ export default function Barbers() {
   const generateLink = () => {
     const bookLink: string = `/book/services`;
     const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
-    const custumize: boolean = false;
+    const custumize: boolean = true;
     if (custumize) {
       return bookLink
     } else {
