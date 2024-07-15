@@ -74,12 +74,12 @@ const BookAppointment = () => {
 
 
   function findAvailabilityByDate(date: string | number | Date) {
-    let inputDate = new Date(date).toISOString();
-    inputDate = moment.tz(date, "Australia/Sydney").format();
-    inputDate = inputDate.split('T')[0];
+    const inputDate = moment.tz(date, "Australia/Sydney").format('YYYY-MM-DD');
 
-    const results = availableDates?.availabilities.filter((item: { start_at: string; }) => item.start_at.split('T')[0] === inputDate);
-    console.log(results)
+    const results = availableDates?.availabilities.filter((item: { start_at: string; }) => {
+      const itemDate = moment.tz(item.start_at, "Australia/Sydney").format('YYYY-MM-DD');
+      return itemDate === inputDate;
+    });
 
     setAvailabilitybyDate(results);
     return results ? results : "This date is not available";
