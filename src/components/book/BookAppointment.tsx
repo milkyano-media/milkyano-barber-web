@@ -11,7 +11,7 @@ import { format, isValid, parse } from "date-fns";
 import moment from 'moment-timezone';
 import { useNavigate } from "react-router-dom";
 import { getAvailability } from '@/utils/squareApi';
-import { Availability, AvailabilityResponse, ServicesItem } from '@/interfaces/BookingInterface';
+import { Availability, AvailabilityRequest, AvailabilityResponse, ServicesItem } from '@/interfaces/BookingInterface';
 
 interface appointmentData {
   start_at: string;
@@ -53,24 +53,24 @@ const BookAppointment = () => {
         "start_at": moment.tz(startAt, "Australia/Sydney").format(),
         "end_at": moment.tz(endAt, "Australia/Sydney").format()
       };
-
-      const fetchAvailableDates = async () => {
-        const response = await getAvailability(requestBody);
-
-        const data = response
-        const availableDates = data;
-        setAvailableDates(availableDates);
-        const appointmentSegment = availableDates.availabilities[0].appointment_segments;
-        const locationId = availableDates.availabilities[0].location_id;
-
-        localStorage.setItem('appointmentSegment', JSON.stringify(appointmentSegment));
-        localStorage.setItem('locationId', JSON.stringify(locationId));
-        return availableDates.availabilities;
-      };
-      fetchAvailableDates();
+      fetchAvailableDates(requestBody);
     }
 
   }, [bookedItems]);
+
+  const fetchAvailableDates = async (body: AvailabilityRequest) => {
+    const response = await getAvailability(body);
+
+    const data = response
+    const availableDates = data;
+    setAvailableDates(availableDates);
+    const appointmentSegment = availableDates.availabilities[0].appointment_segments;
+    const locationId = availableDates.availabilities[0].location_id;
+
+    localStorage.setItem('appointmentSegment', JSON.stringify(appointmentSegment));
+    localStorage.setItem('locationId', JSON.stringify(locationId));
+    return availableDates.availabilities;
+  };
 
 
   function findAvailabilityByDate(date: string | number | Date) {
@@ -79,6 +79,7 @@ const BookAppointment = () => {
     inputDate = inputDate.split('T')[0];
 
     const results = availableDates?.availabilities.filter((item: { start_at: string; }) => item.start_at.split('T')[0] === inputDate);
+    console.log(results)
 
     setAvailabilitybyDate(results);
     return results ? results : "This date is not available";
@@ -97,16 +98,27 @@ const BookAppointment = () => {
       const day = date.getDate();
       const dayName = date.toLocaleDateString('en-AU', { weekday: 'long' });
       const monthName = date.toLocaleDateString('en-AU', { month: 'short' });
-      const month = date.getMonth() + 1;
+      const month = date.getMonth();
       const year = date.getFullYear();
+      const hour = date.getHours() - 2;
+      const minute = date.getMinutes();
 
+      const convertToAmPm = (hour: number, minute: number): string => {
+        const period = hour >= 12 ? 'PM' : 'AM';
+        const formattedHour = hour % 12 || 12;
+        const formattedMinute = minute.toString().padStart(2, '0');
+        return `${formattedHour}:${formattedMinute} ${period}`;
+      };
+
+      const timeInAmPm = convertToAmPm(hour, minute);
 
       const dateObject = {
         dayName: dayName,
         monthName: monthName,
         day: day,
         month: month,
-        year: year
+        year: year,
+        time: timeInAmPm
       };
 
       localStorage.setItem('dateObject', JSON.stringify(dateObject));
