@@ -40,7 +40,7 @@ const links = [
   { to: "/gallery", label: "Gallery" },
   { to: "/about-us", label: "About Us" },
   { to: "/careers", label: "Careers" },
-  { to: "/contact-us", label: "Contact" },
+  { to: "/contact", label: "Contact" },
 ];
 
 const Header: React.FC = () => {
