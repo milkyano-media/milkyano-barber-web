@@ -11,7 +11,7 @@ import { format, isValid, parse } from "date-fns";
 import moment from 'moment-timezone';
 import { useNavigate } from "react-router-dom";
 import { getAvailability } from '@/utils/squareApi';
-import { Availability, AvailabilityRequest, AvailabilityResponse, ServicesItem } from '@/interfaces/BookingInterface';
+import { Availability, AvailabilityResponse, ServicesItem } from '@/interfaces/BookingInterface';
 
 interface appointmentData {
   start_at: string;
@@ -35,8 +35,8 @@ const BookAppointment = () => {
   const currentDate = new Date()
   const startAt = new Date(currentDate)
   const endAt = new Date(currentDate)
-  endAt.setDate(endAt.getDate() + 31);
-  const threeMonthsAhead = moment().add(3, 'months').toDate();
+  endAt.setDate(endAt.getDate() + 30);
+  const twoMonthsAhead = moment().add(60, 'days').toDate();
 
   useEffect(() => {
     const currentDate = new Date();
@@ -47,33 +47,44 @@ const BookAppointment = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (bookedItems.length > 0) {
+  const fetchMultipleMonthsData = async (numberOfMonths: number) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const allAvailabilities: any[] = [];
+
+    for (let i = 0; i < numberOfMonths; i++) {
+
+      if (i === 1) {
+        startAt.setDate(startAt.getDate() + 30);
+        endAt.setDate(endAt.getDate() + 30);
+      }
+
       const requestBody = {
         "service_variation_id": bookedItems[0].item_data.variations[0].id,
         "start_at": moment.tz(startAt, "Australia/Sydney").format(),
         "end_at": moment.tz(endAt, "Australia/Sydney").format()
       };
-      fetchAvailableDates(requestBody);
+
+      const response = await getAvailability(requestBody);
+      allAvailabilities.push(...response.availabilities);
     }
 
-  }, [bookedItems]);
-
-  const fetchAvailableDates = async (body: AvailabilityRequest) => {
-    const response = await getAvailability(body);
-
-    const data = response
-    const availableDates = data;
-    setAvailableDates(availableDates);
-    const appointmentSegment = availableDates.availabilities[0].appointment_segments;
-    const locationId = availableDates.availabilities[0].location_id;
-
-    localStorage.setItem('appointmentSegment', JSON.stringify(appointmentSegment));
-    localStorage.setItem('locationId', JSON.stringify(locationId));
-    return availableDates.availabilities;
+    return allAvailabilities;
   };
 
+  useEffect(() => {
+    if (bookedItems.length > 0) {
+      const numberOfMonths = 2;
 
+      fetchMultipleMonthsData(numberOfMonths).then((availabilities) => {
+        setAvailableDates({ availabilities });
+        const appointmentSegment = availabilities[0].appointment_segments;
+        const locationId = availabilities[0].location_id;
+
+        localStorage.setItem('appointmentSegment', JSON.stringify(appointmentSegment));
+        localStorage.setItem('locationId', JSON.stringify(locationId));
+      });
+    }
+  }, [bookedItems]);
 
   function findAvailabilityByDate(date: string | number | Date) {
     const inputDate = moment.tz(date, "Australia/Sydney").format('YYYY-MM-DD');
@@ -188,7 +199,7 @@ const BookAppointment = () => {
             month={month}
             onMonthChange={setMonth}
             fromMonth={new Date()}
-            disabled={{ before: new Date(), after: threeMonthsAhead }}
+            disabled={{ before: new Date(), after: twoMonthsAhead }}
           />
         </div>
         <div className='flex flex-col rounded-3xl p-4 '>
