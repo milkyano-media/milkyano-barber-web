@@ -35,6 +35,7 @@ const BookAppointment = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [bookedItems, setBookedItems] = useState<ServicesItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isValidDate, setIsValidDate] = useState<boolean>(true);
   const [nextAvailable, setNextAvailable] = useState<Date>(new Date(currentDate))
   const startAt = new Date(currentDate)
   const endAt = new Date(currentDate)
@@ -140,8 +141,10 @@ const BookAppointment = () => {
 
   const handleDayPickerSelect = async (date: Date | undefined) => {
     if (!date) {
-      setInputValue("");
+      setIsValidDate(false)
+      setInputValue(format(new Date(), "MM/dd/yyyy"));
     } else {
+      setIsValidDate(true)
       setMonth(date);
       setInputValue(format(date, "MM/dd/yyyy"));
       const formattedDate = date.toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' }).replace(/(\w+), (\w+) (\d+)/, '$1, $2 $3');
@@ -250,7 +253,12 @@ const BookAppointment = () => {
             </section><section className=" flex flex-col relative z-40 px-4 w-full text-start gap-2 md:gap-4 text-stone-300 text-xs mt-8 ">
               <div>
                 <label htmlFor={inputId} className=''>
-                  <strong>{format(inputValue, "EEEE, MMMM d")}</strong>
+                  {isValidDate ? (
+                    <strong>{format(inputValue, "EEEE, MMMM d")}</strong>
+                  ) : (
+                    <strong>Please select a valid date</strong>
+                  )}
+
                 </label>
               </div>
               <section className='flex flex-col gap-8 pt-4 md:pl-4'>
