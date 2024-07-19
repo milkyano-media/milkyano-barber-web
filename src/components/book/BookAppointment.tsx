@@ -250,7 +250,8 @@ const BookAppointment = () => {
                 </div>
 
               </div>
-            </section><section className=" flex flex-col relative z-40 px-4 w-full text-start gap-2 md:gap-4 text-stone-300 text-xs mt-8 ">
+            </section>
+            <section className=" flex flex-col relative z-40 px-4 w-full text-start gap-2 md:gap-4 text-stone-300 text-xs mt-8 ">
               <div>
                 <label htmlFor={inputId} className=''>
                   {isValidDate ? (
@@ -261,7 +262,7 @@ const BookAppointment = () => {
 
                 </label>
               </div>
-              <section className='flex flex-col gap-8 pt-4 md:pl-4'>
+              <section className='flex flex-col gap-8 pt-'>
 
                 {availabilitybyDate?.length ?? 0 > 0 ? (
                   timesOfDayWithAppointments.length > 0 ? (
