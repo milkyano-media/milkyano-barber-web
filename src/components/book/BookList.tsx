@@ -137,7 +137,7 @@ const BookList = () => {
           ))
         ) : (
           <div className='w-full flex flex-col gap-6 justify-center items-center'>
-            <h3 className='text-xl font-bold'>Loading Data</h3>
+            <h3 className='text-xl font-bold'>Loading data...</h3>
             <Spinner />
           </div>
         )

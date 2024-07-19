@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { Button } from '@/components/ui/button';
 import GradientTop from "@/assets/landing/book_circle_top.svg"
 import GradientBottom from "@/assets/landing/book_circle_bottom.svg"
 import { Calendar } from "@/components/ui/calendar"
 import Logo from "@/components/react-svg/logo"
 import { Link } from 'react-router-dom';
-import { format, isValid, parse } from "date-fns";
+import { format } from "date-fns";
 import moment from 'moment-timezone';
 import { useNavigate } from "react-router-dom";
 import { getAvailability } from '@/utils/squareApi';
 import { Availability, AvailabilityResponse, ServicesItem } from '@/interfaces/BookingInterface';
+import Spinner from '../web/Spinner';
 
 interface appointmentData {
   start_at: string;
@@ -24,19 +25,23 @@ interface TimeOfDay {
 }
 
 const BookAppointment = () => {
+  const currentDate = new Date()
   const inputId = useId();
   const navigate = useNavigate();
   const [month, setMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [availableDates, setAvailableDates] = useState<AvailabilityResponse>();
+  const [unavailableDates, setUnavailableDates] = useState<Date[]>([]);
   const [availabilitybyDate, setAvailabilitybyDate] = useState<Availability[] | undefined>([]);
   const [inputValue, setInputValue] = useState<string>('');
   const [bookedItems, setBookedItems] = useState<ServicesItem[]>([]);
-  const currentDate = new Date()
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [nextAvailable, setNextAvailable] = useState<Date>(new Date(currentDate))
   const startAt = new Date(currentDate)
   const endAt = new Date(currentDate)
   endAt.setDate(endAt.getDate() + 30);
-  const twoMonthsAhead = moment().add(60, 'days').toDate();
+
+
 
   useEffect(() => {
     const currentDate = new Date();
@@ -48,43 +53,63 @@ const BookAppointment = () => {
   }, []);
 
   const fetchMultipleMonthsData = async (numberOfMonths: number) => {
+    setIsLoading(true)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const allAvailabilities: any[] = [];
+    if (bookedItems.length > 0) {
+      for (let i = 0; i < numberOfMonths; i++) {
 
-    for (let i = 0; i < numberOfMonths; i++) {
+        if (i === 1) {
+          startAt.setDate(startAt.getDate() + 30);
+          endAt.setDate(endAt.getDate() + 30);
+        }
 
-      if (i === 1) {
-        startAt.setDate(startAt.getDate() + 30);
-        endAt.setDate(endAt.getDate() + 30);
+        const requestBody = {
+          "service_variation_id": bookedItems[0].item_data.variations[0].id,
+          "start_at": moment.tz(startAt, "Australia/Sydney").format(),
+          "end_at": moment.tz(endAt, "Australia/Sydney").format()
+        };
+
+        const response = await getAvailability(requestBody);
+        allAvailabilities.push(...response.availabilities);
       }
-
-      const requestBody = {
-        "service_variation_id": bookedItems[0].item_data.variations[0].id,
-        "start_at": moment.tz(startAt, "Australia/Sydney").format(),
-        "end_at": moment.tz(endAt, "Australia/Sydney").format()
-      };
-
-      const response = await getAvailability(requestBody);
-      allAvailabilities.push(...response.availabilities);
     }
-
+    setIsLoading(false)
     return allAvailabilities;
   };
 
   useEffect(() => {
-    if (bookedItems.length > 0) {
-      const numberOfMonths = 2;
+    const numberOfMonths = 2;
+    fetchMultipleMonthsData(numberOfMonths).then((availabilities) => {
+      setAvailableDates({ availabilities });
 
-      fetchMultipleMonthsData(numberOfMonths).then((availabilities) => {
-        setAvailableDates({ availabilities });
-        const appointmentSegment = availabilities[0].appointment_segments;
-        const locationId = availabilities[0].location_id;
+      const appointmentSegment = availabilities[0]?.appointment_segments;
+      const locationId = availabilities[0]?.location_id;
 
-        localStorage.setItem('appointmentSegment', JSON.stringify(appointmentSegment));
-        localStorage.setItem('locationId', JSON.stringify(locationId));
-      });
+      localStorage.setItem('appointmentSegment', JSON.stringify(appointmentSegment));
+      localStorage.setItem('locationId', JSON.stringify(locationId));
     }
+    );
   }, [bookedItems]);
+
+  useEffect(() => {
+    const today = new Date();
+    const unavailable = [];
+    for (let i = 0; i <= 60; i++) {
+      const checkDate = new Date(today);
+      checkDate.setDate(today.getDate() + i);
+      const availability = checkAvailabilityByDate(checkDate);
+      if (!availability) {
+        unavailable.push(new Date(checkDate));
+      }
+    }
+    if (availableDates?.availabilities[0]) {
+      const nextDate: Date = new Date(availableDates.availabilities[0].start_at);
+      setNextAvailable(nextDate)
+    }
+    setUnavailableDates(unavailable);
+  }, [availableDates])
+
 
   function findAvailabilityByDate(date: string | number | Date) {
     const inputDate = moment.tz(date, "Australia/Sydney").format('YYYY-MM-DD');
@@ -94,9 +119,21 @@ const BookAppointment = () => {
       return itemDate === inputDate;
     });
 
+
     setAvailabilitybyDate(results);
-    return results ? results : "This date is not available";
+    return results && results.length > 0 ? results : null;
+
   }
+
+  function checkAvailabilityByDate(date: Date) {
+    const result = availableDates?.availabilities.some((item: { start_at: string; }) => {
+      const itemDate = new Date(item.start_at);
+      return date.getDate() === itemDate.getDate() && date.getMonth() === itemDate.getMonth();
+    });
+
+    return result;
+  }
+
 
   const handleDayPickerSelect = async (date: Date | undefined) => {
 
@@ -135,18 +172,6 @@ const BookAppointment = () => {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-
-    const parsedDate = parse(e.target.value, "MM/dd/yyyy", new Date());
-
-    if (isValid(parsedDate)) {
-      setSelectedDate(parsedDate);
-      setMonth(parsedDate);
-    } else {
-      setSelectedDate(undefined);
-    }
-  };
   const updateTimesOfDayWithAppointments = () => {
     const timesOfDay: TimeOfDay[] = [
       { title: "Morning", appointments: [] },
@@ -185,94 +210,103 @@ const BookAppointment = () => {
       </div>
       <img src={GradientTop} alt="gradient top" className='absolute top-0 right-0 w-5/12 ' />
       <img src={GradientBottom} alt="gradient top" className='absolute bottom-0 left-0 w-8/12 ' />
-      <section className='grid grid-cols-1 md:grid-cols-3 gap-4 relative z-40 w-full pt-12 md:pt-0'>
-        <div className='absolute top-24 md:top-12 h-8 w-full px-4'>
-          <hr className='absolute top-0 left-0 w-[10rem] h-[3px] bg-[#42FF00] transform  z-10' />
-          <hr className='absolute top-[1px] left-0 w-full h-[2px] bg-[#038101] z-0 opacity-50' />
-        </div>
-        <div className='col-span-2'>
-          <Calendar
-            mode="single"
-            className="rounded-md border-none p-0 py-3 mr-4"
-            selected={selectedDate}
-            onSelect={handleDayPickerSelect}
-            month={month}
-            onMonthChange={setMonth}
-            fromMonth={new Date()}
-            disabled={{ before: new Date(), after: twoMonthsAhead }}
-          />
-        </div>
-        <div className='flex flex-col rounded-3xl p-4 '>
-          <h3>Appointment Summary</h3>
-          <div className='flex flex-col gap-2 border-[1px]  border-t border-stone-400 p-3 rounded-xl text-sm mt-12'>
-            {bookedItems.length > 0 ? (
-              bookedItems.map((item) => (
-                <div key={item.id}>
-                  <h4 className='font-medium'>{item.item_data.name}</h4>
-                  <div className='flex gap-2 text-xs font-light'>
-                    <p>{item.item_data.variations[0].item_variation_data.price_description} Mins</p>
-                  </div>
+      {
+        !isLoading && unavailableDates ? (
+          <>
+            <section className='grid grid-cols-1 md:grid-cols-3 gap-4 relative z-40 w-full pt-12 md:pt-0'>
+              <div className='absolute top-24 md:top-12 h-8 w-full px-4'>
+                <hr className='absolute top-0 left-0 w-[10rem] h-[3px] bg-[#42FF00] transform  z-10' />
+                <hr className='absolute top-[1px] left-0 w-full h-[2px] bg-[#038101] z-0 opacity-50' />
+              </div>
+              <div className='col-span-2'>
+                <Calendar
+                  mode="single"
+                  className="rounded-md border-none p-0 py-3 mr-4"
+                  selected={selectedDate}
+                  onSelect={handleDayPickerSelect}
+                  month={month}
+                  onMonthChange={setMonth}
+                  fromMonth={new Date()}
+                  disabledDates={unavailableDates} />
+              </div>
+              <div className='flex flex-col rounded-3xl p-4 '>
+                <h3>Appointment Summary</h3>
+                <div className='flex flex-col gap-2 border-[1px]  border-t border-stone-400 p-3 rounded-xl text-sm mt-12'>
+                  {bookedItems.length > 0 ? (
+                    bookedItems.map((item) => (
+                      <div key={item.id}>
+                        <h4 className='font-medium'>{item.item_data.name}</h4>
+                        <div className='flex gap-2 text-xs font-light'>
+                          <p>{item.item_data.variations[0].item_variation_data.price_description} Mins</p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <p>Loading services...</p>
+                  )}
                 </div>
-              ))
-            ) : (
-              <p>Loading services...</p>
-            )}
+
+              </div>
+            </section><section className=" flex flex-col relative z-40 px-4 w-full text-start gap-2 md:gap-4 text-stone-300 text-xs mt-8 ">
+              <div>
+                <label htmlFor={inputId} className=''>
+                  <strong>Today, {inputValue}</strong>
+                </label>
+              </div>
+              <section className='flex flex-col gap-8 pt-4 md:pl-4'>
+
+                {availabilitybyDate?.length ?? 0 > 0 ? (
+                  timesOfDayWithAppointments.length > 0 ? (
+                    timesOfDayWithAppointments.map(timeOfDay => (
+                      <div key={timeOfDay.title} className='flex flex-col gap-2'>
+                        <h3>{timeOfDay.title}</h3>
+                        <ul className='flex gap-4 w-full flex-wrap'>
+                          {timeOfDay.appointments.length > 0 ? (
+                            timeOfDay.appointments.map((appointment, index) => (
+                              <Button
+                                key={index}
+                                className='w-fit text-xs h-fit py-1 rounded'
+                                onClick={() => {
+                                  localStorage.setItem('appointmentStartAt', appointment.start_at);
+                                  localStorage.setItem('selectedAppointment', appointment.readable_time);
+                                  navigate("/josh/book/contact-info");
+                                }}
+                              >
+                                {appointment.readable_time}
+                              </Button>
+                            ))
+                          ) : (
+                            <p>No appointments available.</p>
+                          )}
+                        </ul>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No appointments available.</p>
+                  )
+                ) : (
+                  <>
+                    <Button
+                      onClick={() => {
+                        setSelectedDate(nextAvailable)
+                        findAvailabilityByDate(nextAvailable)
+                      }}
+                      className='w-[100%] lg:w-[60%]'>Go to next available</Button>
+                    <p className=' font-large'>No availability until {format(nextAvailable, "EEEE, MMMM d")}</p>
+                  </>
+
+                )}
+              </section>
+            </section></>
+        ) : (
+          <div className='w-full flex flex-col gap-6 justify-center items-center'>
+            <h3 className='text-xl font-bold'>Loading data...</h3>
+            <Spinner />
           </div>
+        )
+      }
 
-        </div>
-      </section>
-      <section className=" flex flex-col relative z-40 px-4 w-full text-start gap-2 md:gap-4 text-stone-300 text-xs mt-8 ">
-        <div>
-          <label htmlFor={inputId} className=''>
-            <strong>Today, </strong>
-          </label>
-          <input
-            className='bg-transparent text-white'
-            style={{ fontSize: "inherit" }}
-            id={inputId}
-            type="text"
-            value={inputValue}
-            placeholder="MM/dd/yyyy"
-            onChange={handleInputChange}
-          />
-        </div>
-        <section className='flex flex-col gap-8 pt-4 md:pl-4'>
-
-          {availabilitybyDate?.length ?? 0 > 0 ? (
-            timesOfDayWithAppointments.length > 0 ? (
-              timesOfDayWithAppointments.map(timeOfDay => (
-                <div key={timeOfDay.title} className='flex flex-col gap-2'>
-                  <h3>{timeOfDay.title}</h3>
-                  <ul className='flex gap-4 w-full flex-wrap'>
-                    {timeOfDay.appointments.length > 0 ? (
-                      timeOfDay.appointments.map((appointment, index) => (
-                        <Button
-                          key={index}
-                          className='w-fit text-xs h-fit py-1 rounded'
-                          onClick={() => {
-                            localStorage.setItem('appointmentStartAt', appointment.start_at);
-                            localStorage.setItem('selectedAppointment', appointment.readable_time);
-                            navigate("/josh/book/contact-info");
-                          }}
-                        >
-                          {appointment.readable_time}
-                        </Button>
-                      ))
-                    ) : (
-                      <p>No appointments available.</p>
-                    )}
-                  </ul>
-                </div>
-              ))
-            ) : (
-              <p>No appointments available.</p>
-            )
-          ) : (
-            <p>No availability for the selected date.</p>
-          )}
-        </section>
-      </section>
-    </section>
+    </section >
   )
 }
 

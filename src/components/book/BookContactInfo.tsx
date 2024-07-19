@@ -37,7 +37,6 @@ const BookContactInfo = () => {
   const [status, setStatus] = useState('loading');
   const [isChecked, setIsChecked] = useState(false);
   const location = useLocation();
-
   const [showForm, setShowForm] = useState(false);
 
   const handleAddClick = () => {
@@ -323,7 +322,13 @@ const BookContactInfo = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <PhoneInput placeholder="+12555" {...field} />
+                        <PhoneInput
+                          countryCallingCodeEditable={false}
+                          placeholder='+610000'
+                          defaultCountry="AU"
+                          countrySelectProps={{ unicodeFlags: true }}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -337,7 +342,7 @@ const BookContactInfo = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input className='bg-transparent w-full border border-stone-500 rounded-lg' placeholder="John" {...field} />
+                          <Input className='bg-transparent w-full border border-stone-500 rounded-lg' placeholder="First name" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -349,7 +354,7 @@ const BookContactInfo = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input className='bg-transparent w-full border border-stone-500 rounded-lg' placeholder="Doe" {...field} />
+                          <Input className='bg-transparent w-full border border-stone-500 rounded-lg' placeholder="Last name" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -363,7 +368,7 @@ const BookContactInfo = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input className='bg-transparent w-full border border-stone-500 rounded-md' placeholder="mail@fade.com" {...field} />
+                          <Input className='bg-transparent w-full border border-stone-500 rounded-md' placeholder="Enter email" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
