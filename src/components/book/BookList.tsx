@@ -45,14 +45,16 @@ const BookList = () => {
       setIsLoading(true);
       let barber: string
       let query: string
+      let type: string
       const parts = location.pathname.split("/");
       parts[1] === 'meta' ? barber = parts[2] : barber = parts[1];
+      parts[1] === 'meta' ? type = 'M' : type = 'O'
       if (parts.length > 3)
-        barber === 'anthony' || barber === 'dejan' ? query = '' : query = barber;
+        barber === 'anthony' || barber === 'dejan' || barber === 'christos' ? query = '' : query = barber;
       else
         query = ''
       const fetchedBarbers = await getBarbers();
-      const fetchedServices = await getServices(query, 'O');
+      const fetchedServices = await getServices(query, type);
       joinBarbersAndServices(fetchedBarbers, fetchedServices)
       setIsLoading(false);
     };
