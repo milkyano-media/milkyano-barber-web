@@ -143,7 +143,7 @@ const ThankYouPage = () => {
 
     const formattedCancelHour = cancelHour % 12 || 12;
     const formattedCancelTime = `${formattedCancelHour}:${startMinute.toString().padStart(2, '0')}`;
-    CancelTime = `${formattedCancelTime} ${cancelPeriod} ${timezoneOffset}`;
+    CancelTime = `${formattedCancelTime} ${cancelPeriod}`;
 
     appointmentEndTime = `${formattedStartTime} – ${formattedEndTime} ${endPeriod} ${timezone}`;
   }

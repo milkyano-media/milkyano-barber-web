@@ -229,7 +229,7 @@ const BookContactInfo = () => {
       };
 
       await createBooking(bookingPayload);
-      await handlePurchase(userResponse);
+      handlePurchase(userResponse);
 
       setStatus('succeeded');
       setTimeout(() => {
@@ -238,12 +238,12 @@ const BookContactInfo = () => {
         const name = nameMatch ? nameMatch[1] : 'josh';
         const thankYouPath = `/${name}/book/thank-you`;
         navigate(thankYouPath);
-      }, 2000);
+      }, 1500);
     } catch (error) {
       setStatus('failed');
       setTimeout(() => {
         setIsLoading(false);
-      }, 2000);
+      }, 1500);
       console.error('Error:', error);
     }
   };
@@ -325,7 +325,6 @@ const BookContactInfo = () => {
                         <PhoneInput
                           countryCallingCodeEditable={false}
                           placeholder='+610000'
-                          defaultCountry="AU"
                           countrySelectProps={{ unicodeFlags: true }}
                           {...field}
                         />

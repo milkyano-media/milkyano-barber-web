@@ -29,7 +29,6 @@ const BookAppointment = () => {
   const inputId = useId();
   const navigate = useNavigate();
   const [month, setMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [availableDates, setAvailableDates] = useState<AvailabilityResponse>();
   const [unavailableDates, setUnavailableDates] = useState<Date[]>([]);
   const [availabilitybyDate, setAvailabilitybyDate] = useState<Availability[] | undefined>([]);
@@ -111,37 +110,38 @@ const BookAppointment = () => {
   }, [availableDates])
 
 
-  function findAvailabilityByDate(date: string | number | Date) {
-    const inputDate = moment.tz(date, "Australia/Sydney").format('YYYY-MM-DD');
+  function findAvailabilityByDate(date: Date) {
+    const dateAEST = moment.tz(date, 'Australia/Sydney').startOf('day');
 
     const results = availableDates?.availabilities.filter((item: { start_at: string; }) => {
-      const itemDate = moment.tz(item.start_at, "Australia/Sydney").format('YYYY-MM-DD');
-      return itemDate === inputDate;
+      const itemDate = moment.tz(item.start_at, 'Australia/Sydney').startOf('day');
+      return dateAEST.isSame(itemDate, 'day');
     });
-
 
     setAvailabilitybyDate(results);
     return results && results.length > 0 ? results : null;
-
   }
 
   function checkAvailabilityByDate(date: Date) {
+    const dateAEST = moment.tz(date, 'Australia/Sydney').startOf('day');
+
     const result = availableDates?.availabilities.some((item: { start_at: string; }) => {
-      const itemDate = new Date(item.start_at);
-      return date.getDate() === itemDate.getDate() && date.getMonth() === itemDate.getMonth();
+      const itemDate = moment.tz(item.start_at, 'Australia/Sydney').startOf('day');
+      return dateAEST.isSame(itemDate, 'day');
     });
+
+    if (date === new Date()) {
+      findAvailabilityByDate(date)
+    }
 
     return result;
   }
 
 
   const handleDayPickerSelect = async (date: Date | undefined) => {
-
     if (!date) {
       setInputValue("");
-      setSelectedDate(undefined);
     } else {
-      setSelectedDate(date);
       setMonth(date);
       setInputValue(format(date, "MM/dd/yyyy"));
       const formattedDate = date.toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' }).replace(/(\w+), (\w+) (\d+)/, '$1, $2 $3');
@@ -222,7 +222,7 @@ const BookAppointment = () => {
                 <Calendar
                   mode="single"
                   className="rounded-md border-none p-0 py-3 mr-4"
-                  selected={selectedDate}
+                  selected={new Date(inputValue)}
                   onSelect={handleDayPickerSelect}
                   month={month}
                   onMonthChange={setMonth}
@@ -250,7 +250,7 @@ const BookAppointment = () => {
             </section><section className=" flex flex-col relative z-40 px-4 w-full text-start gap-2 md:gap-4 text-stone-300 text-xs mt-8 ">
               <div>
                 <label htmlFor={inputId} className=''>
-                  <strong>Today, {inputValue}</strong>
+                  <strong>{format(inputValue, "EEEE, MMMM d")}</strong>
                 </label>
               </div>
               <section className='flex flex-col gap-8 pt-4 md:pl-4'>
@@ -288,7 +288,7 @@ const BookAppointment = () => {
                   <>
                     <Button
                       onClick={() => {
-                        setSelectedDate(nextAvailable)
+                        setInputValue(format(nextAvailable, 'MM/dd/yyyy'))
                         findAvailabilityByDate(nextAvailable)
                       }}
                       className='w-[100%] lg:w-[60%]'>Go to next available</Button>
