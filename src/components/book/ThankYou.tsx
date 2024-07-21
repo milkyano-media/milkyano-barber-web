@@ -17,11 +17,14 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useEffect, useState } from 'react';
 import { useGtm } from '../hooks/UseGtm';
+import { BarberDetailResponse } from '@/interfaces/BookingInterface';
+import { getBarberDetail } from '@/utils/squareApi';
 
 
 const ThankYouPage = () => {
   const location = useLocation();
   const { sendEvent } = useGtm();
+  const [barberName, setBarberName] = useState<string>('')
 
   useEffect(() => {
     if (location.pathname.includes("thank-you")) {
@@ -39,6 +42,19 @@ const ThankYouPage = () => {
     }
   }, [location.pathname, sendEvent]);
 
+  useEffect(() => {
+    const fetchBarberDetail = async () => {
+      const appointmentSegmentString = localStorage.getItem('appointmentSegment');
+      if (appointmentSegmentString) {
+        const appointmentSegment = JSON.parse(appointmentSegmentString);
+        const barberDetail: BarberDetailResponse = await getBarberDetail(appointmentSegment[0].team_member_id);
+        setBarberName(`${barberDetail.team_member.given_name} ${barberDetail.team_member.family_name}`)
+      }
+    };
+
+    fetchBarberDetail();
+  }, [])
+
   interface ContactInfo {
     monthName?: string;
     day?: number;
@@ -50,20 +66,6 @@ const ThankYouPage = () => {
   let formattedDate = '';
   let dateObject: ContactInfo = {};
 
-  const nameMap: { [key: string]: string } = {
-    anthony: 'Anthony Campanelli',
-    christos: 'Christos Kazanas',
-    dejan: 'Dejan Tomic',
-    emman: 'Emman Theodorou',
-    jay: 'Jay Robertson',
-    josh: 'Josh Vatansever Ly',
-    niko: 'Niko Atsis',
-    rayhan: 'Rayhan J',
-    wyatt: 'Wyatt Swick',
-  };
-  const nameMatch = location.pathname.match(/\/(\w+)\/book\/thank-you/);
-  const nameKey = nameMatch ? nameMatch[1] : 'josh'; // Default to 'josh' if no match
-  const fullName = nameMap[nameKey] || 'Josh Vatansever Ly'; // Default to 'Josh Vatansever Ly' if no match
 
   try {
     const bookedItemsString = localStorage.getItem('bookedItems');
@@ -93,6 +95,7 @@ const ThankYouPage = () => {
   }
 
   const selectedAppointmentString = localStorage.getItem('selectedAppointment');
+
   let appointmentEndTime = '';
   let formattedStartTime
   let CancelTime;
@@ -121,7 +124,6 @@ const ThankYouPage = () => {
     const formattedStartHour = startHour % 12 || 12;
     const formattedEndHour = endHour % 12 || 12;
     const startPeriod = startHour >= 12 ? 'PM' : 'AM';
-    const endPeriod = endHour >= 12 ? 'PM' : 'AM';
 
     formattedStartTime = `${formattedStartHour}:${startMinute.toString().padStart(2, '0')}`;
     const formattedEndTime = `${formattedEndHour}:${endMinute.toString().padStart(2, '0')}`;
@@ -145,7 +147,7 @@ const ThankYouPage = () => {
     const formattedCancelTime = `${formattedCancelHour}:${startMinute.toString().padStart(2, '0')}`;
     CancelTime = `${formattedCancelTime} ${cancelPeriod}`;
 
-    appointmentEndTime = `${formattedStartTime} – ${formattedEndTime} ${endPeriod} ${timezone}`;
+    appointmentEndTime = `${formattedStartTime} – ${formattedEndTime} ${cancelPeriod} ${timezone}`;
   }
 
   return (
@@ -200,7 +202,7 @@ const ThankYouPage = () => {
                 <h3 className='text-lg'>
                   {bookedItems[0].item_data.name}
                 </h3>
-                <p className='text-xs font-light text-stone-400 pl-4'>With {fullName}</p>
+                <p className='text-xs font-light text-stone-400 pl-4'>With {barberName}</p>
               </div>
             </div>
             <div className='rounded-b-xl px-4 pt-10 pb-4 border border-stone-400'>
