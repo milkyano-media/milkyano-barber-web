@@ -74,7 +74,7 @@ interface ServicesItem {
 }
 
 interface ServicesResponse {
-  items: ServicesItem[];
+  objects: ServicesItem[];
   cursor: string;
   matched_variation_ids: string[];
 }

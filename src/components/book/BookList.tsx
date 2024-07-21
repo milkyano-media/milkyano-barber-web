@@ -14,7 +14,6 @@ const BookList = () => {
   const navigate = useNavigate()
   const [barberServices, SetBarberServices] = useState<BarberServices>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  // const barberOrder: string[] = ['Josh', 'Jay', 'Niko', 'Rayhan', 'Emman', 'Anthony', 'Christos', 'Wyatt']
 
   useEffect(() => {
     interface BarberServices {
@@ -36,7 +35,7 @@ const BookList = () => {
 
       if (sortedProfiles && services) {
         for (let i = 0; i < sortedProfiles.length; i++) {
-          const servicesForBarber = services.items.filter(service =>
+          const servicesForBarber = services.objects.filter(service =>
             service.item_data.variations.some(variation =>
               variation.item_variation_data.team_member_ids.includes(sortedProfiles[i].team_member_id)
             )
@@ -61,11 +60,12 @@ const BookList = () => {
       parts[1] === 'meta' ? barber = parts[2] : barber = parts[1];
       parts[1] === 'meta' ? type = 'M' : type = 'O'
       if (parts.length > 3)
-        barber === 'dejan' ? query = '' : query = barber;
+        barber === 'dejan' ? query = 'all' : query = barber;
       else
         query = ''
       const fetchedBarbers = await getBarbers();
       const fetchedServices = await getServices(query, type);
+      console.log(fetchedServices)
       joinBarbersAndServices(fetchedBarbers, fetchedServices)
       setIsLoading(false);
     };
@@ -101,9 +101,9 @@ const BookList = () => {
       <img src={GradientBottom} alt="gradient top" className='absolute bottom-0 left-0 w-8/12 ' />
       {
         !isLoading && barberServices ? (
-          barberServices?.data.map((item, index) => (
+          barberServices?.data.map((item) => (
             <div className='w-full flex flex-col p-4 items-center md:items-start justify-center'>
-              <React.Fragment key={index}>
+              <React.Fragment key={item.barber.team_member_id}>
                 {item.services.length > 0 ?
                   (
                     <div className='flex flex-col gap-2 pb-4 text-stone-200 mt-20'>
