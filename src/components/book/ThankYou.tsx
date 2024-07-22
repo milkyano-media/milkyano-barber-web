@@ -25,6 +25,7 @@ const ThankYouPage = () => {
   const location = useLocation();
   const { sendEvent } = useGtm();
   const [barberName, setBarberName] = useState<string>('')
+  const [thankYouTime, setThankYouTime] = useState<string>('')
 
   useEffect(() => {
     if (location.pathname.includes("thank-you")) {
@@ -45,6 +46,11 @@ const ThankYouPage = () => {
   useEffect(() => {
     const fetchBarberDetail = async () => {
       const appointmentSegmentString = localStorage.getItem('appointmentSegment');
+
+      const timeData = localStorage.getItem('thankYouTime')
+      if (timeData) {
+        setThankYouTime(timeData)
+      }
       if (appointmentSegmentString) {
         const appointmentSegment = JSON.parse(appointmentSegmentString);
         const barberDetail: BarberDetailResponse = await getBarberDetail(appointmentSegment[0].team_member_id);
@@ -96,8 +102,6 @@ const ThankYouPage = () => {
 
   const selectedAppointmentString = localStorage.getItem('selectedAppointment');
 
-  let appointmentEndTime = '';
-  let formattedStartTime
   let CancelTime;
 
 
@@ -115,21 +119,9 @@ const ThankYouPage = () => {
     const startDate = new Date();
     startDate.setHours(startHour, startMinute, 0, 0);
 
-    const serviceDuration = bookedItems[0].item_data.variations[0].item_variation_data.service_duration;
-    const endDate = new Date(startDate.getTime() + serviceDuration);
-
-    const endHour = endDate.getHours();
-    const endMinute = endDate.getMinutes();
-
-    const formattedStartHour = startHour % 12 || 12;
-    const formattedEndHour = endHour % 12 || 12;
     const startPeriod = startHour >= 12 ? 'PM' : 'AM';
 
-    formattedStartTime = `${formattedStartHour}:${startMinute.toString().padStart(2, '0')}`;
-    const formattedEndTime = `${formattedEndHour}:${endMinute.toString().padStart(2, '0')}`;
 
-    const timezoneOffset = -startDate.getTimezoneOffset() / 60;
-    const timezone = `GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`;
     let cancelHour = startDate.getHours() - 2;
     let cancelPeriod = startPeriod;
 
@@ -146,8 +138,6 @@ const ThankYouPage = () => {
     const formattedCancelHour = cancelHour % 12 || 12;
     const formattedCancelTime = `${formattedCancelHour}:${startMinute.toString().padStart(2, '0')}`;
     CancelTime = `${formattedCancelTime} ${cancelPeriod}`;
-
-    appointmentEndTime = `${formattedStartTime} – ${formattedEndTime} ${cancelPeriod} ${timezone}`;
   }
 
   return (
@@ -195,7 +185,7 @@ const ThankYouPage = () => {
                   {formattedDate}
                 </h3>
                 <p className='text-xs font-light text-stone-400 pl-4'>
-                  {appointmentEndTime}
+                  {thankYouTime}
                 </p>
               </div>
               <div className='flex flex-col gap-2'>

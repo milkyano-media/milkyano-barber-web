@@ -131,9 +131,7 @@ const BookAppointment = () => {
       return dateAEST.isSame(itemDate, 'day');
     });
 
-    if (date === new Date()) {
-      findAvailabilityByDate(date)
-    }
+    findAvailabilityByDate(new Date())
 
     return result;
   }
