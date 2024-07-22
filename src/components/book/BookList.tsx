@@ -60,12 +60,12 @@ const BookList = () => {
       parts[1] === 'meta' ? barber = parts[2] : barber = parts[1];
       parts[1] === 'meta' ? type = 'M' : type = 'O'
       if (parts.length > 3)
-        barber === 'dejan' || barber === 'anthony' || barber === 'christos' || barber === 'wyatt' ? query = 'all' : query = barber;
+        barber === 'dejan' || barber === 'anthony' || barber === 'christos' || barber === 'wyatt' || barber === 'book' ? query = 'all' : query = barber;
       else
         query = ''
+
       const fetchedBarbers = await getBarbers();
       const fetchedServices = await getServices(query, type);
-      console.log(fetchedServices)
       joinBarbersAndServices(fetchedBarbers, fetchedServices)
       setIsLoading(false);
     };
@@ -110,9 +110,9 @@ const BookList = () => {
                       <div className='flex flex-col gap-1 text-center md:w-full w-10/12 mx-auto md:mx-0'>
                         <h3 className='text-base font-bold'>{item.barber.display_name}</h3>
                       </div>
-                      <div className='relative h-8 w-full'>
-                        <hr className='absolute top-0 left-0 w-[25rem] h-[2px] bg-[#42FF00] transform z-10' />
-                        <hr className='absolute top-1 left-0 w-full h-px bg-[#248B00] z-0' />
+                      <div className="relative h-8 w-full">
+                        <hr className="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-[2px] bg-[#42FF00] z-10 md:left-0 md:translate-x-0" />
+                        <hr className="absolute top-1 left-1/2 transform -translate-x-1/2 w-full h-px bg-[#248B00] z-0 md:left-0 md:translate-x-0" />
                       </div>
                     </div>
                   ) : (
@@ -135,7 +135,7 @@ const BookList = () => {
                             <hr className='w-full h-[2px] bg-[#b56a6a] opacity-5 my-2' />
                           </div>
                           <div className='self-center justify-self-end'>
-                            <Button className='bg-[#155601] text-[#3CE800] hover:text-[#155601] hover:bg-[#42FF00] rounded-md text-base px-6 py-2 h-fit'
+                            <Button className='bg-[#155601] text-[#3CE800] hover:text-[#155601] hover:bg-[#42FF00] rounded-md text-base px-6 py-2 h-fit mb-5'
                               onClick={() => handleBookNowClick(service)}>
                               Book Now
                             </Button>
