@@ -60,7 +60,7 @@ const BookList = () => {
       parts[1] === 'meta' ? barber = parts[2] : barber = parts[1];
       parts[1] === 'meta' ? type = 'M' : type = 'O'
       if (parts.length > 3)
-        barber === 'dejan' ? query = 'all' : query = barber;
+        barber === 'dejan' || barber === 'anthony' || barber === 'christos' || barber === 'wyatt' ? query = 'all' : query = barber;
       else
         query = ''
       const fetchedBarbers = await getBarbers();
