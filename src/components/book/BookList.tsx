@@ -37,7 +37,7 @@ const BookList = () => {
         for (let i = 0; i < sortedProfiles.length; i++) {
           const servicesForBarber = services.objects.filter(service =>
             service.item_data.variations.some(variation =>
-              variation.item_variation_data.team_member_ids.includes(sortedProfiles[i].team_member_id)
+              variation.item_variation_data.team_member_ids?.includes(sortedProfiles[i].team_member_id)
             )
           );
 
