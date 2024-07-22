@@ -37,7 +37,6 @@ const BookContactInfo = () => {
   const [status, setStatus] = useState('loading');
   const [isChecked, setIsChecked] = useState(false);
   const location = useLocation();
-
   const [showForm, setShowForm] = useState(false);
 
   const handleAddClick = () => {
@@ -102,12 +101,15 @@ const BookContactInfo = () => {
   const selectedAppointmentString = localStorage.getItem('selectedAppointment');
   let appointmentEndTime = '';
   let cancelTime = '';
-  let heldTimeHeader = '';
+  let startPeriod = '';
+  let selectedTime = '';
 
   if (selectedAppointmentString) {
     const [time, modifier] = selectedAppointmentString.split(' ');
     // eslint-disable-next-line prefer-const
     let [startHour, startMinute] = time.split(':').map(Number);
+    startPeriod = modifier.toUpperCase();
+    selectedTime = time;
 
     if (modifier === 'pm' && startHour !== 12) {
       startHour += 12;
@@ -134,11 +136,11 @@ const BookContactInfo = () => {
     const timezoneOffset = -startDate.getTimezoneOffset() / 60;
     const timezone = `GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`;
 
-    appointmentEndTime = `${formattedStartTime} – ${formattedEndTime} ${endPeriod} ${timezone}`;
+    appointmentEndTime = `${formattedStartTime} ${startPeriod} – ${formattedEndTime} ${endPeriod} ${timezone}`;
 
-    const startPeriod = startHour >= 12 ? 'PM' : 'AM';
+    localStorage.setItem('thankYouTime', appointmentEndTime)
+
     const tempCancelTime = `${formattedStartTime} ${startPeriod}`;
-    heldTimeHeader = tempCancelTime;
 
     const adjustTime = (timeString: string, hoursToSubtract: number): string => {
       const [time, modifier] = timeString.split(' ');
@@ -230,7 +232,7 @@ const BookContactInfo = () => {
       };
 
       await createBooking(bookingPayload);
-      await handlePurchase(userResponse);
+      handlePurchase(userResponse);
 
       setStatus('succeeded');
       setTimeout(() => {
@@ -239,12 +241,12 @@ const BookContactInfo = () => {
         const name = nameMatch ? nameMatch[1] : 'josh';
         const thankYouPath = `/${name}/book/thank-you`;
         navigate(thankYouPath);
-      }, 2000);
+      }, 1500);
     } catch (error) {
       setStatus('failed');
       setTimeout(() => {
         setIsLoading(false);
-      }, 2000);
+      }, 1500);
       console.error('Error:', error);
     }
   };
@@ -300,7 +302,7 @@ const BookContactInfo = () => {
         <div className='flex flex-col'>
           <div className='text-center w-full text-stone-200 text-sm py-2'>
             <h3 className='text-lg font-medium '>Checkout</h3>
-            <p className='font-extralight'>Appointment held for {heldTimeHeader}</p>
+            <p className='font-extralight'>Appointment held for {selectedTime} {startPeriod}</p>
           </div>
           <div className='relative  h-8 w-full px-4'>
             <hr className='absolute top-0 left-1/2 -translate-x-1/2 w-[15rem] h-[3px] bg-[#42FF00] transform  z-10' />
@@ -323,7 +325,12 @@ const BookContactInfo = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <PhoneInput placeholder="+12555" {...field} />
+                        <PhoneInput
+                          countryCallingCodeEditable={false}
+                          placeholder='+610000'
+                          countrySelectProps={{ unicodeFlags: true }}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -337,7 +344,7 @@ const BookContactInfo = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input className='bg-transparent w-full border border-stone-500 rounded-lg' placeholder="John" {...field} />
+                          <Input className='bg-transparent w-full border border-stone-500 rounded-lg' placeholder="First name" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -349,7 +356,7 @@ const BookContactInfo = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input className='bg-transparent w-full border border-stone-500 rounded-lg' placeholder="Doe" {...field} />
+                          <Input className='bg-transparent w-full border border-stone-500 rounded-lg' placeholder="Last name" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -363,7 +370,7 @@ const BookContactInfo = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input className='bg-transparent w-full border border-stone-500 rounded-md' placeholder="mail@fade.com" {...field} />
+                          <Input className='bg-transparent w-full border border-stone-500 rounded-md' placeholder="Enter email" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

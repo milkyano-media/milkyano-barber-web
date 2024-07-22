@@ -74,7 +74,7 @@ interface ServicesItem {
 }
 
 interface ServicesResponse {
-  items: ServicesItem[];
+  objects: ServicesItem[];
   cursor: string;
   matched_variation_ids: string[];
 }
@@ -227,4 +227,28 @@ interface BarberServices {
   data: BarberServicesData[]
 }
 
-export type { BarberServicesData, BarberServices, AppointmentSegment, Availability, ServicesItem, BarberProfile, BookingRequest, BookingResponse, AvailabilityRequest, AvailabilityQuery, AvailabilityResponse, BusinessBookingProfileResponse, CustomerRequest, ServicesResponse, BarberResponse, CustomerResponse };
+interface AssignedLocations {
+  assignment_type: string;
+  location_ids: string[];
+}
+
+interface BarberDetail {
+  id: string;
+  reference_id: string;
+  is_owner: boolean;
+  status: string;
+  given_name: string;
+  family_name: string;
+  email_address: string;
+  phone_number: string;
+  created_at: string;
+  updated_at: string;
+  assigned_locations: AssignedLocations;
+  merchant_id: string;
+}
+
+interface BarberDetailResponse {
+  team_member: BarberDetail;
+}
+
+export type { BarberDetailResponse, BarberServicesData, BarberServices, AppointmentSegment, Availability, ServicesItem, BarberProfile, BookingRequest, BookingResponse, AvailabilityRequest, AvailabilityQuery, AvailabilityResponse, BusinessBookingProfileResponse, CustomerRequest, ServicesResponse, BarberResponse, CustomerResponse };

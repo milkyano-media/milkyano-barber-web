@@ -7,12 +7,14 @@ import { DayPicker } from "react-day-picker"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>
-
+export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  disabledDates?: Date[];
+};
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
+  disabledDates = [],
   ...props
 }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = React.useState(new Date());
@@ -20,6 +22,28 @@ function Calendar({
   const handleMonthChange = (month: Date) => {
     setCurrentMonth(month);
   };
+
+  const isDateDisabled = (date: Date): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (date < today) {
+      return true;
+    }
+
+    const sixtyDaysFromNow = new Date();
+    sixtyDaysFromNow.setDate(today.getDate() + 60);
+    if (date > sixtyDaysFromNow) {
+      return true;
+    }
+
+    return disabledDates.some(disabledDate =>
+      date.getFullYear() === disabledDate.getFullYear() &&
+      date.getMonth() === disabledDate.getMonth() &&
+      date.getDate() === disabledDate.getDate()
+    );
+  };
+
   return (
     <div>
       <DayPicker
@@ -34,7 +58,7 @@ function Calendar({
           nav_button: cn(
             buttonVariants({ variant: "outline" }),
             "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 disabled:opacity-20 disabled:pointer-events-none",
-            
+
           ),
           nav_button_previous: "",
           nav_button_next: "",
@@ -66,7 +90,7 @@ function Calendar({
         }}
         month={currentMonth}
         onMonthChange={handleMonthChange}
-       
+        disabled={isDateDisabled}
         {...props}
       />
     </div>

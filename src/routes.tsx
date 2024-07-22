@@ -23,8 +23,6 @@ import BookAppointment from './components/book/BookAppointment';
 import BookContactInfo from './components/book/BookContactInfo';
 import ThankYou from './components/book/ThankYou';
 
-
-
 const webRoutes = [
   { path: '', component: Home },
   { path: 'barbers', component: Barbers },
@@ -38,7 +36,6 @@ const webRoutes = [
   { path: 'book/contact-info', component: BookContactInfo },
   { path: 'book/thank-you', component: ThankYou },
 ];
-
 
 const landingRoutes = [
   { path: 'anthony', component: AnthonyLanding },
@@ -99,7 +96,6 @@ const ThankYouRoutes = [
   { path: 'rayhan/book/thank-you', component: ThankYou },
   { path: 'wyatt/book/thank-you', component: ThankYou },
 ];
-
 
 const AppRoutes: React.FC = () => {
   return (

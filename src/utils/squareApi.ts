@@ -1,4 +1,4 @@
-import { AvailabilityRequest, AvailabilityResponse, BarberResponse, BookingRequest, BookingResponse, CustomerRequest, CustomerResponse, ServicesResponse } from '@/interfaces/BookingInterface';
+import { AvailabilityRequest, AvailabilityResponse, BarberDetailResponse, BarberResponse, BookingRequest, BookingResponse, CustomerRequest, CustomerResponse, ServicesResponse } from '@/interfaces/BookingInterface';
 import { apiSquare } from './apiClients';
 import { AxiosResponse } from 'axios';
 import { UserStatus } from '@/interfaces/UserInterface';
@@ -11,6 +11,11 @@ export const getServices = async (filter: string, type: string): Promise<Service
 
 export const getBarbers = async (): Promise<BarberResponse> => {
   const response: AxiosResponse<BarberResponse> = await apiSquare.get('/squareup/barbers');
+  return response.data;
+};
+
+export const getBarberDetail = async (barber_id: string): Promise<BarberDetailResponse> => {
+  const response: AxiosResponse<BarberDetailResponse> = await apiSquare.get(`/squareup/barbers/detail?barber_id=${barber_id}`);
   return response.data;
 };
 

@@ -3,15 +3,16 @@ import { Button } from '@/components/ui/button';
 
 import Logo from "@/assets/landing/logo.png"
 import HeaderParticles from "@/assets/landing/header_particles.svg"
+import { Link } from 'react-router-dom';
 
 const LandingHeader: React.FC = () => {
   return (
     <header className="bg-stone-950 text-white py-6 md:py-10 relative">
       <div className="container mx-auto flex justify-center md:justify-between items-center relative z-10">
         <h1 className="text-2xl font-bold text-transparent hidden md:block">Barber Shop</h1>
-        <div className='flex flex-col justify-center items-center'>
+        <Link to="/" className='flex flex-col justify-center items-center'>
           <img src={Logo} alt="barber shop faded lines" className='w-48 md:w-[15rem] h-auto' />
-        </div>
+        </Link>
         <nav className='hidden md:block'>
           <ul className="flex">
             <li>

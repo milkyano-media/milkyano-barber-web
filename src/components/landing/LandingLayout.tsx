@@ -13,10 +13,12 @@ const LandingLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
       event: 'route_event',
       path: location.pathname
     });
+
+    window.scrollTo(0, 0);
   }, [location.pathname, sendEvent]);
 
   return (
-    <div style={{ height: "1px" }} className="font-inter h-px">
+    <div className="font-inter" style={{ minHeight: '100vh' }}>
       <h1 className="hidden">Faded Lines Barber Shop</h1>
       <LandingHeader />
       <main>

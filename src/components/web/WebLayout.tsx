@@ -15,6 +15,8 @@ const WebLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
       event: 'route_event',
       path: location.pathname
     });
+
+    window.scrollTo(0, 0);
   }, [location.pathname, sendEvent]);
 
   return (
