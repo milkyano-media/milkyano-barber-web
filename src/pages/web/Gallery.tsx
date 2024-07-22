@@ -10,17 +10,22 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import EmeraldFooter from "@/assets/web/emerald_footer_mobile.svg";
 import EmeraldFooterRight from "@/assets/web/emerald_footer_right.svg";
 import EmeraldFooterLeft from "@/assets/web/emerald_footer_left.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const SLIDE_COUNT = 5
 const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
 
 export default function GalleriesPage() {
+  const location = useLocation()
   const generateLink = (text: string): JSX.Element => {
     const customize: boolean = true
     const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
-    const bookLink: string = `${location.pathname}/book/services`;
+
+    let bookLink: string
+    const parts = location.pathname.split("/");
+    if (parts[1] === 'meta') { bookLink = `/meta/book/services`; }
+    else { bookLink = '/book/services' }
 
     if (customize) {
       return (

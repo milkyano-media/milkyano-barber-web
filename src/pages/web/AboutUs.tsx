@@ -94,7 +94,6 @@ const SocialMediaLinks: React.FC = () => {
 
 export default function AboutUs() {
 
-
   useEffect(() => {
     // Create a new style element
     const style = document.createElement('style');

@@ -17,7 +17,7 @@ import Dejan from '@/assets/web/barbers/dejan.svg';
 import Christos from '@/assets/web/barbers/christos.svg';
 import Josh from '@/assets/web/barbers/josh.svg';
 import Niko from '@/assets/web/barbers/niko.svg';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const barberSvgs = [
   {
@@ -68,9 +68,15 @@ const barberSvgs = [
 ];
 
 export default function Barbers() {
+  const location = useLocation()
   const generateLink = () => {
-    const bookLink: string = `${location.pathname}/book/services`;
     const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
+
+    let bookLink: string
+    const parts = location.pathname.split("/");
+    if (parts[1] === 'meta') { bookLink = `/meta/book/services`; }
+    else { bookLink = '/book/services' }
+
     const customize: boolean = true;
     if (customize) {
       return bookLink

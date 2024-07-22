@@ -29,14 +29,20 @@ import instagramPhotosMobile5 from '/src/assets/follow-us/mobile/instagram_photo
 
 import BottomCta from "/src/assets/web/home/bottom_cta.png"
 import InstagramSection from "@/components/web/InstagramSection";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 
 export default function Home() {
+  const location = useLocation()
   const generateLink = (text: string): JSX.Element => {
     const customize: boolean = true;
     const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
-    const bookLink: string = `${location.pathname}/book/services`;
+
+    let bookLink: string
+    const parts = location.pathname.split("/");
+    if (parts[1] === 'meta') { bookLink = `/meta/book/services`; }
+    else { bookLink = '/book/services' }
+
 
     if (customize) {
       return (

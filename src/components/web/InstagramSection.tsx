@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button'; // Import the Button component. Adjust the path as needed.
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface InstagramSectionProps {
   instagram_images_desktop: { image: string, name: string }[];
@@ -8,9 +8,14 @@ interface InstagramSectionProps {
 }
 
 const InstagramSection: React.FC<InstagramSectionProps> = ({ instagram_images_desktop, instagram_images_mobile }) => {
-  const bookLink: string = `${location.pathname}/book/services`
+  const location = useLocation()
   const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
   const customize: boolean = true;
+
+  let bookLink: string
+  const parts = location.pathname.split("/");
+  if (parts[1] === 'meta') { bookLink = `/meta/book/services`; }
+  else { bookLink = '/book/services' }
 
   return (
     <section className="md:h-screen flex  flex-col justify-center items-start pt-24 relative z-10">
