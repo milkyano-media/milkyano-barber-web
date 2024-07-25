@@ -122,13 +122,16 @@ export default function NikoLanding() {
     };
   }, []);
 
+  const description =
+    "Dedicated to the fine art of barbering, I offer expert advice and top-tier services to keep you looking sharp and feeling great.";
+
   return (
     <LandingLayout>
       <Helmet>
         <title>niko Fadelines BEST BARBER IN MELBOURNE</title>
         <meta
           name="description"
-          content="Niko Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles."
+          content={`Niko Fadelines BEST BARBER IN MELBOURNE - ${description}`}
         />
         <meta
           property="og:title"
@@ -136,7 +139,7 @@ export default function NikoLanding() {
         />
         <meta
           property="og:description"
-          content="Niko Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles."
+          content={`Niko Fadelines BEST BARBER IN MELBOURNE - ${description}`}
         />
         <meta property="og:image" content="URL to Fadelines' preview image" />
         <meta property="og:url" content="URL to Fadelines' website" />
@@ -190,11 +193,7 @@ export default function NikoLanding() {
               <h2 className="text-xl font-bold mb-4">
                 BEST BARBER IN MELBOURNE
               </h2>
-              <p className="text-lg mb-8">
-                Dedicated to the fine art of barbering, I offer expert advice
-                and top-tier services to keep you looking sharp and feeling
-                great.
-              </p>
+              <p className="text-lg mb-8">{description}</p>
               <div className="bg-black"></div>
             </div>
             <div className="px-6 md:px-12 text-stone-50 flex flex-col md:flex-row gap-4 uppercase relative z-30">

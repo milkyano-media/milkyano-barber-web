@@ -122,13 +122,16 @@ export default function RayhanLanding() {
     };
   }, []);
 
+  const description =
+    "With a keen eye for detail and a passion for tradition, I blend classic barbering techniques with modern flair to give you a timeless look that stands out.";
+
   return (
     <LandingLayout>
       <Helmet>
         <title>rayhan Fadelines BEST BARBER IN MELBOURNE</title>
         <meta
           name="description"
-          content="Rayhan Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles."
+          content={`Rayhan Fadelines BEST BARBER IN MELBOURNE - ${description}`}
         />
         <meta
           property="og:title"
@@ -136,7 +139,7 @@ export default function RayhanLanding() {
         />
         <meta
           property="og:description"
-          content="Rayhan Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles."
+          content={`Rayhan Fadelines BEST BARBER IN MELBOURNE - ${description}`}
         />
         <meta property="og:image" content="URL to Fadelines' preview image" />
         <meta property="og:url" content="URL to Fadelines' website" />
@@ -190,11 +193,7 @@ export default function RayhanLanding() {
               <h2 className="text-xl font-bold mb-4">
                 BEST BARBER IN MELBOURNE
               </h2>
-              <p className="text-lg mb-8">
-                With a keen eye for detail and a passion for tradition, I blend
-                classic barbering techniques with modern flair to give you a
-                timeless look that stands out.
-              </p>
+              <p className="text-lg mb-8">{description}</p>
               <div className="bg-black"></div>
             </div>
             <div className="px-6 md:px-12 text-stone-50 flex flex-col md:flex-row gap-4 uppercase relative z-30">
