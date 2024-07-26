@@ -48,6 +48,7 @@ const links = [
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+
   const generateRoute = (route: string): string => {
     const parts = location.pathname.split("/");
     if (parts[1] === 'meta') {
