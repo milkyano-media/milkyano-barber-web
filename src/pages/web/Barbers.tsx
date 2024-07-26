@@ -19,56 +19,21 @@ import Josh from '@/assets/web/barbers/josh.svg';
 import Niko from '@/assets/web/barbers/niko.svg';
 import { Link, useLocation } from "react-router-dom";
 
-const barberSvgs = [
-  {
-    svg: Rayhan,
-    link: '/rayhan',
-    landing: true
-  },
-  {
-    svg: Anthony,
-    link: '/anthony',
-    landing: true
-  },
-  {
-    svg: Josh,
-    link: '/josh',
-    landing: true
-  },
-  {
-    svg: Jay,
-    link: '/jay',
-    landing: true
-  },
-  {
-    svg: Wyatt,
-    link: '/wyatt',
-    landing: true
-  },
-  {
-    svg: Emman,
-    link: '/emman',
-    landing: true
-  },
-  {
-    svg: Christos,
-    link: '/christos',
-    landing: true
-  },
-  {
-    svg: Niko,
-    link: '/niko',
-    landing: true
-  },
-  {
-    svg: Dejan,
-    link: '/dejan',
-    landing: false
-  },
-];
+
 
 export default function Barbers() {
   const location = useLocation()
+
+  const generateRoute = (route: string): string => {
+    const parts = location.pathname.split("/");
+    if (parts[1] === 'meta') {
+      return `/meta${route}`;
+    }
+    else {
+      return route;
+    }
+  }
+
   const generateLink = () => {
     const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
 
@@ -84,6 +49,54 @@ export default function Barbers() {
       return squareLink
     }
   }
+
+  const barberSvgs = [
+    {
+      svg: Rayhan,
+      link: generateRoute('/rayhan'),
+      landing: true
+    },
+    {
+      svg: Anthony,
+      link: generateRoute('/anthony'),
+      landing: true
+    },
+    {
+      svg: Josh,
+      link: generateRoute('/josh'),
+      landing: true
+    },
+    {
+      svg: Jay,
+      link: generateRoute('/jay'),
+      landing: true
+    },
+    {
+      svg: Wyatt,
+      link: generateRoute('/wyatt'),
+      landing: true
+    },
+    {
+      svg: Emman,
+      link: generateRoute('/emman'),
+      landing: true
+    },
+    {
+      svg: Christos,
+      link: generateRoute('/christos'),
+      landing: true
+    },
+    {
+      svg: Niko,
+      link: generateRoute('/niko'),
+      landing: true
+    },
+    {
+      svg: Dejan,
+      link: generateRoute('/dejan'),
+      landing: false
+    },
+  ];
 
   useEffect(() => {
     // Create a new style element
