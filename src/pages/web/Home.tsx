@@ -34,14 +34,30 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function Home() {
   const location = useLocation()
+
+  const generateRoute = (route: string): string => {
+    const parts = location.pathname.split("/");
+    if (parts[1] === 'meta') {
+      return `/meta${route}`;
+    }
+    else {
+      return route;
+    }
+  }
+
   const generateLink = (text: string): JSX.Element => {
     const customize: boolean = true;
     const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
 
     let bookLink: string
     const parts = location.pathname.split("/");
-    if (parts[1] === 'meta') { bookLink = `/meta/book/services`; }
-    else { bookLink = '/book/services' }
+    if (parts[1] === 'meta') {
+      bookLink = `/meta/book/services`;
+    }
+    else {
+      bookLink = '/book/services';
+    }
+
 
 
     if (customize) {
@@ -245,7 +261,7 @@ export default function Home() {
             <h3 className="md:text-6xl text-4xl tracking-wider md:leading-[5rem] font-extrabold mb-6">SAVE TIME AND <br /> <span className="text-transparent bg-gradient-to-r from-[#4DFF20]  to-[#88FF7D] bg-clip-text">BOOK NOW</span></h3>
             <div className="flex gap-4 py-4 justify-center md:justify-start ">
               <Button variant={"ghost"} className="bg-gradient-to-r from-[#14FF00]  to-[#999999] rounded-xl px-6 text-stone-50 font-bold uppercase py-1 hover:from-[#999999] hover:to-[#14FF00] hover:scale-105 transition-transform ease-in-out duration-200">
-                <Link to="/contact">
+                <Link to={generateRoute('/contact')}>
                   CONTACT US
                 </Link>
               </Button>

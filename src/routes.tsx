@@ -38,17 +38,17 @@ const webRoutes = [
 ];
 
 const metaWebRoutes = [
-  { path: '/meta', component: Home },
-  { path: '/meta/barbers', component: Barbers },
+  { path: 'meta', component: Home },
+  { path: 'meta/barbers', component: Barbers },
   { path: 'meta/gallery', component: Gallery },
   { path: 'meta/about-us', component: AboutUs },
-  { path: '/meta/careers', component: Careers },
-  { path: '/meta/contact', component: Contacts },
-  { path: '/meta/privacy-policy', component: PrivacyPolicy },
-  { path: '/meta/meta/book/services', component: BookList },
+  { path: 'meta/careers', component: Careers },
+  { path: 'meta/contact', component: Contacts },
+  { path: 'meta/privacy-policy', component: PrivacyPolicy },
+  { path: 'meta/meta/book/services', component: BookList },
   { path: 'meta/book/appointment', component: BookAppointment },
-  { path: '/meta/book/contact-info', component: BookContactInfo },
-  { path: '/meta/book/thank-you', component: ThankYou },
+  { path: 'meta/book/contact-info', component: BookContactInfo },
+  { path: 'meta/book/thank-you', component: ThankYou },
 ];
 
 const landingRoutes = [

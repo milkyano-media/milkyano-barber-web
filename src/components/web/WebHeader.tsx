@@ -24,7 +24,9 @@ interface NavLinkProps {
 }
 
 const NavLink: React.FC<NavLinkProps> = ({ to, label }) => {
-  const location = useLocation();
+
+  const location = useLocation()
+
   return (
     <li className='my-4'>
       <Link to={to} className={`text-2xl font-light hover:text-stone-50 ${location.pathname === to ? 'text-stone-50' : ''}`}>
@@ -46,6 +48,16 @@ const links = [
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const generateRoute = (route: string): string => {
+    const parts = location.pathname.split("/");
+    if (parts[1] === 'meta') {
+      return `/meta${route}`;
+    }
+    else {
+      return route;
+    }
+  }
+
   return (
     <header className="bg-black text-white relative shadow-lg shadow-black border-none z-[999999] pt-4">
       <div className="container mx-auto flex justify-between items-center relative z-10 border-none px-2 md:px-4">
@@ -58,22 +70,22 @@ const Header: React.FC = () => {
         <nav className='hidden lg:block'>
           <ul className="flex text-stone-600 ">
             <li>
-              <Link to="/" className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/' ? 'text-stone-50' : ''}`}>HOME</Link>
+              <Link to={generateRoute("/")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/' ? 'text-stone-50' : ''}`}>HOME</Link>
             </li>
             <li>
-              <Link to="/barbers" className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/barbers' ? 'text-stone-50' : ''}`}>BARBERS</Link>
+              <Link to={generateRoute("/barbers")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/barbers' ? 'text-stone-50' : ''}`}>BARBERS</Link>
             </li>
             <li>
-              <Link to="/gallery" className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/gallery' ? 'text-stone-50' : ''}`}>GALLERY</Link>
+              <Link to={generateRoute("/gallery")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/gallery' ? 'text-stone-50' : ''}`}>GALLERY</Link>
             </li>
             <li>
-              <Link to="/about-us" className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/about-us' ? 'text-stone-50' : ''}`}>ABOUT US</Link>
+              <Link to={generateRoute("/about-us")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/about-us' ? 'text-stone-50' : ''}`}>ABOUT US</Link>
             </li>
             <li>
-              <Link to="/careers" className={`text-md uppercase font-bold   px-4 border-r border-stone-50 hover:text-stone-50 ${location.pathname === '/careers' ? 'text-stone-50' : ''}`}>Careers</Link>
+              <Link to={generateRoute("/careers")} className={`text-md uppercase font-bold   px-4 border-r border-stone-50 hover:text-stone-50 ${location.pathname === '/careers' ? 'text-stone-50' : ''}`}>Careers</Link>
             </li>
             <li>
-              <Link to="/contact" className={`text-md uppercase font-bold   px-4 hover:text-stone-50 ${location.pathname === '/contact' ? 'text-stone-50' : ''}`}>CONTACT</Link>
+              <Link to={generateRoute("/contact")} className={`text-md uppercase font-bold   px-4 hover:text-stone-50 ${location.pathname === '/contact' ? 'text-stone-50' : ''}`}>CONTACT</Link>
             </li>
           </ul>
         </nav>
