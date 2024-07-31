@@ -27,20 +27,19 @@ import SwipedtoSee from "@/assets/landing/swipe_to_see.svg";
 import HeroTop from "@/assets/landing/hero_top_line.svg";
 import HeroBottom from "@/assets/landing/hero_bottom_line.svg";
 
-import highSkinFade1 from "@/assets/landing/cuts/christos/high_skin_fade_1.png";
-import highSkinFade2 from "@/assets/landing/cuts/christos/high_skin_fade_2.png";
-import highSkinFade3 from "@/assets/landing/cuts/christos/high_skin_fade_3.png";
-import highSkinFade4 from "@/assets/landing/cuts/christos/high_skin_fade_4.png";
-import highSkinFade5 from "@/assets/landing/cuts/christos/high_skin_fade_5.png";
-import highSkinFade from "@/assets/landing/cuts/christos/high_skin_fade.png";
-import midBurstFade from "@/assets/landing/cuts/christos/mid_burst_fade.png";
-import midDropFade1 from "@/assets/landing/cuts/christos/mid_drop_fade_1.png";
-import midDropFade from "@/assets/landing/cuts/christos/mid_drop_fade.png";
-import midSkinFadeMullet from "@/assets/landing/cuts/christos/mid_skin_fade_mullet.png";
-import midSkinFade1 from "@/assets/landing/cuts/christos/mid_skin_fade_1.png";
-import midSkinFade from "@/assets/landing/cuts/christos/mid_skin_fade.png";
-import midToHighBurstFaade from "@/assets/landing/cuts/christos/mid_to_high_burst_fade.png";
-import midToHighSkinFade from "@/assets/landing/cuts/christos/mid_to_high_skin_fade.png";
+import lowTaperFade from "@/assets/landing/cuts/christos/low_taper_fade.jpg";
+import midHighBurstFade from "@/assets/landing/cuts/christos/mid_high_burst_fade.jpg";
+import highDropFade from "@/assets/landing/cuts/christos/high_drop_fade.jpg";
+import highDropFade1 from "@/assets/landing/cuts/christos/high_drop_fade_1.jpg";
+import highSkinFade from "@/assets/landing/cuts/christos/high_skin_fade.jpg";
+import highSkinFade1 from "@/assets/landing/cuts/christos/high_skin_fade_1.jpg";
+import highSkinFade2 from "@/assets/landing/cuts/christos/high_skin_fade_2.jpg";
+import lowTaperFade1 from "@/assets/landing/cuts/christos/low_taper_fade_1.jpg";
+import midDropFade from "@/assets/landing/cuts/christos/mid_drop_fade.jpg";
+import midTaperFade from "@/assets/landing/cuts/christos/mid_taper_fade.jpg";
+import pompadourTaperFade from "@/assets/landing/cuts/christos/pompadour_taper_fade.jpg";
+import texturedFringe from "@/assets/landing/cuts/christos/textured_fringe.jpg";
+
 
 const Hero = getAsset("/assets/landing/videos/christos/hero.mp4");
 
@@ -54,20 +53,18 @@ const video6 = getAsset("/assets/landing/videos/christos/tiktok_3.mp4");
 const videos = [video1, video2, video3, video4, video5, video6];
 
 const cutsImages = [
+  { src: lowTaperFade, name: "Low Taper Fade" },
+  { src: midHighBurstFade, name: "Mid High Burst Fade" },
+  { src: highDropFade, name: "High Drop Fade" },
+  { src: highDropFade1, name: "High Drop Fade 1" },
+  { src: highSkinFade, name: "High Skin Fade" },
   { src: highSkinFade1, name: "High Skin Fade 1" },
   { src: highSkinFade2, name: "High Skin Fade 2" },
-  { src: highSkinFade3, name: "High Skin Fade 3" },
-  { src: highSkinFade4, name: "High Skin Fade 4" },
-  { src: highSkinFade5, name: "High Skin Fade 5" },
-  { src: highSkinFade, name: "High Skin Fade" },
-  { src: midBurstFade, name: "Mid Burst Fade" },
-  { src: midDropFade1, name: "Mid Drop Fade 1" },
+  { src: lowTaperFade1, name: "Low Taper Fade 1" },
   { src: midDropFade, name: "Mid Drop Fade" },
-  { src: midSkinFadeMullet, name: "Mid Skin Fade Mullet" },
-  { src: midSkinFade1, name: "Mid Skin Fade 1" },
-  { src: midSkinFade, name: "Mid Skin Fade" },
-  { src: midToHighBurstFaade, name: "Mid to High Burst Faade" },
-  { src: midToHighSkinFade, name: "Mid to High Skin Fade" },
+  { src: midTaperFade, name: "Mid Taper Fade" },
+  { src: pompadourTaperFade, name: "Pompadour Taper Fade" },
+  { src: texturedFringe, name: "Textured Fringe" }
 ];
 
 const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 };
