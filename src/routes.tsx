@@ -22,6 +22,8 @@ import BookList from './components/book/BookList';
 import BookAppointment from './components/book/BookAppointment';
 import BookContactInfo from './components/book/BookContactInfo';
 import ThankYou from './components/book/ThankYou';
+import Login from './pages/web/Login';
+import Dashboard from './pages/web/Dashboard';
 
 const webRoutes = [
   { path: '', component: Home },
@@ -31,10 +33,13 @@ const webRoutes = [
   { path: 'careers', component: Careers },
   { path: 'contact', component: Contacts },
   { path: 'privacy-policy', component: PrivacyPolicy },
+  { path: 'login', component: Login },
+  { path: `dashboard/${import.meta.env.VITE_DASHBOARD_KEY}`, component: Dashboard },
   { path: 'book/services', component: BookList },
   { path: 'book/appointment', component: BookAppointment },
   { path: 'book/contact-info', component: BookContactInfo },
   { path: 'book/thank-you', component: ThankYou },
+
 ];
 
 const metaWebRoutes = [
