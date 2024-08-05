@@ -39,6 +39,9 @@ const BookContactInfo = () => {
   const location = useLocation();
   const [showForm, setShowForm] = useState(false);
 
+  const parts = location.pathname.split("/");
+  const bookFrom = parts[1]
+
   const handleAddClick = () => {
     setShowForm(!showForm);
   };
@@ -179,6 +182,7 @@ const BookContactInfo = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { appointment_note, ...restValues } = values;
 
+
     const valuesWithIdempotencyKey: CustomerRequest = {
       ...restValues,
       idempotency_key: uuidv4(),
@@ -231,7 +235,7 @@ const BookContactInfo = () => {
         }
       };
 
-      await createBooking(bookingPayload);
+      await createBooking(bookingPayload, bookFrom);
       handlePurchase(userResponse);
 
       setStatus('succeeded');

@@ -29,8 +29,8 @@ export const createCustomer = async (data: CustomerRequest): Promise<CustomerRes
   return response.data;
 };
 
-export const createBooking = async (data: BookingRequest): Promise<BookingResponse> => {
-  const response: AxiosResponse<BookingResponse> = await apiSquare.post('/squareup/bookings', data);
+export const createBooking = async (data: BookingRequest, bookFrom: string): Promise<BookingResponse> => {
+  const response: AxiosResponse<BookingResponse> = await apiSquare.post(`/squareup/bookings?source=${bookFrom}`, data);
   return response.data;
 };
 
