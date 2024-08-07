@@ -40,7 +40,9 @@ const BookContactInfo = () => {
   const [showForm, setShowForm] = useState(false);
 
   const parts = location.pathname.split("/");
-  const bookFrom = parts[1]
+  let bookFrom
+  if (parts[1] === 'meta') bookFrom = parts[1]
+  else bookFrom = 'organic'
 
   const handleAddClick = () => {
     setShowForm(!showForm);
@@ -136,10 +138,8 @@ const BookContactInfo = () => {
     const formattedStartTime = `${formattedStartHour}:${startMinute.toString().padStart(2, '0')}`;
     const formattedEndTime = `${formattedEndHour}:${endMinute.toString().padStart(2, '0')}`;
 
-    const timezoneOffset = -startDate.getTimezoneOffset() / 60;
-    const timezone = `GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}`;
 
-    appointmentEndTime = `${formattedStartTime} ${startPeriod} – ${formattedEndTime} ${endPeriod} ${timezone}`;
+    appointmentEndTime = `${formattedStartTime} ${startPeriod} – ${formattedEndTime} ${endPeriod} GMT+10`;
 
     localStorage.setItem('thankYouTime', appointmentEndTime)
 

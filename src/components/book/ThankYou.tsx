@@ -274,7 +274,7 @@ const ThankYouPage = () => {
                   <img src={CancelationBar} alt="cancel before" />
                 </div>
               </div>
-              <p className='text-xs md:text-base font-extralight opacity-80'>Please cancel or reschedule before; {CancelTime} on <span>{dateObject.dayName}, {dateObject.monthName} {dateObject.day}</span>. After that, you may be charged a cancellation fee. <a className='text-[#04C600] underline'>See full policy</a></p>
+              <p className='text-xs md:text-base font-extralight opacity-80'>Please cancel or reschedule before {CancelTime} on <span>{dateObject.dayName}, {dateObject.monthName} {dateObject.day}</span>. After that, you may be charged a cancellation fee. <a className='text-[#04C600] underline'>See full policy</a></p>
             </div>
           </div>
         </section>
