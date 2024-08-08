@@ -28,7 +28,7 @@ import {
 import { Check, X } from 'react-bootstrap-icons';
 import Spinner from '@/components/web/Spinner';
 import { checkUserStatus, createBooking, createCustomer } from '@/utils/squareApi';
-import { BookingRequest, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
+import { BookingRequest, BookingResponse, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { UserStatus } from '@/interfaces/UserInterface';
 
@@ -238,6 +238,7 @@ const BookContactInfo = () => {
         const new_customer: boolean = data.new_customer
         localStorage.setItem('purchaseValue', total.toString())
         localStorage.setItem('newCustomer', new_customer.toString())
+        localStorage.setItem('bookingId', booking.booking.id)
       }
 
       const bookingPayload: BookingRequest = {
@@ -250,7 +251,7 @@ const BookContactInfo = () => {
         }
       };
 
-      await createBooking(bookingPayload, bookFrom);
+      const booking: BookingResponse = await createBooking(bookingPayload, bookFrom);
       handlePurchase(userResponse);
 
       setStatus('succeeded');
