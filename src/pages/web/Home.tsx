@@ -35,6 +35,20 @@ import { Link, useLocation } from "react-router-dom";
 export default function Home() {
   const location = useLocation()
 
+  const getQueryParams = (search: string) => {
+    return new URLSearchParams(search);
+  };
+
+  const queryParams = getQueryParams(location.search);
+  const fbclid = queryParams.get('fbclid')
+  const ttclid = queryParams.get('ttclid')
+  const gclid = queryParams.get('gclid')
+
+  if (fbclid && fbclid !== '') { localStorage.setItem('booking_origin', 'Facebook Ads') }
+  else if (ttclid && ttclid !== '') { localStorage.setItem('booking_origin', 'Tiktok Ads') }
+  else if (gclid && gclid !== '') { localStorage.setItem('booking_origin', 'Google Ads') }
+  else { localStorage.setItem('booking_origin', 'Organic') }
+
   const generateRoute = (route: string): string => {
     const parts = location.pathname.split("/");
     if (parts[1] === 'meta') {

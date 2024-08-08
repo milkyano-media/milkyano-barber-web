@@ -33,13 +33,22 @@ const ThankYouPage = () => {
       const value = purchaseValue ? JSON.parse(purchaseValue) : null;
       const customerValue = localStorage.getItem('newCustomer');
       const new_customer = customerValue ? JSON.parse(customerValue) : null;
+      const bookIdValue = localStorage.getItem('bookingId');
+      const booking_id = bookIdValue ? JSON.parse(bookIdValue) : null;
+      const sendedBookingIdValue = localStorage.getItem('sendedBookingId');
+      const sended_booking_id = sendedBookingIdValue ? JSON.parse(sendedBookingIdValue) : null;
 
-      sendEvent({
-        event: 'purchase_event',
-        value: value,
-        new_customer: new_customer,
-        Currency: 'AUD'
-      });
+      if (sended_booking_id !== booking_id) {
+        sendEvent({
+          booking_id: booking_id,
+          event: 'purchase_event',
+          value: value,
+          new_customer: new_customer,
+          Currency: 'AUD'
+        });
+      }
+
+      localStorage.setItem('sendedBookingId', booking_id)
     }
   }, [location.pathname, sendEvent]);
 

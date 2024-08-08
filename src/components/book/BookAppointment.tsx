@@ -6,7 +6,7 @@ import GradientTop from "@/assets/landing/book_circle_top.svg"
 import GradientBottom from "@/assets/landing/book_circle_bottom.svg"
 import { Calendar } from "@/components/ui/calendar"
 import Logo from "@/components/react-svg/logo"
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { format } from "date-fns";
 import moment from 'moment-timezone';
 import { useNavigate } from "react-router-dom";
@@ -25,6 +25,7 @@ interface TimeOfDay {
 }
 
 const BookAppointment = () => {
+  const location = useLocation()
   const currentDate = new Date()
   const inputId = useId();
   const navigate = useNavigate();
@@ -41,6 +42,20 @@ const BookAppointment = () => {
   const endAt = new Date(currentDate)
   endAt.setDate(endAt.getDate() + 30);
 
+
+  const generateRoute = (route: string): string => {
+    const parts = location.pathname.split("/");
+    if (parts[1] === 'meta') {
+      if (parts[2] === 'book')
+        return `/meta/${route}`;
+      else return `/meta/${parts[2]}/${route}`;
+    }
+    else {
+      if (parts[1] === 'book')
+        return `/${route}`;
+      else return `/${parts[1]}/${route}`;
+    }
+  }
 
 
   useEffect(() => {
@@ -276,7 +291,7 @@ const BookAppointment = () => {
                                 onClick={() => {
                                   localStorage.setItem('appointmentStartAt', appointment.start_at);
                                   localStorage.setItem('selectedAppointment', appointment.readable_time);
-                                  navigate("/josh/book/contact-info");
+                                  navigate(generateRoute("book/contact-info"));
                                 }}
                               >
                                 {appointment.readable_time}

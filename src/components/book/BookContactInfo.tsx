@@ -44,6 +44,21 @@ const BookContactInfo = () => {
   if (parts[1] === 'meta') bookFrom = parts[1]
   else bookFrom = 'organic'
 
+  const generateRoute = (route: string): string => {
+    const parts = location.pathname.split("/");
+    if (parts[1] === 'meta') {
+      if (parts[2] === 'book')
+        return `/meta/${route}`;
+      else return `/meta/${parts[2]}/${route}`;
+    }
+    else {
+      if (parts[1] === 'book')
+        return `/${route}`;
+      else return `/${parts[1]}/${route}`;
+    }
+  }
+
+
   const handleAddClick = () => {
     setShowForm(!showForm);
   };
@@ -241,9 +256,7 @@ const BookContactInfo = () => {
       setStatus('succeeded');
       setTimeout(() => {
         setIsLoading(false);
-        const nameMatch = location.pathname.match(/\/(\w+)\/book\/contact-info/);
-        const name = nameMatch ? nameMatch[1] : 'josh';
-        const thankYouPath = `/${name}/book/thank-you`;
+        const thankYouPath = generateRoute('book/thank-you');
         navigate(thankYouPath);
       }, 1500);
     } catch (error) {

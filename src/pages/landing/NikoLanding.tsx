@@ -90,6 +90,20 @@ const imagesReviews = [cardOne, cardTwo, cardThree, cardFour];
 export default function NikoLanding() {
   const location = useLocation();
 
+  const getQueryParams = (search: string) => {
+    return new URLSearchParams(search);
+  };
+
+  const queryParams = getQueryParams(location.search);
+  const fbclid = queryParams.get('fbclid')
+  const ttclid = queryParams.get('ttclid')
+  const gclid = queryParams.get('gclid')
+
+  if (fbclid && fbclid !== '') { localStorage.setItem('booking_origin', 'Facebook Ads') }
+  else if (ttclid && ttclid !== '') { localStorage.setItem('booking_origin', 'Tiktok Ads') }
+  else if (gclid && gclid !== '') { localStorage.setItem('booking_origin', 'Google Ads') }
+  else { localStorage.setItem('booking_origin', 'Organic') }
+
   const generateLink = (text: string): JSX.Element => {
     const customize: boolean = true;
     const squareLink: string =
@@ -104,19 +118,14 @@ export default function NikoLanding() {
   };
 
   useEffect(() => {
-    // Create a new style element
-    const style = document.createElement("style");
-    // Define the animation
+    const style = document.createElement('style');
     style.innerHTML = `
         @keyframes move {
             0% { transform: translateX(100%); opacity: 0; }
             50% { opacity: 1; }
             100% { transform: translateX(-100%); opacity: 0; }
         }`;
-    // Append the style element to the document head
     document.head.appendChild(style);
-
-    // Clean up function
     return () => {
       document.head.removeChild(style);
     };

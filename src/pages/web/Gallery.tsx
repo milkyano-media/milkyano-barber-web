@@ -18,6 +18,21 @@ const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 }
 
 export default function GalleriesPage() {
   const location = useLocation()
+
+  const getQueryParams = (search: string) => {
+    return new URLSearchParams(search);
+  };
+
+  const queryParams = getQueryParams(location.search);
+  const fbclid = queryParams.get('fbclid')
+  const ttclid = queryParams.get('ttclid')
+  const gclid = queryParams.get('gclid')
+
+  if (fbclid && fbclid !== '') { localStorage.setItem('booking_origin', 'Facebook Ads') }
+  else if (ttclid && ttclid !== '') { localStorage.setItem('booking_origin', 'Tiktok Ads') }
+  else if (gclid && gclid !== '') { localStorage.setItem('booking_origin', 'Google Ads') }
+  else { localStorage.setItem('booking_origin', 'Organic') }
+
   const generateLink = (text: string): JSX.Element => {
     const customize: boolean = true
     const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
