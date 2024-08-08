@@ -39,10 +39,7 @@ const BookContactInfo = () => {
   const location = useLocation();
   const [showForm, setShowForm] = useState(false);
 
-  const parts = location.pathname.split("/");
-  let bookFrom
-  if (parts[1] === 'meta') bookFrom = parts[1]
-  else bookFrom = 'organic'
+  const booking_origin = localStorage.getItem('booking_origin') || undefined;
 
   const generateRoute = (route: string): string => {
     const parts = location.pathname.split("/");
@@ -251,7 +248,7 @@ const BookContactInfo = () => {
         }
       };
 
-      const booking: BookingResponse = await createBooking(bookingPayload, bookFrom);
+      const booking: BookingResponse = await createBooking(bookingPayload, booking_origin || 'Organic');
       handlePurchase(userResponse);
 
       setStatus('succeeded');
