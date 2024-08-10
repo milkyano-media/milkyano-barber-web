@@ -127,13 +127,16 @@ export default function JayLanding() {
     };
   }, []);
 
+  const description =
+    "Pushing the boundaries of traditional barbering, I blend innovative techniques with classic skills to create unique, personalized styles.";
+
   return (
     <LandingLayout>
       <Helmet>
         <title>jay Fadelines BEST BARBER IN MELBOURNE</title>
         <meta
           name="description"
-          content="Jay Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles."
+          content={`Jay Fadelines BEST BARBER IN MELBOURNE - ${description}`}
         />
         <meta
           property="og:title"
@@ -141,7 +144,7 @@ export default function JayLanding() {
         />
         <meta
           property="og:description"
-          content="Jay Fadelines BEST BARBER IN MELBOURNE - A premier barber shop offering top-notch haircuts and styles."
+          content={`Jay Fadelines BEST BARBER IN MELBOURNE - ${description}`}
         />
         <meta property="og:image" content="URL to Fadelines' preview image" />
         <meta property="og:url" content="URL to Fadelines' website" />
@@ -195,11 +198,7 @@ export default function JayLanding() {
               <h2 className="text-xl font-bold mb-4">
                 BEST BARBER IN MELBOURNE
               </h2>
-              <p className="text-lg mb-8">
-                Pushing the boundaries of traditional barbering, I blend
-                innovative techniques with classic skills to create unique,
-                personalized styles.
-              </p>
+              <p className="text-lg mb-8">{description}</p>
               <div className="bg-black"></div>
             </div>
             <div className="px-6 md:px-12 text-stone-50 flex flex-col md:flex-row gap-4 uppercase relative z-30">
