@@ -45,7 +45,7 @@ function CardStack() {
     api.start(i => {
       if (index !== i) return
       const isGone = gone.has(index)
-      const x = isGone ? (8 + window.innerWidth / 2) * dir : down ? mx : 0;
+      const x = isGone ? (300 + window.innerWidth / 2) * dir : down ? mx : 0; 
       const rot = mx / 50 + (isGone ? dir * 5 * velocity : 0);
       const scale = down ? 1.1 : 1
       // Calculate the opacity based on the x value
