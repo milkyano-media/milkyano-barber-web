@@ -123,7 +123,6 @@ export default function Home() {
   useEffect(() => {
     const style = document.createElement('style');
 
-    // Define the animation
     style.innerHTML = `
         @keyframes move {
             0% { transform: translateX(100%); opacity: 0; }
@@ -131,7 +130,6 @@ export default function Home() {
             100% { transform: translateX(-100%); opacity: 0; }
         }`;
 
-    // Append the style element to the document head
     document.head.appendChild(style);
 
     const handleResize = () => {
@@ -142,7 +140,6 @@ export default function Home() {
       }
     };
 
-    // Initial calculation
     handleResize();
 
     window.addEventListener('resize', handleResize);
