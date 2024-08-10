@@ -35,12 +35,21 @@ const ThankYouPage = () => {
       const new_customer = customerValue ? JSON.parse(customerValue) : null;
       const booking_id = localStorage.getItem('bookingId') || undefined;
       const sended_booking_id = localStorage.getItem('sendedBookingId') || undefined;
-      const booking_origin = localStorage.getItem('booking_origin') || undefined;
+      const booking_origin = localStorage.getItem('utm_source') || undefined;
+
+      const utm_source = localStorage.getItem('utm_source') || undefined;
+      const utm_medium = localStorage.getItem('utm_medium') || undefined;
+      const utm_campaign = localStorage.getItem('utm_campaign') || undefined;
+      const utm_content = localStorage.getItem('utm_content') || undefined;
 
       if (sended_booking_id !== booking_id) {
         sendEvent({
           booking_id: booking_id,
-          book_from: booking_origin,
+          origin: booking_origin,
+          source: utm_source,
+          medium: utm_medium,
+          campaign: utm_campaign,
+          content: utm_content,
           event: 'purchase_event',
           value: value,
           new_customer: new_customer,

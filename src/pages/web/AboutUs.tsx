@@ -95,10 +95,8 @@ const SocialMediaLinks: React.FC = () => {
 export default function AboutUs() {
 
   useEffect(() => {
-    // Create a new style element
     const style = document.createElement('style');
 
-    // Define the animation
     style.innerHTML = `
         @keyframes move {
             0% { transform: translateX(100%); opacity: 0; }
@@ -106,11 +104,7 @@ export default function AboutUs() {
             100% { transform: translateX(-100%); opacity: 0; }
         }
     `;
-
-    // Append the style element to the document head
     document.head.appendChild(style);
-
-    // Clean up function
     return () => {
       document.head.removeChild(style);
     };

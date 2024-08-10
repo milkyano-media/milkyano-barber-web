@@ -99,9 +99,14 @@ export default function NikoLanding() {
   const ttclid = queryParams.get('ttclid')
   const gclid = queryParams.get('gclid')
 
-  if (fbclid && fbclid !== '') { localStorage.setItem('booking_origin', 'Facebook Ads') }
-  else if (ttclid && ttclid !== '') { localStorage.setItem('booking_origin', 'Tiktok Ads') }
-  else if (gclid && gclid !== '') { localStorage.setItem('booking_origin', 'Google Ads') }
+  localStorage.setItem('utm_source', queryParams.get('utm_source') || 'None')
+  localStorage.setItem('utm_medium', queryParams.get('utm_medium') || 'None')
+  localStorage.setItem('utm_campaign', queryParams.get('utm_campaign') || 'None')
+  localStorage.setItem('utm_content', queryParams.get('utm_content') || 'None')
+
+  if (fbclid) { localStorage.setItem('booking_origin', 'Facebook Ads') }
+  else if (ttclid) { localStorage.setItem('booking_origin', 'Tiktok Ads') }
+  else if (gclid) { localStorage.setItem('booking_origin', 'Google Ads') }
   else { localStorage.setItem('booking_origin', 'Organic') }
 
   const generateLink = (text: string): JSX.Element => {

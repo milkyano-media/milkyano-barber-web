@@ -42,15 +42,11 @@ const formSchema = z.object({
 
 export default function Contacts() {
 
-  // Define your states
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState('loading');
 
-  // 2. Define a submit handler.
   const sendEmail = (values: z.infer<typeof formSchema>) => {
-    // Set loading state to true
     setIsLoading(true);
-    // Set status to 'loading'
     setStatus('loading');
 
 
@@ -62,24 +58,16 @@ export default function Contacts() {
         'dVQ8-b1hMOSkncafw'
       )
       .then(() => {
-        // alert('Message successfully sent!');
-        // Set status to 'succeeded'
         setStatus('succeeded');
-
-        // Wait for 2 seconds before setting isLoading to false
         setTimeout(() => {
           setIsLoading(false);
         }, 2000);
       })
       .catch(() => {
-        // Set status to 'failed'
         setStatus('failed');
-
-        // Wait for 2 seconds before setting isLoading to false
         setTimeout(() => {
           setIsLoading(false);
         }, 2000);
-        // alert('Failed to send the message, please try again!');
       });
   };
 

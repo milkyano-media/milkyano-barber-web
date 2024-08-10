@@ -35,11 +35,33 @@ import ArrowTiktokTrans from "@/assets/web/careers/arrow_tiktok_trans.svg";
 import Clipper from "@/assets/web/careers/clipper.svg"
 import Spinner from "@/components/web/Spinner";
 import { Check, X } from "react-bootstrap-icons";
+import { useLocation } from "react-router-dom";
 
 export default function Careers() {
   const ref = useRef(null)
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState('loading');
+
+  const location = useLocation()
+
+  const getQueryParams = (search: string) => {
+    return new URLSearchParams(search);
+  };
+
+  const queryParams = getQueryParams(location.search);
+  const fbclid = queryParams.get('fbclid')
+  const ttclid = queryParams.get('ttclid')
+  const gclid = queryParams.get('gclid')
+
+  localStorage.setItem('utm_source', queryParams.get('utm_source') || 'None')
+  localStorage.setItem('utm_medium', queryParams.get('utm_medium') || 'None')
+  localStorage.setItem('utm_campaign', queryParams.get('utm_campaign') || 'None')
+  localStorage.setItem('utm_content', queryParams.get('utm_content') || 'None')
+
+  if (fbclid) { localStorage.setItem('booking_origin', 'Facebook Ads') }
+  else if (ttclid) { localStorage.setItem('booking_origin', 'Tiktok Ads') }
+  else if (gclid) { localStorage.setItem('booking_origin', 'Google Ads') }
+  else { localStorage.setItem('booking_origin', 'Organic') }
 
   const { scrollYProgress } = useScroll({
     target: ref,
