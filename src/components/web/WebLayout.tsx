@@ -20,7 +20,7 @@ const WebLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   }, [location.pathname, sendEvent]);
 
   return (
-    <div className={` font-inter h-px`}>
+    <div className={` font-inter`}>
       <h1 className="hidden">Faded Lines Barber Shop</h1>
       <WebHeader />
       <main className="">

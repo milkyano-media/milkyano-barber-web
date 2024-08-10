@@ -60,7 +60,7 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className="bg-black text-white relative shadow-lg shadow-black border-none z-[999999] pt-4">
+    <header className="bg-black text-white  shadow-lg shadow-black border-none z-[999999999999999] py-4 sticky top-0 ">
       <div className="container mx-auto flex justify-between items-center relative z-10 border-none px-2 md:px-4">
         <h1 className="text-2xl font-bold text-transparent hidden ">Barber Shop</h1>
         <div className='flex flex-col justify-center items-center'>
@@ -68,7 +68,7 @@ const Header: React.FC = () => {
             <Logo className='w-48 md:w-[12rem] h-auto opacity-90 ' />
           </Link>
         </div>
-        <nav className='hidden lg:block'>
+        <nav className='hidden lg:block sticky top-0'>
           <ul className="flex text-stone-600 ">
             <li>
               <Link to={generateRoute("")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/' ? 'text-stone-50' : ''}`}>HOME</Link>
