@@ -88,8 +88,8 @@ export default function Barbers() {
     },
     {
       svg: Aaron,
-      link: generateRoute('/aaron'),
-      landing: false
+      link: generateRoute('/aaron/book/services'),
+      landing: true
     },
     {
       svg: Jay,

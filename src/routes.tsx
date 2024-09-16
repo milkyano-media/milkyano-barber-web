@@ -22,8 +22,7 @@ import BookList from './components/book/BookList';
 import BookAppointment from './components/book/BookAppointment';
 import BookContactInfo from './components/book/BookContactInfo';
 import ThankYou from './components/book/ThankYou';
-import Login from './pages/web/Login';
-import Dashboard from './pages/web/Dashboard';
+import AaronLanding from './pages/landing/AaronLanding';
 
 const webRoutes = [
   { path: '', component: Home },
@@ -33,8 +32,6 @@ const webRoutes = [
   { path: 'careers', component: Careers },
   { path: 'contact', component: Contacts },
   { path: 'privacy-policy', component: PrivacyPolicy },
-  { path: 'login', component: Login },
-  { path: `dashboard/${import.meta.env.VITE_DASHBOARD_KEY}`, component: Dashboard },
   { path: 'book/services', component: BookList },
   { path: 'book/appointment', component: BookAppointment },
   { path: 'book/contact-info', component: BookContactInfo },
@@ -66,6 +63,7 @@ const landingRoutes = [
   { path: 'niko', component: NikoLanding },
   { path: 'rayhan', component: RayhanLanding },
   { path: 'wyatt', component: WyattLanding },
+  { path: 'aaron', component: AaronLanding }
 ];
 
 const bookRoutes = [
@@ -78,6 +76,7 @@ const bookRoutes = [
   { path: 'niko/book/services', component: BookList },
   { path: 'rayhan/book/services', component: BookList },
   { path: 'wyatt/book/services', component: BookList },
+  { path: 'aaron/book/services', component: BookList }
 ];
 
 const appointmentRoutes = [
@@ -90,6 +89,7 @@ const appointmentRoutes = [
   { path: 'niko/book/appointment', component: BookAppointment },
   { path: 'rayhan/book/appointment', component: BookAppointment },
   { path: 'wyatt/book/appointment', component: BookAppointment },
+  { path: 'aaron/book/appointment', component: BookAppointment }
 ];
 
 const contactInfoRoutes = [
@@ -102,6 +102,7 @@ const contactInfoRoutes = [
   { path: 'niko/book/contact-info', component: BookContactInfo },
   { path: 'rayhan/book/contact-info', component: BookContactInfo },
   { path: 'wyatt/book/contact-info', component: BookContactInfo },
+  { path: 'aaron/book/contact-info', component: BookContactInfo }
 ];
 
 const ThankYouRoutes = [
@@ -114,6 +115,7 @@ const ThankYouRoutes = [
   { path: 'niko/book/thank-you', component: ThankYou },
   { path: 'rayhan/book/thank-you', component: ThankYou },
   { path: 'wyatt/book/thank-you', component: ThankYou },
+  { path: 'aaron/book/thank-you', component: ThankYou }
 ];
 
 const AppRoutes: React.FC = () => {
