@@ -22,7 +22,7 @@ const BookList = () => {
 
     const joinBarbersAndServices = (barbers: BarberResponse | undefined, services: ServicesResponse | undefined) => {
       const barberServices: BarberServices = { data: [] };
-      const sortOrder = ['Josh', 'Jay', 'Niko', 'Rayhan', 'Emman', 'Anthony', 'Christos', 'Wyatt'];
+      const sortOrder = ['Josh', 'Aaron', 'Jay', 'Niko', 'Rayhan', 'Emman', 'Anthony', 'Christos', 'Wyatt'];
 
       const sortedProfiles: BarberProfile[] | undefined = barbers?.team_member_booking_profiles
         .filter(profile => sortOrder.some(name => profile.display_name.includes(name.toUpperCase())))
@@ -60,7 +60,7 @@ const BookList = () => {
       parts[1] === 'meta' ? barber = parts[2] : barber = parts[1];
       parts[1] === 'meta' ? type = 'M' : type = 'O'
       if (parts.length > 3)
-        barber === 'dejan' || barber === 'anthony' || barber === 'christos' || barber === 'wyatt' || barber === 'book' ? query = 'all' : query = barber;
+        barber === 'dejan' || barber === 'anthony' || barber === 'christos' || barber === 'wyatt' || barber === 'aaron' || barber === 'book' ? query = 'all' : query = barber;
       else
         query = ''
 
