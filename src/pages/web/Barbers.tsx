@@ -17,7 +17,7 @@ import Dejan from '@/assets/web/barbers/dejan.svg';
 import Christos from '@/assets/web/barbers/christos.svg';
 import Josh from '@/assets/web/barbers/josh.svg';
 import Niko from '@/assets/web/barbers/niko.svg';
-import Aaron from '@/assets/web/barbers/aaron.png';
+import Aaron from '@/assets/web/barbers/aaron.svg';
 import { Link, useLocation } from "react-router-dom";
 
 
@@ -89,7 +89,7 @@ export default function Barbers() {
     {
       svg: Aaron,
       link: generateRoute('/aaron'),
-      landing: true
+      landing: false
     },
     {
       svg: Jay,
