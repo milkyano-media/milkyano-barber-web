@@ -22,7 +22,7 @@ const BookList = () => {
 
     const joinBarbersAndServices = (barbers: BarberResponse | undefined, services: ServicesResponse | undefined) => {
       const barberServices: BarberServices = { data: [] };
-      const sortOrder = ['Josh', 'Aaron', 'Jay', 'Niko', 'Rayhan', 'Emman', 'Anthony', 'Christos', 'Wyatt'];
+      const sortOrder = ['Aaron', 'Jay', 'Emman', 'Niko', 'Rayhan', 'Anthony', 'Josh', 'Christos', 'Wyatt'];
 
       const sortedProfiles: BarberProfile[] | undefined = barbers?.team_member_booking_profiles
         .filter(profile => sortOrder.some(name => profile.display_name.includes(name.toUpperCase())))
