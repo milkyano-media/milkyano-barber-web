@@ -26,6 +26,7 @@ import AaronLanding from './pages/landing/AaronLanding';
 
 const webRoutes = [
   { path: '', component: Home },
+  { path: 'home', component: Home },
   { path: 'barbers', component: Barbers },
   { path: 'gallery', component: Gallery },
   { path: 'about-us', component: AboutUs },
@@ -41,6 +42,7 @@ const webRoutes = [
 
 const metaWebRoutes = [
   { path: 'meta', component: Home },
+  { path: 'meta/home', component: Home },
   { path: 'meta/barbers', component: Barbers },
   { path: 'meta/gallery', component: Gallery },
   { path: 'meta/about-us', component: AboutUs },

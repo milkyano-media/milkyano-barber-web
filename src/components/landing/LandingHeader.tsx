@@ -22,7 +22,7 @@ const LandingHeader: React.FC = () => {
     <header className="bg-stone-950 text-white py-6 md:py-10 relative">
       <div className="container mx-auto flex justify-center md:justify-between items-center relative z-10">
         <h1 className="text-2xl font-bold text-transparent hidden md:block">Barber Shop</h1>
-        <Link to={generateRoute("")} className='flex flex-col justify-center items-center'>
+        <Link to={generateRoute("/home")} className='flex flex-col justify-center items-center'>
           <img src={Logo} alt="barber shop faded lines" className='w-48 md:w-[15rem] h-auto' />
         </Link>
         <nav className='hidden md:block'>
