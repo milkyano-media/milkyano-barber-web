@@ -142,7 +142,7 @@ export default function NikoLanding() {
   return (
     <LandingLayout>
       <Helmet>
-        <title>niko Fadelines BEST BARBER IN MELBOURNE</title>
+        <title>niko Fadelines BEST BARBER/HAIRDRESSER IN MELBOURNE</title>
         <meta
           name="description"
           content={`Niko Fadelines BEST BARBER IN MELBOURNE - ${description}`}

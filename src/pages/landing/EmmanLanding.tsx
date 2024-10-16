@@ -138,7 +138,7 @@ export default function EmmanLanding() {
   return (
     <LandingLayout>
       <Helmet>
-        <title>emman Fadelines BEST BARBER IN MELBOURNE</title>
+        <title>emman Fadelines BEST BARBER/HAIRDRESSER IN MELBOURNE</title>
         <meta
           name="description"
           content={`Emman Fadelines BEST BARBER IN MELBOURNE - ${description}`}

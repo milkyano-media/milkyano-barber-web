@@ -127,7 +127,7 @@ export default function ChristosLanding() {
   return (
     <LandingLayout>
       <Helmet>
-        <title>christos Fadelines BEST BARBER IN MELBOURNE</title>
+        <title>christos Fadelines BEST BARBER/HAIRDRESSER IN MELBOURNE</title>
         <meta
           name="description"
           content={`Christos Fadelines BEST BARBER IN MELBOURNE - ${description}`}

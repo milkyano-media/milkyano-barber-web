@@ -142,7 +142,7 @@ export default function WyattLanding() {
   return (
     <LandingLayout>
       <Helmet>
-        <title>wyatt Fadelines BEST BARBER IN MELBOURNE</title>
+        <title>wyatt Fadelines BEST BARBER/HAIRDRESSER IN MELBOURNE</title>
         <meta
           name="description"
           content={`Wyatt Fadelines BEST BARBER IN MELBOURNE - ${description}`}

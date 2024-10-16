@@ -142,7 +142,7 @@ export default function RayhanLanding() {
   return (
     <LandingLayout>
       <Helmet>
-        <title>rayhan Fadelines BEST BARBER IN MELBOURNE</title>
+        <title>rayhan Fadelines BEST BARBER/HAIRDRESSER IN MELBOURNE</title>
         <meta
           name="description"
           content={`Rayhan Fadelines BEST BARBER IN MELBOURNE - ${description}`}

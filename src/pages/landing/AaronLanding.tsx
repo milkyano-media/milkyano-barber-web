@@ -136,7 +136,7 @@ export default function AaronLanding() {
   return (
     <LandingLayout>
       <Helmet>
-        <title>Josh Fadelines BEST BARBER IN MELBOURNE</title>
+        <title>Josh Fadelines BEST BARBER/HAIRDRESSER IN MELBOURNE</title>
         <meta
           name="description"
           content={`Josh Fadelines BEST BARBER IN MELBOURNE - ${description}`}

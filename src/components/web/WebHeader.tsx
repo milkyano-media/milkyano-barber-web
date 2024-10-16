@@ -74,7 +74,7 @@ const Header: React.FC = () => {
               <Link to={generateRoute("/home")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/' ? 'text-stone-50' : ''}`}>HOME</Link>
             </li>
             <li>
-              <Link to={generateRoute("/barbers")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/barbers' ? 'text-stone-50' : ''}`}>BARBERS</Link>
+              <Link to={generateRoute("/barbers")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/barbers' ? 'text-stone-50' : ''}`}>BARBERS/HAIRDRESSERS</Link>
             </li>
             <li>
               <Link to={generateRoute("/gallery")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/gallery' ? 'text-stone-50' : ''}`}>GALLERY</Link>

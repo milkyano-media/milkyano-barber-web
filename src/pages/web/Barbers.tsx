@@ -161,7 +161,7 @@ export default function Barbers() {
         <img src={EmeraldFooterLeft} alt="EmeraldFooter.svg" className="absolute hidden md:block bottom-[-10rem] md:bottom-[-26rem] z-0 left-0" />
         <section className=" w-full relative flex flex-col items-center text-center py-12 md:pb-0">
           <div className="w-full px-4 md:px-0 py-12 md:pb-0 flex flex-col gap-4 justify-center items-center leading-loose">
-            <h3 className="text-3xl md:text-4xl font-extrabold w-full md:w-1/4 mx-auto tracking-wider">PRICING FOR EACH <span className="text-transparent bg-gradient-to-r from-[#42FF00]  to-[#79FF86] bg-clip-text">BARBER</span></h3>
+            <h3 className="text-3xl md:text-4xl font-extrabold w-full md:w-1/4 mx-auto tracking-wider">PRICING FOR EACH <span className="text-transparent bg-gradient-to-r from-[#42FF00]  to-[#79FF86] bg-clip-text">BARBER/HAIRDRESSER</span></h3>
             <p className="text-xs w-10/12 md:w-full md:text-lg font-light">Offering quality haircuts, our barbers are ready to make your day.</p>
           </div>
         </section>

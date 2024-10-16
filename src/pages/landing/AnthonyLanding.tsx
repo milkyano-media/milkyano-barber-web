@@ -143,7 +143,7 @@ export default function AnthonyLanding() {
   return (
     <LandingLayout>
       <Helmet>
-        <title>anthony Fadelines BEST BARBER IN MELBOURNE</title>
+        <title>anthony Fadelines BEST BARBER/HAIRDRESSER IN MELBOURNE</title>
         <meta
           name="description"
           content={`Anthony Fadelines BEST BARBER IN MELBOURNE - ${description}`}

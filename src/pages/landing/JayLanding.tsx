@@ -133,7 +133,7 @@ export default function JayLanding() {
   return (
     <LandingLayout>
       <Helmet>
-        <title>jay Fadelines BEST BARBER IN MELBOURNE</title>
+        <title>jay Fadelines BEST BARBER/HAIRDRESSER IN MELBOURNE</title>
         <meta
           name="description"
           content={`Jay Fadelines BEST BARBER IN MELBOURNE - ${description}`}
