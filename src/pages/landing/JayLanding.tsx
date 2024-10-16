@@ -196,7 +196,7 @@ export default function JayLanding() {
                 Hi, I&apos;m jay
               </h2>
               <h2 className="text-xl font-bold mb-4">
-                BEST BARBER IN MELBOURNE
+                BEST BARBER/HAIRDRESSER IN MELBOURNE
               </h2>
               <p className="text-lg mb-8">{description}</p>
               <div className="bg-black"></div>
