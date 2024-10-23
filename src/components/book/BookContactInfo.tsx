@@ -236,6 +236,7 @@ const BookContactInfo = () => {
         localStorage.setItem('purchaseValue', total.toString())
         localStorage.setItem('newCustomer', new_customer.toString())
         localStorage.setItem('bookingId', booking.booking.id)
+        localStorage.setItem('barberId', booking.booking.appointment_segments[0].team_member_id)
       }
 
       const bookingPayload: BookingRequest = {

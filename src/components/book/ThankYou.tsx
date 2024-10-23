@@ -18,7 +18,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useGtm } from '../hooks/UseGtm';
 import { BarberDetailResponse } from '@/interfaces/BookingInterface';
-import { getBarberDetail } from '@/utils/squareApi';
+import { getBarberDetail, sendUtmRecord } from '@/utils/squareApi';
 
 
 const ThankYouPage = () => {
@@ -28,36 +28,54 @@ const ThankYouPage = () => {
   const [thankYouTime, setThankYouTime] = useState<string>('')
 
   useEffect(() => {
-    if (location.pathname.includes("thank-you")) {
-      const purchaseValue = localStorage.getItem('purchaseValue');
-      const value = purchaseValue ? JSON.parse(purchaseValue) : null;
-      const customerValue = localStorage.getItem('newCustomer');
-      const new_customer = customerValue ? JSON.parse(customerValue) : null;
-      const booking_id = localStorage.getItem('bookingId') || undefined;
-      const sended_booking_id = localStorage.getItem('sendedBookingId') || undefined;
-      const booking_origin = localStorage.getItem('utm_source') || undefined;
+    const handleThankYouPage = async () => {
+      if (location.pathname.includes("thank-you")) {
+        const purchaseValue = localStorage.getItem('purchaseValue');
+        const value = purchaseValue ? JSON.parse(purchaseValue) : null;
+        const customerValue = localStorage.getItem('newCustomer');
+        const new_customer = customerValue ? JSON.parse(customerValue) : null;
+        const booking_id = localStorage.getItem('bookingId') || undefined;
+        const customer_id = localStorage.getItem('customerId') || undefined;
+        const barber_id = localStorage.getItem('barberId') || undefined;
+        const sended_booking_id = localStorage.getItem('sendedBookingId') || undefined;
+        const booking_origin = localStorage.getItem('utm_source') || undefined;
+        const utm_source = localStorage.getItem('utm_source') || undefined;
+        const utm_medium = localStorage.getItem('utm_medium') || undefined;
+        const utm_campaign = localStorage.getItem('utm_campaign') || undefined;
+        const utm_content = localStorage.getItem('utm_content') || undefined;
 
-      const utm_source = localStorage.getItem('utm_source') || undefined;
-      const utm_medium = localStorage.getItem('utm_medium') || undefined;
-      const utm_campaign = localStorage.getItem('utm_campaign') || undefined;
-      const utm_content = localStorage.getItem('utm_content') || undefined;
+        if (sended_booking_id !== booking_id) {
+          sendEvent({
+            booking_id,
+            origin: booking_origin,
+            source: utm_source,
+            medium: utm_medium,
+            campaign: utm_campaign,
+            content: utm_content,
+            event: 'purchase_event',
+            value,
+            new_customer,
+            Currency: 'AUD',
+          });
+          localStorage.setItem('sendedBookingId', booking_id || '')
+        }
 
-      if (sended_booking_id !== booking_id) {
-        sendEvent({
-          booking_id: booking_id,
-          origin: booking_origin,
-          source: utm_source,
-          medium: utm_medium,
-          campaign: utm_campaign,
-          content: utm_content,
-          event: 'purchase_event',
-          value: value,
-          new_customer: new_customer,
-          Currency: 'AUD'
-        });
-        localStorage.setItem('sendedBookingId', booking_id || '')
+        if (booking_origin?.toLowerCase() !== 'organic' && booking_id && customer_id && barber_id) {
+          console.log(booking_origin)
+          await sendUtmRecord({
+            bookingId: booking_id,
+            customerId: customer_id,
+            barberId: barber_id,
+            source: utm_source || "",
+            campaign: utm_campaign || "",
+            content: utm_content || "",
+            medium: utm_medium || ""
+          });
+        }
       }
-    }
+    };
+
+    handleThankYouPage();
   }, [location.pathname, sendEvent]);
 
   useEffect(() => {
