@@ -251,4 +251,14 @@ interface BarberDetailResponse {
   team_member: BarberDetail;
 }
 
-export type { BarberDetailResponse, BarberServicesData, BarberServices, AppointmentSegment, Availability, ServicesItem, BarberProfile, BookingRequest, BookingResponse, AvailabilityRequest, AvailabilityQuery, AvailabilityResponse, BusinessBookingProfileResponse, CustomerRequest, ServicesResponse, BarberResponse, CustomerResponse };
+interface CreateRecordInput {
+  bookingId: string;
+  customerId: string;
+  barberId: string;
+  source: string;
+  campaign?: string;
+  content?: string;
+  medium?: string;
+}
+
+export type { CreateRecordInput, BarberDetailResponse, BarberServicesData, BarberServices, AppointmentSegment, Availability, ServicesItem, BarberProfile, BookingRequest, BookingResponse, AvailabilityRequest, AvailabilityQuery, AvailabilityResponse, BusinessBookingProfileResponse, CustomerRequest, ServicesResponse, BarberResponse, CustomerResponse };

@@ -1,4 +1,4 @@
-import { AvailabilityRequest, AvailabilityResponse, BarberDetailResponse, BarberResponse, BookingRequest, BookingResponse, CustomerRequest, CustomerResponse, ServicesResponse } from '@/interfaces/BookingInterface';
+import { AvailabilityRequest, AvailabilityResponse, BarberDetailResponse, BarberResponse, BookingRequest, BookingResponse, CreateRecordInput, CustomerRequest, CustomerResponse, ServicesResponse } from '@/interfaces/BookingInterface';
 import { apiSquare } from './apiClients';
 import { AxiosResponse } from 'axios';
 import { UserStatus } from '@/interfaces/UserInterface';
@@ -36,6 +36,11 @@ export const createBooking = async (data: BookingRequest, bookFrom: string): Pro
 
 export const checkUserStatus = async (data: CustomerRequest): Promise<UserStatus> => {
   const response: AxiosResponse<UserStatus> = await apiSquare.post('/users/status', data);
+  return response.data;
+};
+
+export const sendUtmRecord = async (data: CreateRecordInput): Promise<CreateRecordInput> => {
+  const response: AxiosResponse<CreateRecordInput> = await apiSquare.post('/record', data);
   return response.data;
 };
 
