@@ -77,8 +77,6 @@ export default function Home() {
       bookLink = '/book/services';
     }
 
-
-
     if (customize) {
       return (
         <Link to={bookLink}>

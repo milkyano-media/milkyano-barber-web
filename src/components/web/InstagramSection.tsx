@@ -24,10 +24,10 @@ const InstagramSection: React.FC<InstagramSectionProps> = ({ instagram_images_de
   localStorage.setItem('utm_campaign', queryParams.get('utm_campaign') || 'None')
   localStorage.setItem('utm_content', queryParams.get('utm_content') || 'None')
 
-  if (fbclid) { localStorage.setItem('booking_origin', 'Facebook Ads') }
-  else if (ttclid) { localStorage.setItem('booking_origin', 'Tiktok Ads') }
-  else if (gclid) { localStorage.setItem('booking_origin', 'Google Ads') }
-  else { localStorage.setItem('booking_origin', 'Organic') }
+  if (fbclid) { localStorage.setItem('booking_origin', 'facebook') }
+  else if (ttclid) { localStorage.setItem('booking_origin', 'tiktok') }
+  else if (gclid) { localStorage.setItem('booking_origin', 'google') }
+  else { localStorage.setItem('booking_origin', 'organic') }
 
   const squareLink: string = 'https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services';
   const customize: boolean = true;
