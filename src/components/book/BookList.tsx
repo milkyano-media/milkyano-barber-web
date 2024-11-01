@@ -6,7 +6,7 @@ import GradientBottom from "@/assets/landing/book_circle_bottom.svg"
 import Logo from "@/components/react-svg/logo"
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BarberProfile, BarberResponse, BarberServices, BarberServicesData, ServicesResponse } from '@/interfaces/BookingInterface';
-import { getBarbers, getServices } from '@/utils/squareApi';
+import { getBarbers, getServices } from '@/utils/barberApi';
 import Spinner from '../web/Spinner';
 
 const BookList = () => {
