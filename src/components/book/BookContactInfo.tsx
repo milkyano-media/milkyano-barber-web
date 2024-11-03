@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Check, X } from 'react-bootstrap-icons';
 import Spinner from '@/components/web/Spinner';
-import { checkUserStatus, createBooking, createCustomer } from '@/utils/squareApi';
+import { checkUserStatus, createBooking, createCustomer } from '@/utils/barberApi';
 import { BookingRequest, BookingResponse, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { UserStatus } from '@/interfaces/UserInterface';

@@ -10,7 +10,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { format } from "date-fns";
 import moment from 'moment-timezone';
 import { useNavigate } from "react-router-dom";
-import { getAvailability } from '@/utils/squareApi';
+import { getAvailability } from '@/utils/barberApi';
 import { Availability, AvailabilityResponse, ServicesItem } from '@/interfaces/BookingInterface';
 import Spinner from '../web/Spinner';
 

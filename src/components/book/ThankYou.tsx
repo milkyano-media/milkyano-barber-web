@@ -18,7 +18,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useGtm } from '../hooks/UseGtm';
 import { BarberDetailResponse } from '@/interfaces/BookingInterface';
-import { getBarberDetail, sendUtmRecord } from '@/utils/squareApi';
+import { getBarberDetail, sendUtmRecord } from '@/utils/barberApi';
 
 
 const ThankYouPage = () => {
