@@ -70,7 +70,7 @@ const ThankYouPage = () => {
         if (booking_origin?.toLowerCase() !== 'organic' && booking_id && customer_id && barber_id) {
 
 
-          if (bookingSourceData.utm_source || customerSourceData.utm_source) {
+          if (bookingSourceData || customerSourceData) {
             let influence = "mostly organic(0-25%)";
 
             if (bookingSourceData) {
