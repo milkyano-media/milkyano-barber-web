@@ -34,6 +34,7 @@ const BookAppointment = () => {
   const [unavailableDates, setUnavailableDates] = useState<Date[]>([]);
   const [availabilitybyDate, setAvailabilitybyDate] = useState<Availability[] | undefined>([]);
   const [inputValue, setInputValue] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<Date>();
   const [bookedItems, setBookedItems] = useState<ServicesItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isValidDate, setIsValidDate] = useState<boolean>(true);
@@ -156,10 +157,12 @@ const BookAppointment = () => {
     if (!date) {
       setIsValidDate(false)
       setInputValue(format(new Date(), "MM/dd/yyyy"));
+      setSelectedDate(new Date());
     } else {
       setIsValidDate(true)
+      setSelectedDate(date);
       setMonth(date);
-      setInputValue(format(date, "MM/dd/yyyy"));
+      setInputValue(format(new Date(), "MM/dd/yyyy"));
       const formattedDate = date.toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' }).replace(/(\w+), (\w+) (\d+)/, '$1, $2 $3');
       date.setHours(currentDate.getHours() - 2);
 
@@ -238,7 +241,7 @@ const BookAppointment = () => {
                 <Calendar
                   mode="single"
                   className="rounded-md border-none p-0 py-3 mr-4"
-                  selected={new Date(inputValue)}
+                  selected={selectedDate}
                   onSelect={handleDayPickerSelect}
                   month={month}
                   onMonthChange={setMonth}

@@ -82,7 +82,9 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 export default function AaronLanding() {
-  const location = useLocation();
+  localStorage.removeItem('booking_source');
+
+  const location = useLocation()
 
   const getQueryParams = (search: string) => {
     return new URLSearchParams(search);
@@ -92,6 +94,20 @@ export default function AaronLanding() {
   const fbclid = queryParams.get('fbclid')
   const ttclid = queryParams.get('ttclid')
   const gclid = queryParams.get('gclid')
+
+  const trackingData = {
+    utm_source: queryParams.get("utm_source"),
+    utm_medium: queryParams.get("utm_medium"),
+    utm_campaign: queryParams.get("utm_campaign"),
+    utm_content: queryParams.get("utm_content"),
+    fbclid: queryParams.get("fbclid"),
+  };
+
+  localStorage.setItem('booking_source', JSON.stringify(trackingData))
+
+  if (trackingData.fbclid && trackingData.utm_source) {
+    localStorage.setItem('customer_source', JSON.stringify(trackingData))
+  }
 
   localStorage.setItem('utm_source', queryParams.get('utm_source') || 'None')
   localStorage.setItem('utm_medium', queryParams.get('utm_medium') || 'None')

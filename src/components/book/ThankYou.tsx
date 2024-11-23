@@ -44,6 +44,13 @@ const ThankYouPage = () => {
         const utm_campaign = localStorage.getItem('utm_campaign') || undefined;
         const utm_content = localStorage.getItem('utm_content') || undefined;
 
+        const bookingSource = localStorage.getItem("booking_source") || undefined;
+        const customerSource = localStorage.getItem("customer_source") || undefined;
+
+        const bookingSourceData = JSON.parse(bookingSource || '');
+        const customerSourceData = JSON.parse(customerSource || '');
+
+
         if (sended_booking_id !== booking_id) {
           sendEvent({
             booking_id,
@@ -61,16 +68,35 @@ const ThankYouPage = () => {
         }
 
         if (booking_origin?.toLowerCase() !== 'organic' && booking_id && customer_id && barber_id) {
-          console.log(booking_origin)
-          await sendUtmRecord({
-            bookingId: booking_id,
-            customerId: customer_id,
-            barberId: barber_id,
-            source: utm_source || "",
-            campaign: utm_campaign || "",
-            content: utm_content || "",
-            medium: utm_medium || ""
-          });
+
+
+          if (bookingSourceData.source || customerSourceData.source) {
+            let influence = "mostly organic(0-25%)";
+
+            if (bookingSourceData) {
+              if (bookingSourceData.fbclid && bookingSourceData.utm_source) {
+                influence = "strongly influenced by ads(75-100%)";
+              } else if (bookingSourceData.fbclid) {
+                influence = "significantly influenced by ads(50-75%)";
+              }
+            } else {
+              if (customerSourceData.fbclid || customerSourceData.utm_source)
+                influence = "partially influenced by ads(25-50%)";
+            }
+
+            const recordData = {
+              bookingId: booking_id,
+              customerId: customer_id,
+              barberId: barber_id,
+              source: bookingSourceData.utm_source,
+              campaign: bookingSourceData.utm_campaign,
+              content: bookingSourceData.utm_content,
+              medium: bookingSourceData.utm_medium,
+              influence: influence
+            }
+
+            await sendUtmRecord(recordData);
+          }
         }
       }
     };

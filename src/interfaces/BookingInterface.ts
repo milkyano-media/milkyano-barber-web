@@ -259,6 +259,7 @@ interface CreateRecordInput {
   campaign?: string;
   content?: string;
   medium?: string;
+  influence?: string;
 }
 
 export type { CreateRecordInput, BarberDetailResponse, BarberServicesData, BarberServices, AppointmentSegment, Availability, ServicesItem, BarberProfile, BookingRequest, BookingResponse, AvailabilityRequest, AvailabilityQuery, AvailabilityResponse, BusinessBookingProfileResponse, CustomerRequest, ServicesResponse, BarberResponse, CustomerResponse };
