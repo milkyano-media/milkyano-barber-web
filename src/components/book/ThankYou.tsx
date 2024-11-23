@@ -77,8 +77,9 @@ const ThankYouPage = () => {
               influence = "strongly influenced by ads(75-100%)";
             } else if (bookingSourceData.fbclid) {
               influence = "significantly influenced by ads(50-75%)";
-            } else if (customerSourceData.fbclid || customerSourceData.utm_source)
+            } else if (customerSourceData.fbclid || customerSourceData.utm_source) {
               influence = "partially influenced by ads(25-50%)";
+            }
 
 
             const recordData = {
