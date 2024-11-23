@@ -73,16 +73,13 @@ const ThankYouPage = () => {
           if (bookingSourceData || customerSourceData) {
             let influence = "mostly organic(0-25%)";
 
-            if (bookingSourceData) {
-              if (bookingSourceData.fbclid && bookingSourceData.utm_source) {
-                influence = "strongly influenced by ads(75-100%)";
-              } else if (bookingSourceData.fbclid) {
-                influence = "significantly influenced by ads(50-75%)";
-              }
-            } else {
-              if (customerSourceData.fbclid || customerSourceData.utm_source)
-                influence = "partially influenced by ads(25-50%)";
-            }
+            if (bookingSourceData.fbclid && bookingSourceData.utm_source) {
+              influence = "strongly influenced by ads(75-100%)";
+            } else if (bookingSourceData.fbclid) {
+              influence = "significantly influenced by ads(50-75%)";
+            } else if (customerSourceData.fbclid || customerSourceData.utm_source)
+              influence = "partially influenced by ads(25-50%)";
+
 
             const recordData = {
               bookingId: booking_id,
