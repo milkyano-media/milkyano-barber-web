@@ -86,7 +86,7 @@ const ThankYouPage = () => {
               bookingId: booking_id,
               customerId: customer_id,
               barberId: barber_id,
-              source: bookingSourceData.utm_source,
+              source: bookingSourceData.utm_source || 'organic',
               campaign: bookingSourceData.utm_campaign,
               content: bookingSourceData.utm_content,
               medium: bookingSourceData.utm_medium,
