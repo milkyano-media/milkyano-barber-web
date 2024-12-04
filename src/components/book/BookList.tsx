@@ -22,7 +22,7 @@ const BookList = () => {
 
     const joinBarbersAndServices = (barbers: BarberResponse | undefined, services: ServicesResponse | undefined) => {
       const barberServices: BarberServices = { data: [] };
-      const sortOrder = ['Aaron', 'Jay', 'Emman', 'Niko', 'Rayhan', 'Anthony', 'Josh', 'Christos', 'Wyatt'];
+      const sortOrder = ['Noah', 'Jay', 'Emman', 'Niko', 'Rayhan', 'Anthony', 'Josh', 'Christos', 'Wyatt'];
 
       const sortedProfiles: BarberProfile[] | undefined = barbers?.team_member_booking_profiles
         .filter(profile => sortOrder.some(name => profile.display_name.includes(name.toUpperCase())))
@@ -60,13 +60,14 @@ const BookList = () => {
       parts[1] === 'meta' ? barber = parts[2] : barber = parts[1];
       parts[1] === 'meta' ? type = 'M' : type = 'O'
       if (parts.length > 3)
-        barber === 'dejan' || barber === 'anthony' || barber === 'christos' || barber === 'wyatt' || barber === 'book' ? query = 'all' : query = barber;
+        barber === 'dejan' || barber === 'anthony' || barber === 'christos' || barber === 'wyatt' || barber === "noah" || barber === 'book' ? query = 'all' : query = barber;
       else
         query = ''
 
       const fetchedBarbers = await getBarbers();
       const fetchedServices = await getServices(query, type);
       joinBarbersAndServices(fetchedBarbers, fetchedServices)
+      console.log(barberServices)
       setIsLoading(false);
     };
 
@@ -122,8 +123,8 @@ const BookList = () => {
 
                 <section className="flex flex-col relative z-40 text-center w-10/12 md:w-full md:text-start gap-4 text-stone-300">
                   <div>
-                    {item.services.map((service, index) => (
-                      <React.Fragment key={index}>
+                    {item.services.map((service) => (
+                      <React.Fragment key={service.id}>
                         <div className='flex flex-col md:grid md:grid-cols-2 justify-between items-center'>
                           <div className='flex flex-col gap-1 pb-2'>
                             <h4 className='text-sm m-0 font-medium'>
