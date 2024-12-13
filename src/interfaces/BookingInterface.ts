@@ -218,6 +218,20 @@ interface BookingResponse {
   errors: any[];
 }
 
+interface CustomerDetail {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  given_name: string;
+  family_name: string;
+  email_address: string;
+  phone_number: string;
+  preferences: {
+    email_unsubscribed: boolean;
+  };
+  creation_source: string;
+  version: number;
+}
 
 interface BarberServicesData {
   barber: BarberProfile,
@@ -262,4 +276,4 @@ interface CreateRecordInput {
   influence?: string;
 }
 
-export type { CreateRecordInput, BarberDetailResponse, BarberServicesData, BarberServices, AppointmentSegment, Availability, ServicesItem, BarberProfile, BookingRequest, BookingResponse, AvailabilityRequest, AvailabilityQuery, AvailabilityResponse, BusinessBookingProfileResponse, CustomerRequest, ServicesResponse, BarberResponse, CustomerResponse };
+export type { CreateRecordInput, BarberDetailResponse, BarberServicesData, BarberServices, AppointmentSegment, Availability, ServicesItem, BarberProfile, BookingRequest, BookingResponse, AvailabilityRequest, AvailabilityQuery, AvailabilityResponse, BusinessBookingProfileResponse, CustomerRequest, CustomerDetail, ServicesResponse, BarberResponse, CustomerResponse };

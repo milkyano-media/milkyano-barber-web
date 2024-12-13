@@ -18,7 +18,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useGtm } from '../hooks/UseGtm';
 import { BarberDetailResponse } from '@/interfaces/BookingInterface';
-import { getBarberDetail, sendUtmRecord } from '@/utils/barberApi';
+import { getBarberDetail, postUtmRecord } from '@/utils/barberApi';
 
 
 const ThankYouPage = () => {
@@ -30,46 +30,33 @@ const ThankYouPage = () => {
   useEffect(() => {
     const handleThankYouPage = async () => {
       if (location.pathname.includes("thank-you")) {
-        const purchaseValue = localStorage.getItem('purchaseValue');
-        const value = purchaseValue ? JSON.parse(purchaseValue) : null;
-        const customerValue = localStorage.getItem('newCustomer');
-        const new_customer = customerValue ? JSON.parse(customerValue) : null;
-        const booking_id = localStorage.getItem('bookingId') || undefined;
-        const customer_id = localStorage.getItem('customerId') || undefined;
-        const barber_id = localStorage.getItem('barberId') || undefined;
-        const sended_booking_id = localStorage.getItem('sendedBookingId') || undefined;
+
+        const tempPurchaseValue = localStorage.getItem('purchase_value');
+        const purchaseValue = tempPurchaseValue ? JSON.parse(tempPurchaseValue) : null;
+
+        const tempNewCustomer = localStorage.getItem('newCustomer');
+        const newCustomer = tempNewCustomer ? JSON.parse(tempNewCustomer) : null;
+
+        const bookingId = localStorage.getItem('bookingId') || undefined;
+        const sendedBookingId = localStorage.getItem('sendedBookingId') || undefined;
+        const customerId = localStorage.getItem('customerId') || undefined;
+        const barberId = localStorage.getItem('barberId') || undefined;
+
         const booking_origin = localStorage.getItem('utm_source') || undefined;
         const utm_source = localStorage.getItem('utm_source') || undefined;
         const utm_medium = localStorage.getItem('utm_medium') || undefined;
         const utm_campaign = localStorage.getItem('utm_campaign') || undefined;
         const utm_content = localStorage.getItem('utm_content') || undefined;
 
-        const bookingSource = localStorage.getItem("booking_source") || undefined;
-        const customerSource = localStorage.getItem("customer_source") || undefined;
+        const bookingSource = localStorage.getItem("booking_source") || null;
+        const customerSource = localStorage.getItem("customer_source") || null;
 
-        const bookingSourceData = JSON.parse(bookingSource || '');
-        const customerSourceData = JSON.parse(customerSource || '');
-
-
-        if (sended_booking_id !== booking_id) {
-          sendEvent({
-            booking_id,
-            origin: booking_origin,
-            source: utm_source,
-            medium: utm_medium,
-            campaign: utm_campaign,
-            content: utm_content,
-            event: 'purchase_event',
-            value,
-            new_customer,
-            Currency: 'AUD',
-          });
-          localStorage.setItem('sendedBookingId', booking_id || '')
-        }
-
-        if (booking_origin?.toLowerCase() !== 'organic' && booking_id && customer_id && barber_id) {
+        const bookingSourceData = bookingSource ? JSON.parse(bookingSource) : {};
+        const customerSourceData = customerSource ? JSON.parse(customerSource) : {};
 
 
+
+        if (bookingId && customerId && barberId) {
           if (bookingSourceData || customerSourceData) {
             let influence = "mostly organic(0-25%)";
 
@@ -83,9 +70,9 @@ const ThankYouPage = () => {
 
 
             const recordData = {
-              bookingId: booking_id,
-              customerId: customer_id,
-              barberId: barber_id,
+              bookingId: bookingId,
+              customerId: customerId,
+              barberId: barberId,
               source: bookingSourceData.utm_source || 'organic',
               campaign: bookingSourceData.utm_campaign,
               content: bookingSourceData.utm_content,
@@ -93,7 +80,23 @@ const ThankYouPage = () => {
               influence: influence
             }
 
-            await sendUtmRecord(recordData);
+            if (bookingId !== sendedBookingId) {
+              sendEvent({
+                booking_id: bookingId,
+                origin: booking_origin,
+                source: utm_source,
+                medium: utm_medium,
+                campaign: utm_campaign,
+                content: utm_content,
+                event: 'purchase_event',
+                value: purchaseValue,
+                new_customer: newCustomer,
+                Currency: 'AUD',
+              });
+              localStorage.setItem('LOG', 'UTM SENDED!')
+            }
+
+            await postUtmRecord(recordData);
           }
         }
       }

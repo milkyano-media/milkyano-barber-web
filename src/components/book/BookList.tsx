@@ -6,7 +6,7 @@ import GradientBottom from "@/assets/landing/book_circle_bottom.svg"
 import Logo from "@/components/react-svg/logo"
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BarberProfile, BarberResponse, BarberServices, BarberServicesData, ServicesResponse } from '@/interfaces/BookingInterface';
-import { getBarbers, getServices } from '@/utils/barberApi';
+import { getAllBarber, getAllService } from '@/utils/barberApi';
 import Spinner from '../web/Spinner';
 
 const BookList = () => {
@@ -64,8 +64,8 @@ const BookList = () => {
       else
         query = ''
 
-      const fetchedBarbers = await getBarbers();
-      const fetchedServices = await getServices(query, type);
+      const fetchedBarbers = await getAllBarber();
+      const fetchedServices = await getAllService(query, type);
       joinBarbersAndServices(fetchedBarbers, fetchedServices)
       console.log(barberServices)
       setIsLoading(false);

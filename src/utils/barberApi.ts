@@ -1,15 +1,15 @@
-import { AvailabilityRequest, AvailabilityResponse, BarberDetailResponse, BarberResponse, BookingRequest, BookingResponse, CreateRecordInput, CustomerRequest, CustomerResponse, ServicesResponse } from '@/interfaces/BookingInterface';
+import { AvailabilityRequest, AvailabilityResponse, BarberDetailResponse, BarberResponse, BookingRequest, BookingResponse, CreateRecordInput, CustomerDetail, CustomerRequest, CustomerResponse, ServicesResponse } from '@/interfaces/BookingInterface';
 import { apiSquare } from './apiClients';
 import { AxiosResponse } from 'axios';
-import { UserStatus } from '@/interfaces/UserInterface';
+import { CustomerStatus } from '@/interfaces/UserInterface';
 
 
-export const getServices = async (filter: string, type: string): Promise<ServicesResponse> => {
+export const getAllService = async (filter: string, type: string): Promise<ServicesResponse> => {
   const response: AxiosResponse<ServicesResponse> = await apiSquare.get(`/web/squareup/service/list?filter=${filter}&type=${type}`);
   return response.data;
 };
 
-export const getBarbers = async (): Promise<BarberResponse> => {
+export const getAllBarber = async (): Promise<BarberResponse> => {
   const response: AxiosResponse<BarberResponse> = await apiSquare.get('/web/squareup/barber/list');
   return response.data;
 };
@@ -24,22 +24,27 @@ export const getAvailability = async (data: AvailabilityRequest): Promise<Availa
   return response.data;
 };
 
-export const createCustomer = async (data: CustomerRequest): Promise<CustomerResponse> => {
+export const postCustomer = async (data: CustomerRequest): Promise<CustomerResponse> => {
   const response: AxiosResponse<CustomerResponse> = await apiSquare.post('/web/squareup/customer', data);
   return response.data;
 };
 
-export const createBooking = async (data: BookingRequest, bookFrom: string): Promise<BookingResponse> => {
+export const postBooking = async (data: BookingRequest, bookFrom: string): Promise<BookingResponse> => {
   const response: AxiosResponse<BookingResponse> = await apiSquare.post(`/web/squareup/booking?source=${bookFrom}`, data);
   return response.data;
 };
 
-export const checkUserStatus = async (data: CustomerRequest): Promise<UserStatus> => {
-  const response: AxiosResponse<UserStatus> = await apiSquare.post('/web/user/status', data);
+export const getCustomerStatusByEmailAndPhone = async (email: string, phone: string): Promise<CustomerStatus> => {
+  const response: AxiosResponse<CustomerStatus> = await apiSquare.get(`/web/customer/status?email=${email}&phone=${phone}`);
   return response.data;
 };
 
-export const sendUtmRecord = async (data: CreateRecordInput): Promise<CreateRecordInput> => {
+export const getCustomerByEmailAndPhone = async (email: string, phone: string): Promise<CustomerDetail> => {
+  const response: AxiosResponse<CustomerDetail> = await apiSquare.get(`/web/customer?email=${email}&phone=${phone}`);
+  return response.data;
+};
+
+export const postUtmRecord = async (data: CreateRecordInput): Promise<CreateRecordInput> => {
   const response: AxiosResponse<CreateRecordInput> = await apiSquare.post('/dash/record', data);
   return response.data;
 };

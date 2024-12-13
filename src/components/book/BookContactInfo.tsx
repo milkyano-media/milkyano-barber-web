@@ -27,10 +27,10 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Check, X } from 'react-bootstrap-icons';
 import Spinner from '@/components/web/Spinner';
-import { checkUserStatus, createBooking, createCustomer } from '@/utils/barberApi';
-import { BookingRequest, BookingResponse, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
+import { getCustomerByEmailAndPhone, getCustomerStatusByEmailAndPhone, postBooking, postCustomer } from '@/utils/barberApi';
+import { BookingRequest, BookingResponse, CustomerDetail, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
 import { isValidPhoneNumber } from "react-phone-number-input";
-import { UserStatus } from '@/interfaces/UserInterface';
+import { CustomerStatus } from '@/interfaces/UserInterface';
 
 const BookContactInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -202,15 +202,21 @@ const BookContactInfo = () => {
     setIsLoading(true);
     setStatus('loading');
     try {
-      const customerResponse: CustomerResponse = await createCustomer(valuesWithIdempotencyKey);
-      const userResponse: UserStatus = await checkUserStatus(valuesWithIdempotencyKey);
-      const customerId = customerResponse.customer.id;
+      let customerId
+      const customerStatusResponse: CustomerStatus = await getCustomerStatusByEmailAndPhone(valuesWithIdempotencyKey.email_address, valuesWithIdempotencyKey.phone_number);
+      if (customerStatusResponse.new_customer === false) {
+        const customer: CustomerDetail = await getCustomerByEmailAndPhone(valuesWithIdempotencyKey.email_address, valuesWithIdempotencyKey.phone_number);
+        customerId = customer.id
+      } else {
+        const newCustomer: CustomerResponse = await postCustomer(valuesWithIdempotencyKey);
+        customerId = newCustomer.customer.id;
+      }
 
       if (!customerId) {
         throw new Error('Customer ID is missing from the response.');
       }
 
-      localStorage.setItem('customerId', customerId);
+      localStorage.setItem('customer_id', customerId);
       let appointment_segments;
       let location_id;
       let start_at;
@@ -231,12 +237,11 @@ const BookContactInfo = () => {
         console.error('Error parsing appointmentStartAt from local storage:', error);
       }
 
-      const handlePurchase = (data: UserStatus) => {
-        const new_customer: boolean = data.new_customer
-        localStorage.setItem('purchaseValue', total.toString())
-        localStorage.setItem('newCustomer', new_customer.toString())
-        localStorage.setItem('bookingId', booking.booking.id)
-        localStorage.setItem('barberId', booking.booking.appointment_segments[0].team_member_id)
+      const handlePurchase = (customerStatus: boolean) => {
+        localStorage.setItem('purchase_value', total.toString())
+        localStorage.setItem('new_customer', customerStatus.toString())
+        localStorage.setItem('booking_id', booking.booking.id)
+        localStorage.setItem('barber_id', booking.booking.appointment_segments[0].team_member_id)
       }
 
       const bookingPayload: BookingRequest = {
@@ -249,8 +254,8 @@ const BookContactInfo = () => {
         }
       };
 
-      const booking: BookingResponse = await createBooking(bookingPayload, booking_origin || 'Organic');
-      handlePurchase(userResponse);
+      const booking: BookingResponse = await postBooking(bookingPayload, booking_origin || 'Organic');
+      handlePurchase(customerStatusResponse.new_customer);
 
       setStatus('succeeded');
       setTimeout(() => {
@@ -489,7 +494,7 @@ const BookContactInfo = () => {
               </div>
               <Button
                 onClick={
-                  () => { localStorage.setItem('purchaseValue', total.toString()) }
+                  () => { localStorage.setItem('purchase_value', total.toString()) }
                 }
                 variant={"ghost"} type="submit" disabled={!isChecked} className=" w-full bg-[#036901] mt-10 h-fit py-4 rounded-xl font-light"  >
                 Book an Appointement
