@@ -34,13 +34,13 @@ const ThankYouPage = () => {
         const tempPurchaseValue = localStorage.getItem('purchase_value');
         const purchaseValue = tempPurchaseValue ? JSON.parse(tempPurchaseValue) : null;
 
-        const tempNewCustomer = localStorage.getItem('newCustomer');
+        const tempNewCustomer = localStorage.getItem('new_customer');
         const newCustomer = tempNewCustomer ? JSON.parse(tempNewCustomer) : null;
 
-        const bookingId = localStorage.getItem('bookingId') || undefined;
-        const sendedBookingId = localStorage.getItem('sendedBookingId') || undefined;
-        const customerId = localStorage.getItem('customerId') || undefined;
-        const barberId = localStorage.getItem('barberId') || undefined;
+        const bookingId = localStorage.getItem('booking_id') || undefined;
+        const sendedBookingId = localStorage.getItem('sended_booking_id') || undefined;
+        const customerId = localStorage.getItem('customer_id') || undefined;
+        const barberId = localStorage.getItem('barber_id') || undefined;
 
         const booking_origin = localStorage.getItem('utm_source') || undefined;
         const utm_source = localStorage.getItem('utm_source') || undefined;
@@ -54,50 +54,52 @@ const ThankYouPage = () => {
         const bookingSourceData = bookingSource ? JSON.parse(bookingSource) : {};
         const customerSourceData = customerSource ? JSON.parse(customerSource) : {};
 
+        try {
+          if (bookingId && customerId && barberId) {
+            if (bookingSourceData || customerSourceData) {
+              let influence = "mostly organic(0-25%)";
+
+              if (bookingSourceData.fbclid && bookingSourceData.utm_source) {
+                influence = "strongly influenced by ads(75-100%)";
+              } else if (bookingSourceData.fbclid) {
+                influence = "significantly influenced by ads(50-75%)";
+              } else if (customerSourceData.fbclid || customerSourceData.utm_source) {
+                influence = "partially influenced by ads(25-50%)";
+              }
 
 
-        if (bookingId && customerId && barberId) {
-          if (bookingSourceData || customerSourceData) {
-            let influence = "mostly organic(0-25%)";
+              const recordData = {
+                bookingId: bookingId,
+                customerId: customerId,
+                barberId: barberId,
+                source: bookingSourceData.utm_source || 'organic',
+                campaign: bookingSourceData.utm_campaign,
+                content: bookingSourceData.utm_content,
+                medium: bookingSourceData.utm_medium,
+                influence: influence
+              }
 
-            if (bookingSourceData.fbclid && bookingSourceData.utm_source) {
-              influence = "strongly influenced by ads(75-100%)";
-            } else if (bookingSourceData.fbclid) {
-              influence = "significantly influenced by ads(50-75%)";
-            } else if (customerSourceData.fbclid || customerSourceData.utm_source) {
-              influence = "partially influenced by ads(25-50%)";
+              if (bookingId !== sendedBookingId) {
+                sendEvent({
+                  booking_id: bookingId,
+                  origin: booking_origin,
+                  source: utm_source,
+                  medium: utm_medium,
+                  campaign: utm_campaign,
+                  content: utm_content,
+                  event: 'purchase_event',
+                  value: purchaseValue,
+                  new_customer: newCustomer,
+                  Currency: 'AUD',
+                });
+              }
+              await postUtmRecord(recordData);
+              localStorage.setItem('sended_booking_id', bookingId)
+              localStorage.removeItem('booking_source');
             }
-
-
-            const recordData = {
-              bookingId: bookingId,
-              customerId: customerId,
-              barberId: barberId,
-              source: bookingSourceData.utm_source || 'organic',
-              campaign: bookingSourceData.utm_campaign,
-              content: bookingSourceData.utm_content,
-              medium: bookingSourceData.utm_medium,
-              influence: influence
-            }
-
-            if (bookingId !== sendedBookingId) {
-              sendEvent({
-                booking_id: bookingId,
-                origin: booking_origin,
-                source: utm_source,
-                medium: utm_medium,
-                campaign: utm_campaign,
-                content: utm_content,
-                event: 'purchase_event',
-                value: purchaseValue,
-                new_customer: newCustomer,
-                Currency: 'AUD',
-              });
-              localStorage.setItem('LOG', 'UTM SENDED!')
-            }
-
-            await postUtmRecord(recordData);
           }
+        } catch (error) {
+          console.error(error)
         }
       }
     };

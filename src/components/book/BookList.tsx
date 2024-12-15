@@ -67,7 +67,6 @@ const BookList = () => {
       const fetchedBarbers = await getAllBarber();
       const fetchedServices = await getAllService(query, type);
       joinBarbersAndServices(fetchedBarbers, fetchedServices)
-      console.log(barberServices)
       setIsLoading(false);
     };
 
