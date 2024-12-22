@@ -76,7 +76,8 @@ const ThankYouPage = () => {
                 campaign: bookingSourceData.utm_campaign,
                 content: bookingSourceData.utm_content,
                 medium: bookingSourceData.utm_medium,
-                influence: influence
+                influence: influence,
+                newCustomer: newCustomer
               }
 
               if (bookingId !== sendedBookingId) {

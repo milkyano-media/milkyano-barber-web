@@ -274,6 +274,7 @@ interface CreateRecordInput {
   content?: string;
   medium?: string;
   influence?: string;
+  newCustomer: boolean;
 }
 
 export type { CreateRecordInput, BarberDetailResponse, BarberServicesData, BarberServices, AppointmentSegment, Availability, ServicesItem, BarberProfile, BookingRequest, BookingResponse, AvailabilityRequest, AvailabilityQuery, AvailabilityResponse, BusinessBookingProfileResponse, CustomerRequest, CustomerDetail, ServicesResponse, BarberResponse, CustomerResponse };
