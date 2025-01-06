@@ -37,10 +37,10 @@ const ThankYouPage = () => {
         const tempNewCustomer = localStorage.getItem('new_customer');
         const newCustomer = tempNewCustomer ? JSON.parse(tempNewCustomer) : null;
 
-        const bookingId = localStorage.getItem('booking_id') || undefined;
+        const bookingId = localStorage.getItem('booking_id');
         const sendedBookingId = localStorage.getItem('sended_booking_id') || undefined;
-        const customerId = localStorage.getItem('customer_id') || undefined;
-        const barberId = localStorage.getItem('barber_id') || undefined;
+        const customerId = localStorage.getItem('customer_id');
+        const barberId = localStorage.getItem('barber_id');
 
         const booking_origin = localStorage.getItem('utm_source') || undefined;
         const utm_source = localStorage.getItem('utm_source') || undefined;
@@ -48,37 +48,37 @@ const ThankYouPage = () => {
         const utm_campaign = localStorage.getItem('utm_campaign') || undefined;
         const utm_content = localStorage.getItem('utm_content') || undefined;
 
-        const bookingSource = localStorage.getItem("booking_source") || null;
-        const customerSource = localStorage.getItem("customer_source") || null;
+        const firstVisitSource = localStorage.getItem("first_visit_source");
+        const lastVisitSource = localStorage.getItem("last_visit_source");
+        const customerSource = localStorage.getItem("customer_source");
 
-        const bookingSourceData = bookingSource ? JSON.parse(bookingSource) : {};
+        const firstVisitData = firstVisitSource ? JSON.parse(firstVisitSource) : {};
+        const lastVisitData = lastVisitSource ? JSON.parse(lastVisitSource) : {};
         const customerSourceData = customerSource ? JSON.parse(customerSource) : {};
 
         try {
           if (bookingId && customerId && barberId) {
-            if (bookingSourceData || customerSourceData) {
-              let influence = "mostly organic(0-25%)";
-
-              if (bookingSourceData.fbclid && bookingSourceData.utm_source) {
+            let influence = "organic(0%)";
+              // Determine influence based on tracking data
+              if (lastVisitData.fbclid && lastVisitData.utm_source) {
                 influence = "strongly influenced by ads(75-100%)";
-              } else if (bookingSourceData.fbclid) {
+              } else if (lastVisitData.fbclid) {
                 influence = "significantly influenced by ads(50-75%)";
-              } else if (customerSourceData.fbclid || customerSourceData.utm_source) {
+              } else if (firstVisitData.fbclid || customerSourceData.fbclid) {
                 influence = "partially influenced by ads(25-50%)";
               }
 
-
               const recordData = {
-                bookingId: bookingId,
-                customerId: customerId,
-                barberId: barberId,
-                source: bookingSourceData.utm_source || 'organic',
-                campaign: bookingSourceData.utm_campaign,
-                content: bookingSourceData.utm_content,
-                medium: bookingSourceData.utm_medium,
-                influence: influence,
-                newCustomer: newCustomer
-              }
+                bookingId,
+                customerId,
+                barberId,
+                source: lastVisitData.utm_source || firstVisitData.utm_source || 'organic',
+                campaign: lastVisitData.utm_campaign || firstVisitData.utm_campaign,
+                content: lastVisitData.utm_content || firstVisitData.utm_content,
+                medium: lastVisitData.utm_medium || firstVisitData.utm_medium,
+                influence,
+                newCustomer: localStorage.getItem('new_customer') === 'true'
+              };
 
               if (bookingId !== sendedBookingId) {
                 sendEvent({
@@ -95,9 +95,7 @@ const ThankYouPage = () => {
                 });
               }
               await postUtmRecord(recordData);
-              localStorage.setItem('sended_booking_id', bookingId)
-              localStorage.removeItem('booking_source');
-            }
+              localStorage.setItem('sended_booking_id', bookingId);
           }
         } catch (error) {
           console.error(error)

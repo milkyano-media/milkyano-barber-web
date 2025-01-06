@@ -39,6 +39,7 @@ import midDropFade from "@/assets/landing/cuts/christos/mid_drop_fade.jpg";
 import midTaperFade from "@/assets/landing/cuts/christos/mid_taper_fade.jpg";
 import pompadourTaperFade from "@/assets/landing/cuts/christos/pompadour_taper_fade.jpg";
 import texturedFringe from "@/assets/landing/cuts/christos/textured_fringe.jpg";
+import useUtmTracking from "@/hooks/utmTrackingHook";
 
 
 const Hero = getAsset("/assets/landing/videos/christos/hero.mp4");
@@ -73,42 +74,8 @@ const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 const imagesReviews = [cardOne, cardTwo, cardThree, cardFour];
 
 export default function ChristosLanding() {
-  localStorage.removeItem('booking_source');
-
+  useUtmTracking();
   const location = useLocation()
-
-  const getQueryParams = (search: string) => {
-    return new URLSearchParams(search);
-  };
-
-  const queryParams = getQueryParams(location.search);
-  const fbclid = queryParams.get('fbclid')
-  const ttclid = queryParams.get('ttclid')
-  const gclid = queryParams.get('gclid')
-
-  const trackingData = {
-    utm_source: queryParams.get("utm_source"),
-    utm_medium: queryParams.get("utm_medium"),
-    utm_campaign: queryParams.get("utm_campaign"),
-    utm_content: queryParams.get("utm_content"),
-    fbclid: queryParams.get("fbclid"),
-  };
-
-  localStorage.setItem('booking_source', JSON.stringify(trackingData))
-
-  if (trackingData.fbclid && trackingData.utm_source) {
-    localStorage.setItem('customer_source', JSON.stringify(trackingData))
-  }
-
-  localStorage.setItem('utm_source', queryParams.get('utm_source') || 'None')
-  localStorage.setItem('utm_medium', queryParams.get('utm_medium') || 'None')
-  localStorage.setItem('utm_campaign', queryParams.get('utm_campaign') || 'None')
-  localStorage.setItem('utm_content', queryParams.get('utm_content') || 'None')
-
-  if (fbclid) { localStorage.setItem('booking_origin', 'facebook') }
-  else if (ttclid) { localStorage.setItem('booking_origin', 'tiktok') }
-  else if (gclid) { localStorage.setItem('booking_origin', 'google') }
-  else { localStorage.setItem('booking_origin', 'organic') }
 
   const generateLink = (text: string): JSX.Element => {
     const customize: boolean = true;
