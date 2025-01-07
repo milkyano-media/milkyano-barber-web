@@ -162,7 +162,7 @@ const BookAppointment = () => {
       setIsValidDate(true)
       setSelectedDate(date);
       setMonth(date);
-      setInputValue(format(new Date(), "MM/dd/yyyy"));
+      setInputValue(format(date, "MM/dd/yyyy"));
       const formattedDate = date.toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' }).replace(/(\w+), (\w+) (\d+)/, '$1, $2 $3');
       date.setHours(currentDate.getHours() - 2);
 
