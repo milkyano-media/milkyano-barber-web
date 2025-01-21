@@ -94,7 +94,7 @@ const WebFooter: React.FC = () => {
 
         <hr className='bg-[#75FF72] w-full flex justify-center items-center my-2 mt-5 h-[1px] border-[#75FF72]' />
 
-        <p className="text-start text-xs md:text-sm w-full text-transparent bg-gradient-to-r from-[#52FF00] via-slate-50  to-[#ffffff] bg-clip-text">Copyright © 2024 milkyano.com - All Rights Reserved.</p>
+        <p className="text-start text-xs md:text-sm w-full text-transparent bg-gradient-to-r from-[#52FF00] via-slate-50  to-[#ffffff] bg-clip-text">Copyright © 2025 fadedlinesbarbershop.com - All Rights Reserved.</p>
       </div>
     </footer>
   );
