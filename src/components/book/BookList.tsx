@@ -1,37 +1,53 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import GradientTop from "@/assets/landing/book_circle_top.svg"
-import GradientBottom from "@/assets/landing/book_circle_bottom.svg"
-import Logo from "@/components/react-svg/logo"
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { BarberProfile, BarberResponse, BarberServices, BarberServicesData, ServicesResponse } from '@/interfaces/BookingInterface';
+import { BarberResponse, BarberServices, ServicesResponse } from '@/interfaces/BookingInterface';
 import { getAllBarber, getAllService } from '@/utils/barberApi';
 import Spinner from '../web/Spinner';
+import Logo from "@/components/react-svg/logo";
+import { ChevronDown, ChevronUp } from 'lucide-react';
+
+import Rayhan from '@/assets/web/barbers/rayhan.svg';
+import Anthony from '@/assets/web/barbers/anthony.svg';
+import Jay from '@/assets/web/barbers/jay.svg';
+import Wyatt from '@/assets/web/barbers/wyatt.svg';
+import Emman from '@/assets/web/barbers/emman.svg';
+import Christos from '@/assets/web/barbers/christos.svg';
+import Josh from '@/assets/web/barbers/josh.svg';
+import Niko from '@/assets/web/barbers/niko.svg';
+import Noah from '@/assets/web/barbers/noah.svg';
+
+const barberImages: { [key: string]: string } = {
+  'RAYHAN': Rayhan,
+  'ANTHONY': Anthony,
+  'JAY': Jay,
+  'WYATT': Wyatt,
+  'EMMAN': Emman,
+  'CHRISTOS': Christos,
+  'JOSH': Josh,
+  'NIKO': Niko,
+  'NOAH': Noah,
+};
 
 const BookList = () => {
   const location = useLocation();
-  const navigate = useNavigate()
-  const [barberServices, SetBarberServices] = useState<BarberServices>();
+  const navigate = useNavigate();
+  const [barberServices, setBarberServices] = useState<BarberServices>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [expandedBarber, setExpandedBarber] = useState<string | null>(null);
 
   useEffect(() => {
-    interface BarberServices {
-      data: BarberServicesData[];
-    }
-
     const joinBarbersAndServices = (barbers: BarberResponse | undefined, services: ServicesResponse | undefined) => {
       const barberServices: BarberServices = { data: [] };
       const sortOrder = ['Jay', 'Emman', 'Niko', 'Noah', 'Rayhan', 'Anthony', 'Josh', 'Christos', 'Wyatt'];
 
-      const sortedProfiles: BarberProfile[] | undefined = barbers?.team_member_booking_profiles
+      const sortedProfiles = barbers?.team_member_booking_profiles
         .filter(profile => sortOrder.some(name => profile.display_name.includes(name.toUpperCase())))
         .sort((a, b) => {
           const aName = sortOrder.findIndex(name => a.display_name.toUpperCase().includes(name.toUpperCase()));
           const bName = sortOrder.findIndex(name => b.display_name.toUpperCase().includes(name.toUpperCase()));
           return aName - bName;
         });
-
 
       if (sortedProfiles && services) {
         for (let i = 0; i < sortedProfiles.length; i++) {
@@ -48,32 +64,35 @@ const BookList = () => {
         }
       }
 
-      SetBarberServices(barberServices)
+      setBarberServices(barberServices);
     };
 
     const fetchData = async () => {
       setIsLoading(true);
-      let barber: string
-      let query: string
-      let type: string
+      let barber: string;
+      let query: string;
+      let type: string;
       const parts = location.pathname.split("/");
       parts[1] === 'meta' ? barber = parts[2] : barber = parts[1];
-      parts[1] === 'meta' ? type = 'M' : type = 'O'
-      if (parts.length > 3)
-        barber === 'dejan' || barber === 'anthony' || barber === 'christos' || barber === 'wyatt' || barber === "noah" || barber === 'book' ? query = 'all' : query = barber;
-      else
-        query = ''
+      parts[1] === 'meta' ? type = 'M' : type = 'O';
+      
+      if (parts.length > 3) {
+        barber === 'dejan' || barber === 'anthony' || barber === 'christos' || 
+        barber === 'wyatt' || barber === "noah" || barber === 'book' 
+          ? query = 'all' 
+          : query = barber;
+      } else {
+        query = '';
+      }
 
       const fetchedBarbers = await getAllBarber();
       const fetchedServices = await getAllService(query, type);
-      joinBarbersAndServices(fetchedBarbers, fetchedServices)
+      joinBarbersAndServices(fetchedBarbers, fetchedServices);
       setIsLoading(false);
     };
 
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  }, [location.pathname]);
 
   const handleBookNowClick = async (item: any) => {
     try {
@@ -89,74 +108,118 @@ const BookList = () => {
     }
   };
 
+  const toggleBarberServices = (barberId: string) => {
+    setExpandedBarber(expandedBarber === barberId ? null : barberId);
+  };
+
+  const getBarberImage = (displayName: string) => {
+    const upperName = displayName.toUpperCase();
+    for (const [key, value] of Object.entries(barberImages)) {
+      if (upperName.includes(key)) {
+        return value;
+      }
+    }
+    return null;
+  };
 
   return (
-    <section className="relative bg-[#010401] flex flex-col p-4 py-12 items-center md:items-start justify-center z-30 md:px-40 min-h-screen gap-0"  >
-      <div className='flex flex-col justify-center items-center absolute left-6 top-6 mb-30'>
-        <Link to={"/home"}  >
-          <Logo className='w-48 md:w-[12rem] h-auto opacity-90' />
+    <section className="relative bg-[#010401] min-h-screen">
+      <div className="fixed top-6 left-6 z-50">
+        <Link to="/home">
+          <Logo className="w-48 md:w-[12rem] h-auto opacity-90" />
         </Link>
       </div>
-      <img src={GradientTop} alt="gradient top" className='absolute top-0 right-0 w-5/12 ' />
-      <img src={GradientBottom} alt="gradient top" className='absolute bottom-0 left-0 w-8/12 ' />
-      {
-        !isLoading && barberServices ? (
-          barberServices?.data.map((item) => (
-            <div className='w-full flex flex-col p-4 items-center md:items-start justify-center'>
-              <React.Fragment key={item.barber.team_member_id}>
-                {item.services.length > 0 ?
-                  (
-                    <div className='flex flex-col gap-2 pb-4 text-stone-200 mt-20'>
-                      <div className='flex flex-col gap-1 text-center md:w-full w-10/12 mx-auto md:mx-0'>
-                        <h3 className='text-base font-bold'>{item.barber.display_name}</h3>
-                      </div>
-                      <div className="relative h-8 w-full">
-                        <hr className="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-[2px] bg-[#42FF00] z-10 md:left-0 md:translate-x-0" />
-                        <hr className="absolute top-1 left-1/2 transform -translate-x-1/2 w-full h-px bg-[#248B00] z-0 md:left-0 md:translate-x-0" />
-                      </div>
-                    </div>
-                  ) : (
-                    <div></div>
-                  )
-                }
 
-                <section className="flex flex-col relative z-40 text-center w-10/12 md:w-full md:text-start gap-4 text-stone-300">
-                  <div>
-                    {item.services.map((service) => (
-                      <React.Fragment key={service.id}>
-                        <div className='flex flex-col md:grid md:grid-cols-2 justify-between items-center'>
-                          <div className='flex flex-col gap-1 pb-2'>
-                            <h4 className='text-sm m-0 font-medium'>
-                              {service.item_data.name}
-                            </h4>
-                            <p className='text-xs font-extralight text-stone-400'>
-                              {service.item_data.variations[0].item_variation_data.price_description}
-                            </p>
-                            <hr className='w-full h-[2px] bg-[#b56a6a] opacity-5 my-2' />
-                          </div>
-                          <div className='self-center justify-self-end'>
-                            <Button className='bg-[#155601] text-[#3CE800] hover:text-[#155601] hover:bg-[#42FF00] rounded-md text-base px-6 py-2 h-fit mb-5'
-                              onClick={() => handleBookNowClick(service)}>
-                              Book Now
-                            </Button>
-                          </div>
-                        </div>
-                      </React.Fragment>
-                    ))}
-                  </div>
-                </section>
-              </React.Fragment>
-            </div>
-          ))
-        ) : (
-          <div className='w-full flex flex-col gap-6 justify-center items-center'>
-            <h3 className='text-xl font-bold'>Loading data...</h3>
+      <div className="max-w-5xl mx-auto px-4 py-24">
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center gap-6">
+            <h3 className="text-xl font-bold text-white">Loading data...</h3>
             <Spinner />
           </div>
-        )
-      }
-    </section>
-  )
-}
+        ) : (
+          <div className="space-y-16 md:space-y-24">
+            {barberServices?.data.map((item) => (
+              <div key={item.barber.team_member_id} className="relative">
+                <div className="flex flex-col md:grid md:grid-cols-[300px,1fr] gap-6 md:gap-12">
+                  {/* Barber Image Section */}
+                  <div className="relative">
+                    <div className="w-full md:w-[300px] h-[250px] md:h-[300px] rounded-lg overflow-hidden">
+                      <img 
+                        src={getBarberImage(item.barber.display_name) ?? undefined}
+                        alt={item.barber.display_name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
 
-export default BookList
+                  {/* Vertical Line - Hidden on mobile */}
+                  <div className="hidden md:block absolute left-[300px] top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-green-500 to-transparent ml-6" />
+
+                  {/* Content Section */}
+                  <div className="flex flex-col">
+                    <h2 className="text-3xl md:text-4xl font-bold text-white uppercase mb-2">
+                      {item.barber.display_name.split(' ')[0]}
+                    </h2>
+                    <p className="text-sm text-white mb-4">
+                      {(item.barber.display_name.match(/IG.*?(?=\))|$/)?.[0] + ')' || '')}
+                    </p>
+
+                    {/* Green Line */}
+                    <div className="relative h-px w-full bg-green-500 mb-6">
+                      <div className="absolute top-1 left-0 right-0 h-px bg-green-900" />
+                    </div>
+
+                    {/* Services Section */}
+                    <div className="w-full">
+                      <Button
+                        onClick={() => toggleBarberServices(item.barber.team_member_id)}
+                        className="w-full bg-zinc-900 hover:bg-zinc-800 text-white justify-between h-12 md:h-14 text-base md:text-lg rounded-lg"
+                      >
+                        View Services
+                        {expandedBarber === item.barber.team_member_id ? (
+                          <ChevronUp className="ml-2 h-5 w-5 md:h-6 md:w-6" />
+                        ) : (
+                          <ChevronDown className="ml-2 h-5 w-5 md:h-6 md:w-6" />
+                        )}
+                      </Button>
+
+                      {expandedBarber === item.barber.team_member_id && (
+                        <div className="mt-4 space-y-4">
+                          {item.services.map((service) => (
+                            <div 
+                              key={service.id}
+                              className="bg-zinc-900/30 rounded-lg p-4 md:p-6"
+                            >
+                              <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 md:gap-0">
+                                <div>
+                                  <h3 className="text-white text-base md:text-lg font-medium">
+                                    {service.item_data.name}
+                                  </h3>
+                                  <p className="text-zinc-400 text-sm mt-1">
+                                    {service.item_data.variations[0].item_variation_data.price_description}
+                                  </p>
+                                </div>
+                                <Button
+                                  onClick={() => handleBookNowClick(service)}
+                                  className="bg-[#155601] text-[#3CE800] hover:text-[#155601] hover:bg-[#42FF00] w-full md:w-auto min-w-[120px] h-12"
+                                >
+                                  Book Now
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default BookList;
