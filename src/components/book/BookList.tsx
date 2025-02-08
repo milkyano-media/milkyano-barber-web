@@ -122,6 +122,20 @@ const BookList = () => {
     return null;
   };
 
+  const extractPriceRange = (services: any[]) => {
+    const prices = services.map(service => {
+      const priceMatch = service.item_data.variations[0].item_variation_data.price_description.match(/\$(\d+(\.\d{2})?)/);
+      return priceMatch ? parseFloat(priceMatch[1]) : 0;
+    }).filter(price => price > 0);
+  
+    if (prices.length === 0) return '';
+  
+    const minPrice = Math.min(...prices);
+    const maxPrice = Math.max(...prices);
+  
+    return minPrice === maxPrice ? `$${minPrice}` : `$${minPrice}-$${maxPrice}`;
+  };
+
   return (
     <section className="relative bg-[#010401] min-h-screen">
       <div className="fixed top-6 left-6 z-50">
@@ -171,17 +185,20 @@ const BookList = () => {
 
                     {/* Services Section */}
                     <div className="w-full">
-                      <Button
-                        onClick={() => toggleBarberServices(item.barber.team_member_id)}
-                        className="w-full bg-zinc-900 hover:bg-zinc-800 text-white justify-between h-12 md:h-14 text-base md:text-lg rounded-lg"
-                      >
-                        View Services
-                        {expandedBarber === item.barber.team_member_id ? (
-                          <ChevronUp className="ml-2 h-5 w-5 md:h-6 md:w-6" />
-                        ) : (
-                          <ChevronDown className="ml-2 h-5 w-5 md:h-6 md:w-6" />
-                        )}
-                      </Button>
+                    <Button
+                      onClick={() => toggleBarberServices(item.barber.team_member_id)}
+                      className="w-full bg-zinc-900 hover:bg-zinc-800 text-white justify-between h-12 md:h-14 text-base md:text-lg rounded-lg"
+                    >
+                      <span className="flex flex-col items-start">
+                        <span>View Services</span>
+                        <span className="text-sm text-gray-400">({extractPriceRange(item.services)} AUD)</span>
+                      </span>
+                      {expandedBarber === item.barber.team_member_id ? (
+                        <ChevronUp className="ml-2 h-5 w-5 md:h-6 md:w-6" />
+                      ) : (
+                        <ChevronDown className="ml-2 h-5 w-5 md:h-6 md:w-6" />
+                      )}
+                    </Button>
 
                       {expandedBarber === item.barber.team_member_id && (
                         <div className="mt-4 space-y-4">
