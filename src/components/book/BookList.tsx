@@ -157,7 +157,7 @@ const BookList = () => {
                 <div className="flex flex-col md:grid md:grid-cols-[300px,1fr] gap-6 md:gap-12">
                   {/* Barber Image Section */}
                   <div className="relative">
-                    <div className="w-full md:w-[300px] h-[250px] md:h-[300px] rounded-lg overflow-hidden">
+                  <div className="w-[95%] mx-auto md:w-[300px] h-[250px] md:h-[300px] rounded-lg overflow-hidden">
                       <img 
                         src={getBarberImage(item.barber.display_name) ?? undefined}
                         alt={item.barber.display_name}
