@@ -27,6 +27,7 @@ const barberImages: { [key: string]: string } = {
   'JOSH': Josh,
   'NIKO': Niko,
   'NOAH': Noah,
+  'AMIR': Noah
 };
 
 const BookList = () => {
@@ -39,7 +40,7 @@ const BookList = () => {
   useEffect(() => {
     const joinBarbersAndServices = (barbers: BarberResponse | undefined, services: ServicesResponse | undefined) => {
       const barberServices: BarberServices = { data: [] };
-      const sortOrder = ['Jay', 'Emman', 'Niko', 'Noah', 'Rayhan', 'Anthony', 'Josh', 'Christos', 'Wyatt'];
+      const sortOrder = ['Jay', 'Emman', 'Niko', 'Noah', 'Rayhan', 'Anthony', 'Josh', 'Christos', 'Wyatt', 'Amir'];
 
       const sortedProfiles = barbers?.team_member_booking_profiles
         .filter(profile => sortOrder.some(name => profile.display_name.includes(name.toUpperCase())))
