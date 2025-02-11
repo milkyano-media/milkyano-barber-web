@@ -40,7 +40,7 @@ const BookList = () => {
   useEffect(() => {
     const joinBarbersAndServices = (barbers: BarberResponse | undefined, services: ServicesResponse | undefined) => {
       const barberServices: BarberServices = { data: [] };
-      const sortOrder = ['Jay', 'Emman', 'Niko', 'Noah', 'Rayhan', 'Anthony', 'Josh', 'Christos', 'Wyatt', 'Amir'];
+      const sortOrder = ['Amir','Rayhan', 'Jay', 'Noah', 'Emman', 'Niko', 'Anthony', 'Josh', 'Christos', 'Wyatt', ];
 
       const sortedProfiles = barbers?.team_member_booking_profiles
         .filter(profile => sortOrder.some(name => profile.display_name.includes(name.toUpperCase())))
