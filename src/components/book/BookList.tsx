@@ -8,14 +8,15 @@ import Logo from "@/components/react-svg/logo";
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 import Rayhan from '@/assets/web/barbers/rayhan.svg';
-import Anthony from '@/assets/web/barbers/anthony.svg';
-import Jay from '@/assets/web/barbers/jay.svg';
-import Wyatt from '@/assets/web/barbers/wyatt.svg';
+import Anthony from '@/assets/web/barbers/booking-list/anthony-book.svg';
+import Jay from '@/assets/web/barbers/booking-list/jay-book.svg';
+import Wyatt from '@/assets/web/barbers/booking-list/wyatt-book.svg';
 import Emman from '@/assets/web/barbers/emman.svg';
 import Christos from '@/assets/web/barbers/christos.svg';
-import Josh from '@/assets/web/barbers/josh.svg';
-import Niko from '@/assets/web/barbers/niko.svg';
+import Josh from '@/assets/web/barbers/booking-list/josh-book.svg';
+import Niko from '@/assets/web/barbers/booking-list/niko-book.svg';
 import Noah from '@/assets/web/barbers/noah.svg';
+import Amir from '@/assets/web/barbers/booking-list/amir-book.svg';
 
 const barberImages: { [key: string]: string } = {
   'RAYHAN': Rayhan,
@@ -27,7 +28,7 @@ const barberImages: { [key: string]: string } = {
   'JOSH': Josh,
   'NIKO': Niko,
   'NOAH': Noah,
-  'AMIR': Noah
+  'AMIR': Amir
 };
 
 const BookList = () => {
