@@ -7,12 +7,12 @@ import Spinner from '../web/Spinner';
 import Logo from "@/components/react-svg/logo";
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
-import Rayhan from '@/assets/web/barbers/rayhan.svg';
+import Rayhan from '@/assets/web/barbers/booking-list/rayhan-book.svg';
 import Anthony from '@/assets/web/barbers/booking-list/anthony-book.svg';
 import Jay from '@/assets/web/barbers/booking-list/jay-book.svg';
 import Wyatt from '@/assets/web/barbers/booking-list/wyatt-book.svg';
-import Emman from '@/assets/web/barbers/emman.svg';
-import Christos from '@/assets/web/barbers/christos.svg';
+import Emman from '@/assets/web/barbers/booking-list/emman-book.svg';
+import Christos from '@/assets/web/barbers/booking-list/christos-book.svg';
 import Josh from '@/assets/web/barbers/booking-list/josh-book.svg';
 import Niko from '@/assets/web/barbers/booking-list/niko-book.svg';
 import Noah from '@/assets/web/barbers/noah.svg';
