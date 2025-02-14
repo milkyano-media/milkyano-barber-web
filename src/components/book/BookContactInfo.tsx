@@ -38,7 +38,6 @@ const BookContactInfo = () => {
   const [isChecked, setIsChecked] = useState(false);
   const location = useLocation();
   const [showForm, setShowForm] = useState(false);
-
   const booking_origin = localStorage.getItem('booking_origin') || undefined;
 
   const generateRoute = (route: string): string => {
@@ -83,7 +82,6 @@ const BookContactInfo = () => {
       .refine(isValidPhoneNumber, { message: "Invalid phone number" }),
     appointment_note: z.string().optional(),
   });
-
   let bookedItems = [];
   let formattedDate = '';
   let dateObject: ContactInfo = {};
@@ -92,7 +90,7 @@ const BookContactInfo = () => {
     const bookedItemsString = localStorage.getItem('bookedItems');
     if (bookedItemsString) {
       bookedItems = JSON.parse(bookedItemsString);
-    }
+    };
   } catch (error) {
     console.error('Error parsing bookedItems from local storage:', error);
   }
@@ -123,7 +121,6 @@ const BookContactInfo = () => {
 
   if (selectedAppointmentString) {
     const [time, modifier] = selectedAppointmentString.split(' ');
-    // eslint-disable-next-line prefer-const
     let [startHour, startMinute] = time.split(':').map(Number);
     startPeriod = modifier.toUpperCase();
     selectedTime = time;
@@ -152,14 +149,11 @@ const BookContactInfo = () => {
 
 
     appointmentEndTime = `${formattedStartTime} ${startPeriod} – ${formattedEndTime} ${endPeriod} GMT+10`;
-
-    localStorage.setItem('thankYouTime', appointmentEndTime)
-
+    localStorage.setItem('thankYouTime', appointmentEndTime);
     const tempCancelTime = `${formattedStartTime} ${startPeriod}`;
 
     const adjustTime = (timeString: string, hoursToSubtract: number): string => {
       const [time, modifier] = timeString.split(' ');
-      // eslint-disable-next-line prefer-const
       let [hours, minutes] = time.split(':').map(Number);
       if (modifier === 'PM' && hours !== 12) {
         hours += 12;
@@ -179,11 +173,8 @@ const BookContactInfo = () => {
       const formattedMinutes = minutes.toString().padStart(2, '0');
       return `${hours}:${formattedMinutes} ${newModifier}`;
     };
-
-
     cancelTime = adjustTime(tempCancelTime, 2)
   }
-
   const amount = bookedItems[0].item_data.variations[0].item_variation_data.price_money.amount;
   const formattedAmount = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(amount / 100);
   const amountInDollars = amount / 100;
@@ -191,10 +182,7 @@ const BookContactInfo = () => {
   const total = amountInDollars + twoPercent;
 
   const submitContactForm = async (values: z.infer<typeof formSchema>) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { appointment_note, ...restValues } = values;
-
-
     const valuesWithIdempotencyKey: CustomerRequest = {
       ...restValues,
       idempotency_key: uuidv4(),
@@ -215,7 +203,6 @@ const BookContactInfo = () => {
       if (!customerId) {
         throw new Error('Customer ID is missing from the response.');
       }
-
       localStorage.setItem('customer_id', customerId);
       let appointment_segments;
       let location_id;
@@ -400,8 +387,6 @@ const BookContactInfo = () => {
 
                 </div>
                 <hr className='h-[2px] opacity-50 bg-[#048301] w-full my-6' />
-
-
                 <div className='flex justify-between'>
                   <h3>Appointment Note</h3>
                   <h3 onClick={handleAddClick} className='cursor-pointer'>Add</h3>
@@ -424,7 +409,6 @@ const BookContactInfo = () => {
                     </div>
                   )}
                 </div>
-
 
                 <hr className='h-[2px] opacity-50 bg-[#048301] w-full my-6' />
                 <div className='flex flex-col gap-8 text-sm'>

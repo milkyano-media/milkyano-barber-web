@@ -25,8 +25,8 @@ interface TimeOfDay {
 }
 
 const BookAppointment = () => {
-  const location = useLocation()
-  const currentDate = new Date()
+  const location = useLocation();
+  const currentDate = new Date();
   const inputId = useId();
   const navigate = useNavigate();
   const [month, setMonth] = useState(new Date());
@@ -38,11 +38,10 @@ const BookAppointment = () => {
   const [bookedItems, setBookedItems] = useState<ServicesItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isValidDate, setIsValidDate] = useState<boolean>(true);
-  const [nextAvailable, setNextAvailable] = useState<Date>(new Date(currentDate))
-  const startAt = new Date(currentDate)
-  const endAt = new Date(currentDate)
+  const [nextAvailable, setNextAvailable] = useState<Date>(new Date(currentDate));
+  const startAt = new Date(currentDate);
+  const endAt = new Date(currentDate);
   endAt.setDate(endAt.getDate() + 30);
-
 
   const generateRoute = (route: string): string => {
     const parts = location.pathname.split("/");
@@ -58,7 +57,6 @@ const BookAppointment = () => {
     }
   }
 
-
   useEffect(() => {
     const currentDate = new Date();
     setInputValue(format(currentDate, "MM/dd/yyyy"));
@@ -69,8 +67,7 @@ const BookAppointment = () => {
   }, []);
 
   const fetchMultipleMonthsData = async (numberOfMonths: number) => {
-    setIsLoading(true)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setIsLoading(true);
     const allAvailabilities: any[] = [];
     if (bookedItems.length > 0) {
       for (let i = 0; i < numberOfMonths; i++) {
@@ -104,8 +101,7 @@ const BookAppointment = () => {
 
       localStorage.setItem('appointmentSegment', JSON.stringify(appointmentSegment));
       localStorage.setItem('locationId', JSON.stringify(locationId));
-    }
-    );
+    });
   }, [bookedItems]);
 
   useEffect(() => {
@@ -121,7 +117,7 @@ const BookAppointment = () => {
     }
     if (availableDates?.availabilities[0]) {
       const nextDate: Date = new Date(availableDates.availabilities[0].start_at);
-      setNextAvailable(nextDate)
+      setNextAvailable(nextDate);
     }
     setUnavailableDates(unavailable);
   }, [availableDates])
@@ -141,13 +137,11 @@ const BookAppointment = () => {
 
   function checkAvailabilityByDate(date: Date) {
     const dateAEST = moment.tz(date, 'Australia/Sydney').startOf('day');
-
     const result = availableDates?.availabilities.some((item: { start_at: string; }) => {
       const itemDate = moment.tz(item.start_at, 'Australia/Sydney').startOf('day');
       return dateAEST.isSame(itemDate, 'day');
     });
-
-    findAvailabilityByDate(new Date())
+    findAvailabilityByDate(new Date());
 
     return result;
   }
@@ -155,24 +149,22 @@ const BookAppointment = () => {
 
   const handleDayPickerSelect = async (date: Date | undefined) => {
     if (!date) {
-      setIsValidDate(false)
+      setIsValidDate(false);
       setInputValue(format(new Date(), "MM/dd/yyyy"));
       setSelectedDate(new Date());
     } else {
-      setIsValidDate(true)
+      setIsValidDate(true);
       setSelectedDate(date);
       setMonth(date);
       setInputValue(format(date, "MM/dd/yyyy"));
       const formattedDate = date.toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' }).replace(/(\w+), (\w+) (\d+)/, '$1, $2 $3');
       date.setHours(currentDate.getHours() - 2);
 
-
       const day = date.getDate();
       const dayName = date.toLocaleDateString('en-AU', { weekday: 'long' });
       const monthName = date.toLocaleDateString('en-AU', { month: 'short' });
       const month = date.getMonth();
       const year = date.getFullYear();
-
       const time = date.toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' }).replace(/(\w+), (\w+) (\d+)/, '$1, $2 $3');
 
       const dateObject = {
@@ -187,7 +179,7 @@ const BookAppointment = () => {
       localStorage.setItem('dateObject', JSON.stringify(dateObject));
       localStorage.setItem('formattedDate', formattedDate);
 
-      findAvailabilityByDate(date)
+      findAvailabilityByDate(date);
     }
   };
 
