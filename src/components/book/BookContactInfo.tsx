@@ -31,6 +31,7 @@ import { getCustomerByEmailAndPhone, getCustomerStatusByEmailAndPhone, postBooki
 import { BookingRequest, BookingResponse, CustomerDetail, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { CustomerStatus } from '@/interfaces/UserInterface';
+import { registerCustomer } from '@/utils/newApi';
 
 const BookContactInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -199,15 +200,31 @@ const BookContactInfo = () => {
         const newCustomer: CustomerResponse = await postCustomer(valuesWithIdempotencyKey);
         customerId = newCustomer.customer.id;
       }
-
       if (!customerId) {
         throw new Error('Customer ID is missing from the response.');
       }
-      localStorage.setItem('customer_id', customerId);
+      
+      try {
+        const springBootCustomer = await registerCustomer(
+          customerId,
+          {
+            email_address: valuesWithIdempotencyKey.email_address,
+            given_name: valuesWithIdempotencyKey.given_name,
+            family_name: valuesWithIdempotencyKey.family_name,
+            phone_number: valuesWithIdempotencyKey.phone_number
+          }
+        );
+
+        localStorage.setItem('customer_id', customerId);
+        localStorage.setItem('spring_customer_id', springBootCustomer.data.id.toString());
+      } catch (springError) {
+        console.error('Error registering with Spring Boot:', springError);
+        localStorage.setItem('customer_id', customerId);
+      }
+
       let appointment_segments;
       let location_id;
       let start_at;
-
       try {
         appointment_segments = JSON.parse(localStorage.getItem('appointmentSegment') || '[]');
       } catch (error) {
@@ -223,14 +240,12 @@ const BookContactInfo = () => {
       } catch (error) {
         console.error('Error parsing appointmentStartAt from local storage:', error);
       }
-
       const handlePurchase = (customerStatus: boolean) => {
         localStorage.setItem('purchase_value', total.toString())
         localStorage.setItem('new_customer', customerStatus.toString())
         localStorage.setItem('booking_id', booking.booking.id)
         localStorage.setItem('barber_id', booking.booking.appointment_segments[0].team_member_id)
       }
-
       const bookingPayload: BookingRequest = {
         booking: {
           start_at: start_at,
@@ -240,10 +255,8 @@ const BookContactInfo = () => {
           customer_note: values.appointment_note?.toString() || "",
         }
       };
-
       const booking: BookingResponse = await postBooking(bookingPayload, booking_origin || 'Organic');
       handlePurchase(customerStatusResponse.new_customer);
-
       setStatus('succeeded');
       setTimeout(() => {
         setIsLoading(false);
