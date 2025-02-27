@@ -17,6 +17,8 @@ interface VisitRequest {
     utm_campaign?: string;
     utm_content?: string;
     fbclid?: string;
+    ttclid?: string;
+    gclid?: string;
 }
 
 interface CustomerRequest {
@@ -78,7 +80,9 @@ export const registerCustomer = async (
                 utm_medium: localStorage.getItem('utm_medium') || undefined,
                 utm_campaign: localStorage.getItem('utm_campaign') || undefined,
                 utm_content: localStorage.getItem('utm_content') || undefined,
-                fbclid: localStorage.getItem('fbclid') || undefined
+                fbclid: localStorage.getItem('fbclid') || undefined,
+                ttclid: localStorage.getItem('ttclid') || undefined,
+                gclid: localStorage.getItem('gclid') || undefined
             }
         };
 
