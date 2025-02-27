@@ -39,17 +39,24 @@ const BookList = () => {
   const [expandedBarber, setExpandedBarber] = useState<string | null>(null);
 
   useEffect(() => {
-    const joinBarbersAndServices = (barbers: BarberResponse | undefined, services: ServicesResponse | undefined) => {
+    const joinBarbersAndServices = (barbers: BarberResponse | undefined, services: ServicesResponse | undefined, specificBarber: string | null) => {
       const barberServices: BarberServices = { data: [] };
-      const sortOrder = ['Amir','Rayhan', 'Jay', 'Noah', 'Emman', 'Niko', 'Anthony', 'Josh', 'Christos', 'Wyatt', ];
+      const sortOrder = ['Amir','Rayhan', 'Jay', 'Noah', 'Emman', 'Niko', 'Anthony', 'Josh', 'Christos', 'Wyatt'];
 
-      const sortedProfiles = barbers?.team_member_booking_profiles
+      let sortedProfiles = barbers?.team_member_booking_profiles
         .filter(profile => sortOrder.some(name => profile.display_name.includes(name.toUpperCase())))
         .sort((a, b) => {
           const aName = sortOrder.findIndex(name => a.display_name.toUpperCase().includes(name.toUpperCase()));
           const bName = sortOrder.findIndex(name => b.display_name.toUpperCase().includes(name.toUpperCase()));
           return aName - bName;
         });
+
+      // Filter for a specific barber if provided
+      if (specificBarber && specificBarber !== 'book') {
+        sortedProfiles = sortedProfiles?.filter(profile => 
+          profile.display_name.toUpperCase().includes(specificBarber.toUpperCase())
+        );
+      }
 
       if (sortedProfiles && services) {
         for (let i = 0; i < sortedProfiles.length; i++) {
@@ -67,17 +74,35 @@ const BookList = () => {
       }
 
       setBarberServices(barberServices);
+      
+      // Auto-expand if there's only one barber
+      if (barberServices.data.length === 1 && barberServices.data[0].barber.team_member_id) {
+        setExpandedBarber(barberServices.data[0].barber.team_member_id);
+      }
     };
 
     const fetchData = async () => {
       setIsLoading(true);
-      let barber: string;
-      let query: string;
-      let type: string;
       const parts = location.pathname.split("/");
+      
+      // Determine which barber to show
+      let specificBarber = null;
+      let barber;
+      let query;
+      let type;
+      
+      // Handle different URL patterns
       parts[1] === 'meta' ? barber = parts[2] : barber = parts[1];
       parts[1] === 'meta' ? type = 'M' : type = 'O';
       
+      const isBookingPath = parts.includes('book') || parts.includes('services');
+      
+      // Set the specific barber based on URL
+      if (barber && barber !== 'book' && isBookingPath) {
+        specificBarber = barber;
+      }
+      
+      // Determine query for API
       if (parts.length > 3) {
         barber === 'dejan' || barber === 'anthony' || barber === 'christos' || 
         barber === 'wyatt' || barber === "noah" || barber === 'book' 
@@ -89,7 +114,8 @@ const BookList = () => {
 
       const fetchedBarbers = await getAllBarber();
       const fetchedServices = await getAllService(query, type);
-      joinBarbersAndServices(fetchedBarbers, fetchedServices);
+      
+      joinBarbersAndServices(fetchedBarbers, fetchedServices, specificBarber);
       setIsLoading(false);
     };
 

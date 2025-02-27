@@ -40,7 +40,7 @@ export const useUtmTracking = () => {
 
             // Set individual UTM parameters
             Object.entries(trackingData).forEach(([key, value]) => {
-                if (typeof value === 'string' && key.startsWith('utm_')) {
+                if (typeof value === 'string' && (key.startsWith('utm_') || key === 'fbclid' || key === 'ttclid' || key === 'gclid')) {
                   localStorage.setItem(key, value);
                 }
             });
