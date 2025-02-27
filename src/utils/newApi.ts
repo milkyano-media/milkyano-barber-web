@@ -19,6 +19,7 @@ interface VisitRequest {
     fbclid?: string;
     ttclid?: string;
     gclid?: string;
+    team_member_id?: string;
 }
 
 interface CustomerRequest {
@@ -82,7 +83,8 @@ export const registerCustomer = async (
                 utm_content: localStorage.getItem('utm_content') || undefined,
                 fbclid: localStorage.getItem('fbclid') || undefined,
                 ttclid: localStorage.getItem('ttclid') || undefined,
-                gclid: localStorage.getItem('gclid') || undefined
+                gclid: localStorage.getItem('gclid') || undefined,
+                team_member_id: localStorage.getItem('barber_id') || undefined
             }
         };
 
