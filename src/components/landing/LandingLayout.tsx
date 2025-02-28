@@ -1,8 +1,8 @@
-import React, { ReactNode, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useGtm } from '../hooks/UseGtm';
-import LandingFooter from '@/components/landing/LandingFooter';
-import LandingHeader from './LandingHeader';
+import React, { ReactNode, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useGtm } from "../hooks/UseGtm";
+import LandingFooter from "@/components/landing/LandingFooter";
+import LandingHeader from "./LandingHeader";
 
 const LandingLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const location = useLocation();
@@ -10,20 +10,18 @@ const LandingLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     sendEvent({
-      event: 'route_event',
-      path: location.pathname
+      event: "route_event",
+      path: location.pathname,
     });
 
     window.scrollTo(0, 0);
   }, [location.pathname, sendEvent]);
 
   return (
-    <div className="font-inter" style={{ minHeight: '100vh' }}>
+    <div className="font-poppins" style={{ minHeight: "100vh" }}>
       <h1 className="hidden">Faded Lines Barber Shop</h1>
       <LandingHeader />
-      <main>
-        {children}
-      </main>
+      <main>{children}</main>
       <LandingFooter />
     </div>
   );

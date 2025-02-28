@@ -73,11 +73,21 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-black text-foreground;
+  }
+
+  h1 {
+    @apply text-4xl md:text-6xl font-bold leading-10;
+  }
+
+  h2 {
+    @apply text-4xl md:text-4xl font-bold leading-10;
+  }
+
+  h3 {
+    @apply text-4xl md:text-3xl font-bold leading-10;
   }
 }
-
-
 
 .embla {
   @apply relative py-12 md:py-52 overflow-hidden;
@@ -210,7 +220,7 @@
   border-radius: 50%;
   display: flex;
   align-items: center;
-  content: '';
+  content: "";
 }
 
 .embla__dot--selected:after {
@@ -251,9 +261,9 @@
 
 .flare.pointer {
   opacity: 0 !important;
-  transition: width 0.2s ease-in-out, height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  transition: width 0.2s ease-in-out, height 0.2s ease-in-out,
+    opacity 0.2s ease-in-out;
 }
-
 
 #GradientRounded {
   @apply backdrop-blur-lg shadow-2xl shadow-black;
@@ -268,7 +278,12 @@
   bottom: 0;
   border-radius: 1rem;
   border: 3px solid transparent;
-  background: linear-gradient(129deg, rgba(5, 255, 0, 1) 0%, rgba(36, 255, 0, 0) 38%) border-box;
+  background: linear-gradient(
+      129deg,
+      rgba(5, 255, 0, 1) 0%,
+      rgba(36, 255, 0, 0) 38%
+    )
+    border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
@@ -288,10 +303,13 @@
   bottom: 0;
   border-radius: 1rem;
   border: 3px solid transparent;
-  background: linear-gradient(115deg,
+  background: linear-gradient(
+      115deg,
       hsl(112deg 100% 50%) 0%,
       hsl(105deg 88% 33%) 50%,
-      hsl(101deg 72% 17%) 100%) border-box;
+      hsl(101deg 72% 17%) 100%
+    )
+    border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
@@ -310,7 +328,12 @@
   bottom: 0;
   border-radius: 0rem;
   border-top: 4px solid transparent;
-  background: linear-gradient(129deg, rgba(5, 255, 0, 1) 0%, rgba(36, 255, 0, 0) 38%) border-box;
+  background: linear-gradient(
+      129deg,
+      rgba(5, 255, 0, 1) 0%,
+      rgba(36, 255, 0, 0) 38%
+    )
+    border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
@@ -329,7 +352,13 @@
   bottom: 0;
   border-radius: 5rem;
   border: 2px solid transparent;
-  background: linear-gradient(130deg, rgba(0, 255, 56, 1) 0%, rgba(0, 255, 56, 0) 79%, rgba(0, 255, 56, 0) 100%) border-box;
+  background: linear-gradient(
+      130deg,
+      rgba(0, 255, 56, 1) 0%,
+      rgba(0, 255, 56, 0) 79%,
+      rgba(0, 255, 56, 0) 100%
+    )
+    border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
@@ -349,7 +378,14 @@
   bottom: 0;
   border-radius: 3rem;
   border: 3px solid transparent;
-  background: linear-gradient(145deg, rgba(5, 250, 1, 1) 0%, rgba(0, 0, 0, 0) 27%, rgba(0, 0, 0, 0) 70%, rgba(5, 250, 1, 1) 100%) border-box;
+  background: linear-gradient(
+      145deg,
+      rgba(5, 250, 1, 1) 0%,
+      rgba(0, 0, 0, 0) 27%,
+      rgba(0, 0, 0, 0) 70%,
+      rgba(5, 250, 1, 1) 100%
+    )
+    border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
@@ -368,7 +404,14 @@
   bottom: 0;
   border-radius: 3rem;
   border: 3px solid transparent;
-  background: linear-gradient(145deg, rgba(5, 250, 1, 1) 0%, rgba(0, 0, 0, 0) 27%, rgba(0, 0, 0, 0) 70%, rgba(5, 250, 1, 1) 100%) border-box;
+  background: linear-gradient(
+      145deg,
+      rgba(5, 250, 1, 1) 0%,
+      rgba(0, 0, 0, 0) 27%,
+      rgba(0, 0, 0, 0) 70%,
+      rgba(5, 250, 1, 1) 100%
+    )
+    border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
@@ -407,7 +450,6 @@
     opacity: 0;
   }
 }
-
 
 .react-video-player {
   video {

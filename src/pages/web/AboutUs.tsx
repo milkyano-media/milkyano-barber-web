@@ -1,7 +1,5 @@
-
 import Layout from "@/components/web/WebLayout";
-import { useEffect, } from "react";
-import { Facebook, Instagram, Tiktok, Youtube } from 'react-bootstrap-icons';
+import { Facebook, Instagram, Tiktok, Youtube } from "react-bootstrap-icons";
 import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import {
@@ -13,209 +11,216 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import InstagramSection from "@/components/web/InstagramSection";
+} from "@/components/ui/alert-dialog";
+import BgHero2 from "@/assets/web/home/hero.svg";
 
-import AboutUsHero from "@/assets/web/about-us/about_us_hero.png";
 import TiktokAboutUs from "@/assets/web/about-us/about_us_tiktok.png";
 
-import AboutUsBg from "@/assets/web/about-us/about_us_bg.png";
 import AboutUsDejan1 from "@/assets/web/about-us/about_us_dejan_1.png";
-import AboutUsDejan2 from "@/assets/web/about-us/about_us_dejan_2.png";
-
-import EmeraldFooter from "@/assets/web/emerald_footer_mobile.svg";
-import EmeraldFooterRight from "@/assets/web/emerald_footer_right.svg";
-import EmeraldFooterLeft from "@/assets/web/emerald_footer_left.svg";
-
-import instagramPhotosDesktop1 from '/src/assets/follow-us/desktop/instagram_photo_1.png';
-import instagramPhotosDesktop2 from '/src/assets/follow-us/desktop/instagram_photo_2.png';
-import instagramPhotosDesktop3 from '/src/assets/follow-us/desktop/instagram_photo_3.png';
-import instagramPhotosDesktop4 from '/src/assets/follow-us/desktop/instagram_photo_4.png';
-import instagramPhotosDesktop5 from '/src/assets/follow-us/desktop/instagram_photo_5.png';
-
-import instagramPhotosMobile1 from '/src/assets/follow-us/mobile/instagram_photo_1.png';
-import instagramPhotosMobile2 from '/src/assets/follow-us/mobile/instagram_photo_2.png';
-import instagramPhotosMobile3 from '/src/assets/follow-us/mobile/instagram_photo_3.png';
-import instagramPhotosMobile4 from '/src/assets/follow-us/mobile/instagram_photo_4.png';
-import instagramPhotosMobile5 from '/src/assets/follow-us/mobile/instagram_photo_5.png';
-
-const instagram_images_desktop = [
-  { image: instagramPhotosDesktop1, name: 'Mid Burst Fade' },
-  { image: instagramPhotosDesktop2, name: 'Mid Drop Fade' },
-  { image: instagramPhotosDesktop3, name: 'Mid Taper' },
-  { image: instagramPhotosDesktop4, name: 'V Low Drop Fade' },
-  { image: instagramPhotosDesktop5, name: '' },
-];
-
-const instagram_images_mobile = [
-  instagramPhotosMobile1,
-  instagramPhotosMobile2,
-  instagramPhotosMobile3,
-  instagramPhotosMobile4,
-  instagramPhotosMobile5,
-];
-
+import plus from "@/assets/web/about-us/plus.svg";
+import dummy from "@/assets/web/about-us/dummy.svg";
 
 const SocialMediaLinks: React.FC = () => {
   const socialMedia = [
     {
-      name: 'Instagram',
+      name: "Instagram",
       icon: Instagram,
-      url: 'https://www.instagram.com/fadedlinesbarbershop'
+      url: "https://www.instagram.com/fadedlinesbarbershop",
     },
     {
-      name: 'Facebook',
+      name: "Facebook",
       icon: Facebook,
-      url: 'https://www.facebook.com/p/Faded-Lines-Barbershop-100066737611092/'
+      url: "https://www.facebook.com/p/Faded-Lines-Barbershop-100066737611092/",
     },
     {
-      name: 'Tittok',
+      name: "Tittok",
       icon: Tiktok,
-      url: 'https://www.tiktok.com/@faded_lines'
+      url: "https://www.tiktok.com/@faded_lines",
     },
     {
-      name: 'Youtube',
+      name: "Youtube",
       icon: Youtube,
-      url: 'https://www.youtube.com/@Faded_Lines'
+      url: "https://www.youtube.com/@Faded_Lines",
     },
   ];
 
   return (
     <div className="flex space-x-4">
       {socialMedia.map((item, index) => (
-        <a key={index} href={item.url} target="_blank" rel="noopener noreferrer" className="text-2xl text-[#42FF00] hover:text-[#6ed449]">
+        <a
+          key={index}
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-2xl text-[#42FF00] hover:text-[#6ed449]"
+        >
           <item.icon className="w-8 h-auto" />
           <span className="sr-only">{item.name}</span>
         </a>
       ))}
     </div>
   );
-}
+};
 
 export default function AboutUs() {
-
-  useEffect(() => {
-    const style = document.createElement('style');
-
-    style.innerHTML = `
-        @keyframes move {
-            0% { transform: translateX(100%); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateX(-100%); opacity: 0; }
-        }
-    `;
-    document.head.appendChild(style);
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, []);
-
-
   return (
     <Layout>
       <Helmet>
         <title>About Us - Fadelines Barber Shop</title>
-        <meta name="description" content="Fadelines - A premier barber shop offering top-notch haircuts and styles." />
+        <meta
+          name="description"
+          content="Fadelines - A premier barber shop offering top-notch haircuts and styles."
+        />
         <meta property="og:title" content="Fadelines Barber Shop" />
-        <meta property="og:description" content="Fadelines - A premier barber shop offering top-notch haircuts and styles." />
+        <meta
+          property="og:description"
+          content="Fadelines - A premier barber shop offering top-notch haircuts and styles."
+        />
         <meta property="og:image" content="URL to Fadelines' preview image" />
         <meta property="og:url" content="URL to Fadelines' website" />
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
-      <div className="flex flex-col text-stone-50 bg-black w-full relative tracking-wider">
-        <img src={EmeraldFooter} alt="EmeraldFooter.svg" className="md:hidden block absolute bottom-[-10rem] md:bottom-[-26rem] z-0 left-0" />
-        <img src={EmeraldFooterRight} alt="EmeraldFooter.svg" className="absolute hidden md:block bottom-[-10rem] md:bottom-[-26rem] z-0 right-0" />
-        <img src={EmeraldFooterLeft} alt="EmeraldFooter.svg" className="absolute hidden md:block bottom-[-10rem] md:bottom-[-26rem] z-0 left-0" />
-        <section className="pb-12 md:pb-24 ">
-          <section className=" w-full relative flex flex-col items-center text-center pt-12  md:pt-0 container">
-            <div className="w-full  md:px-0 pt-12 flex flex-col gap-4 ">
-              <h3 className="text-3xl md:text-3xl tracking-wider font-extrabold w-full md:w-1/3 mx-auto font-inter">
-                <span className="text-lg"> ABOUT US</span>
-                <br />
-                <span> THE STORY BEHIND</span>
-                <br />
-                <span className="text-transparent bg-gradient-to-r from-[#42FF00]  to-[#79FF86] bg-clip-text">OUR BARBERSHOP </span>
-              </h3>
 
-            </div>
-          </section>
-        </section>
-        <section className="flex flex-row md:flex-col relative container md:max-w-none md:mx-0 text-center md:text-start md:justify-center md:pb-32">
-          <img alt="background about us" src={AboutUsHero} className="absolute left-0 w-full h-[35rem] object-cover" />
-          <div className="w-full relative z-20 flex-col md:flex-row flex md:items-center md:justify-center md:container ">
-            <div className="w-full md:w-5/12 flex flex-col justify-center items-center md:justify-start md:items-start ">
-              <h3 className="text-xl md:text-3xl font-extrabold w-full pb-4">
-                HEY I&apos;M <span className="text-transparent bg-gradient-to-r from-[#42FF00]  to-[#79FF86] bg-clip-text">DEJAN</span>
-              </h3>
-              <p className="text-xs md:text-base tracking-wide flex-col flex gap-4 w-3/4 ">
-                <span> Faded Lines Barbershop wants to bring convivence back into peoples lives. With appointments and Walk-ins </span>
-                <span>  Prices determined by demand and experience </span>
-                <span> Not luck of the draw</span>
-              </p>
-            </div>
-            <div className="">
-              <img alt="background about us" src={AboutUsDejan1} className="hover:scale-110 transform transition-transform ease-out duration-500 cursor-pointer delay-75" />
-            </div>
-          </div>
-        </section>
-        <section className="flex flex-col md:flex-row relative container md:mx-0 md:max-w-none md:justify-center md:items-center md:py-12 py-24">
-          <img alt="background about us" src={AboutUsBg} className=" left-0 absolute z-0 w-full h-[35rem] object-cover" />
-          <div className="flex flex-col md:flex-row md:justify-between md:max-w-6xl md:items-center  text-center md:text-start items-center ">
-            <div className="w-fit flex z-20  md:justify-start md:ml-[-3rem] md:pt-12 ">
-              <img alt="our salon about us" src={AboutUsDejan2} className="hover:scale-110 transform transition-transform ease-out duration-500 cursor-pointer delay-75" />
-            </div>
-            <div className="w-full md:w-5/12 md:text-right md:justify-start  flex flex-col justify-center items-center  z-10 " >
-              <h3 className="text-xl md:text-3xl font-extrabold w-full pb-4 text-transparent bg-gradient-to-r from-[#42FF00]  to-[#79FF86] bg-clip-text">
-                OUR SALON
-              </h3>
-              <p className="text-xs md:text-base tracking-wide flex-col flex gap-4 md:gap-3 md:pt-4 w-3/4 md:w-full font-light text-justify">
-                <span> Faded Lines Barbershop provides great services at a professional standard. Having clients feel welcome where professional barbers create a clean & safe environment to work and be around.</span>
-                <span> Specializing in ALL types of hair textures, we will ensure to have you feeling and leaving confident. From traditional styled & dapper haircuts, to smooth razor shaves and close fades.</span>
-                <span> Our team is committed to giving you a great service with an even better outcome to all your hair necessities.</span>
-              </p>
-            </div>
+      <section className="flex flex-col justify-center items-center relative pt-40">
+        <img
+          alt="hero image"
+          width={500}
+          height={500}
+          src={BgHero2}
+          className="top-0 absolute w-full h-full object-cover -z-10"
+        />
+        <div className="top-0 absolute w-full h-full object-cover z-0 bg-gradient-to-b from-black/80 to-black" />
+        <div className="flex flex-col justify-center items-center text-center gap-6 z-10">
+          <div className="flex flex-col mb-12">
+            <h2 className="text-[#33FF00]">AWARD WINNING</h2>
+            <h2>BARBERSHOP</h2>
+            <sub className="mt-6">
+              55 PORTMAN ST; OAKLEIGH VIC 3166; AUSTRALIA
+            </sub>
           </div>
 
-        </section>
-        <section className="flex flex-col md:flex-row relative px-4 tracking-wider md:justify-center md:items-center  gap-12 md:gap-0 md:py-24">
+          <svg
+            className="w-7 mt-20"
+            viewBox="0 0 55 30"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M50.582 0.216618L54.9987 4.63745L30.9279 28.7166C30.5422 29.1048 30.0835 29.4128 29.5783 29.623C29.0731 29.8332 28.5313 29.9414 27.9841 29.9414C27.4369 29.9414 26.8951 29.8332 26.3899 29.623C25.8847 29.4128 25.4261 29.1048 25.0404 28.7166L0.957032 4.63745L5.3737 0.220782L27.9779 22.8208L50.582 0.216618Z"
+              fill="#33FF00"
+            />
+          </svg>
+        </div>
+      </section>
 
-          <div className="md:w-4/12 flex flex-col gap-8 md:pl-24">
-            <h3 className="text-4xl flex flex-col font-extrabold w-8/12">
-              WE ARE WELL KNOWN ON
-              <span className="text-transparent bg-gradient-to-r from-[#42FF00]  to-[#79FF86] bg-clip-text"
-              >TIKTOK</span>
-            </h3>
-            <p className="text-sm font-light md:w-8/12">Still doubt our ability to create the best haircuts in Melbourne? Check our Tiktok and see for yourself.</p>
+      <section className="container flex flex-col md:flex-row">
+        <div className="md:w-1/3">
+          <img
+            alt="background about us"
+            src={AboutUsDejan1}
+            className="hover:scale-110 transform transition-transform ease-out duration-500 cursor-pointer delay-75"
+          />
+        </div>
+        <div className="md:w-max flex flex-col justify-center items-center">
+          <img width={500} height={500} alt="background about us" src={plus} />
 
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="ghost" className="rounded-2xl w-full md:w-32 font-extrabold border-[#14FF00] border text-lg py-6 px-2 hover:bg-[#14FF00] shadow-md hover:shadow-[#14FF00] hover:scale-110 transition-transform duration-500 ease-in-out hover:text-stone-950" >
-                  Follow Us
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent className="flex flex-col items-center justify-center">
-                <AlertDialogHeader>
-                  <AlertDialogTitle className="pb-2">Find Us Here</AlertDialogTitle>
-                  <AlertDialogDescription className="py-4 flex justify-center">
-                    <SocialMediaLinks />
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter className="flex items-center sm:justify-center w-full px-4">
-                  <AlertDialogAction>Continue</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-
+          <div className="flex flex-col md:flex-row gap-10 mt-10 md:mt-0 md:w-2/4">
+            <h2 className="w-full">
+              Hey, I'm <br />
+              <span className="text-[#33FF00]">Dejan</span>
+            </h2>
+            <p>
+              Faded Lines Barbershop wants to bring convivence back into peoples
+              lives. With appointments and Walk-ins. Prices determined by demand
+              and experience.
+            </p>
           </div>
-          <div className="w-10/12 md:w-fit flex self-center md:self-start">
-            <img alt="background about us" src={TiktokAboutUs} className="" />
-          </div>
+        </div>
+      </section>
 
-        </section>
-        <section className="mb-20">
-          <InstagramSection instagram_images_desktop={instagram_images_desktop} instagram_images_mobile={instagram_images_mobile} />
-        </section>
-      </div>
+      <section className="container flex justify-center">
+        <div className="border border-[#114330] rounded-xl flex flex-col gap-6 md:gap-10 justify-center text-center items-center p-10 md:p-20 md:w-2/3">
+          <svg
+            width="60"
+            height="51"
+            viewBox="0 0 60 51"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0.833496 0.5V9.65C3.46995 9.97708 5.72204 11.0115 7.58975 12.7542C9.34704 14.4979 10.721 16.7312 11.7095 19.4542C12.5877 22.0687 13.0272 24.901 13.0272 27.951H1.82308V50.5H24.8929V30.075C24.8929 23.5396 23.7939 18.2021 21.597 14.0625C19.2908 9.92292 16.3241 6.76354 12.6991 4.58542C9.07308 2.40625 5.11787 1.04375 0.833496 0.5ZM35.2731 0.5V9.65C37.8002 9.97708 39.997 11.0115 41.8647 12.7542C43.622 14.4979 44.995 16.7312 45.9845 19.4542C46.8627 22.0687 47.3022 24.901 47.3022 27.951H36.097V50.5H59.1668V30.075C59.1668 23.5396 58.0679 18.2021 55.871 14.0625C53.5637 9.92292 50.5981 6.76354 46.9731 4.58542C43.3997 2.4247 39.4148 1.03325 35.2731 0.5Z"
+              fill="#33FF00"
+            />
+          </svg>
+
+          <h1 className="text-transparent bg-gradient-to-b from-[#33FF00] to-[#24B300] bg-clip-text">
+            Not Luck Of <br />
+            The Draw.
+          </h1>
+
+          <p className="md:w-2/3">
+            Faded Lines Barbershop provides great services at a professional
+            standard. Having clients feel welcome where professional barbers
+            create a clean & safe environment to work and be around.
+          </p>
+
+          <p className="md:w-2/3">
+            Specializing in all types of hair textures, we will ensure to have
+            you feeling and leaving confident. From traditional styled & dapper
+            haircuts, to smooth razor shaves and close fades.
+          </p>
+
+          <p className="md:w-2/3">
+            Our team is committed to giving you a great service with an even
+            better outcome to all your hair necessities.
+          </p>
+        </div>
+      </section>
+
+      <section className="flex flex-col md:flex-row relative px-4 tracking-wider md:justify-center md:items-center  gap-12 md:gap-0 md:py-24">
+        <div className="md:w-4/12 flex flex-col gap-8 md:pl-24">
+          <h3 className="text-4xl flex flex-col font-extrabold w-8/12">
+            WE ARE WELL KNOWN ON
+            <span className="text-[#33FF00]">TIKTOK</span>
+          </h3>
+          <p className="text-sm font-light md:w-8/12">
+            Still doubt our ability to create the best haircuts in Melbourne?
+            Check our Tiktok and see for yourself.
+          </p>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button className="border absolute md:relative bottom-[.5rem] md:bottom-[1rem] w-max px-7 py-5 rounded-lg border-[#184937] hover:border-white text-[#33FF00] bg-transparent backdrop-blur-md z-30 transform hover:scale-110 transition-transform duration-400 ease-in-out hover:shadow-md hover:bg-[#14FF00] hover:shadow-[#14FF00] text-xs md:text-base hover:text-white">
+                FOLLOW US
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="flex flex-col items-center justify-center">
+              <AlertDialogHeader>
+                <AlertDialogTitle className="pb-2">
+                  Find Us Here
+                </AlertDialogTitle>
+                <AlertDialogDescription className="py-4 flex justify-center">
+                  <SocialMediaLinks />
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="flex items-center sm:justify-center w-full px-4">
+                <AlertDialogAction>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+        <div className="w-10/12 md:w-fit flex self-center md:self-start">
+          <img alt="background about us" src={TiktokAboutUs} className="" />
+        </div>
+      </section>
+
+      <section className="container flex flex-col gap-20 mb-40">
+        <h2>
+          Where Haircuts <br />
+          Are Done Right.
+        </h2>
+        <img src={dummy} alt="" />
+      </section>
     </Layout>
   );
 }

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import Logo from "@/components/react-svg/logo"
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from "react";
+import Logo from "@/components/react-svg/logo";
+import { Link, useLocation } from "react-router-dom";
 
 import {
   Sheet,
@@ -8,15 +8,13 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
 
 // import { Squash as Hamburger } from 'hamburger-react'
-import Hamburger from '@/components/hamburger'
+import Hamburger from "@/components/hamburger";
 
-import Facebook from "@/assets/web/icons/Facebook.svg"
-import Instagram from "@/assets/web/icons/Instagram.svg"
-import Tiktok from "@/assets/web/icons/Tiktok.svg"
-import Youtube from "@/assets/web/icons/Youtube.svg"
+import { Button } from "../ui/button";
+import { generateLink } from "@/pages/web/Home";
 
 interface NavLinkProps {
   to: string;
@@ -24,12 +22,16 @@ interface NavLinkProps {
 }
 
 const NavLink: React.FC<NavLinkProps> = ({ to, label }) => {
-
-  const location = useLocation()
+  const location = useLocation();
 
   return (
-    <li className='my-4'>
-      <Link to={to} className={`text-2xl font-light hover:text-stone-50 ${location.pathname === to ? 'text-stone-50' : ''}`}>
+    <li className="my-4">
+      <Link
+        to={to}
+        className={`text-2xl font-light hover:text-white ${
+          location.pathname === to ? "text-white" : ""
+        }`}
+      >
         {label}
       </Link>
     </li>
@@ -51,78 +53,126 @@ const Header: React.FC = () => {
 
   const generateRoute = (route: string): string => {
     const parts = location.pathname.split("/");
-    if (parts[1] === 'meta') {
+    if (parts[1] === "meta") {
       return `/meta${route}`;
-    }
-    else {
+    } else {
       return route;
     }
-  }
+  };
+
+  const [height, setHeight] = useState(0);
+  const headerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (headerRef.current) {
+      setHeight(headerRef.current.offsetHeight);
+    }
+
+    const handleResize = () => {
+      if (headerRef.current) {
+        setHeight(headerRef.current.offsetHeight);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <header className="bg-black text-white  shadow-lg shadow-black border-none z-[999999999999999] py-4 sticky top-0 ">
+    <header
+      ref={headerRef}
+      className="text-white shadow-lg shadow-[#33FF00]/10 border-b-[0.5px] border-[#33FF00] rounded-b-lg z-[999999999999999] py-4 sticky top-0"
+      style={{
+        marginBottom: `-${height}px`,
+        background:
+          "linear-gradient(180deg, rgba(3, 18, 13, 0.75) 14.29%, rgba(3, 18, 13, 0.6) 100%)",
+      }}
+    >
       <div className="container mx-auto flex justify-between items-center relative z-10 border-none px-2 md:px-4">
-        <h1 className="text-2xl font-bold text-transparent hidden ">Barber Shop</h1>
-        <div className='flex flex-col justify-center items-center'>
-          <Link to={generateRoute("/home")}  >
-            <Logo className='w-48 md:w-[12rem] h-auto opacity-90 ' />
+        <h1 className="text-2xl font-bold text-transparent hidden ">
+          Barber Shop
+        </h1>
+        <div className="flex flex-col justify-center items-center">
+          <Link to={generateRoute("/home")}>
+            <Logo className="w-48 md:w-36 h-auto opacity-90 " />
           </Link>
         </div>
-        <nav className='hidden lg:block sticky top-0'>
-          <ul className="flex text-stone-600 ">
+        <nav className="hidden lg:block sticky top-0">
+          <ul className="flex text-white/80">
             <li>
-              <Link to={generateRoute("/home")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/' ? 'text-stone-50' : ''}`}>HOME</Link>
+              <Link
+                to={generateRoute("/home")}
+                className={`text-md uppercase font-bold px-4 hover:text-white ${
+                  location.pathname === "/" ? "text-white" : ""
+                }`}
+              >
+                HOME
+              </Link>
             </li>
             <li>
-              <Link to={generateRoute("/barbers")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/barbers' ? 'text-stone-50' : ''}`}>BARBERS/HAIRDRESSERS</Link>
+              <Link
+                to={generateRoute("/barbers")}
+                className={`text-md uppercase font-bold px-4 hover:text-white ${
+                  location.pathname === "/barbers" ? "text-white" : ""
+                }`}
+              >
+                BARBERS
+              </Link>
             </li>
             <li>
-              <Link to={generateRoute("/gallery")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/gallery' ? 'text-stone-50' : ''}`}>GALLERY</Link>
+              <Link
+                to={generateRoute("/gallery")}
+                className={`text-md uppercase font-bold px-4 hover:text-white ${
+                  location.pathname === "/gallery" ? "text-white" : ""
+                }`}
+              >
+                GALLERY
+              </Link>
             </li>
             <li>
-              <Link to={generateRoute("/about-us")} className={`text-md uppercase font-bold border-r border-stone-50 px-4 hover:text-stone-50 ${location.pathname === '/about-us' ? 'text-stone-50' : ''}`}>ABOUT US</Link>
+              <Link
+                to={generateRoute("/about-us")}
+                className={`text-md uppercase font-bold px-4 hover:text-white ${
+                  location.pathname === "/about-us" ? "text-white" : ""
+                }`}
+              >
+                ABOUT US
+              </Link>
             </li>
             <li>
-              <Link to={generateRoute("/careers")} className={`text-md uppercase font-bold   px-4 border-r border-stone-50 hover:text-stone-50 ${location.pathname === '/careers' ? 'text-stone-50' : ''}`}>Careers</Link>
+              <Link
+                to={generateRoute("/careers")}
+                className={`text-md uppercase font-bold px-4 hover:text-white ${
+                  location.pathname === "/careers" ? "text-white" : ""
+                }`}
+              >
+                Careers
+              </Link>
             </li>
             <li>
-              <Link to={generateRoute("/contact")} className={`text-md uppercase font-bold   px-4 hover:text-stone-50 ${location.pathname === '/contact' ? 'text-stone-50' : ''}`}>CONTACT</Link>
+              <Link
+                to={generateRoute("/contact")}
+                className={`text-md uppercase font-bold   px-4 hover:text-white ${
+                  location.pathname === "/contact" ? "text-white" : ""
+                }`}
+              >
+                CONTACT
+              </Link>
             </li>
           </ul>
         </nav>
-        <nav className='hidden xl:block'>
-          <ul className="flex gap-7 ">
-            <li>
-              <a href="https://www.instagram.com/fadedlinesbarbershop/" className="text-md uppercase font-bold hover:text-stone-50 opacity-40 hover:opacity-100 ">
-                <img alt='instagram' src={Instagram} className='w-10 h-auto' />
-              </a>
-            </li>
-
-            <li>
-              <a href="https://www.facebook.com/p/Faded-Lines-Barbershop-100066737611092/" className="text-md uppercase font-bold hover:text-stone-50 opacity-40 hover:opacity-100 ">
-                <img width={500} height={500} alt='Facebook' src={Facebook} className='w-10 h-auto' />
-              </a>
-            </li>
-
-            <li>
-
-              <a href="https://www.tiktok.com/@faded_lines" className="text-md uppercase font-bold hover:text-stone-50 opacity-40 hover:opacity-100 ">
-                <img width={500} height={500} alt='Tiktok' src={Tiktok} className='w-10 h-auto' />
-              </a>
-            </li>
-
-            <li>
-              <a href="https://www.youtube.com/@Faded_Lines" className="text-md uppercase font-bold hover:text-stone-50 opacity-40 hover:opacity-100 ">
-                <img width={500} height={500} alt='Youtube' src={Youtube} className='w-10 h-auto' />
-              </a>
-            </li>
-
-          </ul>
+        <nav className="hidden xl:block">
+          <Button className="px-8 py-5">{generateLink("BOOK NOW")}</Button>
         </nav>
-        <nav className='xl:hidden flex flex-col justify-center'>
+        <nav className="xl:hidden flex flex-col justify-center">
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-            <SheetTrigger aria-label='open menu' />
-            <Hamburger label='close icons' toggled={isMenuOpen} toggle={setIsMenuOpen} size={24} />
+            <SheetTrigger aria-label="open menu" />
+            <Hamburger
+              label="close icons"
+              toggled={isMenuOpen}
+              toggle={setIsMenuOpen}
+              size={24}
+            />
             <SheetContent side={"top"}>
               <SheetHeader>
                 <SheetDescription>
