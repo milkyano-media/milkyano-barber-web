@@ -110,7 +110,8 @@ type CountrySelectProps = {
 };
 
 const CountrySelect = ({
-  disabled,
+  // Remove the disabled parameter since it's unused
+  // disabled,
   value,
   onChange,
   options,
@@ -119,7 +120,7 @@ const CountrySelect = ({
   const filteredOptions = options.filter(option => option.value === 'AU');
   
   const handleSelect = React.useCallback(
-    (country: RPNInput.Country) => {
+    (_: RPNInput.Country) => {
       // Force country to always be Australia
       onChange('AU' as RPNInput.Country);
     },
