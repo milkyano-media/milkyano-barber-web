@@ -1,10 +1,8 @@
 import { CheckIcon, ChevronsUpDown } from "lucide-react";
-
 import * as React from "react";
-
 import * as RPNInput from "react-phone-number-input";
-
 import flags from "react-phone-number-input/flags";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -36,6 +34,9 @@ type PhoneInputProps = Omit<
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
   React.forwardRef<React.ElementRef<typeof RPNInput.default>, PhoneInputProps>(
     ({ className, onChange, ...props }, ref) => {
+      // Force Australia as the only country option
+      const defaultCountry = "AU";
+      
       return (
         <RPNInput.default
           ref={ref}
@@ -43,16 +44,44 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
           flagComponent={FlagComponent}
           countrySelectComponent={CountrySelect}
           inputComponent={InputComponent}
+          // Force country to be Australia only
+          country={defaultCountry}
+          // Prevent country from being changed
+          countries={["AU"]}
+          // Disable international format
+          international={false}
+          defaultCountry={defaultCountry}
           /**
            * Handles the onChange event.
            *
-           * react-phone-number-input might trigger the onChange event as undefined
-           * when a valid phone number is not entered. To prevent this,
-           * the value is coerced to an empty string.
+           * This validates that the number is an Australian number.
+           * If it's not a valid Australian number, we clear the input
+           * which will prevent form submission.
            *
            * @param {E164Number | undefined} value - The entered value
            */
-          onChange={(value: RPNInput.Value) => onChange?.(value ?? '')}
+          onChange={(value: RPNInput.Value) => {
+            // Handle case where user enters "61..." without the + sign
+            if (value && typeof value === 'string' && value.match(/^61\d+$/) && !value.startsWith('+')) {
+              const correctedValue = '+' + value as RPNInput.Value;
+              onChange?.(correctedValue);
+              return;
+            }
+            
+            // Check if valid Australian number
+            const isAustralianNumber = value ? 
+              isValidPhoneNumber(value) && value.startsWith('+61') : 
+              false;
+            
+            // Only pass the value through if it's a valid Australian number
+            if (isAustralianNumber || value === undefined) {
+              onChange?.(value);
+            } else {
+              // For invalid non-Australian numbers, clear the field
+              // Use empty string for the UI and let the component handle conversion
+              onChange?.('' as RPNInput.Value);
+            }
+          }}
           {...props}
         />
       );
@@ -86,9 +115,13 @@ const CountrySelect = ({
   onChange,
   options,
 }: CountrySelectProps) => {
+  // Filter options to only include Australia
+  const filteredOptions = options.filter(option => option.value === 'AU');
+  
   const handleSelect = React.useCallback(
     (country: RPNInput.Country) => {
-      onChange(country);
+      // Force country to always be Australia
+      onChange('AU' as RPNInput.Country);
     },
     [onChange],
   );
@@ -100,13 +133,14 @@ const CountrySelect = ({
           type="button"
           variant={"outline"}
           className={cn("flex gap-1 rounded-e-none rounded-s-lg px-3 border border-stone-500 bg-transparent")}
-          disabled={disabled}
+          // Disable button to prevent country selection
+          disabled={true}
         >
-          <FlagComponent country={value} countryName={value} />
+          <FlagComponent country={'AU' as RPNInput.Country} countryName={'Australia'} />
+          {/* Hide dropdown icon since we're disabling country selection */}
           <ChevronsUpDown
             className={cn(
-              "-mr-2 h-4 w-4 opacity-50",
-              disabled ? "hidden" : "opacity-100",
+              "-mr-2 h-4 w-4 opacity-50 hidden"
             )}
           />
         </Button>
@@ -118,7 +152,7 @@ const CountrySelect = ({
               <CommandInput placeholder="Search country..." />
               <CommandEmpty>No country found.</CommandEmpty>
               <CommandGroup>
-                {options
+                {filteredOptions
                   .filter((x) => x.value)
                   .map((option) => (
                     <CommandItem
@@ -153,12 +187,13 @@ const CountrySelect = ({
   );
 };
 
-const FlagComponent = ({ country, countryName }: RPNInput.FlagProps) => {
-  const Flag = flags[country];
+const FlagComponent = (_props: RPNInput.FlagProps) => {
+  // Use Australia flag regardless of passed props
+  const Flag = flags['AU'];
 
   return (
     <span className="bg-foreground/20 flex h-4 w-6 overflow-hidden rounded-sm">
-      {Flag && <Flag title={countryName} />}
+      {Flag && <Flag title={'Australia'} />}
     </span>
   );
 };

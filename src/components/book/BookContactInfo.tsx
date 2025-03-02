@@ -348,7 +348,7 @@ const BookContactInfo = () => {
                       <FormControl>
                         <PhoneInput
                           countryCallingCodeEditable={false}
-                          placeholder='+610000'
+                          placeholder='610000'
                           countrySelectProps={{ unicodeFlags: true }}
                           {...field}
                         />
