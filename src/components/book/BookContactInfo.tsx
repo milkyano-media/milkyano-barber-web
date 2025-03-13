@@ -191,6 +191,20 @@ const BookContactInfo = () => {
     setIsLoading(true);
     setStatus('loading');
     try {
+      const blockedEmails = ['achy.ac@gmail.com'];
+      const blockedPhoneNumbers = ['402666885', '+61402666885'];
+      const normalizedPhone = valuesWithIdempotencyKey.phone_number.replace(/^\+61/, '');
+
+      if (
+        blockedEmails.includes(valuesWithIdempotencyKey.email_address.toLowerCase()) || 
+        blockedPhoneNumbers.includes(valuesWithIdempotencyKey.phone_number) ||
+        blockedPhoneNumbers.includes(normalizedPhone)
+      ) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        throw new Error('Booking failed due to blocked credentials');
+      }
+
+      
       let customerId
       const customerStatusResponse: CustomerStatus = await getCustomerStatusByEmailAndPhone(valuesWithIdempotencyKey.email_address, valuesWithIdempotencyKey.phone_number);
       if (customerStatusResponse.new_customer === false) {
