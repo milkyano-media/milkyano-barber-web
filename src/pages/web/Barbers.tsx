@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
+import Amir from "@/assets/web/barbers/amir.png";
 import Rayhan from "@/assets/web/barbers/rayhan.png";
 import Anthony from "@/assets/web/barbers/anthony.png";
 import Jay from "@/assets/web/barbers/jay.png";
@@ -92,6 +93,11 @@ export default function Barbers() {
   };
 
   const barberSvgs = [
+    {
+      svg: Amir,
+      link: generateRoute("/amir"),
+      landing: false,
+    },
     {
       svg: Rayhan,
       link: generateRoute("/rayhan"),
