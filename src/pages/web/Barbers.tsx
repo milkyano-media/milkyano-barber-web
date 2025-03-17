@@ -96,7 +96,7 @@ export default function Barbers() {
     {
       svg: Amir,
       link: generateRoute("/amir"),
-      landing: false,
+      landing: true,
     },
     {
       svg: Rayhan,
@@ -116,7 +116,7 @@ export default function Barbers() {
     {
       svg: Noah,
       link: generateRoute("/noah"),
-      landing: false,
+      landing: true,
     },
     {
       svg: Jay,

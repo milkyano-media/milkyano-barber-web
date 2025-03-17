@@ -90,7 +90,7 @@ const imagesReviews = [cardOne, cardTwo, cardThree, cardFour];
 
 export default function NikoLanding() {
   useUtmTracking();
-  const location = useLocation()
+  const location = useLocation();
 
   const generateLink = (text: string): JSX.Element => {
     const customize: boolean = true;
@@ -106,7 +106,7 @@ export default function NikoLanding() {
   };
 
   useEffect(() => {
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.innerHTML = `
         @keyframes move {
             0% { transform: translateX(100%); opacity: 0; }

@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-import { EmblaOptionsType } from "embla-carousel";
-import EmblaCarousel from "@/components/landing/CarouselScaled";
+// import { EmblaOptionsType } from "embla-carousel";
+// import EmblaCarousel from "@/components/landing/CarouselScaled";
 import Srolled from "@/components/landing/Scrolled";
-import getAsset from "@/utils/getAssets";
+// import getAsset from "@/utils/getAssets";
 import LandingLayout from "@/components/landing/LandingLayout";
 
 import cardOne from "@/assets/landing/reviews/cards_one.svg";
@@ -19,7 +19,7 @@ import Mid from "@/assets/landing/mid_line.svg";
 import Bottom from "@/assets/landing/bottom_line.svg";
 
 import ParticlesTwo from "@/assets/landing/section_2_particles.svg";
-import ParticlesThree from "@/assets/landing/section_3_particles.svg";
+// import ParticlesThree from "@/assets/landing/section_3_particles.svg";
 
 import SwipeGif from "@/assets/landing/arrow_animation.gif";
 import SwipedtoSee from "@/assets/landing/swipe_to_see.svg";
@@ -46,16 +46,16 @@ import image16 from "@/assets/landing/cuts/josh/textured_crop_skin_fade.png";
 import image17 from "@/assets/landing/cuts/josh/v_mid_drop_fade.png";
 import useUtmTracking from "@/hooks/utmTrackingHook";
 
-const Hero = getAsset("/assets/landing/videos/josh/hero.mp4");
+// const Hero = getAsset("/assets/landing/videos/josh/hero.mp4");
 
-const video1 = getAsset("/assets/landing/videos/josh/tiktok_1.mp4");
-const video2 = getAsset("/assets/landing/videos/josh/tiktok_2.mp4");
-const video3 = getAsset("/assets/landing/videos/josh/tiktok_3.mp4");
-const video4 = getAsset("/assets/landing/videos/josh/tiktok_1.mp4");
-const video5 = getAsset("/assets/landing/videos/josh/tiktok_2.mp4");
-const video6 = getAsset("/assets/landing/videos/josh/tiktok_3.mp4");
+// const video1 = getAsset("/assets/landing/videos/josh/tiktok_1.mp4");
+// const video2 = getAsset("/assets/landing/videos/josh/tiktok_2.mp4");
+// const video3 = getAsset("/assets/landing/videos/josh/tiktok_3.mp4");
+// const video4 = getAsset("/assets/landing/videos/josh/tiktok_1.mp4");
+// const video5 = getAsset("/assets/landing/videos/josh/tiktok_2.mp4");
+// const video6 = getAsset("/assets/landing/videos/josh/tiktok_3.mp4");
 
-const videos = [video1, video2, video3, video4, video5, video6];
+// const videos = [video1, video2, video3, video4, video5, video6];
 
 const cutsImages = [
   { src: image1, name: "Blow Out Taper Fade 1" },
@@ -77,14 +77,14 @@ const cutsImages = [
   { src: image17, name: "V Mid Drop Fade" },
 ];
 
-const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 };
-const SLIDE_COUNT = 5;
-const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
+// const OPTIONS: EmblaOptionsType = { loop: true, inViewThreshold: 1 };
+// const SLIDE_COUNT = 5;
+// const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 export default function AaronLanding() {
   useUtmTracking();
-  const location = useLocation()
+  const location = useLocation();
 
   const generateLink = (text: string): JSX.Element => {
     const customize: boolean = true;
@@ -100,7 +100,7 @@ export default function AaronLanding() {
   };
 
   useEffect(() => {
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.innerHTML = `
         @keyframes move {
             0% { transform: translateX(100%); opacity: 0; }
@@ -119,18 +119,18 @@ export default function AaronLanding() {
   return (
     <LandingLayout>
       <Helmet>
-        <title>Josh Fadelines BEST BARBER/HAIRDRESSER IN MELBOURNE</title>
+        <title>Noah Fadelines BEST BARBER/HAIRDRESSER IN MELBOURNE</title>
         <meta
           name="description"
-          content={`Josh Fadelines BEST BARBER IN MELBOURNE - ${description}`}
+          content={`Noah Fadelines BEST BARBER IN MELBOURNE - ${description}`}
         />
         <meta
           property="og:title"
-          content="Josh Fadelines BEST BARBER IN MELBOURNE"
+          content="Noah Fadelines BEST BARBER IN MELBOURNE"
         />
         <meta
           property="og:description"
-          content={`Josh Fadelines BEST BARBER IN MELBOURNE - ${description}`}
+          content={`Noah Fadelines BEST BARBER IN MELBOURNE - ${description}`}
         />
         <meta property="og:image" content="URL to Fadelines' preview image" />
         <meta property="og:url" content="URL to Fadelines' website" />
@@ -161,15 +161,7 @@ export default function AaronLanding() {
         />
 
         <section className="relative w-full h-[35rem] md:h-[35rem] ">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute z-0 w-full h-[40rem] md:h-[35rem] object-cover"
-          >
-            <source src={Hero} type="video/mp4" />
-          </video>
+          <div className="absolute z-0 w-full h-[40rem] md:h-[35rem] object-cover bg-[url(/noah-bg.png)] bg-center bg-cover"></div>
           <div className="max-w-screen-lg mx-auto w-full">
             <div
               className="relative z-30 backdrop-blur-lg text-white rounded-3xl py-12 px-12 my-12 mb-10 mx-6 md:mx-12 border border-stone-50 md:w-1/2"
@@ -179,7 +171,7 @@ export default function AaronLanding() {
               }}
             >
               <h2 className="text-4xl md:text-5xl uppercase font-poppins font-extrabold mb-2 text-[#42FF00] tracking-wider">
-                Hi, I&apos;m josh
+                Hi, I&apos;m Noah
               </h2>
               <h2 className="text-xl font-bold mb-4">
                 BEST BARBER/HAIRDRESSER IN MELBOURNE
@@ -246,7 +238,7 @@ export default function AaronLanding() {
             className="absolute z-0 w-auto h-full object-fill bottom-[0]"
           />
         </section>
-        <section className="container relative z-10 text-stone-50 pt-0 py-12 ">
+        {/* <section className="container relative z-10 text-stone-50 pt-0 py-12 ">
           <div className="relative z-10">
             <h3 className=" text-4xl md:text-6xl  font-poppins font-extrabold text-center py-2 uppercase text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text">
               Our Videos
@@ -277,7 +269,7 @@ export default function AaronLanding() {
             alt="Your img"
             className="absolute left-0 z-0 w-auto h-full object-fill bottom-[0]"
           />
-        </section>
+        </section> */}
 
         <section className="container mx-auto px-6 sm:px-6 lg:px-8 py-12 text-stone-50 rounded-lg relative z-10 flex flex-col justify-center items-center">
           <h4 className="text-4xl md:text-7xl my-6 md:my-12 uppercase   items-center justify-center text-center font-extrabold text-transparent bg-gradient-to-r from-[#19F456] via-[#44D140] to-[#A1FF80] bg-clip-text">
