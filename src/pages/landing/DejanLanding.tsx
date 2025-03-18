@@ -84,7 +84,7 @@ const imagesReviews = [cardFour, cardOne, cardTwo, cardThree];
 
 export default function DejanLanding() {
   useUtmTracking();
-  const location = useLocation()
+  const location = useLocation();
 
   const generateLink = (text: string): JSX.Element => {
     const customize: boolean = true;
@@ -100,7 +100,7 @@ export default function DejanLanding() {
   };
 
   useEffect(() => {
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.innerHTML = `
         @keyframes move {
             0% { transform: translateX(100%); opacity: 0; }
@@ -190,8 +190,7 @@ export default function DejanLanding() {
             <div className="px-6 md:px-12 text-stone-50 flex flex-col md:flex-row gap-4 uppercase relative z-30">
               <Button
                 variant={"ghost"}
-                className="relative z-20 backdrop-blur-lg bg-transparent text-xl rounded-full border border-stone-50 px-12 py-6 
-                transform hover:scale-110 transition-transform duration-200 ease-in-out hover:shadow-md hover:shadow-stone-50 hover:bg-stone-50 hover:text-stone-950"
+                className="relative z-20 backdrop-blur-lg bg-transparent text-xl rounded-full border border-stone-50 px-12 py-6 hover:bg-white/10"
                 style={{
                   backdropFilter: "blur(16px) contrast(100%)",
                   WebkitBackdropFilter: "blur(16px) contrast(100%)",
