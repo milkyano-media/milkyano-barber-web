@@ -176,7 +176,7 @@ export default function Home() {
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
 
-      <section className="flex flex-col justify-center items-center relative pt-40">
+      <section className="flex flex-col justify-center items-center relative pt-60 md:pt-40">
         <img
           alt="hero image"
           width={500}
@@ -194,7 +194,7 @@ export default function Home() {
             {generateLink("BOOK NOW")}
           </Button>
 
-          <div className="flex gap-6 md:gap-10">
+          <div className="flex flex-col md:flex-row gap-6 md:gap-10">
             <p>
               We served over <span className="text-[#33FF00]">5000+</span>
             </p>
@@ -213,6 +213,7 @@ export default function Home() {
               </svg>
             </p>
           </div>
+          <p>Elevate your look, define your presence</p>
           <sub>55 PORTMAN ST; OAKLEIGH VIC 3166; AUSTRALIA</sub>
           <svg
             className="w-7 mt-20"
@@ -287,7 +288,7 @@ export default function Home() {
         />
       </section>
 
-      <section className="flex flex-col justify-center items-center pb-40">
+      <section className="flex flex-col justify-center items-center md:pb-40">
         <h2 className="text-[#33FF00] text-center">
           FREQUENTLY ASKED <br />
           QUESTIONS

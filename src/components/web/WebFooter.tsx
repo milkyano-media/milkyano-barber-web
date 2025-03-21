@@ -53,7 +53,7 @@ const WebFooter: React.FC = () => {
         </div>
       </section>
 
-      <section className="bg-[#061A13] relative z-10">
+      <section className="relative z-10">
         <div className="container mx-auto py-12 flex flex-col md:flex-row  justify-between relative z-0">
           <div className="flex flex-col pb-12 md:py-0 gap-10">
             <img

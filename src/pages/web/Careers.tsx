@@ -211,7 +211,7 @@ export default function Careers() {
                   control={form.control}
                   name="fullName"
                   render={({ field }) => (
-                    <FormItem className="w-full flex flex-col justify-center items-center rounded-lg p-3 bg-[#061A13] border border-[#114330]">
+                    <FormItem className="w-full flex flex-col justify-center items-center rounded-lg p-3 bg-[#262626] placeholder-[#B3E7C9]">
                       <FormLabel className="w-full flex justify-start">
                         <span className="text-stone-50 font-extrabold text-lg text-start w-full">
                           Full Name
@@ -232,7 +232,7 @@ export default function Careers() {
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem className="w-full flex flex-col justify-center items-center rounded-lg p-3 bg-[#061A13] border border-[#114330]">
+                    <FormItem className="w-full flex flex-col justify-center items-center rounded-lg p-3 bg-[#262626] placeholder-[#B3E7C9]">
                       <FormLabel className="w-full flex justify-start">
                         <span className="text-stone-50 font-extrabold text-lg text-start w-full">
                           Email
@@ -253,7 +253,7 @@ export default function Careers() {
                   control={form.control}
                   name="phoneNumber"
                   render={({ field }) => (
-                    <FormItem className="w-full flex flex-col justify-center items-center rounded-lg p-3 bg-[#061A13] border border-[#114330]">
+                    <FormItem className="w-full flex flex-col justify-center items-center rounded-lg p-3 bg-[#262626] placeholder-[#B3E7C9]">
                       <FormLabel className="w-full flex justify-start">
                         <span className="text-stone-50 font-extrabold text-lg text-start w-full">
                           Phone Number
@@ -271,7 +271,7 @@ export default function Careers() {
                   )}
                 />
                 <Button
-                  className="w-full bg-[#061A13] rounded-xl border border-[#33FF00] text-white py-7 text-xl"
+                  className="w-full bg-[#33FF00] rounded-xl text-black py-7 text-xl"
                   type="submit"
                 >
                   CONTINUE
