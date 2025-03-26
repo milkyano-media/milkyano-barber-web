@@ -1,34 +1,38 @@
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { BarberResponse, BarberServices, ServicesResponse } from '@/interfaces/BookingInterface';
-import { getAllBarber, getAllService } from '@/utils/barberApi';
-import Spinner from '../web/Spinner';
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  BarberResponse,
+  BarberServices,
+  ServicesResponse,
+} from "@/interfaces/BookingInterface";
+import { getAllBarber, getAllService } from "@/utils/barberApi";
+import Spinner from "../web/Spinner";
 import Logo from "@/components/react-svg/logo";
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp } from "lucide-react";
 
-import Rayhan from '@/assets/web/barbers/booking-list/rayhan-book.svg';
-import Anthony from '@/assets/web/barbers/booking-list/anthony-book.svg';
-import Jay from '@/assets/web/barbers/booking-list/jay-book.svg';
-import Wyatt from '@/assets/web/barbers/booking-list/wyatt-book.svg';
-import Emman from '@/assets/web/barbers/booking-list/emman-book.svg';
-import Christos from '@/assets/web/barbers/booking-list/christos-book.svg';
-import Josh from '@/assets/web/barbers/booking-list/josh-book.svg';
-import Niko from '@/assets/web/barbers/booking-list/niko-book.svg';
-import Noah from '@/assets/web/barbers/booking-list/noah-book.svg';
-import Amir from '@/assets/web/barbers/booking-list/amir-book.svg';
+import Rayhan from "@/assets/web/barbers/booking-list/rayhan-book.jpeg";
+import Anthony from "@/assets/web/barbers/booking-list/anthony-book.jpeg";
+import Jay from "@/assets/web/barbers/booking-list/jay-book.svg";
+import Wyatt from "@/assets/web/barbers/booking-list/wyatt-book.svg";
+import Emman from "@/assets/web/barbers/booking-list/emman-book.svg";
+import Christos from "@/assets/web/barbers/booking-list/christos-book.svg";
+import Josh from "@/assets/web/barbers/booking-list/josh-book.svg";
+import Niko from "@/assets/web/barbers/booking-list/niko-book.svg";
+import Noah from "@/assets/web/barbers/booking-list/noah-book.svg";
+import Amir from "@/assets/web/barbers/booking-list/amir-book.svg";
 
 const barberImages: { [key: string]: string } = {
-  'RAYHAN': Rayhan,
-  'ANTHONY': Anthony,
-  'JAY': Jay,
-  'WYATT': Wyatt,
-  'EMMAN': Emman,
-  'CHRISTOS': Christos,
-  'JOSH': Josh,
-  'NIKO': Niko,
-  'NOAH': Noah,
-  'AMIR': Amir
+  RAYHAN: Rayhan,
+  ANTHONY: Anthony,
+  JAY: Jay,
+  WYATT: Wyatt,
+  EMMAN: Emman,
+  CHRISTOS: Christos,
+  JOSH: Josh,
+  NIKO: Niko,
+  NOAH: Noah,
+  AMIR: Amir,
 };
 
 const BookList = () => {
@@ -39,44 +43,74 @@ const BookList = () => {
   const [expandedBarber, setExpandedBarber] = useState<string | null>(null);
 
   useEffect(() => {
-    const joinBarbersAndServices = (barbers: BarberResponse | undefined, services: ServicesResponse | undefined, specificBarber: string | null) => {
+    const joinBarbersAndServices = (
+      barbers: BarberResponse | undefined,
+      services: ServicesResponse | undefined,
+      specificBarber: string | null,
+    ) => {
       const barberServices: BarberServices = { data: [] };
-      const sortOrder = ['Amir','Rayhan', 'Jay', 'Noah', 'Emman', 'Niko', 'Anthony', 'Josh', 'Christos', 'Wyatt'];
+      const sortOrder = [
+        "Amir",
+        "Rayhan",
+        "Jay",
+        "Noah",
+        "Emman",
+        "Niko",
+        "Anthony",
+        "Josh",
+        "Christos",
+        "Wyatt",
+      ];
 
       let sortedProfiles = barbers?.team_member_booking_profiles
-        .filter(profile => sortOrder.some(name => profile.display_name.includes(name.toUpperCase())))
+        .filter((profile) =>
+          sortOrder.some((name) =>
+            profile.display_name.includes(name.toUpperCase()),
+          ),
+        )
         .sort((a, b) => {
-          const aName = sortOrder.findIndex(name => a.display_name.toUpperCase().includes(name.toUpperCase()));
-          const bName = sortOrder.findIndex(name => b.display_name.toUpperCase().includes(name.toUpperCase()));
+          const aName = sortOrder.findIndex((name) =>
+            a.display_name.toUpperCase().includes(name.toUpperCase()),
+          );
+          const bName = sortOrder.findIndex((name) =>
+            b.display_name.toUpperCase().includes(name.toUpperCase()),
+          );
           return aName - bName;
         });
 
       // Filter for a specific barber if provided
-      if (specificBarber && specificBarber !== 'book') {
-        sortedProfiles = sortedProfiles?.filter(profile => 
-          profile.display_name.toUpperCase().includes(specificBarber.toUpperCase())
+      if (specificBarber && specificBarber !== "book") {
+        sortedProfiles = sortedProfiles?.filter((profile) =>
+          profile.display_name
+            .toUpperCase()
+            .includes(specificBarber.toUpperCase()),
         );
       }
 
       if (sortedProfiles && services) {
         for (let i = 0; i < sortedProfiles.length; i++) {
-          const servicesForBarber = services.objects.filter(service =>
-            service.item_data.variations.some(variation =>
-              variation.item_variation_data.team_member_ids?.includes(sortedProfiles[i].team_member_id)
-            )
+          const servicesForBarber = services.objects.filter((service) =>
+            service.item_data.variations.some((variation) =>
+              variation.item_variation_data.team_member_ids?.includes(
+                sortedProfiles[i].team_member_id,
+              ),
+            ),
           );
 
           barberServices.data.push({
             barber: sortedProfiles[i],
-            services: servicesForBarber
+            services: servicesForBarber,
           });
         }
       }
 
       setBarberServices(barberServices);
-      
+
       // Auto-expand if there's only one barber
-      if (barberServices.data.length === 1 && barberServices.data[0].barber.team_member_id) {
+      if (
+        barberServices.data.length === 1 &&
+        barberServices.data[0].barber.team_member_id
+      ) {
         setExpandedBarber(barberServices.data[0].barber.team_member_id);
       }
     };
@@ -84,37 +118,42 @@ const BookList = () => {
     const fetchData = async () => {
       setIsLoading(true);
       const parts = location.pathname.split("/");
-      
+
       // Determine which barber to show
       let specificBarber = null;
       let barber;
       let query;
       let type;
-      
+
       // Handle different URL patterns
-      parts[1] === 'meta' ? barber = parts[2] : barber = parts[1];
-      parts[1] === 'meta' ? type = 'M' : type = 'O';
-      
-      const isBookingPath = parts.includes('book') || parts.includes('services');
-      
+      parts[1] === "meta" ? (barber = parts[2]) : (barber = parts[1]);
+      parts[1] === "meta" ? (type = "M") : (type = "O");
+
+      const isBookingPath =
+        parts.includes("book") || parts.includes("services");
+
       // Set the specific barber based on URL
-      if (barber && barber !== 'book' && isBookingPath) {
+      if (barber && barber !== "book" && isBookingPath) {
         specificBarber = barber;
       }
-      
+
       // Determine query for API
       if (parts.length > 3) {
-        barber === 'dejan' || barber === 'anthony' || barber === 'christos' || 
-        barber === 'wyatt' || barber === "noah" || barber === 'book' 
-          ? query = 'all' 
-          : query = barber;
+        barber === "dejan" ||
+        barber === "anthony" ||
+        barber === "christos" ||
+        barber === "wyatt" ||
+        barber === "noah" ||
+        barber === "book"
+          ? (query = "all")
+          : (query = barber);
       } else {
-        query = '';
+        query = "";
       }
 
       const fetchedBarbers = await getAllBarber();
       const fetchedServices = await getAllService(query, type);
-      
+
       joinBarbersAndServices(fetchedBarbers, fetchedServices, specificBarber);
       setIsLoading(false);
     };
@@ -124,15 +163,15 @@ const BookList = () => {
 
   const handleBookNowClick = async (item: any) => {
     try {
-      await new Promise(resolve => setTimeout(resolve, 100));
-      localStorage.removeItem('bookedItems');
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      localStorage.removeItem("bookedItems");
       const updatedBookings = [item];
-      localStorage.setItem('bookedItems', JSON.stringify(updatedBookings));
-      const parts = location.pathname.split('/');
-      const newPath = '/' + parts.slice(1, parts.length - 1).join('/');
+      localStorage.setItem("bookedItems", JSON.stringify(updatedBookings));
+      const parts = location.pathname.split("/");
+      const newPath = "/" + parts.slice(1, parts.length - 1).join("/");
       navigate(`${newPath}/appointment`);
     } catch (error) {
-      console.error('Error booking the item:', error);
+      console.error("Error booking the item:", error);
     }
   };
 
@@ -151,16 +190,21 @@ const BookList = () => {
   };
 
   const extractPriceRange = (services: any[]) => {
-    const prices = services.map(service => {
-      const priceMatch = service.item_data.variations[0].item_variation_data.price_description.match(/\$(\d+(\.\d{2})?)/);
-      return priceMatch ? parseFloat(priceMatch[1]) : 0;
-    }).filter(price => price > 0);
-  
-    if (prices.length === 0) return '';
-  
+    const prices = services
+      .map((service) => {
+        const priceMatch =
+          service.item_data.variations[0].item_variation_data.price_description.match(
+            /\$(\d+(\.\d{2})?)/,
+          );
+        return priceMatch ? parseFloat(priceMatch[1]) : 0;
+      })
+      .filter((price) => price > 0);
+
+    if (prices.length === 0) return "";
+
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
-  
+
     return minPrice === maxPrice ? `$${minPrice}` : `$${minPrice}-$${maxPrice}`;
   };
 
@@ -185,9 +229,11 @@ const BookList = () => {
                 <div className="flex flex-col md:grid md:grid-cols-[300px,1fr] gap-6 md:gap-12">
                   {/* Barber Image Section */}
                   <div className="relative">
-                  <div className="w-[90%] mx-auto md:w-[300px] h-[250px] md:h-[300px] rounded-lg overflow-hidden">
-                      <img 
-                        src={getBarberImage(item.barber.display_name) ?? undefined}
+                    <div className="w-[90%] mx-auto md:w-[300px] h-[250px] md:h-[300px] rounded-lg overflow-hidden">
+                      <img
+                        src={
+                          getBarberImage(item.barber.display_name) ?? undefined
+                        }
                         alt={item.barber.display_name}
                         className="w-full h-full object-cover"
                       />
@@ -200,10 +246,11 @@ const BookList = () => {
                   {/* Content Section */}
                   <div className="flex flex-col">
                     <h2 className="text-3xl md:text-4xl font-bold text-white uppercase mb-2">
-                      {item.barber.display_name.split(' ')[0]}
+                      {item.barber.display_name.split(" ")[0]}
                     </h2>
                     <p className="text-sm text-white mb-4">
-                      {(item.barber.display_name.match(/IG.*?(?=\))|$/)?.[0] + ')' || '')}
+                      {item.barber.display_name.match(/IG.*?(?=\))|$/)?.[0] +
+                        ")" || ""}
                     </p>
 
                     {/* Green Line */}
@@ -213,25 +260,29 @@ const BookList = () => {
 
                     {/* Services Section */}
                     <div className="w-full">
-                    <Button
-                      onClick={() => toggleBarberServices(item.barber.team_member_id)}
-                      className="w-full bg-zinc-900 hover:bg-zinc-800 text-white justify-between h-12 md:h-14 text-base md:text-lg rounded-lg"
-                    >
-                      <span className="flex flex-col items-start">
-                        <span>View Services</span>
-                        <span className="text-sm text-gray-400">({extractPriceRange(item.services)} AUD)</span>
-                      </span>
-                      {expandedBarber === item.barber.team_member_id ? (
-                        <ChevronUp className="ml-2 h-5 w-5 md:h-6 md:w-6" />
-                      ) : (
-                        <ChevronDown className="ml-2 h-5 w-5 md:h-6 md:w-6" />
-                      )}
-                    </Button>
+                      <Button
+                        onClick={() =>
+                          toggleBarberServices(item.barber.team_member_id)
+                        }
+                        className="w-full bg-zinc-900 hover:bg-zinc-800 text-white justify-between h-12 md:h-14 text-base md:text-lg rounded-lg"
+                      >
+                        <span className="flex flex-col items-start">
+                          <span>View Services</span>
+                          <span className="text-sm text-gray-400">
+                            ({extractPriceRange(item.services)} AUD)
+                          </span>
+                        </span>
+                        {expandedBarber === item.barber.team_member_id ? (
+                          <ChevronUp className="ml-2 h-5 w-5 md:h-6 md:w-6" />
+                        ) : (
+                          <ChevronDown className="ml-2 h-5 w-5 md:h-6 md:w-6" />
+                        )}
+                      </Button>
 
                       {expandedBarber === item.barber.team_member_id && (
                         <div className="mt-4 space-y-4">
                           {item.services.map((service) => (
-                            <div 
+                            <div
                               key={service.id}
                               className="bg-zinc-900/30 rounded-lg p-4 md:p-6"
                             >
@@ -241,7 +292,10 @@ const BookList = () => {
                                     {service.item_data.name}
                                   </h3>
                                   <p className="text-zinc-400 text-sm mt-1">
-                                    {service.item_data.variations[0].item_variation_data.price_description}
+                                    {
+                                      service.item_data.variations[0]
+                                        .item_variation_data.price_description
+                                    }
                                   </p>
                                 </div>
                                 <Button
