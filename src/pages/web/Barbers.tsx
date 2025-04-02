@@ -16,6 +16,7 @@ import Niko from "@/assets/web/barbers/niko.png";
 import Noah from "@/assets/web/barbers/noah.png";
 import { Link, useLocation } from "react-router-dom";
 import BgHero2 from "@/assets/web/home/hero.svg";
+// import Hero from "@/assets/web/home/hero.svg";
 
 export default function Barbers() {
   localStorage.removeItem("booking_source");
@@ -49,7 +50,7 @@ export default function Barbers() {
   localStorage.setItem("utm_medium", queryParams.get("utm_medium") || "None");
   localStorage.setItem(
     "utm_campaign",
-    queryParams.get("utm_campaign") || "None",
+    queryParams.get("utm_campaign") || "None"
   );
   localStorage.setItem("utm_content", queryParams.get("utm_content") || "None");
 
@@ -148,6 +149,11 @@ export default function Barbers() {
       link: generateRoute("/dejan"),
       landing: false,
     },
+    // {
+    //   svg: Hero,
+    //   link: generateRoute("/mustafa"),
+    //   landing: false,
+    // },
   ];
 
   useEffect(() => {

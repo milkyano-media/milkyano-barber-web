@@ -27,3 +27,4 @@ dist-ssr
 *.sw?
 src/assets/landing/videos/*
 
+bun.lockb

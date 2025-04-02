@@ -21,6 +21,7 @@ import Josh from "@/assets/web/barbers/booking-list/josh-book.svg";
 import Niko from "@/assets/web/barbers/booking-list/niko-book.svg";
 import Noah from "@/assets/web/barbers/booking-list/noah-book.svg";
 import Amir from "@/assets/web/barbers/booking-list/amir-book.svg";
+import Hero from "@/assets/web/home/hero.svg";
 
 const barberImages: { [key: string]: string } = {
   RAYHAN: Rayhan,
@@ -33,6 +34,7 @@ const barberImages: { [key: string]: string } = {
   NIKO: Niko,
   NOAH: Noah,
   AMIR: Amir,
+  SHAFIE: Hero, // Add this for Mustafa Shafie
 };
 
 const BookList = () => {
@@ -46,45 +48,56 @@ const BookList = () => {
     const joinBarbersAndServices = (
       barbers: BarberResponse | undefined,
       services: ServicesResponse | undefined,
-      specificBarber: string | null,
+      specificBarber: string | null
     ) => {
       const barberServices: BarberServices = { data: [] };
       const sortOrder = [
-        "Amir",
-        "Rayhan",
-        "Jay",
-        "Noah",
-        "Emman",
-        "Niko",
-        "Anthony",
-        "Josh",
-        "Christos",
-        "Wyatt",
+        "MUSTAFA",
+        "AMIR",
+        "RAYHAN",
+        "JAY",
+        "NOAH",
+        "EMMAN",
+        "NIKO",
+        "ANTHONY",
+        "JOSH",
+        "CHRISTOS",
+        "WYATT",
       ];
 
       let sortedProfiles = barbers?.team_member_booking_profiles
-        .filter((profile) =>
-          sortOrder.some((name) =>
-            profile.display_name.includes(name.toUpperCase()),
-          ),
-        )
+        .filter((profile) => {
+          const upperName = profile.display_name.toUpperCase();
+          return sortOrder.some((name) => upperName.includes(name));
+        })
         .sort((a, b) => {
+          const aUpperName = a.display_name.toUpperCase();
+          const bUpperName = b.display_name.toUpperCase();
           const aName = sortOrder.findIndex((name) =>
-            a.display_name.toUpperCase().includes(name.toUpperCase()),
+            aUpperName.includes(name)
           );
           const bName = sortOrder.findIndex((name) =>
-            b.display_name.toUpperCase().includes(name.toUpperCase()),
+            bUpperName.includes(name)
           );
           return aName - bName;
         });
 
       // Filter for a specific barber if provided
       if (specificBarber && specificBarber !== "book") {
-        sortedProfiles = sortedProfiles?.filter((profile) =>
-          profile.display_name
-            .toUpperCase()
-            .includes(specificBarber.toUpperCase()),
-        );
+        // Handle special case for Mustafa
+        if (specificBarber.toLowerCase() === "mustafa") {
+          sortedProfiles = sortedProfiles?.filter(
+            (profile) =>
+              profile.display_name.toUpperCase().includes("MUSTAFA") ||
+              profile.display_name.toUpperCase().includes("SHAFIE")
+          );
+        } else {
+          sortedProfiles = sortedProfiles?.filter((profile) =>
+            profile.display_name
+              .toUpperCase()
+              .includes(specificBarber.toUpperCase())
+          );
+        }
       }
 
       if (sortedProfiles && services) {
@@ -92,9 +105,9 @@ const BookList = () => {
           const servicesForBarber = services.objects.filter((service) =>
             service.item_data.variations.some((variation) =>
               variation.item_variation_data.team_member_ids?.includes(
-                sortedProfiles[i].team_member_id,
-              ),
-            ),
+                sortedProfiles[i].team_member_id
+              )
+            )
           );
 
           barberServices.data.push({
@@ -144,7 +157,9 @@ const BookList = () => {
         barber === "christos" ||
         barber === "wyatt" ||
         barber === "noah" ||
-        barber === "book"
+        barber === "book" ||
+        barber === "mustafa" ||
+        barber.toLowerCase() === "mustafa"
           ? (query = "all")
           : (query = barber);
       } else {
@@ -153,6 +168,36 @@ const BookList = () => {
 
       const fetchedBarbers = await getAllBarber();
       const fetchedServices = await getAllService(query, type);
+
+      console.log(
+        "DEBUG JSON",
+        JSON.stringify({
+          fetchedBarbers,
+          fetchedServices,
+        })
+      );
+
+      console.log("DEBUG OBJECT", {
+        fetchedBarbers,
+        fetchedServices,
+      });
+
+      console.log(
+        "TEAM MEMBERS:",
+        fetchedBarbers.team_member_booking_profiles.map((profile) => ({
+          id: profile.team_member_id,
+          name: profile.display_name,
+          bookable: profile.is_bookable,
+        }))
+      );
+
+      // Check if Mustafa exists in the data
+      const mustafaProfile = fetchedBarbers.team_member_booking_profiles.find(
+        (profile) =>
+          profile.display_name.toUpperCase().includes("MUSTAFA") ||
+          profile.display_name.toUpperCase().includes("SHAFIE")
+      );
+      console.log("MUSTAFA FOUND:", mustafaProfile);
 
       joinBarbersAndServices(fetchedBarbers, fetchedServices, specificBarber);
       setIsLoading(false);
@@ -194,7 +239,7 @@ const BookList = () => {
       .map((service) => {
         const priceMatch =
           service.item_data.variations[0].item_variation_data.price_description.match(
-            /\$(\d+(\.\d{2})?)/,
+            /\$(\d+(\.\d{2})?)/
           );
         return priceMatch ? parseFloat(priceMatch[1]) : 0;
       })
@@ -246,7 +291,9 @@ const BookList = () => {
                   {/* Content Section */}
                   <div className="flex flex-col">
                     <h2 className="text-3xl md:text-4xl font-bold text-white uppercase mb-2">
-                      {item.barber.display_name.split(" ")[0]}
+                      {item.barber.display_name.includes("Mustafa Shafie")
+                        ? "Mustafa Shafie"
+                        : item.barber.display_name.split(" ")[0]}
                     </h2>
                     <p className="text-sm text-white mb-4">
                       {item.barber.display_name.match(/IG.*?(?=\))|$/)?.[0] +

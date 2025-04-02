@@ -95,6 +95,7 @@ const appointmentRoutes = [
   { path: "wyatt/book/appointment", component: BookAppointment },
   { path: "noah/book/appointment", component: BookAppointment },
   { path: "amir/book/appointment", component: BookAppointment },
+  // { path: "mustafa/book/appointment", component: BookAppointment },
 ];
 
 const contactInfoRoutes = [
