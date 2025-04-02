@@ -34,7 +34,7 @@ const barberImages: { [key: string]: string } = {
   NIKO: Niko,
   NOAH: Noah,
   AMIR: Amir,
-  SHAFIE: Hero, // Add this for Mustafa Shafie
+  MUSTAFA: Hero, // Add this for Mustafa Shafie
 };
 
 const BookList = () => {
@@ -84,20 +84,11 @@ const BookList = () => {
 
       // Filter for a specific barber if provided
       if (specificBarber && specificBarber !== "book") {
-        // Handle special case for Mustafa
-        if (specificBarber.toLowerCase() === "mustafa") {
-          sortedProfiles = sortedProfiles?.filter(
-            (profile) =>
-              profile.display_name.toUpperCase().includes("MUSTAFA") ||
-              profile.display_name.toUpperCase().includes("SHAFIE")
-          );
-        } else {
-          sortedProfiles = sortedProfiles?.filter((profile) =>
-            profile.display_name
-              .toUpperCase()
-              .includes(specificBarber.toUpperCase())
-          );
-        }
+        sortedProfiles = sortedProfiles?.filter((profile) =>
+          profile.display_name
+            .toUpperCase()
+            .includes(specificBarber.toUpperCase())
+        );
       }
 
       if (sortedProfiles && services) {
@@ -158,8 +149,7 @@ const BookList = () => {
         barber === "wyatt" ||
         barber === "noah" ||
         barber === "book" ||
-        barber === "mustafa" ||
-        barber.toLowerCase() === "mustafa"
+        barber === "mustafa"
           ? (query = "all")
           : (query = barber);
       } else {
@@ -177,19 +167,19 @@ const BookList = () => {
         })
       );
 
-      console.log("DEBUG OBJECT", {
-        fetchedBarbers,
-        fetchedServices,
-      });
+      // console.log("DEBUG OBJECT", {
+      //   fetchedBarbers,
+      //   fetchedServices,
+      // });
 
-      console.log(
-        "TEAM MEMBERS:",
-        fetchedBarbers.team_member_booking_profiles.map((profile) => ({
-          id: profile.team_member_id,
-          name: profile.display_name,
-          bookable: profile.is_bookable,
-        }))
-      );
+      // console.log(
+      //   "TEAM MEMBERS:",
+      //   fetchedBarbers.team_member_booking_profiles.map((profile) => ({
+      //     id: profile.team_member_id,
+      //     name: profile.display_name,
+      //     bookable: profile.is_bookable,
+      //   }))
+      // );
 
       // Check if Mustafa exists in the data
       const mustafaProfile = fetchedBarbers.team_member_booking_profiles.find(
@@ -291,9 +281,7 @@ const BookList = () => {
                   {/* Content Section */}
                   <div className="flex flex-col">
                     <h2 className="text-3xl md:text-4xl font-bold text-white uppercase mb-2">
-                      {item.barber.display_name.includes("Mustafa Shafie")
-                        ? "Mustafa Shafie"
-                        : item.barber.display_name.split(" ")[0]}
+                      {item.barber.display_name.split(" ")[0]}
                     </h2>
                     <p className="text-sm text-white mb-4">
                       {item.barber.display_name.match(/IG.*?(?=\))|$/)?.[0] +
