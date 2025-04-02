@@ -34,7 +34,7 @@ const barberImages: { [key: string]: string } = {
   NIKO: Niko,
   NOAH: Noah,
   AMIR: Amir,
-  MUSTAFA: Hero, // Add this for Mustafa Shafie
+  MUSTAFA: Hero,
 };
 
 const BookList = () => {
@@ -48,7 +48,7 @@ const BookList = () => {
     const joinBarbersAndServices = (
       barbers: BarberResponse | undefined,
       services: ServicesResponse | undefined,
-      specificBarber: string | null
+      specificBarber: string | null,
     ) => {
       const barberServices: BarberServices = { data: [] };
       const sortOrder = [
@@ -74,10 +74,10 @@ const BookList = () => {
           const aUpperName = a.display_name.toUpperCase();
           const bUpperName = b.display_name.toUpperCase();
           const aName = sortOrder.findIndex((name) =>
-            aUpperName.includes(name)
+            aUpperName.includes(name),
           );
           const bName = sortOrder.findIndex((name) =>
-            bUpperName.includes(name)
+            bUpperName.includes(name),
           );
           return aName - bName;
         });
@@ -87,7 +87,7 @@ const BookList = () => {
         sortedProfiles = sortedProfiles?.filter((profile) =>
           profile.display_name
             .toUpperCase()
-            .includes(specificBarber.toUpperCase())
+            .includes(specificBarber.toUpperCase()),
         );
       }
 
@@ -96,9 +96,9 @@ const BookList = () => {
           const servicesForBarber = services.objects.filter((service) =>
             service.item_data.variations.some((variation) =>
               variation.item_variation_data.team_member_ids?.includes(
-                sortedProfiles[i].team_member_id
-              )
-            )
+                sortedProfiles[i].team_member_id,
+              ),
+            ),
           );
 
           barberServices.data.push({
@@ -164,7 +164,7 @@ const BookList = () => {
         JSON.stringify({
           fetchedBarbers,
           fetchedServices,
-        })
+        }),
       );
 
       // console.log("DEBUG OBJECT", {
@@ -185,7 +185,7 @@ const BookList = () => {
       const mustafaProfile = fetchedBarbers.team_member_booking_profiles.find(
         (profile) =>
           profile.display_name.toUpperCase().includes("MUSTAFA") ||
-          profile.display_name.toUpperCase().includes("SHAFIE")
+          profile.display_name.toUpperCase().includes("SHAFIE"),
       );
       console.log("MUSTAFA FOUND:", mustafaProfile);
 
@@ -229,7 +229,7 @@ const BookList = () => {
       .map((service) => {
         const priceMatch =
           service.item_data.variations[0].item_variation_data.price_description.match(
-            /\$(\d+(\.\d{2})?)/
+            /\$(\d+(\.\d{2})?)/,
           );
         return priceMatch ? parseFloat(priceMatch[1]) : 0;
       })
