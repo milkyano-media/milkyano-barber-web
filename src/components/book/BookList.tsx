@@ -21,7 +21,7 @@ import Josh from "@/assets/web/barbers/booking-list/josh-book.svg";
 import Niko from "@/assets/web/barbers/booking-list/niko-book.svg";
 import Noah from "@/assets/web/barbers/booking-list/noah-book.svg";
 import Amir from "@/assets/web/barbers/booking-list/amir-book.svg";
-import Hero from "@/assets/web/home/hero.svg";
+// import Hero from "@/assets/web/home/hero.svg";
 
 const barberImages: { [key: string]: string } = {
   RAYHAN: Rayhan,
@@ -34,7 +34,7 @@ const barberImages: { [key: string]: string } = {
   NIKO: Niko,
   NOAH: Noah,
   AMIR: Amir,
-  MUSTAFA: Hero,
+  // MUSTAFA: Hero,
 };
 
 const BookList = () => {
@@ -52,7 +52,7 @@ const BookList = () => {
     ) => {
       const barberServices: BarberServices = { data: [] };
       const sortOrder = [
-        "MUSTAFA",
+        // "MUSTAFA",
         "AMIR",
         "RAYHAN",
         "JAY",
@@ -148,9 +148,9 @@ const BookList = () => {
         barber === "christos" ||
         barber === "wyatt" ||
         barber === "noah" ||
-        barber === "book" ||
-        barber === "mustafa"
-          ? (query = "all")
+        barber === "book"
+          ? // barber === "mustafa"
+            (query = "all")
           : (query = barber);
       } else {
         query = "";
