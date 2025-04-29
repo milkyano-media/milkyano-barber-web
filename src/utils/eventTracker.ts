@@ -11,13 +11,12 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 // Base URL for the events API
-const EVENTS_API_URL = `${import.meta.env.VITE_NEW_API as string}/api/v2/events`;
+const EVENTS_API_URL = `${
+  import.meta.env.VITE_NEW_API as string
+}/api/v2/events`;
 
 // Default Melbourne timezone
 const MELBOURNE_TIMEZONE = 'Australia/Melbourne';
-
-// Session lifespan in hours (from .env or default to 24 hours)
-const SESSION_LIFESPAN = Number(import.meta.env.VITE_SESSION_LIFESPAN || 24);
 
 /**
  * Determine the traffic source based on URL parameters
@@ -27,7 +26,7 @@ const getTrafficSource = (): string => {
   const ttclid = localStorage.getItem(LOCAL_STORAGE_KEYS.TTCLID);
   const gclid = localStorage.getItem(LOCAL_STORAGE_KEYS.GCLID);
   const utmSource = localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_SOURCE);
-  
+
   if (fbclid) return 'FACEBOOK';
   if (ttclid) return 'TIKTOK';
   if (gclid) return 'GOOGLE';
@@ -40,12 +39,12 @@ const getTrafficSource = (): string => {
  */
 const getUniqueVisitorId = (): string => {
   let visitorId = localStorage.getItem(LOCAL_STORAGE_KEYS.UNIQUE_VISITOR_ID);
-  
+
   if (!visitorId) {
     visitorId = uuidv4();
     localStorage.setItem(LOCAL_STORAGE_KEYS.UNIQUE_VISITOR_ID, visitorId);
   }
-  
+
   return visitorId;
 };
 
@@ -53,13 +52,15 @@ const getUniqueVisitorId = (): string => {
  * Generate or retrieve the current conversion sequence ID
  */
 const getConversionSequenceId = (): string => {
-  let sequenceId = localStorage.getItem(LOCAL_STORAGE_KEYS.CONVERSION_SEQUENCE_ID);
-  
+  let sequenceId = localStorage.getItem(
+    LOCAL_STORAGE_KEYS.CONVERSION_SEQUENCE_ID
+  );
+
   if (!sequenceId) {
     sequenceId = uuidv4();
     localStorage.setItem(LOCAL_STORAGE_KEYS.CONVERSION_SEQUENCE_ID, sequenceId);
   }
-  
+
   return sequenceId;
 };
 
@@ -68,58 +69,48 @@ const getConversionSequenceId = (): string => {
  */
 const resetConversionSequenceId = (): void => {
   const newSequenceId = uuidv4();
-  localStorage.setItem(LOCAL_STORAGE_KEYS.CONVERSION_SEQUENCE_ID, newSequenceId);
+  localStorage.setItem(
+    LOCAL_STORAGE_KEYS.CONVERSION_SEQUENCE_ID,
+    newSequenceId
+  );
 };
 
 /**
- * Determine if the session is valid or needs to be renewed
+ * Generate a new session ID based on current date and UUID
  */
-const isValidSession = (): boolean => {
-  const sessionId = localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION_ID);
-  const sessionStartTime = localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION_START_TIME);
-  
-  if (!sessionId || !sessionStartTime) {
-    return false;
-  }
-  
-  // Get current time in Melbourne
-  const now = dayjs().tz(MELBOURNE_TIMEZONE);
-  
-  // If session cutoff is daily (24 hours), check if we've passed midnight
-  if (SESSION_LIFESPAN === 24) {
-    const sessionDate = dayjs(sessionStartTime).tz(MELBOURNE_TIMEZONE);
-    return sessionDate.format('YYYY-MM-DD') === now.format('YYYY-MM-DD');
-  }
-  
-  // Otherwise check if we're still within the configured lifespan
-  const sessionStart = dayjs(sessionStartTime);
-  const hoursDifference = now.diff(sessionStart, 'hour');
-  
-  return hoursDifference < SESSION_LIFESPAN;
+const generateNewSessionId = (): string => {
+  // Get current date in Melbourne timezone (YYYY-MM-DD format)
+  const melbourneDate = dayjs().tz(MELBOURNE_TIMEZONE).format('YYYY-MM-DD');
+  return `${melbourneDate}:${uuidv4()}`;
 };
 
 /**
- * Generate a new session ID and update session start time
+ * Check if we should track the page visit
+ * @returns {boolean} True if should track, false if not
  */
-const generateNewSession = (): string => {
-  const sessionId = uuidv4();
-  const now = new Date().toISOString();
-  
-  localStorage.setItem(LOCAL_STORAGE_KEYS.SESSION_ID, sessionId);
-  localStorage.setItem(LOCAL_STORAGE_KEYS.SESSION_START_TIME, now);
-  
-  return sessionId;
-};
+const isTrackPageVisit = (): boolean => {
+  const currentSessionId = localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION_ID);
+  const lastSessionId = localStorage.getItem(
+    LOCAL_STORAGE_KEYS.LAST_SESSION_ID
+  );
 
-/**
- * Get the current session ID or generate a new one if needed
- */
-const getSessionId = (): string => {
-  if (isValidSession()) {
-    return localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION_ID) as string;
+  // If no session ID or they're different, we should track
+  if (!currentSessionId || currentSessionId !== lastSessionId) {
+    // Generate a new session ID if needed
+    if (!currentSessionId) {
+      const newSessionId = generateNewSessionId();
+      localStorage.setItem(LOCAL_STORAGE_KEYS.SESSION_ID, newSessionId);
+    }
+
+    // Update the last session ID
+    localStorage.setItem(
+      LOCAL_STORAGE_KEYS.LAST_SESSION_ID,
+      localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION_ID) || ''
+    );
+    return true;
   }
-  
-  return generateNewSession();
+
+  return false;
 };
 
 /**
@@ -127,31 +118,43 @@ const getSessionId = (): string => {
  * @param {string} pageUrl - The URL of the page being visited
  * @param {string} teamMemberId - Optional team member ID if viewing a specific barber page
  */
-export const trackPageVisit = async (pageUrl: string, teamMemberId?: string): Promise<void> => {
+export const trackPageVisit = async (
+  pageUrl: string,
+  teamMemberId?: string
+): Promise<void> => {
   try {
-    const sessionId = getSessionId();
+    // Check if we should track this page visit
+    if (!isTrackPageVisit()) {
+      console.log(`Page visit skipped (same session): ${pageUrl}`);
+      return;
+    }
+
+    const sessionId = localStorage.getItem(
+      LOCAL_STORAGE_KEYS.SESSION_ID
+    ) as string;
     const visitorId = getUniqueVisitorId();
     const conversionSequenceId = getConversionSequenceId();
     const trafficSource = getTrafficSource();
-    
+
     // Collect UTM parameters and click IDs
     const properties = {
       page_url: pageUrl,
       traffic_source: trafficSource,
       utm_source: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_SOURCE) || null,
       utm_medium: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_MEDIUM) || null,
-      utm_campaign: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CAMPAIGN) || null,
+      utm_campaign:
+        localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CAMPAIGN) || null,
       utm_content: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CONTENT) || null,
       fbclid: localStorage.getItem(LOCAL_STORAGE_KEYS.FBCLID) || null,
       ttclid: localStorage.getItem(LOCAL_STORAGE_KEYS.TTCLID) || null,
-      gclid: localStorage.getItem(LOCAL_STORAGE_KEYS.GCLID) || null,
+      gclid: localStorage.getItem(LOCAL_STORAGE_KEYS.GCLID) || null
     };
-    
+
     // Add team member ID if available
     if (teamMemberId) {
       Object.assign(properties, { team_member_id: teamMemberId });
     }
-    
+
     await axios.post(EVENTS_API_URL, {
       sessionId,
       uniqueVisitorId: visitorId,
@@ -159,7 +162,7 @@ export const trackPageVisit = async (pageUrl: string, teamMemberId?: string): Pr
       eventName: EVENT_TYPES.PAGE_VISIT,
       properties
     });
-    
+
     console.log(`Page visit tracked: ${pageUrl}`);
   } catch (error) {
     console.error('Error tracking page visit:', error);
@@ -180,11 +183,13 @@ export const trackBookingCreated = async (
   amount: number
 ): Promise<void> => {
   try {
-    const sessionId = getSessionId();
+    const sessionId = localStorage.getItem(
+      LOCAL_STORAGE_KEYS.SESSION_ID
+    ) as string;
     const visitorId = getUniqueVisitorId();
     const conversionSequenceId = getConversionSequenceId();
     const trafficSource = getTrafficSource();
-    
+
     const properties = {
       booking_id: bookingId,
       team_member_id: teamMemberId,
@@ -193,13 +198,14 @@ export const trackBookingCreated = async (
       traffic_source: trafficSource,
       utm_source: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_SOURCE) || null,
       utm_medium: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_MEDIUM) || null,
-      utm_campaign: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CAMPAIGN) || null,
+      utm_campaign:
+        localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CAMPAIGN) || null,
       utm_content: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CONTENT) || null,
       fbclid: localStorage.getItem(LOCAL_STORAGE_KEYS.FBCLID) || null,
       ttclid: localStorage.getItem(LOCAL_STORAGE_KEYS.TTCLID) || null,
-      gclid: localStorage.getItem(LOCAL_STORAGE_KEYS.GCLID) || null,
+      gclid: localStorage.getItem(LOCAL_STORAGE_KEYS.GCLID) || null
     };
-    
+
     await axios.post(EVENTS_API_URL, {
       sessionId,
       uniqueVisitorId: visitorId,
@@ -207,10 +213,10 @@ export const trackBookingCreated = async (
       eventName: EVENT_TYPES.CREATE_BOOKING,
       properties
     });
-    
+
     // Reset conversion sequence ID after booking
     resetConversionSequenceId();
-    
+
     console.log(`Booking created tracked: ${bookingId}`);
   } catch (error) {
     console.error('Error tracking booking creation:', error);

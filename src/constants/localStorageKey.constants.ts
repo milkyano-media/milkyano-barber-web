@@ -3,7 +3,7 @@ export const LOCAL_STORAGE_KEYS = {
   // Session and visitor tracking
   UNIQUE_VISITOR_ID: 'unique_visitor_id',
   SESSION_ID: 'session_id',
-  SESSION_START_TIME: 'session_start_time',
+  LAST_SESSION_ID: 'last_session_id',
   CONVERSION_SEQUENCE_ID: 'conversion_sequence_id',
 
   // UTM and ad tracking parameters
