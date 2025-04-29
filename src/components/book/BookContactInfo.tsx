@@ -28,6 +28,7 @@ import {
 import { Check, X } from 'react-bootstrap-icons';
 import Spinner from '@/components/web/Spinner';
 import { getCustomerByEmailAndPhone, getCustomerStatusByEmailAndPhone, postBooking, postCustomer } from '@/utils/barberApi';
+import { trackBookingCreated } from '@/utils/eventTracker';
 import { BookingRequest, BookingResponse, CustomerDetail, CustomerRequest, CustomerResponse } from '@/interfaces/BookingInterface';
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { CustomerStatus } from '@/interfaces/UserInterface';
@@ -181,6 +182,41 @@ const BookContactInfo = () => {
   const amountInDollars = amount / 100;
   const twoPercent = amountInDollars * 0.02;
   const total = amountInDollars + twoPercent;
+
+  // Test function for event tracking only
+  const submitContactFormTest = async () => {
+    setIsLoading(true);
+    setStatus('loading');
+    
+    try {
+      // Generate a fake booking ID for testing
+      const testBookingId = `test-${Math.random().toString(36).substring(2, 10)}`;
+      const teamMemberId = localStorage.getItem('barber_id') || 'test-team-member';
+      const serviceName = bookedItems[0]?.item_data?.name || 'Test Service';
+      
+      // Track the test booking event
+      await trackBookingCreated(
+        testBookingId,
+        teamMemberId,
+        serviceName,
+        total
+      );
+      
+      setStatus('succeeded');
+      setTimeout(() => {
+        setIsLoading(false);
+        alert('Booking event tracked successfully! (No actual booking was created)');
+      }, 1500);
+      
+    } catch (error) {
+      setStatus('failed');
+      setTimeout(() => {
+        setIsLoading(false);
+        alert(`Error tracking event: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      }, 1500);
+      console.error('Error tracking test booking:', error);
+    }
+  };
 
   const submitContactForm = async (values: z.infer<typeof formSchema>) => {
     const { appointment_note, ...restValues } = values;
@@ -509,6 +545,12 @@ const BookContactInfo = () => {
                 }
                 variant={"ghost"} type="submit" disabled={!isChecked} className=" w-full bg-[#036901] mt-10 h-fit py-4 rounded-xl font-light"  >
                 Book an Appointement
+              </Button>
+              {/* Test button - for development only */}
+              <Button
+                onClick={submitContactFormTest}
+                variant={"ghost"} type="button" className="w-full bg-[#0369a1] mt-4 h-fit py-4 rounded-xl font-light"  >
+                Test Event Tracking Only
               </Button>
             </div>
           </form>
