@@ -23,13 +23,9 @@ const MELBOURNE_TIMEZONE = 'Australia/Melbourne';
  */
 const getTrafficSource = (): string => {
   const fbclid = localStorage.getItem(LOCAL_STORAGE_KEYS.FBCLID);
-  const ttclid = localStorage.getItem(LOCAL_STORAGE_KEYS.TTCLID);
-  const gclid = localStorage.getItem(LOCAL_STORAGE_KEYS.GCLID);
   const utmSource = localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_SOURCE);
 
   if (fbclid) return 'FACEBOOK';
-  if (ttclid) return 'TIKTOK';
-  if (gclid) return 'GOOGLE';
   if (utmSource && utmSource !== 'None') return utmSource;
   return 'DIRECT';
 };
