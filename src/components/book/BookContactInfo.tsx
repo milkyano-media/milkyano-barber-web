@@ -41,6 +41,7 @@ import {
   CustomerRequest,
   CustomerResponse
 } from '@/interfaces/BookingInterface';
+import { BookingEventData } from '@/interfaces/EventInterface';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import { CustomerStatus } from '@/interfaces/UserInterface';
 
@@ -208,38 +209,51 @@ const BookContactInfo = () => {
   const total = amountInDollars + twoPercent;
 
   const submitTrackEvent = async (
-    valuesWithIdempotencyKey: unknown,
-    bookingInfo: object
+    valuesWithIdempotencyKey: CustomerRequest,
+    bookingInfo: BookingResponse
   ) => {
-    setIsLoading(true);
-
     try {
-      // Generate a fake booking ID for testing
-      const bookingId = `test-${Math.random().toString(36).substring(2, 10)}`;
-      const teamMemberId =
-        localStorage.getItem('barber_id') || 'test-team-member';
-      const serviceName = bookedItems[0]?.item_data?.name || 'Test Service';
-      const { email_address, given_name, family_name, phone_number } =
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        valuesWithIdempotencyKey || ({} as unknown as any);
-      const customerInfo = {
-        email_address,
-        given_name,
-        family_name,
-        phone_number
+      // Create rich booking event data
+      const bookingEventData: BookingEventData = {
+        // Booking information
+        bookingId: bookingInfo.booking.id,
+        amount: total,
+
+        // Customer information
+        customer: {
+          id: bookingInfo.booking.customer_id,
+          name: `${valuesWithIdempotencyKey.given_name} ${valuesWithIdempotencyKey.family_name}`,
+          email: valuesWithIdempotencyKey.email_address,
+          phone: valuesWithIdempotencyKey.phone_number
+        },
+
+        // Team member information
+        teamMember: {
+          id: bookingInfo.booking.appointment_segments[0].team_member_id,
+          name: localStorage.getItem('barber_name') || 'Team Member'
+        },
+
+        // Service information
+        service: {
+          name: bookedItems[0]?.item_data?.name || 'Service',
+          duration: bookingInfo.booking.appointment_segments[0].duration_minutes,
+          price: amount
+        },
+
+        // Booking details
+        startAt: bookingInfo.booking.start_at,
+        createdAt: bookingInfo.booking.created_at,
+        status: bookingInfo.booking.status,
+
+        // Additional context
+        customerNote: bookingInfo.booking.customer_note || '',
+        source: booking_origin || 'Organic'
       };
 
-      // Track the test booking event
-      await trackBookingCreated(
-        bookingId,
-        teamMemberId,
-        serviceName,
-        total,
-        customerInfo,
-        bookingInfo
-      );
+      // Track the booking event
+      await trackBookingCreated(bookingEventData);
     } catch (error) {
-      console.error('Error tracking test booking:', error);
+      console.error('Error tracking booking event:', error);
     }
   };
 
@@ -348,10 +362,7 @@ const BookContactInfo = () => {
         bookingPayload,
         booking_origin || 'Organic'
       );
-      submitTrackEvent(valuesWithIdempotencyKey, {
-        bookingPayload,
-        ...booking
-      });
+      await submitTrackEvent(valuesWithIdempotencyKey, booking);
       handlePurchase(customerStatusResponse.new_customer);
       setStatus('succeeded');
       setTimeout(() => {

@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import { EVENT_TYPES } from '@/constants/event.constants';
 import { LOCAL_STORAGE_KEYS } from '@/constants/localStorageKey.constants';
+import { BookingEventData, BookingEventProperties } from '@/interfaces/EventInterface';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -165,41 +166,51 @@ export const trackPageVisit = async (
 
 /**
  * Track a booking creation event
- * @param {string} bookingId - The ID of the created booking
- * @param {string} teamMemberId - The ID of the barber for the booking
- * @param {string} serviceName - The name of the booked service
- * @param {number} amount - The booking amount
+ * @param {BookingEventData} bookingData - Comprehensive booking data
  */
 export const trackBookingCreated = async (
-  bookingId: string,
-  teamMemberId: string,
-  serviceName: string,
-  amount: number,
-  customerInfo: object,
-  bookingInfo: object
+  bookingData: BookingEventData
 ): Promise<void> => {
   try {
-    const sessionId = localStorage.getItem(
-      LOCAL_STORAGE_KEYS.SESSION_ID
-    ) as string;
+    const sessionId = localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION_ID) as string;
     const visitorId = getUniqueVisitorId();
     const conversionSequenceId = getConversionSequenceId();
     const trafficSource = getTrafficSource();
 
-    const properties = {
-      booking_id: bookingId,
-      team_member_id: teamMemberId,
-      service_name: serviceName,
-      amount,
-      booking_info: bookingInfo,
-      customer_info: customerInfo,
-      traffic_source: trafficSource,
-      utm_source: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_SOURCE) || null,
-      utm_medium: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_MEDIUM) || null,
-      utm_campaign:
-        localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CAMPAIGN) || null,
-      utm_content: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CONTENT) || null,
-      fbclid: localStorage.getItem(LOCAL_STORAGE_KEYS.FBCLID) || null
+    // Create nested properties structure
+    const properties: BookingEventProperties = {
+      booking: {
+        id: bookingData.bookingId,
+        amount: bookingData.amount,
+        status: bookingData.status,
+        startAt: bookingData.startAt,
+        createdAt: bookingData.createdAt,
+        customerNote: bookingData.customerNote,
+        source: bookingData.source || 'Organic'
+      },
+      customer: {
+        id: bookingData.customer.id,
+        name: bookingData.customer.name,
+        email: bookingData.customer.email,
+        phone: bookingData.customer.phone
+      },
+      teamMember: {
+        id: bookingData.teamMember.id,
+        name: bookingData.teamMember.name
+      },
+      service: {
+        name: bookingData.service.name,
+        duration: bookingData.service.duration,
+        price: bookingData.service.price
+      },
+      attribution: {
+        trafficSource: trafficSource,
+        utm_source: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_SOURCE) || null,
+        utm_medium: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_MEDIUM) || null,
+        utm_campaign: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CAMPAIGN) || null,
+        utm_content: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CONTENT) || null,
+        fbclid: localStorage.getItem(LOCAL_STORAGE_KEYS.FBCLID) || null
+      }
     };
 
     await axios.post(EVENTS_API_URL, {
@@ -213,7 +224,7 @@ export const trackBookingCreated = async (
     // Reset conversion sequence ID after booking
     resetConversionSequenceId();
 
-    console.log(`Booking created tracked: ${bookingId}`);
+    console.log(`Booking created tracked: ${bookingData.bookingId}`);
   } catch (error) {
     console.error('Error tracking booking creation:', error);
   }
