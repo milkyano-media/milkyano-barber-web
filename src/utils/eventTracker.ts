@@ -145,9 +145,7 @@ export const trackPageVisit = async (
       utm_campaign:
         localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CAMPAIGN) || null,
       utm_content: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CONTENT) || null,
-      fbclid: localStorage.getItem(LOCAL_STORAGE_KEYS.FBCLID) || null,
-      ttclid: localStorage.getItem(LOCAL_STORAGE_KEYS.TTCLID) || null,
-      gclid: localStorage.getItem(LOCAL_STORAGE_KEYS.GCLID) || null
+      fbclid: localStorage.getItem(LOCAL_STORAGE_KEYS.FBCLID) || null
     };
 
     // Add team member ID if available
@@ -180,7 +178,9 @@ export const trackBookingCreated = async (
   bookingId: string,
   teamMemberId: string,
   serviceName: string,
-  amount: number
+  amount: number,
+  customerInfo: object,
+  bookingInfo: object
 ): Promise<void> => {
   try {
     const sessionId = localStorage.getItem(
@@ -195,15 +195,15 @@ export const trackBookingCreated = async (
       team_member_id: teamMemberId,
       service_name: serviceName,
       amount,
+      booking_info: bookingInfo,
+      customer_info: customerInfo,
       traffic_source: trafficSource,
       utm_source: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_SOURCE) || null,
       utm_medium: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_MEDIUM) || null,
       utm_campaign:
         localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CAMPAIGN) || null,
       utm_content: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CONTENT) || null,
-      fbclid: localStorage.getItem(LOCAL_STORAGE_KEYS.FBCLID) || null,
-      ttclid: localStorage.getItem(LOCAL_STORAGE_KEYS.TTCLID) || null,
-      gclid: localStorage.getItem(LOCAL_STORAGE_KEYS.GCLID) || null
+      fbclid: localStorage.getItem(LOCAL_STORAGE_KEYS.FBCLID) || null
     };
 
     await axios.post(EVENTS_API_URL, {

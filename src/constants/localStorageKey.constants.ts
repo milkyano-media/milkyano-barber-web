@@ -11,7 +11,5 @@ export const LOCAL_STORAGE_KEYS = {
   UTM_MEDIUM: 'utm_medium',
   UTM_CAMPAIGN: 'utm_campaign',
   UTM_CONTENT: 'utm_content',
-  FBCLID: 'fbclid',
-  TTCLID: 'ttclid',
-  GCLID: 'gclid'
+  FBCLID: 'fbclid'
 };
