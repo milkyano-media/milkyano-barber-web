@@ -132,6 +132,7 @@ const BookContactInfo = () => {
 
   if (selectedAppointmentString) {
     const [time, modifier] = selectedAppointmentString.split(' ');
+    // eslint-disable-next-line prefer-const
     let [startHour, startMinute] = time.split(':').map(Number);
     startPeriod = modifier.toUpperCase();
     selectedTime = time;
@@ -173,6 +174,7 @@ const BookContactInfo = () => {
       hoursToSubtract: number
     ): string => {
       const [time, modifier] = timeString.split(' ');
+      // eslint-disable-next-line prefer-const
       let [hours, minutes] = time.split(':').map(Number);
       if (modifier === 'PM' && hours !== 12) {
         hours += 12;
@@ -218,6 +220,7 @@ const BookContactInfo = () => {
         localStorage.getItem('barber_id') || 'test-team-member';
       const serviceName = bookedItems[0]?.item_data?.name || 'Test Service';
       const { email_address, given_name, family_name, phone_number } =
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         valuesWithIdempotencyKey || ({} as unknown as any);
       const customerInfo = {
         email_address,
