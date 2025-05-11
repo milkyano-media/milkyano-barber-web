@@ -29,7 +29,6 @@ import { Check, X } from 'react-bootstrap-icons';
 import Spinner from '@/components/web/Spinner';
 import {
   getCustomerByEmailAndPhone,
-  getCustomerStatusByEmailAndPhone,
   postBooking,
   postCustomer
 } from '@/utils/barberApi';
@@ -236,7 +235,8 @@ const BookContactInfo = () => {
         // Service information
         service: {
           name: bookedItems[0]?.item_data?.name || 'Service',
-          duration: bookingInfo.booking.appointment_segments[0].duration_minutes,
+          duration:
+            bookingInfo.booking.appointment_segments[0].duration_minutes,
           price: amount
         },
 
@@ -286,16 +286,14 @@ const BookContactInfo = () => {
       }
 
       let customerId;
-      const customerStatusResponse: CustomerStatus =
-        await getCustomerStatusByEmailAndPhone(
-          valuesWithIdempotencyKey.email_address,
-          valuesWithIdempotencyKey.phone_number
-        );
+      const customer: CustomerDetail = await getCustomerByEmailAndPhone(
+        valuesWithIdempotencyKey.email_address,
+        valuesWithIdempotencyKey.phone_number
+      );
+      const customerStatusResponse: CustomerStatus = {
+        new_customer: !customer?.id
+      };
       if (customerStatusResponse.new_customer === false) {
-        const customer: CustomerDetail = await getCustomerByEmailAndPhone(
-          valuesWithIdempotencyKey.email_address,
-          valuesWithIdempotencyKey.phone_number
-        );
         customerId = customer.id;
       } else {
         const newCustomer: CustomerResponse = await postCustomer(
