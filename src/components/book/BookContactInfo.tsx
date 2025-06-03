@@ -209,7 +209,8 @@ const BookContactInfo = () => {
 
   const submitTrackEvent = async (
     valuesWithIdempotencyKey: CustomerRequest,
-    bookingInfo: BookingResponse
+    bookingInfo: BookingResponse,
+    customerStatusResponse: CustomerStatus
   ) => {
     try {
       // Create rich booking event data
@@ -223,7 +224,8 @@ const BookContactInfo = () => {
           id: bookingInfo.booking.customer_id,
           name: `${valuesWithIdempotencyKey.given_name} ${valuesWithIdempotencyKey.family_name}`,
           email: valuesWithIdempotencyKey.email_address,
-          phone: valuesWithIdempotencyKey.phone_number
+          phone: valuesWithIdempotencyKey.phone_number,
+          isNewCustomer: customerStatusResponse.new_customer
         },
 
         // Team member information
@@ -360,7 +362,7 @@ const BookContactInfo = () => {
         bookingPayload,
         booking_origin || 'Organic'
       );
-      await submitTrackEvent(valuesWithIdempotencyKey, booking);
+      await submitTrackEvent(valuesWithIdempotencyKey, booking, customerStatusResponse);
       handlePurchase(customerStatusResponse.new_customer);
       setStatus('succeeded');
       setTimeout(() => {

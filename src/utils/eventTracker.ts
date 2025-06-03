@@ -192,7 +192,8 @@ export const trackBookingCreated = async (
         id: bookingData.customer.id,
         name: bookingData.customer.name,
         email: bookingData.customer.email,
-        phone: bookingData.customer.phone
+        phone: bookingData.customer.phone,
+        isNewCustomer: bookingData.customer.isNewCustomer
       },
       teamMember: {
         id: bookingData.teamMember.id,

@@ -6,6 +6,7 @@ export interface BookingEventData {
     name: string;
     email: string;
     phone: string;
+    isNewCustomer?: boolean;
   };
   teamMember: {
     id: string;
@@ -38,6 +39,7 @@ export interface BookingEventProperties {
     name: string;
     email: string;
     phone: string;
+    isNewCustomer?: boolean;
   };
   teamMember: {
     id: string;
