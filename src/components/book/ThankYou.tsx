@@ -1,11 +1,15 @@
-
 import { Button } from '@/components/ui/button';
-import GradientTop from "@/assets/landing/book_circle_top.svg"
-import GradientBottom from "@/assets/landing/book_circle_bottom.svg"
-import { ClockHistory, ChevronRight, ReplyFill, XCircleFill } from "react-bootstrap-icons"
-import Logo from "@/components/react-svg/logo"
+import GradientTop from '@/assets/landing/book_circle_top.svg';
+import GradientBottom from '@/assets/landing/book_circle_bottom.svg';
+import {
+  ClockHistory,
+  ChevronRight,
+  ReplyFill,
+  XCircleFill
+} from 'react-bootstrap-icons';
+import Logo from '@/components/react-svg/logo';
 import { Link, useLocation } from 'react-router-dom';
-import CancelationBar from "@/assets/book/cancelation_bar.svg"
+import CancelationBar from '@/assets/book/cancelation_bar.svg';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -13,32 +17,35 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+  AlertDialogTitle
+} from '@/components/ui/alert-dialog';
 import { useEffect, useState } from 'react';
 import { useGtm } from '../hooks/UseGtm';
 import { BarberDetailResponse } from '@/interfaces/BookingInterface';
-import { getBarberDetail, postUtmRecord } from '@/utils/barberApi';
-
+import { getBarberDetail } from '@/utils/barberApi';
 
 const ThankYouPage = () => {
   const location = useLocation();
   const { sendEvent } = useGtm();
-  const [barberName, setBarberName] = useState<string>('')
-  const [thankYouTime, setThankYouTime] = useState<string>('')
+  const [barberName, setBarberName] = useState<string>('');
+  const [thankYouTime, setThankYouTime] = useState<string>('');
 
   useEffect(() => {
     const handleThankYouPage = async () => {
-      if (location.pathname.includes("thank-you")) {
-
+      if (location.pathname.includes('thank-you')) {
         const tempPurchaseValue = localStorage.getItem('purchase_value');
-        const purchaseValue = tempPurchaseValue ? JSON.parse(tempPurchaseValue) : null;
+        const purchaseValue = tempPurchaseValue
+          ? JSON.parse(tempPurchaseValue)
+          : null;
 
         const tempNewCustomer = localStorage.getItem('new_customer');
-        const newCustomer = tempNewCustomer ? JSON.parse(tempNewCustomer) : null;
+        const newCustomer = tempNewCustomer
+          ? JSON.parse(tempNewCustomer)
+          : null;
 
         const bookingId = localStorage.getItem('booking_id');
-        const sendedBookingId = localStorage.getItem('sended_booking_id') || undefined;
+        const sendedBookingId =
+          localStorage.getItem('sended_booking_id') || undefined;
         const customerId = localStorage.getItem('customer_id');
         const barberId = localStorage.getItem('barber_id');
 
@@ -48,57 +55,67 @@ const ThankYouPage = () => {
         const utm_campaign = localStorage.getItem('utm_campaign') || undefined;
         const utm_content = localStorage.getItem('utm_content') || undefined;
 
-        const firstVisitSource = localStorage.getItem("first_visit_source");
-        const lastVisitSource = localStorage.getItem("last_visit_source");
-        const customerSource = localStorage.getItem("customer_source");
+        const firstVisitSource = localStorage.getItem('first_visit_source');
+        const lastVisitSource = localStorage.getItem('last_visit_source');
+        const customerSource = localStorage.getItem('customer_source');
 
-        const firstVisitData = firstVisitSource ? JSON.parse(firstVisitSource) : {};
-        const lastVisitData = lastVisitSource ? JSON.parse(lastVisitSource) : {};
-        const customerSourceData = customerSource ? JSON.parse(customerSource) : {};
+        const firstVisitData = firstVisitSource
+          ? JSON.parse(firstVisitSource)
+          : {};
+        const lastVisitData = lastVisitSource
+          ? JSON.parse(lastVisitSource)
+          : {};
+        const customerSourceData = customerSource
+          ? JSON.parse(customerSource)
+          : {};
 
         try {
           if (bookingId && customerId && barberId) {
-            let influence = "organic(0%)";
-              // Determine influence based on tracking data
-              if (lastVisitData.fbclid && lastVisitData.utm_source) {
-                influence = "strongly influenced by ads(75-100%)";
-              } else if (lastVisitData.fbclid) {
-                influence = "significantly influenced by ads(50-75%)";
-              } else if (firstVisitData.fbclid || customerSourceData.fbclid) {
-                influence = "partially influenced by ads(25-50%)";
-              }
+            // let influence = 'organic(0%)';
+            // Determine influence based on tracking data
+            if (lastVisitData.fbclid && lastVisitData.utm_source) {
+              // influence = 'strongly influenced by ads(75-100%)';
+            } else if (lastVisitData.fbclid) {
+              // influence = 'significantly influenced by ads(50-75%)';
+            } else if (firstVisitData.fbclid || customerSourceData.fbclid) {
+              // influence = 'partially influenced by ads(25-50%)';
+            }
 
-              const recordData = {
-                bookingId,
-                customerId,
-                barberId,
-                source: lastVisitData.utm_source || firstVisitData.utm_source || 'organic',
-                campaign: lastVisitData.utm_campaign || firstVisitData.utm_campaign,
-                content: lastVisitData.utm_content || firstVisitData.utm_content,
-                medium: lastVisitData.utm_medium || firstVisitData.utm_medium,
-                influence,
-                newCustomer: localStorage.getItem('new_customer') === 'true'
-              };
+            // const recordData = {
+            //   bookingId,
+            //   customerId,
+            //   barberId,
+            //   source:
+            //     lastVisitData.utm_source ||
+            //     firstVisitData.utm_source ||
+            //     'organic',
+            //   campaign:
+            //     lastVisitData.utm_campaign || firstVisitData.utm_campaign,
+            //   content: lastVisitData.utm_content || firstVisitData.utm_content,
+            //   medium: lastVisitData.utm_medium || firstVisitData.utm_medium,
+            //   influence,
+            //   newCustomer: localStorage.getItem('new_customer') === 'true'
+            // };
 
-              if (bookingId !== sendedBookingId) {
-                sendEvent({
-                  booking_id: bookingId,
-                  origin: booking_origin,
-                  source: utm_source,
-                  medium: utm_medium,
-                  campaign: utm_campaign,
-                  content: utm_content,
-                  event: 'purchase_event',
-                  value: purchaseValue,
-                  new_customer: newCustomer,
-                  Currency: 'AUD',
-                });
-              }
-              await postUtmRecord(recordData);
-              localStorage.setItem('sended_booking_id', bookingId);
+            if (bookingId !== sendedBookingId) {
+              sendEvent({
+                booking_id: bookingId,
+                origin: booking_origin,
+                source: utm_source,
+                medium: utm_medium,
+                campaign: utm_campaign,
+                content: utm_content,
+                event: 'purchase_event',
+                value: purchaseValue,
+                new_customer: newCustomer,
+                Currency: 'AUD'
+              });
+            }
+            // await postUtmRecord(recordData);
+            localStorage.setItem('sended_booking_id', bookingId);
           }
         } catch (error) {
-          console.error(error)
+          console.error(error);
         }
       }
     };
@@ -108,21 +125,26 @@ const ThankYouPage = () => {
 
   useEffect(() => {
     const fetchBarberDetail = async () => {
-      const appointmentSegmentString = localStorage.getItem('appointmentSegment');
+      const appointmentSegmentString =
+        localStorage.getItem('appointmentSegment');
 
-      const timeData = localStorage.getItem('thankYouTime')
+      const timeData = localStorage.getItem('thankYouTime');
       if (timeData) {
-        setThankYouTime(timeData)
+        setThankYouTime(timeData);
       }
       if (appointmentSegmentString) {
         const appointmentSegment = JSON.parse(appointmentSegmentString);
-        const barberDetail: BarberDetailResponse = await getBarberDetail(appointmentSegment[0].team_member_id);
-        setBarberName(`${barberDetail.team_member.given_name} ${barberDetail.team_member.family_name}`)
+        const barberDetail: BarberDetailResponse = await getBarberDetail(
+          appointmentSegment[0].team_member_id
+        );
+        setBarberName(
+          `${barberDetail.team_member.given_name} ${barberDetail.team_member.family_name}`
+        );
       }
     };
 
     fetchBarberDetail();
-  }, [])
+  }, []);
 
   interface ContactInfo {
     monthName?: string;
@@ -134,7 +156,6 @@ const ThankYouPage = () => {
   let bookedItems = [];
   let formattedDate = '';
   let dateObject: ContactInfo = {};
-
 
   try {
     const bookedItemsString = localStorage.getItem('bookedItems');
@@ -167,7 +188,6 @@ const ThankYouPage = () => {
 
   let CancelTime;
 
-
   if (selectedAppointmentString) {
     const [time, modifier] = selectedAppointmentString.split(' ');
     // eslint-disable-next-line prefer-const
@@ -184,7 +204,6 @@ const ThankYouPage = () => {
 
     const startPeriod = startHour >= 12 ? 'PM' : 'AM';
 
-
     let cancelHour = startDate.getHours() - 2;
     let cancelPeriod = startPeriod;
 
@@ -199,20 +218,30 @@ const ThankYouPage = () => {
     }
 
     const formattedCancelHour = cancelHour % 12 || 12;
-    const formattedCancelTime = `${formattedCancelHour}:${startMinute.toString().padStart(2, '0')}`;
+    const formattedCancelTime = `${formattedCancelHour}:${startMinute
+      .toString()
+      .padStart(2, '0')}`;
     CancelTime = `${formattedCancelTime} ${cancelPeriod}`;
   }
 
   return (
-    <section className="relative bg-[#010401] flex flex-col p-4 py-32 items-center md:items-start justify-center z-30 md:px-40 min-h-screen gap-0"  >
+    <section className='relative bg-[#010401] flex flex-col p-4 py-32 items-center md:items-start justify-center z-30 md:px-40 min-h-screen gap-0'>
       <div className='flex flex-col justify-center items-center absolute left-6 top-6'>
-        <Link to={"/home"}  >
+        <Link to={'/home'}>
           <Logo className='w-48 md:w-[12rem] h-auto opacity-90 ' />
         </Link>
       </div>
-      <img src={GradientTop} alt="gradient top" className='absolute top-0 right-0 w-5/12 ' />
-      <img src={GradientBottom} alt="gradient top" className='absolute bottom-0 left-0 w-8/12 ' />
-      <AlertDialog open={dialog} onOpenChange={setDialog} >
+      <img
+        src={GradientTop}
+        alt='gradient top'
+        className='absolute top-0 right-0 w-5/12 '
+      />
+      <img
+        src={GradientBottom}
+        alt='gradient top'
+        className='absolute bottom-0 left-0 w-8/12 '
+      />
+      <AlertDialog open={dialog} onOpenChange={setDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className='text-center'>
@@ -220,9 +249,12 @@ const ThankYouPage = () => {
             </AlertDialogTitle>
             <AlertDialogDescription>
               <div className='w-8/12 h-full flex justify-center items-center text-lg py-4 text-center mx-auto'>
-                <h4> Please check your email for cancelation and resechedule</h4>
-
-              </div>            </AlertDialogDescription>
+                <h4>
+                  {' '}
+                  Please check your email for cancelation and resechedule
+                </h4>
+              </div>{' '}
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className='flex sm:justify-center sm:items-center  w-full'>
             <AlertDialogCancel>Continue</AlertDialogCancel>
@@ -232,7 +264,9 @@ const ThankYouPage = () => {
       <div className='relative z-40 w-full'>
         <section className='flex flex-col gap-2 pb-4 text-stone-200 relative w-full'>
           <div className='text-start w-full text-stone-200 text-sm py-2'>
-            <h3 className='text-lg lg:text-xl font-medium '>Thanks For Booking</h3>
+            <h3 className='text-lg lg:text-xl font-medium '>
+              Thanks For Booking
+            </h3>
             <p className='font-extralight'>Your Appointment is Coming Up</p>
           </div>
           <div className='relative  h-8 w-full px-4'>
@@ -244,29 +278,28 @@ const ThankYouPage = () => {
           <div>
             <div className='border border-stone-400 rounded-t-xl p-6 px-12 flex flex-col gap-4'>
               <div className='flex flex-col gap-2'>
-                <h3 className='text-lg'>
-                  {formattedDate}
-                </h3>
+                <h3 className='text-lg'>{formattedDate}</h3>
                 <p className='text-xs font-light text-stone-400 pl-4'>
                   {thankYouTime}
                 </p>
               </div>
               <div className='flex flex-col gap-2'>
-                <h3 className='text-lg'>
-                  {bookedItems[0].item_data.name}
-                </h3>
-                <p className='text-xs font-light text-stone-400 pl-4'>With {barberName}</p>
+                <h3 className='text-lg'>{bookedItems[0].item_data.name}</h3>
+                <p className='text-xs font-light text-stone-400 pl-4'>
+                  With {barberName}
+                </p>
               </div>
             </div>
             <div className='rounded-b-xl px-4 pt-10 pb-4 border border-stone-400'>
-              <Button className=" w-full text-xl bg-[#036901] text-stone-50 h-fit py-4 rounded-xl font-light" >
+              <Button className=' w-full text-xl bg-[#036901] text-stone-50 h-fit py-4 rounded-xl font-light'>
                 Add to Calendar
               </Button>
               <div className='grid grid-cols-3 py-2 gap-x-4 pt-4'>
                 <div className='text-center flex flex-col text-xs gap-3 items-center justify-center'>
                   <Button
                     onClick={() => setDialog(true)}
-                    className=" w-full bg-[#036901] text-stone-50 h-fit py-4 rounded-xl font-light" >
+                    className=' w-full bg-[#036901] text-stone-50 h-fit py-4 rounded-xl font-light'
+                  >
                     <ClockHistory className='text-stone-50 w-6 h-auto' />
                   </Button>
                   Reschedule
@@ -274,14 +307,15 @@ const ThankYouPage = () => {
                 <div className='text-center flex flex-col text-xs gap-3 items-center justify-center'>
                   <Button
                     onClick={() => setDialog(true)}
-                    className=" w-full bg-[#036901] text-stone-50 h-fit py-4 rounded-xl font-light" >
+                    className=' w-full bg-[#036901] text-stone-50 h-fit py-4 rounded-xl font-light'
+                  >
                     <XCircleFill className='text-stone-50 w-6 h-auto' />
                   </Button>
                   Cancel
                 </div>
                 <div className='text-center flex flex-col text-xs gap-3 items-center justify-center'>
-                  <Link to={"/barbers"} className='w-full h-full'>
-                    <Button className=" w-full bg-[#036901] text-stone-50 h-fit py-4 rounded-xl font-light" >
+                  <Link to={'/barbers'} className='w-full h-full'>
+                    <Button className=' w-full bg-[#036901] text-stone-50 h-fit py-4 rounded-xl font-light'>
                       <ReplyFill className='text-stone-50 w-6 h-auto' />
                     </Button>
                   </Link>
@@ -291,14 +325,11 @@ const ThankYouPage = () => {
             </div>
           </div>
           <div className='border border-stone-400 rounded-xl p-4 px-6 pt-6 flex flex-col gap-4'>
-            <h3 className='text-lg md:text-xl font-medium px-8'>
-              Location
-            </h3>
+            <h3 className='text-lg md:text-xl font-medium px-8'>Location</h3>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44520.783413964426!2d145.06891445638522!3d-37.904472621963905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad66bc0e74de7c9%3A0x58d6bfb2ed811b32!2sFaded%20Lines%20Barbershop%20Oakleigh!5e0!3m2!1sen!2sid!4v1720231134790!5m2!1sen!2sid"
-
+              src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44520.783413964426!2d145.06891445638522!3d-37.904472621963905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad66bc0e74de7c9%3A0x58d6bfb2ed811b32!2sFaded%20Lines%20Barbershop%20Oakleigh!5e0!3m2!1sen!2sid!4v1720231134790!5m2!1sen!2sid'
               className='w-full rounded-xl'
-              frameBorder="0"
+              frameBorder='0'
               style={{ border: 0 }}
               allowFullScreen={true}
               aria-hidden={false}
@@ -306,22 +337,27 @@ const ThankYouPage = () => {
             />
             <div className=' p-4 px-8 flex justify-between gap-4'>
               <div className='flex flex-col gap-2'>
-                <h3 className='text-sm md:text-xl'>
-                  Fadedlines Barbershop
-                </h3>
-                <p className='text-xs font-light text-stone-400'>55 Portman Street, Oakleigh, VIC 3166</p>
+                <h3 className='text-sm md:text-xl'>Fadedlines Barbershop</h3>
+                <p className='text-xs font-light text-stone-400'>
+                  55 Portman Street, Oakleigh, VIC 3166
+                </p>
               </div>
               <Button className='rounded bg-stone-700 '>
-                <a href='https://www.google.com/maps/place/55+Portman+St,+Oakleigh+VIC+3166,+Australia/@-37.900189,145.0890531,17z/data=!3m1!4b1!4m6!3m5!1s0x6ad66a58f1383555:0x436afa9ac943981!8m2!3d-37.900189!4d145.091628!16s%2Fg%2F11bw42v9sv?entry=ttu' target='_blank' className='w-full h-full'><ChevronRight className='fill-white' /></a>
+                <a
+                  href='https://www.google.com/maps/place/55+Portman+St,+Oakleigh+VIC+3166,+Australia/@-37.900189,145.0890531,17z/data=!3m1!4b1!4m6!3m5!1s0x6ad66a58f1383555:0x436afa9ac943981!8m2!3d-37.900189!4d145.091628!16s%2Fg%2F11bw42v9sv?entry=ttu'
+                  target='_blank'
+                  className='w-full h-full'
+                >
+                  <ChevronRight className='fill-white' />
+                </a>
               </Button>
             </div>
           </div>
           <div className='border border-stone-400 rounded-xl py-8 px-12 flex flex-col gap-2'>
-
-            <h3 className='text-lg font-medium'>
-              Payment
-            </h3>
-            <p className='text-base font-light text-stone-400'>payment is due at your appointment</p>
+            <h3 className='text-lg font-medium'>Payment</h3>
+            <p className='text-base font-light text-stone-400'>
+              payment is due at your appointment
+            </p>
           </div>
           <div className='border border-stone-400 rounded-xl p-8 md:py-6 md:px-12 flex flex-col gap-4'>
             <div className='flex flex-col gap-8 text-sm'>
@@ -332,19 +368,28 @@ const ThankYouPage = () => {
                 <div className='flex flex-col gap-4 relative'>
                   <h4 className='text-xs md:text-md relative right-[-55%] lg:right-[-60%] font-light text-stone-950 bg-[#04C600] rounded-full w-fit px-4 py-1 opacity-90 flex gap-1'>
                     Cancel Before
-                    <span>{dateObject.dayName}, {dateObject.monthName} {dateObject.day}</span>
+                    <span>
+                      {dateObject.dayName}, {dateObject.monthName}{' '}
+                      {dateObject.day}
+                    </span>
                   </h4>
-                  <img src={CancelationBar} alt="cancel before" />
+                  <img src={CancelationBar} alt='cancel before' />
                 </div>
               </div>
-              <p className='text-xs md:text-base font-extralight opacity-80'>Please cancel or reschedule before {CancelTime} on <span>{dateObject.dayName}, {dateObject.monthName} {dateObject.day}</span>. After that, you may be charged a cancellation fee. <a className='text-[#04C600] underline'>See full policy</a></p>
+              <p className='text-xs md:text-base font-extralight opacity-80'>
+                Please cancel or reschedule before {CancelTime} on{' '}
+                <span>
+                  {dateObject.dayName}, {dateObject.monthName} {dateObject.day}
+                </span>
+                . After that, you may be charged a cancellation fee.{' '}
+                <a className='text-[#04C600] underline'>See full policy</a>
+              </p>
             </div>
           </div>
         </section>
-
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default ThankYouPage
+export default ThankYouPage;
