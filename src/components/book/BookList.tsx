@@ -19,7 +19,7 @@ import Emman from "@/assets/web/barbers/booking-list/emman-book.svg";
 import Christos from "@/assets/web/barbers/booking-list/christos-book.svg";
 import Josh from "@/assets/web/barbers/booking-list/josh-book.png";
 import Niko from "@/assets/web/barbers/booking-list/niko-book.svg";
-import Noah from "@/assets/web/barbers/booking-list/noah-book.svg";
+import Noah from "@/assets/web/barbers/booking-list/noah-book.png";
 import Amir from "@/assets/web/barbers/booking-list/amir-book.svg";
 // import Hero from "@/assets/web/home/hero.svg";
 
