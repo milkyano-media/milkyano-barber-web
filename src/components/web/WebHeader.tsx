@@ -15,6 +15,17 @@ import {
 
 import { Button } from "../ui/button";
 import { generateLink } from "@/pages/web/Home";
+import { useAuth } from "@/hooks/useAuth";
+import { LoginModal } from "@/components/auth/LoginModal";
+import { User, Settings, LogOut } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface NavLinkProps {
   to: string;
@@ -49,7 +60,9 @@ const links = [
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const location = useLocation();
+  const { isAuthenticated, customer, logout } = useAuth();
 
   const generateRoute = (route: string): string => {
     const parts = location.pathname.split("/");
@@ -161,7 +174,53 @@ const Header: React.FC = () => {
             </li>
           </ul>
         </nav>
-        <nav className="hidden xl:block">
+        <nav className="hidden xl:flex gap-4 items-center">
+          {isAuthenticated && customer ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  <span>{customer.given_name}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 bg-[#0a0a0a] border-stone-800">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-stone-800" />
+                <DropdownMenuItem asChild>
+                  <Link to="/account" className="flex items-center cursor-pointer">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>Account Settings</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-stone-800" />
+                <DropdownMenuItem 
+                  onClick={logout}
+                  className="flex items-center cursor-pointer text-red-400 focus:text-red-400"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <div className="flex gap-3 items-center">
+              <Button
+                variant="ghost"
+                onClick={() => setShowLoginModal(true)}
+                className="text-white hover:bg-white/10"
+              >
+                Login
+              </Button>
+              <Link to="/register">
+                <Button
+                  variant="outline"
+                  className="border-[#04C600] text-[#04C600] hover:bg-[#04C600] hover:text-white"
+                >
+                  Sign Up
+                </Button>
+              </Link>
+            </div>
+          )}
           <Button className="px-8 py-5">{generateLink("BOOK NOW")}</Button>
         </nav>
         <nav
@@ -265,12 +324,46 @@ const Header: React.FC = () => {
                       <NavLink key={link.to} to={link.to} label={link.label} />
                     ))}
                   </ul>
+                  <div className="mt-6 px-4">
+                    {isAuthenticated && customer ? (
+                      <div className="flex flex-col gap-4">
+                        <div className="flex items-center gap-2 text-stone-600">
+                          <User className="w-4 h-4" />
+                          <span>{customer.given_name}</span>
+                        </div>
+                        <Button
+                          variant="outline"
+                          onClick={logout}
+                          className="w-full"
+                        >
+                          Logout
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          setShowLoginModal(true);
+                        }}
+                        className="w-full"
+                      >
+                        Login
+                      </Button>
+                    )}
+                  </div>
                 </SheetDescription>
               </SheetHeader>
             </SheetContent>
           </Sheet>
         </nav>
       </div>
+      
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+      />
     </header>
   );
 };

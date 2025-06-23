@@ -8,6 +8,9 @@ import Careers from '@/pages/web/Careers';
 import Contacts from '@/pages/web/Contacts';
 import PrivacyPolicy from '@/pages/web/PrivacyPolicy';
 import NotFound from '@/pages/web/NotFound';
+import Login from '@/pages/auth/Login';
+import Register from '@/pages/auth/Register';
+import Account from '@/pages/auth/Account';
 
 import JoshLanding from '@/pages/landing/JoshLanding';
 import WyattLanding from '@/pages/landing/WyattLanding';
@@ -35,6 +38,9 @@ const webRoutes = [
   { path: 'careers', component: Careers },
   { path: 'contact', component: Contacts },
   { path: 'privacy-policy', component: PrivacyPolicy },
+  { path: 'login', component: Login },
+  { path: 'register', component: Register },
+  { path: 'account', component: Account },
   { path: 'book/services', component: BookList },
   { path: 'book/appointment', component: BookAppointment },
   { path: 'book/contact-info', component: BookContactInfo },

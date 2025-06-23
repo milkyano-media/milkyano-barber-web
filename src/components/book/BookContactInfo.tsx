@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { PhoneInput } from '@/components/ui/phone-input';
 import CancelationBar from '@/assets/book/cancelation_bar.svg';
 import { v4 as uuidv4 } from 'uuid';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -43,6 +43,9 @@ import {
 import { BookingEventData } from '@/interfaces/EventInterface';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import { CustomerStatus } from '@/interfaces/UserInterface';
+import { LoginModal } from '@/components/auth/LoginModal';
+import { useAuth } from '@/hooks/useAuth';
+import { checkPhone } from '@/utils/authApi';
 
 const BookContactInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -51,6 +54,9 @@ const BookContactInfo = () => {
   const location = useLocation();
   const [showForm, setShowForm] = useState(false);
   const booking_origin = localStorage.getItem('booking_origin') || undefined;
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  
+  const { isAuthenticated, customer: authCustomer } = useAuth();
 
   const generateRoute = (route: string): string => {
     const parts = location.pathname.split('/');
@@ -266,6 +272,7 @@ const BookContactInfo = () => {
       ...restValues,
       idempotency_key: uuidv4()
     };
+    
     setIsLoading(true);
     setStatus('loading');
     try {
@@ -389,6 +396,38 @@ const BookContactInfo = () => {
       appointment_note: ''
     }
   });
+  
+  // Auto-fill form when authenticated
+  useEffect(() => {
+    if (isAuthenticated && authCustomer) {
+      form.setValue('given_name', authCustomer.given_name || '');
+      form.setValue('family_name', authCustomer.family_name || '');
+      form.setValue('email_address', authCustomer.email_address || '');
+      form.setValue('phone_number', authCustomer.phone_number || '');
+    }
+  }, [isAuthenticated, authCustomer, form]);
+  
+  // Check if phone number exists when user types
+  const handlePhoneBlur = async () => {
+    const phoneNumber = form.getValues('phone_number');
+    if (phoneNumber && isValidPhoneNumber(phoneNumber) && !isAuthenticated) {
+      try {
+        const response = await checkPhone({ phone_number: phoneNumber });
+        if (response.exists) {
+          // Phone exists, show login modal with a message
+          setShowLoginModal(true);
+        }
+      } catch (error) {
+        console.error('Error checking phone:', error);
+      }
+    }
+  };
+  
+  // Handle successful login
+  const handleLoginSuccess = () => {
+    setShowLoginModal(false);
+    // Form will be auto-filled by the useEffect
+  };
 
   return (
     <section className='relative bg-[#010401] flex flex-col p-4 py-12 items-center md:items-start justify-center z-30 md:px-40 min-h-screen gap-0'>
@@ -457,7 +496,30 @@ const BookContactInfo = () => {
             <div className='flex flex-col gap-4 col-span-2 mr-4'>
               <div className='flex justify-between'>
                 <h3 className='text-sm font-medium'>Contact Info</h3>
-                <h3 className='text-sm font-medium'>Sign In</h3>
+                {isAuthenticated && authCustomer ? (
+                  <div className='flex items-center gap-2'>
+                    <span className='text-sm text-gray-400'>
+                      Signed in as {authCustomer.given_name}
+                    </span>
+                    <Button
+                      type='button'
+                      variant='ghost'
+                      onClick={() => setShowLoginModal(true)}
+                      className='text-sm text-gray-400 hover:text-white p-0 h-auto'
+                    >
+                      Change
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    type='button'
+                    variant='ghost'
+                    onClick={() => setShowLoginModal(true)}
+                    className='text-sm font-medium text-[#04C600] hover:text-[#03A000] p-0 h-auto'
+                  >
+                    Sign In
+                  </Button>
+                )}
               </div>
 
               <div className='col-span-2'>
@@ -472,6 +534,10 @@ const BookContactInfo = () => {
                           placeholder='610000'
                           countrySelectProps={{ unicodeFlags: true }}
                           {...field}
+                          onBlur={() => {
+                            field.onBlur();
+                            handlePhoneBlur();
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -531,6 +597,33 @@ const BookContactInfo = () => {
                     )}
                   />
                 </div>
+                
+                {/* Create account prompt for new users */}
+                {!isAuthenticated && (
+                  <div className='mt-6'>
+                    <div className='bg-stone-900 border border-stone-800 rounded-lg p-4'>
+                      <p className='text-sm text-gray-300 mb-3'>
+                        Want to save time on future bookings?
+                      </p>
+                      <Link
+                        to="/register"
+                        onClick={() => {
+                          // Store current booking info to restore after registration
+                          localStorage.setItem('auth_return_url', window.location.pathname);
+                        }}
+                      >
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="w-full border-[#04C600] text-[#04C600] hover:bg-[#04C600] hover:text-white"
+                        >
+                          Create an Account
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                )}
+                
                 <hr className='h-[2px] opacity-50 bg-[#048301] w-full my-6' />
                 <div className='flex justify-between'>
                   <h3>Appointment Note</h3>
@@ -664,6 +757,13 @@ const BookContactInfo = () => {
           </form>
         </Form>
       </section>
+      
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onSuccess={handleLoginSuccess}
+      />
     </section>
   );
 };
