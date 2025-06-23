@@ -104,9 +104,8 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onForgotPassword }: Log
                   <FormControl>
                     <PhoneInput
                       {...field}
-                      defaultCountry="AU"
                       placeholder="Enter phone number"
-                      className="bg-transparent"
+                      className="bg-transparent [&_input]:h-10"
                     />
                   </FormControl>
                   <FormMessage />

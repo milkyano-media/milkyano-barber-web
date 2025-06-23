@@ -530,9 +530,8 @@ const BookContactInfo = () => {
                     <FormItem>
                       <FormControl>
                         <PhoneInput
-                          countryCallingCodeEditable={false}
-                          placeholder='610000'
-                          countrySelectProps={{ unicodeFlags: true }}
+                          placeholder='Enter phone number'
+                          className='[&_input]:h-10 [&_input]:border-stone-500'
                           {...field}
                           onBlur={() => {
                             field.onBlur();

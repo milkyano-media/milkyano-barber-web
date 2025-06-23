@@ -116,7 +116,7 @@ export default function Register() {
       <section className="min-h-screen bg-[#010401] py-12 md:py-20">
         <div className="container mx-auto px-4 max-w-lg">
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-white mb-2">Create Your Account</h1>
+            <h1 className="text-3xl font-bold text-white mb-2 mt-4">Create Your Account</h1>
             <p className="text-gray-400 text-sm">
               Save time on future bookings and track your appointments
             </p>
@@ -202,9 +202,8 @@ export default function Register() {
                           <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
                           <PhoneInput
                             {...field}
-                            defaultCountry="AU"
                             placeholder="Enter phone number"
-                            className="pl-10 bg-stone-950/50 [&_input]:border-stone-600 [&_input]:hover:border-stone-500 [&_input]:focus:border-[#04C600] [&_input]:transition-colors"
+                            className="pl-10 bg-stone-950/50 [&_input]:border-stone-600 [&_input]:hover:border-stone-500 [&_input]:focus:border-[#04C600] [&_input]:transition-colors [&_input]:h-10"
                           />
                         </div>
                       </FormControl>

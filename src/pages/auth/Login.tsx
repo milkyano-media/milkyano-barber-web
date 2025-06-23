@@ -126,9 +126,8 @@ export default function Login() {
                           <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
                           <PhoneInput
                             {...field}
-                            defaultCountry="AU"
                             placeholder="Enter phone number"
-                            className="pl-10 bg-transparent"
+                            className="pl-10 bg-stone-950/50 [&_input]:border-stone-600 [&_input]:hover:border-stone-500 [&_input]:focus:border-[#04C600] [&_input]:transition-colors [&_input]:h-10"
                           />
                         </div>
                       </FormControl>
