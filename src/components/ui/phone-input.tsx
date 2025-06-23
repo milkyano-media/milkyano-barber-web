@@ -92,7 +92,7 @@ PhoneInput.displayName = "PhoneInput";
 const InputComponent = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, ...props }, ref) => (
     <Input
-      className={cn("rounded-e-lg rounded-s-none bg-transparent border border-stone-500", className)}
+      className={cn("rounded-e-md rounded-s-none", className)}
       {...props}
       ref={ref}
     />
@@ -133,7 +133,7 @@ const CountrySelect = ({
         <Button
           type="button"
           variant={"outline"}
-          className={cn("flex gap-1 rounded-e-none rounded-s-lg px-3 border border-stone-500 bg-transparent")}
+          className={cn("flex gap-1 rounded-e-none rounded-s-md px-3 border border-stone-600 bg-stone-950/50 hover:bg-stone-950/50")}
           // Disable button to prevent country selection
           disabled={true}
         >

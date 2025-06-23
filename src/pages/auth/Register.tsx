@@ -19,7 +19,6 @@ import { isValidPhoneNumber } from 'react-phone-number-input';
 import { register as registerUser } from '@/utils/authApi';
 import { OTPVerificationModal } from '@/components/auth/OTPVerificationModal';
 import Layout from '@/components/web/WebLayout';
-import Logo from '@/components/react-svg/logo';
 import { Eye, EyeOff, User, Mail, Phone, Lock } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
@@ -114,33 +113,32 @@ export default function Register() {
         <meta name="description" content="Create an account to save time on future bookings at Fadelines Barber Shop." />
       </Helmet>
 
-      <section className="min-h-screen bg-[#010401] py-20">
-        <div className="container mx-auto px-4 max-w-md">
-          <div className="text-center mb-8">
-            <Logo className="w-32 h-auto mx-auto mb-6 opacity-90" />
+      <section className="min-h-screen bg-[#010401] py-12 md:py-20">
+        <div className="container mx-auto px-4 max-w-lg">
+          <div className="text-center mb-6">
             <h1 className="text-3xl font-bold text-white mb-2">Create Your Account</h1>
-            <p className="text-gray-400">
+            <p className="text-gray-400 text-sm">
               Save time on future bookings and track your appointments
             </p>
           </div>
 
-          <div className="bg-[#0a0a0a] border border-stone-800 rounded-xl p-8">
+          <div className="bg-stone-900/50 backdrop-blur-sm border border-stone-700/50 rounded-2xl p-6 shadow-2xl">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
                     name="given_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>First Name</FormLabel>
+                        <FormLabel className="text-xs uppercase tracking-wider text-stone-300">First Name</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                             <Input
                               {...field}
                               placeholder="John"
-                              className="pl-10 bg-transparent border-stone-700"
+                              className="pl-10 bg-stone-950/50 border-stone-600 hover:border-stone-500 focus:border-[#04C600] transition-colors"
                             />
                           </div>
                         </FormControl>
@@ -154,14 +152,14 @@ export default function Register() {
                     name="family_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Last Name</FormLabel>
+                        <FormLabel className="text-xs uppercase tracking-wider text-stone-300">Last Name</FormLabel>
                         <FormControl>
                           <div className="relative">
                             <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                             <Input
                               {...field}
                               placeholder="Doe"
-                              className="pl-10 bg-transparent border-stone-700"
+                              className="pl-10 bg-stone-950/50 border-stone-600 hover:border-stone-500 focus:border-[#04C600] transition-colors"
                             />
                           </div>
                         </FormControl>
@@ -176,7 +174,7 @@ export default function Register() {
                   name="email_address"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email Address</FormLabel>
+                      <FormLabel className="text-xs uppercase tracking-wider text-stone-300">Email Address</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -184,7 +182,7 @@ export default function Register() {
                             {...field}
                             type="email"
                             placeholder="john.doe@example.com"
-                            className="pl-10 bg-transparent border-stone-700"
+                            className="pl-10 bg-stone-950/50 border-stone-600 hover:border-stone-500 focus:border-[#04C600] transition-colors"
                           />
                         </div>
                       </FormControl>
@@ -198,7 +196,7 @@ export default function Register() {
                   name="phone_number"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
+                      <FormLabel className="text-xs uppercase tracking-wider text-stone-300">Phone Number</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
@@ -206,7 +204,7 @@ export default function Register() {
                             {...field}
                             defaultCountry="AU"
                             placeholder="Enter phone number"
-                            className="pl-10 bg-transparent"
+                            className="pl-10 bg-stone-950/50 [&_input]:border-stone-600 [&_input]:hover:border-stone-500 [&_input]:focus:border-[#04C600] [&_input]:transition-colors"
                           />
                         </div>
                       </FormControl>
@@ -220,7 +218,7 @@ export default function Register() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel className="text-xs uppercase tracking-wider text-stone-300">Password</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -228,7 +226,7 @@ export default function Register() {
                             {...field}
                             type={showPassword ? 'text' : 'password'}
                             placeholder="Create a strong password"
-                            className="pl-10 pr-10 bg-transparent border-stone-700"
+                            className="pl-10 pr-10 bg-stone-950/50 border-stone-600 hover:border-stone-500 focus:border-[#04C600] transition-colors"
                           />
                           <Button
                             type="button"
@@ -255,7 +253,7 @@ export default function Register() {
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Confirm Password</FormLabel>
+                      <FormLabel className="text-xs uppercase tracking-wider text-stone-300">Confirm Password</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -263,7 +261,7 @@ export default function Register() {
                             {...field}
                             type={showConfirmPassword ? 'text' : 'password'}
                             placeholder="Confirm your password"
-                            className="pl-10 pr-10 bg-transparent border-stone-700"
+                            className="pl-10 pr-10 bg-stone-950/50 border-stone-600 hover:border-stone-500 focus:border-[#04C600] transition-colors"
                           />
                           <Button
                             type="button"
@@ -288,19 +286,19 @@ export default function Register() {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-[#036901] hover:bg-[#025501] py-6 text-lg font-medium"
+                  className="w-full bg-[#04C600] hover:bg-[#03A000] py-3 text-base font-medium text-black transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
                 >
                   {isLoading ? 'Creating Account...' : 'Create Account'}
                 </Button>
               </form>
             </Form>
 
-            <div className="mt-6 text-center">
+            <div className="mt-6 pt-6 border-t border-stone-800 text-center">
               <p className="text-gray-400">
                 Already have an account?{' '}
                 <Link
                   to="/login"
-                  className="text-[#04C600] hover:text-[#03A000] font-medium"
+                  className="text-[#04C600] hover:text-[#03A000] font-medium transition-colors"
                 >
                   Sign In
                 </Link>
