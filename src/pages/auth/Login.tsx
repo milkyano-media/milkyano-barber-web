@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -51,6 +51,11 @@ export default function Login() {
       remember_me: false,
     },
   });
+
+  // Set default phone number only on initial mount
+  useEffect(() => {
+    form.setValue('phone_number', '+61' as any);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: LoginFormData) => {
     try {
@@ -126,7 +131,6 @@ export default function Login() {
                           <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
                           <PhoneInput
                             {...field}
-                            placeholder="Enter phone number"
                             className="pl-10 bg-stone-950/50 [&_input]:border-stone-600 [&_input]:hover:border-stone-500 [&_input]:focus:border-[#04C600] [&_input]:transition-colors [&_input]:h-10"
                           />
                         </div>

@@ -1,41 +1,44 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { PhoneInput } from '@/components/ui/phone-input';
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { useToast } from '@/components/ui/use-toast';
-import { isValidPhoneNumber } from 'react-phone-number-input';
-import { register as registerUser } from '@/utils/authApi';
-import { OTPVerificationModal } from '@/components/auth/OTPVerificationModal';
-import Layout from '@/components/web/WebLayout';
-import { Eye, EyeOff, User, Mail, Phone, Lock } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
+  FormMessage
+} from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
+import { isValidPhoneNumber } from "react-phone-number-input";
+import { register as registerUser } from "@/utils/authApi";
+import { OTPVerificationModal } from "@/components/auth/OTPVerificationModal";
+import Layout from "@/components/web/WebLayout";
+import { Eye, EyeOff, User, Mail, Phone, Lock } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
-const registerSchema = z.object({
-  given_name: z.string().min(1, 'First name is required'),
-  family_name: z.string().min(1, 'Last name is required'),
-  email_address: z.string().email('Invalid email address'),
-  phone_number: z.string().refine(
-    (value) => isValidPhoneNumber(value || ''),
-    { message: 'Please enter a valid phone number' }
-  ),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
+const registerSchema = z
+  .object({
+    given_name: z.string().min(1, "First name is required"),
+    family_name: z.string().min(1, "Last name is required"),
+    email_address: z.string().email("Invalid email address"),
+    phone_number: z
+      .string()
+      .refine((value) => isValidPhoneNumber(value || ""), {
+        message: "Please enter a valid phone number"
+      }),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string()
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"]
+  });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
@@ -44,23 +47,28 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showOTPModal, setShowOTPModal] = useState(false);
-  const [sessionId, setSessionId] = useState('');
-  const [phoneForOTP, setPhoneForOTP] = useState('');
-  
+  const [sessionId, setSessionId] = useState("");
+  const [phoneForOTP, setPhoneForOTP] = useState("");
+
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      given_name: '',
-      family_name: '',
-      email_address: '',
-      phone_number: '',
-      password: '',
-      confirmPassword: '',
-    },
+      given_name: "",
+      family_name: "",
+      email_address: "",
+      phone_number: "",
+      password: "",
+      confirmPassword: ""
+    }
   });
+
+  // Set default phone number only on initial mount
+  useEffect(() => {
+    form.setValue("phone_number", "+61");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
@@ -70,7 +78,7 @@ export default function Register() {
         password: data.password,
         given_name: data.given_name,
         family_name: data.family_name,
-        email_address: data.email_address,
+        email_address: data.email_address
       });
 
       if (response.requires_otp) {
@@ -80,9 +88,12 @@ export default function Register() {
       }
     } catch (error) {
       toast({
-        title: 'Registration Failed',
-        description: error instanceof Error ? error.message : 'An error occurred during registration',
-        variant: 'destructive',
+        title: "Registration Failed",
+        description:
+          error instanceof Error
+            ? error.message
+            : "An error occurred during registration",
+        variant: "destructive"
       });
     } finally {
       setIsLoading(false);
@@ -92,17 +103,17 @@ export default function Register() {
   const handleOTPSuccess = () => {
     setShowOTPModal(false);
     toast({
-      title: 'Welcome!',
-      description: 'Your account has been created successfully.',
+      title: "Welcome!",
+      description: "Your account has been created successfully."
     });
-    
+
     // Check if user came from booking flow
-    const returnUrl = localStorage.getItem('auth_return_url');
+    const returnUrl = localStorage.getItem("auth_return_url");
     if (returnUrl) {
-      localStorage.removeItem('auth_return_url');
+      localStorage.removeItem("auth_return_url");
       navigate(returnUrl);
     } else {
-      navigate('/');
+      navigate("/");
     }
   };
 
@@ -110,13 +121,18 @@ export default function Register() {
     <Layout>
       <Helmet>
         <title>Create Account - Fadelines Barber Shop</title>
-        <meta name="description" content="Create an account to save time on future bookings at Fadelines Barber Shop." />
+        <meta
+          name="description"
+          content="Create an account to save time on future bookings at Fadelines Barber Shop."
+        />
       </Helmet>
 
       <section className="min-h-screen bg-[#010401] py-12 md:py-20">
         <div className="container mx-auto px-4 max-w-lg">
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-white mb-2 mt-4">Create Your Account</h1>
+            <h1 className="text-3xl font-bold text-white mb-2 mt-4">
+              Create Your Account
+            </h1>
             <p className="text-gray-400 text-sm">
               Save time on future bookings and track your appointments
             </p>
@@ -124,14 +140,19 @@ export default function Register() {
 
           <div className="bg-stone-900/50 backdrop-blur-sm border border-stone-700/50 rounded-2xl p-6 shadow-2xl">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
                     name="given_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs uppercase tracking-wider text-stone-300">First Name</FormLabel>
+                        <FormLabel className="text-xs uppercase tracking-wider text-stone-300">
+                          First Name
+                        </FormLabel>
                         <FormControl>
                           <div className="relative">
                             <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -152,7 +173,9 @@ export default function Register() {
                     name="family_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs uppercase tracking-wider text-stone-300">Last Name</FormLabel>
+                        <FormLabel className="text-xs uppercase tracking-wider text-stone-300">
+                          Last Name
+                        </FormLabel>
                         <FormControl>
                           <div className="relative">
                             <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -174,7 +197,9 @@ export default function Register() {
                   name="email_address"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs uppercase tracking-wider text-stone-300">Email Address</FormLabel>
+                      <FormLabel className="text-xs uppercase tracking-wider text-stone-300">
+                        Email Address
+                      </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -196,13 +221,14 @@ export default function Register() {
                   name="phone_number"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs uppercase tracking-wider text-stone-300">Phone Number</FormLabel>
+                      <FormLabel className="text-xs uppercase tracking-wider text-stone-300">
+                        Phone Number
+                      </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
                           <PhoneInput
                             {...field}
-                            placeholder="Enter phone number"
                             className="pl-10 bg-stone-950/50 [&_input]:border-stone-600 [&_input]:hover:border-stone-500 [&_input]:focus:border-[#04C600] [&_input]:transition-colors [&_input]:h-10"
                           />
                         </div>
@@ -217,13 +243,15 @@ export default function Register() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs uppercase tracking-wider text-stone-300">Password</FormLabel>
+                      <FormLabel className="text-xs uppercase tracking-wider text-stone-300">
+                        Password
+                      </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                           <Input
                             {...field}
-                            type={showPassword ? 'text' : 'password'}
+                            type={showPassword ? "text" : "password"}
                             placeholder="Create a strong password"
                             className="pl-10 pr-10 bg-stone-950/50 border-stone-600 hover:border-stone-500 focus:border-[#04C600] transition-colors"
                           />
@@ -252,13 +280,15 @@ export default function Register() {
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs uppercase tracking-wider text-stone-300">Confirm Password</FormLabel>
+                      <FormLabel className="text-xs uppercase tracking-wider text-stone-300">
+                        Confirm Password
+                      </FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                           <Input
                             {...field}
-                            type={showConfirmPassword ? 'text' : 'password'}
+                            type={showConfirmPassword ? "text" : "password"}
                             placeholder="Confirm your password"
                             className="pl-10 pr-10 bg-stone-950/50 border-stone-600 hover:border-stone-500 focus:border-[#04C600] transition-colors"
                           />
@@ -267,7 +297,9 @@ export default function Register() {
                             variant="ghost"
                             size="sm"
                             className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            onClick={() =>
+                              setShowConfirmPassword(!showConfirmPassword)
+                            }
                           >
                             {showConfirmPassword ? (
                               <EyeOff className="h-4 w-4 text-gray-400" />
@@ -287,14 +319,14 @@ export default function Register() {
                   disabled={isLoading}
                   className="w-full bg-[#04C600] hover:bg-[#03A000] py-3 text-base font-medium text-black transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
                 >
-                  {isLoading ? 'Creating Account...' : 'Create Account'}
+                  {isLoading ? "Creating Account..." : "Create Account"}
                 </Button>
               </form>
             </Form>
 
             <div className="mt-6 pt-6 border-t border-stone-800 text-center">
               <p className="text-gray-400">
-                Already have an account?{' '}
+                Already have an account?{" "}
                 <Link
                   to="/login"
                   className="text-[#04C600] hover:text-[#03A000] font-medium transition-colors"
@@ -307,8 +339,11 @@ export default function Register() {
 
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-500">
-              By creating an account, you agree to our{' '}
-              <Link to="/privacy-policy" className="underline hover:text-gray-300">
+              By creating an account, you agree to our{" "}
+              <Link
+                to="/privacy-policy"
+                className="underline hover:text-gray-300"
+              >
                 Privacy Policy
               </Link>
             </p>
@@ -318,7 +353,7 @@ export default function Register() {
 
       {/* OTP Verification Modal */}
       <OTPVerificationModal
-        isOpen={showOTPModal}
+        isOpen={false}
         onClose={() => setShowOTPModal(false)}
         sessionId={sessionId}
         phoneNumber={phoneForOTP}

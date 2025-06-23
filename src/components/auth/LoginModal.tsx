@@ -1,31 +1,32 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { PhoneInput } from '@/components/ui/phone-input';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { useAuth } from '@/hooks/useAuth';
-import { login } from '@/utils/authApi';
-import { useToast } from '@/components/ui/use-toast';
-import Logo from '@/components/react-svg/logo';
-import { isValidPhoneNumber } from 'react-phone-number-input';
+  FormMessage
+} from "@/components/ui/form";
+import { useAuth } from "@/hooks/useAuth";
+import { login } from "@/utils/authApi";
+import { useToast } from "@/components/ui/use-toast";
+import Logo from "@/components/react-svg/logo";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 const loginSchema = z.object({
-  phone_number: z.string().refine(
-    (value) => isValidPhoneNumber(value || ''),
-    { message: 'Please enter a valid phone number' }
-  ),
-  password: z.string().min(1, 'Password is required'),
+  phone_number: z
+    .string()
+    .refine((value) => isValidPhoneNumber(value || ""), {
+      message: "Please enter a valid phone number"
+    }),
+  password: z.string().min(1, "Password is required")
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -37,7 +38,12 @@ interface LoginModalProps {
   onForgotPassword?: () => void;
 }
 
-export const LoginModal = ({ isOpen, onClose, onSuccess, onForgotPassword }: LoginModalProps) => {
+export const LoginModal = ({
+  isOpen,
+  onClose,
+  onSuccess,
+  onForgotPassword
+}: LoginModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { login: authLogin } = useAuth();
   const { toast } = useToast();
@@ -45,21 +51,28 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onForgotPassword }: Log
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      phone_number: '',
-      password: '',
-    },
+      phone_number: "",
+      password: ""
+    }
   });
+
+  // Set default phone number when modal first opens
+  useEffect(() => {
+    if (isOpen) {
+      form.setValue("phone_number", "+61" as any);
+    }
+  }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: LoginFormData) => {
     try {
       setIsLoading(true);
       const response = await login(data);
-      
+
       if (response.success) {
         authLogin(response.token, response.customer);
         toast({
-          title: 'Success',
-          description: 'You have successfully logged in!',
+          title: "Success",
+          description: "You have successfully logged in!"
         });
         onSuccess?.();
         onClose();
@@ -67,9 +80,12 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onForgotPassword }: Log
       }
     } catch (error) {
       toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Invalid phone number or password',
-        variant: 'destructive',
+        title: "Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Invalid phone number or password",
+        variant: "destructive"
       });
     } finally {
       setIsLoading(false);
@@ -94,7 +110,10 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onForgotPassword }: Log
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4 mt-4"
+          >
             <FormField
               control={form.control}
               name="phone_number"
@@ -104,7 +123,6 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onForgotPassword }: Log
                   <FormControl>
                     <PhoneInput
                       {...field}
-                      placeholder="Enter phone number"
                       className="bg-transparent [&_input]:h-10"
                     />
                   </FormControl>
@@ -148,12 +166,12 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onForgotPassword }: Log
               disabled={isLoading}
               className="w-full bg-[#036901] hover:bg-[#025501]"
             >
-              {isLoading ? 'Logging in...' : 'Login'}
+              {isLoading ? "Logging in..." : "Login"}
             </Button>
 
             <div className="mt-4 text-center">
               <p className="text-sm text-gray-400">
-                Don't have an account?{' '}
+                Don't have an account?{" "}
                 <a
                   href="/register"
                   className="text-[#04C600] hover:text-[#03A000] font-medium"
@@ -161,10 +179,13 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onForgotPassword }: Log
                     e.preventDefault();
                     onClose();
                     // Store return URL if in booking flow
-                    if (window.location.pathname.includes('/book/')) {
-                      localStorage.setItem('auth_return_url', window.location.pathname);
+                    if (window.location.pathname.includes("/book/")) {
+                      localStorage.setItem(
+                        "auth_return_url",
+                        window.location.pathname
+                      );
                     }
-                    window.location.href = '/register';
+                    window.location.href = "/register";
                   }}
                 >
                   Create Account

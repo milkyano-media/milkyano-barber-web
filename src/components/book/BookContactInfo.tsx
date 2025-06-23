@@ -397,6 +397,11 @@ const BookContactInfo = () => {
     }
   });
   
+  // Set default phone number on mount
+  useEffect(() => {
+    form.setValue('phone_number', '+61' as any);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  
   // Auto-fill form when authenticated
   useEffect(() => {
     if (isAuthenticated && authCustomer) {
@@ -530,7 +535,6 @@ const BookContactInfo = () => {
                     <FormItem>
                       <FormControl>
                         <PhoneInput
-                          placeholder='Enter phone number'
                           className='[&_input]:h-10 [&_input]:border-stone-500'
                           {...field}
                           onBlur={() => {
