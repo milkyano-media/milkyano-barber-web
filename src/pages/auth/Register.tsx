@@ -65,9 +65,24 @@ export default function Register() {
     }
   });
 
-  // Set default phone number only on initial mount
+  // Set default values from localStorage or defaults on initial mount
   useEffect(() => {
-    form.setValue("phone_number", "+61");
+    // Try to load saved booking form data
+    const savedFormData = localStorage.getItem('booking_form_data');
+    if (savedFormData) {
+      try {
+        const parsedData = JSON.parse(savedFormData);
+        form.setValue('given_name', parsedData.given_name || '');
+        form.setValue('family_name', parsedData.family_name || '');
+        form.setValue('email_address', parsedData.email_address || '');
+        form.setValue('phone_number', parsedData.phone_number || '+61');
+      } catch (error) {
+        console.error('Error loading saved form data:', error);
+        form.setValue("phone_number", "+61");
+      }
+    } else {
+      form.setValue("phone_number", "+61");
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: RegisterFormData) => {
@@ -106,6 +121,9 @@ export default function Register() {
       title: "Welcome!",
       description: "Your account has been created successfully."
     });
+
+    // Clear saved booking form data after successful registration
+    localStorage.removeItem('booking_form_data');
 
     // Check if user came from booking flow
     const returnUrl = localStorage.getItem("auth_return_url");
