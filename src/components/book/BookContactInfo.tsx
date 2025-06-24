@@ -60,7 +60,6 @@ const BookContactInfo = () => {
   const [showAuthRequiredModal, setShowAuthRequiredModal] = useState(false);
 
   const { isAuthenticated, customer: authCustomer } = useAuth();
-  const { toast } = useToast();
 
   const generateRoute = (route: string): string => {
     const parts = location.pathname.split("/");
