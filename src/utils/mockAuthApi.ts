@@ -233,7 +233,7 @@ export const mockRequestOTP = async (data: OTPRequestPayload): Promise<OTPReques
 };
 
 // Get current customer (validates token)
-export const mockGetCurrentCustomer = async (token: string): Promise<CustomerDetail> => {
+export const mockGetCurrentCustomer = async (_token: string): Promise<CustomerDetail> => {
   await new Promise(resolve => setTimeout(resolve, 500));
   
   // For mock purposes, return the first customer

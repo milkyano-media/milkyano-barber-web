@@ -18,6 +18,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { login } from '@/utils/authApi';
 import { useToast } from '@/components/ui/use-toast';
 import { isValidPhoneNumber } from 'react-phone-number-input';
+import * as RPNInput from 'react-phone-number-input';
 import Layout from '@/components/web/WebLayout';
 import Logo from '@/components/react-svg/logo';
 import { Eye, EyeOff, Lock } from 'lucide-react';
@@ -119,6 +120,7 @@ export default function Login() {
                       <FormControl>
                         <PhoneInput
                           {...field}
+                          value={field.value as RPNInput.Value}
                           className="bg-stone-950/50 [&_input]:border-stone-600 [&_input]:hover:border-stone-500 [&_input]:focus:border-[#04C600] [&_input]:transition-colors [&_input]:h-10"
                         />
                       </FormControl>

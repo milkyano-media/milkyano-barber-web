@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import * as RPNInput from "react-phone-number-input";
 import { register as registerUser } from "@/utils/authApi";
 import { OTPVerificationModal } from "@/components/auth/OTPVerificationModal";
 import Layout from "@/components/web/WebLayout";
@@ -252,6 +253,7 @@ export default function Register() {
                       <FormControl>
                         <PhoneInput
                           {...field}
+                          value={field.value as RPNInput.Value}
                           className="bg-stone-950/50 [&_input]:border-stone-600 [&_input]:hover:border-stone-500 [&_input]:focus:border-[#04C600] [&_input]:transition-colors [&_input]:h-10"
                         />
                       </FormControl>

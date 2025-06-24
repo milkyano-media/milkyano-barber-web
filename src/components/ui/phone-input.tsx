@@ -75,7 +75,6 @@ const InputComponent = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, onChange, onKeyDown, ...props }, ref) => {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       const input = e.currentTarget;
-      const value = input.value;
       const cursorPos = input.selectionStart || 0;
       
       // Prevent deletion of "+61 " prefix

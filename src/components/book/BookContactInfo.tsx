@@ -47,7 +47,6 @@ import { CustomerStatus } from "@/interfaces/UserInterface";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { useAuth } from "@/hooks/useAuth";
 import { checkPhone } from "@/utils/authApi";
-import { useToast } from "@/components/ui/use-toast";
 
 const BookContactInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -617,6 +616,7 @@ const BookContactInfo = () => {
                         <PhoneInput
                           className="[&_input]:h-10 [&_input]:border-stone-500"
                           {...field}
+                          value={field.value as RPNInput.Value}
                           onBlur={() => {
                             field.onBlur();
                             handlePhoneBlur();

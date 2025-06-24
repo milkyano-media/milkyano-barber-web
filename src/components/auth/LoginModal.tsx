@@ -19,6 +19,7 @@ import { login } from "@/utils/authApi";
 import { useToast } from "@/components/ui/use-toast";
 import Logo from "@/components/react-svg/logo";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import * as RPNInput from "react-phone-number-input";
 
 const loginSchema = z.object({
   phone_number: z
@@ -130,6 +131,7 @@ export const LoginModal = ({
                   <FormControl>
                     <PhoneInput
                       {...field}
+                      value={field.value as RPNInput.Value}
                       className="bg-transparent [&_input]:h-10"
                     />
                   </FormControl>

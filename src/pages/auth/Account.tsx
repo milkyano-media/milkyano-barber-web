@@ -56,7 +56,7 @@ export default function Account() {
     },
   });
 
-  const onSubmit = async (data: ProfileFormData) => {
+  const onSubmit = async (_data: ProfileFormData) => {
     try {
       setIsLoading(true);
       // In a real implementation, this would call an API to update the profile
