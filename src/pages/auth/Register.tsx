@@ -19,7 +19,7 @@ import { isValidPhoneNumber } from "react-phone-number-input";
 import { register as registerUser } from "@/utils/authApi";
 import { OTPVerificationModal } from "@/components/auth/OTPVerificationModal";
 import Layout from "@/components/web/WebLayout";
-import { Eye, EyeOff, User, Mail, Phone, Lock } from "lucide-react";
+import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
 const registerSchema = z
@@ -225,13 +225,10 @@ export default function Register() {
                         Phone Number
                       </FormLabel>
                       <FormControl>
-                        <div className="relative">
-                          <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                          <PhoneInput
-                            {...field}
-                            className="pl-10 bg-stone-950/50 [&_input]:border-stone-600 [&_input]:hover:border-stone-500 [&_input]:focus:border-[#04C600] [&_input]:transition-colors [&_input]:h-10"
-                          />
-                        </div>
+                        <PhoneInput
+                          {...field}
+                          className="bg-stone-950/50 [&_input]:border-stone-600 [&_input]:hover:border-stone-500 [&_input]:focus:border-[#04C600] [&_input]:transition-colors [&_input]:h-10"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -353,7 +350,7 @@ export default function Register() {
 
       {/* OTP Verification Modal */}
       <OTPVerificationModal
-        isOpen={false}
+        isOpen={showOTPModal}
         onClose={() => setShowOTPModal(false)}
         sessionId={sessionId}
         phoneNumber={phoneForOTP}

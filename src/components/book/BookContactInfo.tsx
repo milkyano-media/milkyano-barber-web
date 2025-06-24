@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { PhoneInput } from '@/components/ui/phone-input';
+import * as RPNInput from "react-phone-number-input";
 import CancelationBar from '@/assets/book/cancelation_bar.svg';
 import { v4 as uuidv4 } from 'uuid';
 import { useState, useEffect } from 'react';
@@ -392,15 +393,10 @@ const BookContactInfo = () => {
       given_name: '',
       family_name: '',
       email_address: '',
-      phone_number: '',
+      phone_number: '+61' as RPNInput.Value,
       appointment_note: ''
     }
   });
-  
-  // Set default phone number on mount
-  useEffect(() => {
-    form.setValue('phone_number', '+61' as any);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   
   // Auto-fill form when authenticated
   useEffect(() => {

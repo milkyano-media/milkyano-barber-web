@@ -21,7 +21,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import Layout from '@/components/web/WebLayout';
 import Logo from '@/components/react-svg/logo';
-import { Eye, EyeOff, Phone, Lock } from 'lucide-react';
+import { Eye, EyeOff, Lock } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
 const loginSchema = z.object({
@@ -127,13 +127,10 @@ export default function Login() {
                     <FormItem>
                       <FormLabel>Phone Number</FormLabel>
                       <FormControl>
-                        <div className="relative">
-                          <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 z-10" />
-                          <PhoneInput
-                            {...field}
-                            className="pl-10 bg-stone-950/50 [&_input]:border-stone-600 [&_input]:hover:border-stone-500 [&_input]:focus:border-[#04C600] [&_input]:transition-colors [&_input]:h-10"
-                          />
-                        </div>
+                        <PhoneInput
+                          {...field}
+                          className="bg-stone-950/50 [&_input]:border-stone-600 [&_input]:hover:border-stone-500 [&_input]:focus:border-[#04C600] [&_input]:transition-colors [&_input]:h-10"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

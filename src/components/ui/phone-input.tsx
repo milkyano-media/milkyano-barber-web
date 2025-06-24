@@ -41,21 +41,22 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
           flagComponent={FlagComponent}
           countrySelectComponent={CountrySelect}
           inputComponent={InputComponent}
-          // Default to Australia but allow changes
+          // Lock to Australia only
           defaultCountry="AU"
-          // Use national format to allow full editing of the number
-          international={false}
+          country="AU"
+          // Force international format to ensure +61 prefix
+          international={true}
+          // Disable country selection
+          countrySelectProps={{ disabled: true }}
           // Pass the value directly
           value={value}
           /**
            * Handles the onChange event.
            * 
            * UX considerations:
-           * - With international={false}, users can type/delete freely
-           * - Backspace works naturally through the entire number
-           * - Copy/paste of +61... numbers will be parsed correctly
-           * - Copy/paste of 04... numbers work as expected
-           * - The library handles number formatting based on selected country
+           * - Locked to Australian numbers only
+           * - Always shows +61 prefix
+           * - Proper formatting for Australian mobile/landline numbers
            *
            * @param {E164Number | undefined} value - The entered value
            */
@@ -77,29 +78,40 @@ const InputComponent = React.forwardRef<HTMLInputElement, InputProps>(
       const value = input.value;
       const cursorPos = input.selectionStart || 0;
       
-      // Handle backspace on "+61" to become "+6"
-      if (e.key === 'Backspace' && value === '+61' && cursorPos === 3) {
+      // Prevent deletion of "+61 " prefix
+      if (e.key === 'Backspace' && cursorPos <= 4) {
         e.preventDefault();
-        // Manually set the value to "+6"
-        input.value = '+6';
-        // Trigger change event
-        const event = new Event('input', { bubbles: true });
-        input.dispatchEvent(event);
-        // Set cursor position
-        setTimeout(() => {
-          input.setSelectionRange(2, 2);
-        }, 0);
+        return;
       }
       
       // Call original onKeyDown if exists
       onKeyDown?.(e);
     };
     
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const input = e.currentTarget;
+      let value = input.value;
+      
+      // Ensure the value always starts with "+61 "
+      if (!value.startsWith('+61 ')) {
+        // If user tries to paste or type something that doesn't start with +61
+        if (!value.startsWith('+61')) {
+          value = '+61 ' + value.replace(/^\+?61?\s*/, '');
+        } else if (value === '+61') {
+          value = '+61 ';
+        }
+        input.value = value;
+      }
+      
+      // Call original onChange if exists
+      onChange?.(e);
+    };
+    
     return (
       <Input
         className={cn("rounded-e-md rounded-s-none h-10", className)}
         {...props}
-        onChange={onChange}
+        onChange={handleChange}
         onKeyDown={handleKeyDown}
         ref={ref}
       />
@@ -137,7 +149,8 @@ const CountrySelect = ({
           type="button"
           variant={"outline"}
           className={cn(
-            "flex gap-1 rounded-e-none rounded-s-md px-3 h-10 border border-stone-600 bg-stone-950/50 hover:bg-stone-900/70 hover:border-stone-500 transition-colors"
+            "flex gap-1 rounded-e-none rounded-s-md px-3 h-10 border border-stone-600 bg-stone-950/50",
+            disabled && "cursor-not-allowed opacity-60"
           )}
           disabled={disabled}
         >
