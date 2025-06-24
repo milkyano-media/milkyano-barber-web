@@ -472,7 +472,7 @@ const BookContactInfo = () => {
     setShowAuthRequiredModal(false);
     // Store return URL to come back after registration
     localStorage.setItem("auth_return_url", window.location.pathname);
-    navigate("/register");
+    navigate(`/register?redirect=${encodeURIComponent(window.location.pathname)}`);
   };
 
   // Handle Sign In button in auth required modal
@@ -569,8 +569,8 @@ const BookContactInfo = () => {
                 <div className="col-span-2">
                   <div className="bg-amber-900/20 border border-amber-600/50 rounded-lg p-3">
                     <p className="text-xs text-amber-200 mb-2">
-                      <strong>Login Required:</strong> You need an account to
-                      book appointments.
+                      <strong>Login Required:</strong> You need to create an account to
+                      book appointments. It will save time on future bookings.
                     </p>
                     <div className="flex gap-2">
                       <Button
@@ -583,7 +583,7 @@ const BookContactInfo = () => {
                         Sign In
                       </Button>
                       <Link
-                        to="/register"
+                        to={`/register?redirect=${encodeURIComponent(window.location.pathname)}`}
                         className="flex-1"
                         onClick={() => {
                           localStorage.setItem(

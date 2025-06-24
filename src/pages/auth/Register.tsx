@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -51,6 +51,7 @@ export default function Register() {
   const [phoneForOTP, setPhoneForOTP] = useState("");
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
 
   const form = useForm<RegisterFormData>({
@@ -125,13 +126,19 @@ export default function Register() {
     // Clear saved booking form data after successful registration
     localStorage.removeItem('booking_form_data');
 
-    // Check if user came from booking flow
-    const returnUrl = localStorage.getItem("auth_return_url");
-    if (returnUrl) {
-      localStorage.removeItem("auth_return_url");
-      navigate(returnUrl);
+    // Check for redirect query parameter first
+    const redirectParam = searchParams.get("redirect");
+    if (redirectParam) {
+      navigate(redirectParam);
     } else {
-      navigate("/");
+      // Fall back to localStorage
+      const returnUrl = localStorage.getItem("auth_return_url");
+      if (returnUrl) {
+        localStorage.removeItem("auth_return_url");
+        navigate(returnUrl);
+      } else {
+        navigate("/");
+      }
     }
   };
 

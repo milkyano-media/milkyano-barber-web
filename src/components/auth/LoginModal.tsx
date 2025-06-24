@@ -191,8 +191,10 @@ export const LoginModal = ({
                         "auth_return_url",
                         window.location.pathname
                       );
+                      window.location.href = `/register?redirect=${encodeURIComponent(window.location.pathname)}`;
+                    } else {
+                      window.location.href = "/register";
                     }
-                    window.location.href = "/register";
                   }}
                 >
                   Create Account
