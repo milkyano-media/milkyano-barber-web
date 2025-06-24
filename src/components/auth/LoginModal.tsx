@@ -36,13 +36,15 @@ interface LoginModalProps {
   onClose: () => void;
   onSuccess?: () => void;
   onForgotPassword?: () => void;
+  contextMessage?: string;
 }
 
 export const LoginModal = ({
   isOpen,
   onClose,
   onSuccess,
-  onForgotPassword
+  onForgotPassword,
+  contextMessage
 }: LoginModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { login: authLogin } = useAuth();
@@ -107,6 +109,11 @@ export const LoginModal = ({
             <Logo className="w-32 h-auto opacity-90" />
           </div>
           <h2 className="text-xl font-semibold text-center">Welcome Back</h2>
+          {contextMessage && (
+            <p className="text-sm text-amber-200 text-center bg-amber-900/20 border border-amber-600/50 rounded-md px-3 py-2">
+              {contextMessage}
+            </p>
+          )}
         </DialogHeader>
 
         <Form {...form}>

@@ -47,6 +47,7 @@ import { CustomerStatus } from '@/interfaces/UserInterface';
 import { LoginModal } from '@/components/auth/LoginModal';
 import { useAuth } from '@/hooks/useAuth';
 import { checkPhone } from '@/utils/authApi';
+import { useToast } from '@/components/ui/use-toast';
 
 const BookContactInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +59,7 @@ const BookContactInfo = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   
   const { isAuthenticated, customer: authCustomer } = useAuth();
+  const { toast } = useToast();
 
   const generateRoute = (route: string): string => {
     const parts = location.pathname.split('/');
@@ -267,6 +269,17 @@ const BookContactInfo = () => {
   };
 
   const submitContactForm = async (values: z.infer<typeof formSchema>) => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      toast({
+        title: "Login Required",
+        description: "Please sign in or create an account to book an appointment",
+        variant: "destructive"
+      });
+      setShowLoginModal(true);
+      return;
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { appointment_note, ...restValues } = values;
     const valuesWithIdempotencyKey: CustomerRequest = {
@@ -497,7 +510,7 @@ const BookContactInfo = () => {
             <div className='flex flex-col gap-4 col-span-2 mr-4'>
               <div className='flex justify-between'>
                 <h3 className='text-sm font-medium'>Contact Info</h3>
-                {isAuthenticated && authCustomer ? (
+                {isAuthenticated && authCustomer && (
                   <div className='flex items-center gap-2'>
                     <span className='text-sm text-gray-400'>
                       Signed in as {authCustomer.given_name}
@@ -511,15 +524,6 @@ const BookContactInfo = () => {
                       Change
                     </Button>
                   </div>
-                ) : (
-                  <Button
-                    type='button'
-                    variant='ghost'
-                    onClick={() => setShowLoginModal(true)}
-                    className='text-sm font-medium text-[#04C600] hover:text-[#03A000] p-0 h-auto'
-                  >
-                    Sign In
-                  </Button>
                 )}
               </div>
 
@@ -600,25 +604,36 @@ const BookContactInfo = () => {
                 {/* Create account prompt for new users */}
                 {!isAuthenticated && (
                   <div className='mt-6'>
-                    <div className='bg-stone-900 border border-stone-800 rounded-lg p-4'>
-                      <p className='text-sm text-gray-300 mb-3'>
-                        Want to save time on future bookings?
+                    <div className='bg-amber-900/20 border border-amber-600/50 rounded-lg p-4'>
+                      <p className='text-sm text-amber-200 mb-3'>
+                        <strong>Login Required:</strong> You need to create an account to book appointments. It will save time on future bookings.
                       </p>
-                      <Link
-                        to="/register"
-                        onClick={() => {
-                          // Store current booking info to restore after registration
-                          localStorage.setItem('auth_return_url', window.location.pathname);
-                        }}
-                      >
+                      <div className='flex gap-3'>
                         <Button
                           type="button"
                           variant="outline"
-                          className="w-full border-[#04C600] text-[#04C600] hover:bg-[#04C600] hover:text-white"
+                          className="flex-1 border-[#04C600] text-[#04C600] hover:bg-[#04C600] hover:text-white"
+                          onClick={() => setShowLoginModal(true)}
                         >
-                          Create an Account
+                          Sign In
                         </Button>
-                      </Link>
+                        <Link
+                          to="/register"
+                          className="flex-1"
+                          onClick={() => {
+                            // Store current booking info to restore after registration
+                            localStorage.setItem('auth_return_url', window.location.pathname);
+                          }}
+                        >
+                          <Button
+                            type="button"
+                            variant="outline"
+                            className="w-full bg-[#04C600] text-white hover:bg-[#03A000] border-[#04C600]"
+                          >
+                            Create Account
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -762,6 +777,7 @@ const BookContactInfo = () => {
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
         onSuccess={handleLoginSuccess}
+        contextMessage="Please sign in to complete your booking"
       />
     </section>
   );
