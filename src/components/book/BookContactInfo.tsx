@@ -827,7 +827,11 @@ const BookContactInfo = () => {
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
         onSuccess={handleLoginSuccess}
-        contextMessage="Please sign in to complete your booking"
+        contextMessage={
+          isAuthenticated 
+            ? "Sign in to a different account" 
+            : "Please sign in to complete your booking"
+        }
       />
 
       {/* Auth Required Modal */}
