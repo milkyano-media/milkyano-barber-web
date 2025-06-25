@@ -13,6 +13,7 @@ export interface RegisterResponse {
   requires_otp: boolean;
   session_id: string;
   message: string;
+  mock_otp?: string; // Only included in development/mock mode
 }
 
 export interface VerifyRegistrationPayload {
@@ -48,6 +49,7 @@ export interface OTPRequestResponse {
   success: boolean;
   message: string;
   expires_at?: string;
+  mock_otp?: string; // Only included in development/mock mode
 }
 
 // Mock data storage
@@ -125,7 +127,8 @@ export const mockRegister = async (data: RegisterPayload): Promise<RegisterRespo
   return {
     requires_otp: true,
     session_id: sessionId,
-    message: 'OTP sent successfully'
+    message: 'OTP sent successfully',
+    mock_otp: otp // Include OTP in response for development testing
   };
 };
 
@@ -228,12 +231,13 @@ export const mockRequestOTP = async (data: OTPRequestPayload): Promise<OTPReques
   return {
     success: true,
     message: 'OTP sent successfully',
-    expires_at: new Date(Date.now() + 5 * 60 * 1000).toISOString()
+    expires_at: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
+    mock_otp: otp // Include OTP in response for development testing
   };
 };
 
 // Get current customer (validates token)
-export const mockGetCurrentCustomer = async (_token: string): Promise<CustomerDetail> => {
+export const mockGetCurrentCustomer = async (): Promise<CustomerDetail> => {
   await new Promise(resolve => setTimeout(resolve, 500));
   
   // For mock purposes, return the first customer

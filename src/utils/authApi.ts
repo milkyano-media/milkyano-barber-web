@@ -70,7 +70,7 @@ export const requestOTP = async (data: OTPRequestPayload): Promise<OTPRequestRes
 // Get current customer info
 export const getCurrentCustomer = async (token: string): Promise<CustomerDetail> => {
   if (USE_MOCK_API) {
-    return mockGetCurrentCustomer(token);
+    return mockGetCurrentCustomer();
   }
   const response: AxiosResponse<CustomerDetail> = await apiSquare.get('/web/auth/me', {
     headers: {

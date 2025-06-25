@@ -50,6 +50,7 @@ export default function Register() {
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [sessionId, setSessionId] = useState("");
   const [phoneForOTP, setPhoneForOTP] = useState("");
+  const [mockOTP, setMockOTP] = useState<string | undefined>();
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -101,6 +102,7 @@ export default function Register() {
       if (response.requires_otp) {
         setSessionId(response.session_id);
         setPhoneForOTP(data.phone_number);
+        setMockOTP(response.mock_otp); // Store mock OTP if available
         setShowOTPModal(true);
       }
     } catch (error) {
@@ -382,6 +384,7 @@ export default function Register() {
         sessionId={sessionId}
         phoneNumber={phoneForOTP}
         onSuccess={handleOTPSuccess}
+        mockOTP={mockOTP}
       />
     </Layout>
   );

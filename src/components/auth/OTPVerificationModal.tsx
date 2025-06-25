@@ -31,6 +31,7 @@ interface OTPVerificationModalProps {
   sessionId: string;
   phoneNumber: string;
   onSuccess?: () => void;
+  mockOTP?: string; // Mock OTP for development testing
 }
 
 export const OTPVerificationModal = ({ 
@@ -38,7 +39,8 @@ export const OTPVerificationModal = ({
   onClose, 
   sessionId, 
   phoneNumber,
-  onSuccess 
+  onSuccess,
+  mockOTP 
 }: OTPVerificationModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(60);
@@ -138,6 +140,21 @@ export const OTPVerificationModal = ({
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
+            {/* Mock OTP display for testing */}
+            {mockOTP && (
+              <div className="bg-amber-900/20 border border-amber-600/50 rounded-md p-4 mb-4">
+                <p className="text-amber-200 text-sm font-medium mb-1">
+                  🧪 TEST MODE - Your OTP Code:
+                </p>
+                <p className="text-amber-100 text-2xl font-mono tracking-wider text-center">
+                  {mockOTP}
+                </p>
+                <p className="text-amber-200/70 text-xs mt-2 text-center">
+                  This is only visible in test mode
+                </p>
+              </div>
+            )}
+            
             <FormField
               control={form.control}
               name="otp_code"
