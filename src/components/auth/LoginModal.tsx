@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PhoneInput } from "@/components/ui/phone-input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -18,15 +17,11 @@ import { useAuth } from "@/hooks/useAuth";
 import { login } from "@/utils/authApi";
 import { useToast } from "@/components/ui/use-toast";
 import Logo from "@/components/react-svg/logo";
-import { isValidPhoneNumber } from "react-phone-number-input";
-import * as RPNInput from "react-phone-number-input";
 
 const loginSchema = z.object({
-  phone_number: z
+  emailOrPhone: z
     .string()
-    .refine((value) => isValidPhoneNumber(value || ""), {
-      message: "Please enter a valid phone number"
-    }),
+    .min(1, "Email or phone number is required"),
   password: z.string().min(1, "Password is required")
 });
 
@@ -54,33 +49,30 @@ export const LoginModal = ({
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      phone_number: "",
+      emailOrPhone: "",
       password: ""
     }
   });
-
-  // Set default phone number when modal first opens
-  useEffect(() => {
-    if (isOpen) {
-      form.setValue("phone_number", "+61");
-    }
-  }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = async (data: LoginFormData) => {
     try {
       setIsLoading(true);
       const response = await login(data);
 
-      if (response.success) {
-        authLogin(response.token, response.customer);
-        toast({
-          title: "Success",
-          description: "You have successfully logged in!"
-        });
-        onSuccess?.();
-        onClose();
-        form.reset();
-      }
+      // Store tokens
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
+      
+      authLogin(response.accessToken, response.user);
+      
+      toast({
+        title: "Success",
+        description: "You have successfully logged in!"
+      });
+      
+      onSuccess?.();
+      onClose();
+      form.reset();
     } catch (error) {
       toast({
         title: "Error",
@@ -124,15 +116,16 @@ export const LoginModal = ({
           >
             <FormField
               control={form.control}
-              name="phone_number"
+              name="emailOrPhone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
+                  <FormLabel>Email or Phone Number</FormLabel>
                   <FormControl>
-                    <PhoneInput
+                    <Input
                       {...field}
-                      value={field.value as RPNInput.Value}
-                      className="bg-transparent [&_input]:h-10"
+                      type="text"
+                      placeholder="Enter email or phone number"
+                      className="bg-transparent"
                     />
                   </FormControl>
                   <FormMessage />

@@ -15,7 +15,7 @@ import {
   FormDescription,
 } from '@/components/ui/form';
 import { useAuth } from '@/hooks/useAuth';
-import { verifyRegistration } from '@/utils/authApi';
+import { verifyOTP, requestOTP } from '@/utils/authApi';
 import { useToast } from '@/components/ui/use-toast';
 import Logo from '@/components/react-svg/logo';
 
@@ -28,19 +28,17 @@ type OTPFormData = z.infer<typeof otpSchema>;
 interface OTPVerificationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  sessionId: string;
   phoneNumber: string;
   onSuccess?: () => void;
-  mockOTP?: string; // Mock OTP for development testing
+  isRegistration?: boolean; // Whether this is for registration or login
 }
 
 export const OTPVerificationModal = ({ 
   isOpen, 
   onClose, 
-  sessionId, 
   phoneNumber,
   onSuccess,
-  mockOTP 
+  isRegistration = false
 }: OTPVerificationModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(60);
@@ -76,31 +74,28 @@ export const OTPVerificationModal = ({
   const onSubmit = async (data: OTPFormData) => {
     try {
       setIsLoading(true);
-      const response = await verifyRegistration({
-        session_id: sessionId,
-        otp_code: data.otp_code,
+      const response = await verifyOTP(phoneNumber, data.otp_code);
+      
+      // Store tokens
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
+      
+      authLogin(response.accessToken, response.user);
+      
+      toast({
+        title: 'Success',
+        description: isRegistration 
+          ? 'Your account has been verified successfully!' 
+          : 'You have successfully logged in!',
       });
       
-      if (response.success) {
-        authLogin(response.token, response.customer);
-        toast({
-          title: 'Success',
-          description: 'Your account has been created successfully!',
-        });
-        onSuccess?.();
-        onClose();
-        form.reset();
-      } else {
-        toast({
-          title: 'Error',
-          description: response.message || 'Invalid OTP code',
-          variant: 'destructive',
-        });
-      }
+      onSuccess?.();
+      onClose();
+      form.reset();
     } catch (error) {
       toast({
         title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to verify OTP',
+        description: error instanceof Error ? error.message : 'Invalid OTP code',
         variant: 'destructive',
       });
     } finally {
@@ -109,13 +104,21 @@ export const OTPVerificationModal = ({
   };
 
   const handleResend = async () => {
-    // In a real implementation, this would call an API to resend OTP
-    toast({
-      title: 'OTP Resent',
-      description: 'A new OTP has been sent to your phone',
-    });
-    setResendTimer(60);
-    setCanResend(false);
+    try {
+      await requestOTP(phoneNumber);
+      toast({
+        title: 'OTP Resent',
+        description: 'A new OTP has been sent to your phone',
+      });
+      setResendTimer(60);
+      setCanResend(false);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to resend OTP. Please try again.',
+        variant: 'destructive',
+      });
+    }
   };
 
   const handleOpenChange = (open: boolean) => {
@@ -140,20 +143,6 @@ export const OTPVerificationModal = ({
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
-            {/* Mock OTP display for testing */}
-            {mockOTP && (
-              <div className="bg-amber-900/20 border border-amber-600/50 rounded-md p-4 mb-4">
-                <p className="text-amber-200 text-sm font-medium mb-1">
-                  🧪 TEST MODE - Your OTP Code:
-                </p>
-                <p className="text-amber-100 text-2xl font-mono tracking-wider text-center">
-                  {mockOTP}
-                </p>
-                <p className="text-amber-200/70 text-xs mt-2 text-center">
-                  This is only visible in test mode
-                </p>
-              </div>
-            )}
             
             <FormField
               control={form.control}

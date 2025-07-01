@@ -1,94 +1,79 @@
-import { apiSquare } from './apiClients';
+import { apiClient } from './apiClients';
 import { AxiosResponse } from 'axios';
-import { CustomerDetail } from '@/interfaces/BookingInterface';
 import {
-  mockCheckPhone,
-  mockRegister,
-  mockVerifyRegistration,
-  mockLogin,
-  mockRequestOTP,
-  mockGetCurrentCustomer,
   RegisterPayload,
   RegisterResponse,
-  VerifyRegistrationPayload,
+  RequestOTPPayload,
+  RequestOTPResponse,
+  VerifyOTPPayload,
+  VerifyOTPResponse,
+  RefreshTokenPayload,
+  RefreshTokenResponse,
+  GetMeResponse,
   LoginPayload,
-  AuthResponse,
-  CheckPhonePayload,
-  CheckPhoneResponse,
-  OTPRequestPayload,
-  OTPRequestResponse
-} from './mockAuthApi';
-
-// Toggle this for development/testing
-const USE_MOCK_API = true;
-
-// Check if phone number exists
-export const checkPhone = async (data: CheckPhonePayload): Promise<CheckPhoneResponse> => {
-  if (USE_MOCK_API) {
-    return mockCheckPhone(data);
-  }
-  const response: AxiosResponse<CheckPhoneResponse> = await apiSquare.post('/web/auth/check-phone', data);
-  return response.data;
-};
+  LoginResponse
+} from '@/interfaces/AuthInterface';
 
 // Register new customer
 export const register = async (data: RegisterPayload): Promise<RegisterResponse> => {
-  if (USE_MOCK_API) {
-    return mockRegister(data);
-  }
-  const response: AxiosResponse<RegisterResponse> = await apiSquare.post('/web/auth/register', data);
+  const response: AxiosResponse<RegisterResponse> = await apiClient.post('/auth/register', data);
   return response.data;
 };
 
-// Verify registration with OTP
-export const verifyRegistration = async (data: VerifyRegistrationPayload): Promise<AuthResponse> => {
-  if (USE_MOCK_API) {
-    return mockVerifyRegistration(data);
-  }
-  const response: AxiosResponse<AuthResponse> = await apiSquare.post('/web/auth/register/verify', data);
+// Login with email/phone and password
+export const login = async (data: LoginPayload): Promise<LoginResponse> => {
+  const response: AxiosResponse<LoginResponse> = await apiClient.post('/auth/login', data);
   return response.data;
 };
 
-// Login with phone and password
-export const login = async (data: LoginPayload): Promise<AuthResponse> => {
-  if (USE_MOCK_API) {
-    return mockLogin(data);
-  }
-  const response: AxiosResponse<AuthResponse> = await apiSquare.post('/web/auth/login', data);
-  return response.data;
-};
-
-// Request OTP (for various purposes like password reset)
-export const requestOTP = async (data: OTPRequestPayload): Promise<OTPRequestResponse> => {
-  if (USE_MOCK_API) {
-    return mockRequestOTP(data);
-  }
-  const response: AxiosResponse<OTPRequestResponse> = await apiSquare.post('/web/auth/otp/request', data);
-  return response.data;
-};
-
-// Get current customer info
-export const getCurrentCustomer = async (token: string): Promise<CustomerDetail> => {
-  if (USE_MOCK_API) {
-    return mockGetCurrentCustomer();
-  }
-  const response: AxiosResponse<CustomerDetail> = await apiSquare.get('/web/auth/me', {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
+// Request OTP for existing user
+export const requestOTP = async (phoneNumber: string): Promise<RequestOTPResponse> => {
+  const response: AxiosResponse<RequestOTPResponse> = await apiClient.post('/auth/request-otp', {
+    phoneNumber
   });
   return response.data;
 };
 
-// Re-export types from mockAuthApi
-export type {
-  RegisterPayload,
-  RegisterResponse,
-  VerifyRegistrationPayload,
-  LoginPayload,
-  AuthResponse,
-  CheckPhonePayload,
-  CheckPhoneResponse,
-  OTPRequestPayload,
-  OTPRequestResponse
-} from './mockAuthApi';
+// Verify OTP and get tokens
+export const verifyOTP = async (phoneNumber: string, otpCode: string): Promise<VerifyOTPResponse> => {
+  const response: AxiosResponse<VerifyOTPResponse> = await apiClient.post('/auth/verify-otp', {
+    phoneNumber,
+    otpCode
+  });
+  return response.data;
+};
+
+// Forgot password (request OTP for account recovery)
+export const forgotPassword = async (phoneNumber: string): Promise<RequestOTPResponse> => {
+  const response: AxiosResponse<RequestOTPResponse> = await apiClient.post('/auth/forgot-password', {
+    phoneNumber
+  });
+  return response.data;
+};
+
+// Refresh access token
+export const refreshAccessToken = async (refreshToken: string): Promise<RefreshTokenResponse> => {
+  const response: AxiosResponse<RefreshTokenResponse> = await apiClient.post('/auth/refresh', {
+    refreshToken
+  });
+  return response.data;
+};
+
+// Get current user info
+export const getCurrentUser = async (): Promise<GetMeResponse> => {
+  const response: AxiosResponse<GetMeResponse> = await apiClient.get('/auth/me');
+  return response.data;
+};
+
+// Helper function to check if phone exists (by trying to request OTP)
+export const checkPhoneExists = async (phoneNumber: string): Promise<boolean> => {
+  try {
+    await requestOTP(phoneNumber);
+    return true;
+  } catch (error: any) {
+    if (error.response?.status === 404) {
+      return false;
+    }
+    throw error;
+  }
+};

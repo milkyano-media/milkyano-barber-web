@@ -1,13 +1,15 @@
 import { createContext } from 'react';
-import { CustomerDetail } from '@/interfaces/BookingInterface';
+import { UserData } from '@/interfaces/AuthInterface';
 
 export interface AuthContextType {
   isAuthenticated: boolean;
-  customer: CustomerDetail | null;
-  authToken: string | null;
-  login: (token: string, customer: CustomerDetail) => void;
+  user: UserData | null;
+  accessToken: string | null;
+  refreshToken: string | null;
+  login: (accessToken: string, user: UserData) => void;
   logout: () => void;
   isLoading: boolean;
+  refreshAccessToken: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

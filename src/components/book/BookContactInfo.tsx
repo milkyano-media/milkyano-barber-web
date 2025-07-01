@@ -46,7 +46,7 @@ import { isValidPhoneNumber } from "react-phone-number-input";
 import { CustomerStatus } from "@/interfaces/UserInterface";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { useAuth } from "@/hooks/useAuth";
-import { checkPhone } from "@/utils/authApi";
+import { checkPhoneExists } from "@/utils/authApi";
 
 const BookContactInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +58,7 @@ const BookContactInfo = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showAuthRequiredModal, setShowAuthRequiredModal] = useState(false);
 
-  const { isAuthenticated, customer: authCustomer } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   const generateRoute = (route: string): string => {
     const parts = location.pathname.split("/");
@@ -411,11 +411,11 @@ const BookContactInfo = () => {
 
   // Auto-fill form when authenticated
   useEffect(() => {
-    if (isAuthenticated && authCustomer) {
-      form.setValue("given_name", authCustomer.given_name || "");
-      form.setValue("family_name", authCustomer.family_name || "");
-      form.setValue("email_address", authCustomer.email_address || "");
-      form.setValue("phone_number", authCustomer.phone_number || "");
+    if (isAuthenticated && user) {
+      form.setValue("given_name", user.firstName || "");
+      form.setValue("family_name", user.lastName || "");
+      form.setValue("email_address", user.email || "");
+      form.setValue("phone_number", user.phoneNumber || "");
     } else {
       // Load saved form data from localStorage for unauthenticated users
       const savedFormData = localStorage.getItem("booking_form_data");
@@ -432,7 +432,7 @@ const BookContactInfo = () => {
         }
       }
     }
-  }, [isAuthenticated, authCustomer, form]);
+  }, [isAuthenticated, user, form]);
 
   // Save form data to localStorage when it changes (for unauthenticated users)
   useEffect(() => {
@@ -449,8 +449,8 @@ const BookContactInfo = () => {
     const phoneNumber = form.getValues("phone_number");
     if (phoneNumber && isValidPhoneNumber(phoneNumber) && !isAuthenticated) {
       try {
-        const response = await checkPhone({ phone_number: phoneNumber });
-        if (response.exists) {
+        const exists = await checkPhoneExists(phoneNumber as string);
+        if (exists) {
           // Phone exists, show login modal with a message
           setShowLoginModal(true);
         }
