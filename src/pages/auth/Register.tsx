@@ -19,6 +19,7 @@ import { isValidPhoneNumber } from "react-phone-number-input";
 import * as RPNInput from "react-phone-number-input";
 import { register as registerUser } from "@/utils/authApi";
 import { OTPVerificationModal } from "@/components/auth/OTPVerificationModal";
+import { LoginModal } from "@/components/auth/LoginModal";
 import Layout from "@/components/web/WebLayout";
 import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 import { Helmet } from "react-helmet-async";
@@ -49,6 +50,7 @@ export default function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [phoneForOTP, setPhoneForOTP] = useState("");
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -353,17 +355,13 @@ export default function Register() {
             <div className="mt-6 pt-6 border-t border-stone-800 text-center">
               <p className="text-gray-400">
                 Already have an account?{" "}
-                <Link
-                  to="/"
+                <button
+                  type="button"
                   className="text-[#04C600] hover:text-[#03A000] font-medium transition-colors"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // Redirect to home and let user use the login button in header
-                    window.location.href = '/';
-                  }}
+                  onClick={() => setShowLoginModal(true)}
                 >
                   Sign In
-                </Link>
+                </button>
               </p>
             </div>
           </div>
@@ -389,6 +387,17 @@ export default function Register() {
         phoneNumber={phoneForOTP}
         onSuccess={handleOTPSuccess}
         isRegistration={true}
+      />
+
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onSuccess={() => {
+          // Redirect to the intended page or home after successful login
+          const redirect = searchParams.get("redirect");
+          navigate(redirect || "/");
+        }}
       />
     </Layout>
   );
