@@ -22,7 +22,7 @@ import { Eye, EyeOff } from "lucide-react";
 const loginSchema = z.object({
   emailOrPhone: z
     .string()
-    .min(1, "Email or phone number is required"),
+    .min(1, "Phone number or email is required"),
   password: z.string().min(1, "Password is required")
 });
 
@@ -59,7 +59,22 @@ export const LoginModal = ({
   const onSubmit = async (data: LoginFormData) => {
     try {
       setIsLoading(true);
-      const response = await login(data);
+      
+      // Normalize phone number formats
+      let normalizedData = { ...data };
+      const input = data.emailOrPhone.trim();
+      
+      // Handle 61 format (without +) - e.g., 61412345678
+      if (/^61\d{9}$/.test(input)) {
+        normalizedData.emailOrPhone = '+' + input;
+      }
+      // Handle 04 format - e.g., 0412345678 or 0412 345 678
+      else if (/^04\d{8}$/.test(input.replace(/\s/g, ''))) {
+        // Remove spaces and replace 04 with +614
+        normalizedData.emailOrPhone = '+614' + input.replace(/\s/g, '').substring(2);
+      }
+      
+      const response = await login(normalizedData);
 
       // Store tokens
       localStorage.setItem('accessToken', response.accessToken);
@@ -81,7 +96,7 @@ export const LoginModal = ({
         description:
           error instanceof Error
             ? error.message
-            : "Invalid phone number or password",
+            : "Invalid phone number/email or password",
         variant: "destructive"
       });
     } finally {
@@ -121,16 +136,21 @@ export const LoginModal = ({
               name="emailOrPhone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email or Phone Number</FormLabel>
+                  <FormLabel>Phone Number or Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       type="text"
-                      placeholder="Enter email or phone number"
+                      placeholder="Enter your phone number or email"
                       className="bg-transparent"
                     />
                   </FormControl>
                   <FormMessage />
+                  <div className="text-xs text-gray-500 mt-1 leading-relaxed">
+                    Australian mobile: 04XX XXX XXX or +614XX XXX XXX
+                    <br />
+                    or Email: yourname@gmail.com
+                  </div>
                 </FormItem>
               )}
             />
