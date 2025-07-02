@@ -354,8 +354,13 @@ export default function Register() {
               <p className="text-gray-400">
                 Already have an account?{" "}
                 <Link
-                  to="/login"
+                  to="/"
                   className="text-[#04C600] hover:text-[#03A000] font-medium transition-colors"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // Redirect to home and let user use the login button in header
+                    window.location.href = '/';
+                  }}
                 >
                   Sign In
                 </Link>

@@ -38,21 +38,16 @@ type ProfileFormData = z.infer<typeof profileSchema>;
 export default function Account() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { customer, logout } = useAuth();
+  const { user, logout } = useAuth();
   const { toast } = useToast();
 
-  // Redirect if not authenticated
-  if (!customer) {
-    navigate('/login');
-    return null;
-  }
-
+  // This page is protected by ProtectedRoute, so user is guaranteed to exist
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      given_name: customer.given_name || '',
-      family_name: customer.family_name || '',
-      email_address: customer.email_address || '',
+      given_name: user?.firstName || '',
+      family_name: user?.lastName || '',
+      email_address: user?.email || '',
     },
   });
 
@@ -184,7 +179,7 @@ export default function Account() {
                           <Phone className="w-4 h-4" />
                           <div>
                             <p className="text-sm font-medium">Phone Number</p>
-                            <p className="text-white">{customer.phone_number}</p>
+                            <p className="text-white">{user?.phoneNumber}</p>
                           </div>
                         </div>
                       </div>
@@ -214,7 +209,7 @@ export default function Account() {
                     <div>
                       <p className="text-sm text-gray-400">Member Since</p>
                       <p className="text-white">
-                        {new Date(customer.created_at).toLocaleDateString('en-AU', {
+                        {new Date(user?.createdAt || '').toLocaleDateString('en-AU', {
                           year: 'numeric',
                           month: 'long',
                           day: 'numeric'
