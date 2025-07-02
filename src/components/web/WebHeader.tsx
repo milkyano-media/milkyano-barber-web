@@ -94,14 +94,14 @@ const Header: React.FC = () => {
   return (
     <header
       ref={headerRef}
-      className="text-white shadow-lg shadow-[#33FF00]/10 border-b-[0.5px] border-[#33FF00] z-[999999999999999] py-4 sticky top-0"
+      className="text-white shadow-lg shadow-[#33FF00]/10 border-b-[0.5px] border-[#33FF00] z-50 py-4 sticky top-0"
       style={{
         marginBottom: `-${height}px`,
         background:
           "linear-gradient(180deg, rgba(3, 18, 13, 0.75) 14.29%, rgba(3, 18, 13, 0.6) 100%)"
       }}
     >
-      <div className="container mx-auto flex justify-between items-center relative z-10 border-none px-2 md:px-4">
+      <div className="container mx-auto flex justify-between items-center relative border-none px-2 md:px-4">
         <h1 className="text-2xl font-bold text-transparent hidden ">
           Barber Shop
         </h1>
@@ -185,23 +185,24 @@ const Header: React.FC = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="w-56 bg-[#0a0a0a] border-stone-800"
+                className="w-56 bg-[#0a0a0a] border border-stone-700 z-[9999] shadow-lg shadow-black/50"
+                sideOffset={5}
               >
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-stone-800" />
+                <DropdownMenuLabel className="text-stone-300 font-medium">My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-stone-700" />
                 <DropdownMenuItem asChild>
                   <Link
                     to="/account"
-                    className="flex items-center cursor-pointer"
+                    className="flex items-center cursor-pointer hover:bg-stone-900"
                   >
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Account Settings</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator className="bg-stone-800" />
+                <DropdownMenuSeparator className="bg-stone-700" />
                 <DropdownMenuItem
                   onClick={logout}
-                  className="flex items-center cursor-pointer text-red-400 focus:text-red-400"
+                  className="flex items-center cursor-pointer text-red-400 hover:text-red-400 focus:text-red-400 hover:bg-red-950/30"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
