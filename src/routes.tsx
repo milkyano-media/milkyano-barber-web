@@ -11,6 +11,7 @@ import NotFound from '@/pages/web/NotFound';
 import Login from '@/pages/auth/Login';
 import Register from '@/pages/auth/Register';
 import Account from '@/pages/auth/Account';
+import { PublicRoute, ProtectedRoute } from '@/components/routes';
 
 import JoshLanding from '@/pages/landing/JoshLanding';
 import WyattLanding from '@/pages/landing/WyattLanding';
@@ -134,6 +135,20 @@ const ThankYouRoutes = [
 ];
 
 const AppRoutes: React.FC = () => {
+  // Helper function to wrap component with appropriate route guard
+  const wrapWithRouteGuard = (path: string, Component: React.ComponentType): React.ReactElement => {
+    // Public routes that should redirect if authenticated
+    if (path === 'login' || path === 'register') {
+      return <PublicRoute><Component /></PublicRoute>;
+    }
+    // Protected routes that require authentication
+    if (path === 'account') {
+      return <ProtectedRoute><Component /></ProtectedRoute>;
+    }
+    // All other routes are public
+    return <Component />;
+  };
+
   return (
     <Router>
       <PageTracker />
@@ -189,8 +204,8 @@ const AppRoutes: React.FC = () => {
         {/* WEB ROUTE */}
         {webRoutes.map(({ path, component: Component }) => (
           <React.Fragment key={path}>
-            <Route path={`/${path}`} element={<Component />} />
-            <Route path={`/meta/${path}`} element={<Component />} />
+            <Route path={`/${path}`} element={wrapWithRouteGuard(path, Component)} />
+            <Route path={`/meta/${path}`} element={wrapWithRouteGuard(path, Component)} />
           </React.Fragment>
         ))}
 
