@@ -48,7 +48,6 @@ export const LoginModal = ({
   const [showPassword, setShowPassword] = useState(false);
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [phoneForOTP, setPhoneForOTP] = useState("");
-  const [hasShownOTP, setHasShownOTP] = useState(false);
   const { login: authLogin, logout } = useAuth();
   const { toast } = useToast();
 
@@ -88,11 +87,10 @@ export const LoginModal = ({
       authLogin(response.accessToken, response.user);
       
       // Check if user is verified
-      if (!response.user.isVerified && !hasShownOTP) {
-        // User is not verified, show OTP modal (closeable since they're logged in)
+      if (!response.user.isVerified) {
+        // User is not verified, show OTP modal
         setPhoneForOTP(response.user.phoneNumber);
         setShowOTPModal(true);
-        setHasShownOTP(true);
         
         toast({
           title: "Welcome back!",
@@ -130,7 +128,6 @@ export const LoginModal = ({
     if (!open) {
       onClose();
       form.reset();
-      setHasShownOTP(false);
     }
   };
 
@@ -275,14 +272,8 @@ export const LoginModal = ({
       }}
       isRegistration={false}
       onWrongNumber={() => {
-        // For logged-in users with wrong number, we need to log them out
-        // so they can login with correct credentials
-        setShowOTPModal(false);
-        logout();
-        toast({
-          title: "Please login again",
-          description: "Login with your correct phone number to verify your account"
-        });
+        // This will be handled within the OTPVerificationModal
+        // by showing the ChangePhoneNumberModal
       }}
     />
     </>

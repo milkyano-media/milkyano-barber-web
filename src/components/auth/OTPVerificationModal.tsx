@@ -18,9 +18,10 @@ import {
   FormDescription,
 } from '@/components/ui/form';
 import { useAuth } from '@/hooks/useAuth';
-import { verifyOTP, requestOTP } from '@/utils/authApi';
+import { verifyOTP, requestOTP, updatePhoneNumber } from '@/utils/authApi';
 import { useToast } from '@/components/ui/use-toast';
 import Logo from '@/components/react-svg/logo';
+import { ChangePhoneNumberModal } from './ChangePhoneNumberModal';
 
 const otpSchema = z.object({
   otp_code: z.string().length(6, 'OTP must be 6 digits').regex(/^\d+$/, 'OTP must contain only numbers'),
@@ -48,6 +49,9 @@ export const OTPVerificationModal = ({
   const [isLoading, setIsLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
+  const [currentPhoneNumber, setCurrentPhoneNumber] = useState(phoneNumber);
+  const [showChangePhoneModal, setShowChangePhoneModal] = useState(false);
+  const [phoneNumberChanged, setPhoneNumberChanged] = useState(false);
   const { login: authLogin } = useAuth();
   const { toast } = useToast();
 
@@ -76,10 +80,27 @@ export const OTPVerificationModal = ({
     return () => clearInterval(interval);
   }, [isOpen, resendTimer]);
 
+  // Update current phone number when prop changes
+  useEffect(() => {
+    setCurrentPhoneNumber(phoneNumber);
+  }, [phoneNumber]);
+
   const onSubmit = async (data: OTPFormData) => {
     try {
       setIsLoading(true);
-      const response = await verifyOTP(phoneNumber, data.otp_code);
+      
+      // If phone number was changed, update it first
+      if (phoneNumberChanged && currentPhoneNumber !== phoneNumber) {
+        try {
+          await updatePhoneNumber(currentPhoneNumber);
+        } catch (updateError) {
+          // If update fails, we still continue with verification
+          // The backend should handle this during OTP verification
+          console.error('Failed to update phone number:', updateError);
+        }
+      }
+      
+      const response = await verifyOTP(currentPhoneNumber, data.otp_code);
       
       // Store tokens and updated user info (now verified)
       localStorage.setItem('accessToken', response.accessToken);
@@ -98,6 +119,7 @@ export const OTPVerificationModal = ({
       onSuccess?.();
       onClose();
       form.reset();
+      setPhoneNumberChanged(false);
     } catch (error) {
       toast({
         title: 'Error',
@@ -111,10 +133,10 @@ export const OTPVerificationModal = ({
 
   const handleResend = async () => {
     try {
-      await requestOTP(phoneNumber);
+      await requestOTP(currentPhoneNumber);
       toast({
         title: 'OTP Resent',
-        description: 'A new OTP has been sent to your phone',
+        description: `A new OTP has been sent to ${currentPhoneNumber}`,
       });
       setResendTimer(60);
       setCanResend(false);
@@ -127,6 +149,17 @@ export const OTPVerificationModal = ({
     }
   };
 
+  const handlePhoneNumberChange = (newPhoneNumber: string) => {
+    setCurrentPhoneNumber(newPhoneNumber);
+    setPhoneNumberChanged(true);
+    setShowChangePhoneModal(false);
+    // Reset the resend timer when phone number changes
+    setResendTimer(60);
+    setCanResend(false);
+    // Reset the form
+    form.reset();
+  };
+
   const handleOpenChange = (open: boolean) => {
     // Modal cannot be closed by user - must complete OTP or use "Wrong number?" option
     return;
@@ -134,6 +167,7 @@ export const OTPVerificationModal = ({
 
 
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogPortal>
         <DialogOverlay />
@@ -150,7 +184,12 @@ export const OTPVerificationModal = ({
           </div>
           <DialogTitle className="text-xl font-semibold text-center">Verify Your Phone</DialogTitle>
           <DialogDescription className="text-sm text-gray-400 text-center">
-            We've sent a verification code to {phoneNumber}
+            We've sent a verification code to {currentPhoneNumber}
+            {phoneNumberChanged && (
+              <span className="block mt-1 text-xs text-amber-400">
+                (Phone number updated)
+              </span>
+            )}
           </DialogDescription>
         </DialogHeader>
 
@@ -212,13 +251,8 @@ export const OTPVerificationModal = ({
               <button
                 type="button"
                 onClick={() => {
-                  if (onWrongNumber) {
-                    onWrongNumber();
-                  } else {
-                    // Default behavior: close modal and reset
-                    onClose();
-                    form.reset();
-                  }
+                  // Always show the change phone number modal
+                  setShowChangePhoneModal(true);
                 }}
                 className="text-sm text-gray-400 hover:text-gray-300 underline"
               >
@@ -232,5 +266,14 @@ export const OTPVerificationModal = ({
       </DialogPrimitive.Content>
       </DialogPortal>
     </Dialog>
+
+    {/* Change Phone Number Modal */}
+    <ChangePhoneNumberModal
+      isOpen={showChangePhoneModal}
+      onClose={() => setShowChangePhoneModal(false)}
+      onPhoneNumberChange={handlePhoneNumberChange}
+      currentPhoneNumber={currentPhoneNumber}
+    />
+    </>
   );
 };
