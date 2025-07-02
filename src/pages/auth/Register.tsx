@@ -48,9 +48,7 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showOTPModal, setShowOTPModal] = useState(false);
-  const [sessionId, setSessionId] = useState("");
   const [phoneForOTP, setPhoneForOTP] = useState("");
-  const [mockOTP, setMockOTP] = useState<string | undefined>();
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -92,19 +90,21 @@ export default function Register() {
     try {
       setIsLoading(true);
       const response = await registerUser({
-        phone_number: data.phone_number,
+        phoneNumber: data.phone_number,
         password: data.password,
-        given_name: data.given_name,
-        family_name: data.family_name,
-        email_address: data.email_address
+        firstName: data.given_name,
+        lastName: data.family_name,
+        email: data.email_address
       });
 
-      if (response.requires_otp) {
-        setSessionId(response.session_id);
-        setPhoneForOTP(data.phone_number);
-        setMockOTP(response.mock_otp); // Store mock OTP if available
-        setShowOTPModal(true);
-      }
+      // Registration successful, OTP was sent
+      setPhoneForOTP(data.phone_number);
+      setShowOTPModal(true);
+      
+      toast({
+        title: "Registration Successful",
+        description: response.message || "Please verify your phone number to complete registration"
+      });
     } catch (error) {
       toast({
         title: "Registration Failed",
@@ -381,10 +381,9 @@ export default function Register() {
       <OTPVerificationModal
         isOpen={showOTPModal}
         onClose={() => setShowOTPModal(false)}
-        sessionId={sessionId}
         phoneNumber={phoneForOTP}
         onSuccess={handleOTPSuccess}
-        mockOTP={mockOTP}
+        isRegistration={true}
       />
     </Layout>
   );
