@@ -20,6 +20,7 @@ import * as RPNInput from "react-phone-number-input";
 import { register as registerUser } from "@/utils/authApi";
 import { OTPVerificationModal } from "@/components/auth/OTPVerificationModal";
 import { LoginModal } from "@/components/auth/LoginModal";
+import { useAuth } from "@/hooks/useAuth";
 import Layout from "@/components/web/WebLayout";
 import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 import { Helmet } from "react-helmet-async";
@@ -51,10 +52,12 @@ export default function Register() {
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [phoneForOTP, setPhoneForOTP] = useState("");
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [isOTPCloseable, setIsOTPCloseable] = useState(false);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
+  const { login: authLogin } = useAuth();
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -99,13 +102,20 @@ export default function Register() {
         email: data.email_address
       });
 
-      // Registration successful, OTP was sent
+      // Registration successful, automatically log the user in
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
+      
+      authLogin(response.accessToken, response.user);
+      
+      // Since new users are always unverified, show OTP modal (closeable)
       setPhoneForOTP(data.phone_number);
+      setIsOTPCloseable(true);
       setShowOTPModal(true);
       
       toast({
-        title: "Registration Successful",
-        description: response.message || "Please verify your phone number to complete registration"
+        title: "Account Created",
+        description: "Please verify your phone number to complete registration"
       });
     } catch (error) {
       toast({
@@ -387,6 +397,7 @@ export default function Register() {
         phoneNumber={phoneForOTP}
         onSuccess={handleOTPSuccess}
         isRegistration={true}
+        isCloseable={isOTPCloseable}
       />
 
       {/* Login Modal */}

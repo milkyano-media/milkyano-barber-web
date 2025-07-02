@@ -8,9 +8,8 @@ export interface RegisterPayload {
   password: string;
 }
 
-export interface RegisterResponse {
-  userId: string;
-  phoneNumber: string;
+export interface RegisterResponse extends AuthTokens {
+  user: UserData;
   message: string;
 }
 
@@ -91,6 +90,7 @@ export interface AuthContextValue extends AuthState {
   register: (data: RegisterPayload) => Promise<RegisterResponse>;
   requestOTP: (phoneNumber: string) => Promise<void>;
   verifyOTP: (phoneNumber: string, otpCode: string) => Promise<void>;
+  login: (accessToken: string, user: UserData) => void;
   logout: () => void;
   refreshAccessToken: () => Promise<void>;
 }
