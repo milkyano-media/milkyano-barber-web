@@ -18,6 +18,7 @@ import { login } from "@/utils/authApi";
 import { useToast } from "@/components/ui/use-toast";
 import Logo from "@/components/react-svg/logo";
 import { Eye, EyeOff } from "lucide-react";
+import { OTPVerificationModal } from "./OTPVerificationModal";
 
 const loginSchema = z.object({
   emailOrPhone: z
@@ -45,6 +46,8 @@ export const LoginModal = ({
 }: LoginModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showOTPModal, setShowOTPModal] = useState(false);
+  const [phoneForOTP, setPhoneForOTP] = useState("");
   const { login: authLogin } = useAuth();
   const { toast } = useToast();
 
@@ -82,14 +85,30 @@ export const LoginModal = ({
       
       authLogin(response.accessToken, response.user);
       
-      toast({
-        title: "Success",
-        description: "You have successfully logged in!"
-      });
-      
-      onSuccess?.();
-      onClose();
-      form.reset();
+      // Check if user is verified
+      if (!response.user.isVerified) {
+        // User is not verified, show OTP modal (closeable since they're logged in)
+        setPhoneForOTP(response.user.phoneNumber);
+        setShowOTPModal(true);
+        
+        toast({
+          title: "Welcome back!",
+          description: "Please verify your phone number to unlock all features"
+        });
+        
+        // Still close the login modal
+        onClose();
+        form.reset();
+      } else {
+        toast({
+          title: "Success",
+          description: "You have successfully logged in!"
+        });
+        
+        onSuccess?.();
+        onClose();
+        form.reset();
+      }
     } catch (error) {
       toast({
         title: "Error",
@@ -112,6 +131,7 @@ export const LoginModal = ({
   };
 
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-md bg-[#010401] border border-stone-800">
         <DialogHeader className="space-y-4">
@@ -277,5 +297,19 @@ export const LoginModal = ({
         </div>
       </DialogContent>
     </Dialog>
+
+    {/* OTP Verification Modal for unverified users */}
+    <OTPVerificationModal
+      isOpen={showOTPModal}
+      onClose={() => setShowOTPModal(false)}
+      phoneNumber={phoneForOTP}
+      onSuccess={() => {
+        setShowOTPModal(false);
+        onSuccess?.();
+      }}
+      isRegistration={false}
+      isCloseable={true}
+    />
+    </>
   );
 };
