@@ -546,10 +546,10 @@ const BookContactInfo = () => {
           >
             <div className="flex flex-col gap-4 col-span-2 mr-4">
               <div className="flex justify-between">
-                {isAuthenticated && authCustomer && (
+                {isAuthenticated && user && (
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-gray-400">
-                      Signed in as {authCustomer.given_name}
+                      Signed in as {user.firstName}
                     </span>
                     <Button
                       type="button"

@@ -7,7 +7,7 @@ import {
   SheetContent,
   SheetDescription,
   SheetHeader,
-  SheetTrigger,
+  SheetTrigger
 } from "@/components/ui/sheet";
 
 // import { Squash as Hamburger } from 'hamburger-react'
@@ -24,7 +24,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
 interface NavLinkProps {
@@ -55,14 +55,14 @@ const links = [
   { to: "/gallery", label: "Gallery" },
   { to: "/about-us", label: "About Us" },
   { to: "/careers", label: "Careers" },
-  { to: "/contact", label: "Contact" },
+  { to: "/contact", label: "Contact" }
 ];
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const location = useLocation();
-  const { isAuthenticated, customer, logout } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
 
   const generateRoute = (route: string): string => {
     const parts = location.pathname.split("/");
@@ -98,7 +98,7 @@ const Header: React.FC = () => {
       style={{
         marginBottom: `-${height}px`,
         background:
-          "linear-gradient(180deg, rgba(3, 18, 13, 0.75) 14.29%, rgba(3, 18, 13, 0.6) 100%)",
+          "linear-gradient(180deg, rgba(3, 18, 13, 0.75) 14.29%, rgba(3, 18, 13, 0.6) 100%)"
       }}
     >
       <div className="container mx-auto flex justify-between items-center relative z-10 border-none px-2 md:px-4">
@@ -175,25 +175,31 @@ const Header: React.FC = () => {
           </ul>
         </nav>
         <nav className="hidden xl:flex gap-4 items-center">
-          {isAuthenticated && customer ? (
+          {isAuthenticated && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="flex items-center gap-2">
                   <User className="w-4 h-4" />
-                  <span>{customer.given_name}</span>
+                  <span>{user.firstName}</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-[#0a0a0a] border-stone-800">
+              <DropdownMenuContent
+                align="end"
+                className="w-56 bg-[#0a0a0a] border-stone-800"
+              >
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator className="bg-stone-800" />
                 <DropdownMenuItem asChild>
-                  <Link to="/account" className="flex items-center cursor-pointer">
+                  <Link
+                    to="/account"
+                    className="flex items-center cursor-pointer"
+                  >
                     <Settings className="mr-2 h-4 w-4" />
                     <span>Account Settings</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-stone-800" />
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={logout}
                   className="flex items-center cursor-pointer text-red-400 focus:text-red-400"
                 >
@@ -325,11 +331,11 @@ const Header: React.FC = () => {
                     ))}
                   </ul>
                   <div className="mt-6 px-4">
-                    {isAuthenticated && customer ? (
+                    {isAuthenticated && user ? (
                       <div className="flex flex-col gap-4">
                         <div className="flex items-center gap-2 text-stone-600">
                           <User className="w-4 h-4" />
-                          <span>{customer.given_name}</span>
+                          <span>{user.firstName}</span>
                         </div>
                         <Button
                           variant="outline"
@@ -358,7 +364,7 @@ const Header: React.FC = () => {
           </Sheet>
         </nav>
       </div>
-      
+
       {/* Login Modal */}
       <LoginModal
         isOpen={showLoginModal}
