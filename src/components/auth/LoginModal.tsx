@@ -48,6 +48,7 @@ export const LoginModal = ({
   const [showPassword, setShowPassword] = useState(false);
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [phoneForOTP, setPhoneForOTP] = useState("");
+  const [hasShownOTP, setHasShownOTP] = useState(false);
   const { login: authLogin } = useAuth();
   const { toast } = useToast();
 
@@ -86,10 +87,11 @@ export const LoginModal = ({
       authLogin(response.accessToken, response.user);
       
       // Check if user is verified
-      if (!response.user.isVerified) {
+      if (!response.user.isVerified && !hasShownOTP) {
         // User is not verified, show OTP modal (closeable since they're logged in)
         setPhoneForOTP(response.user.phoneNumber);
         setShowOTPModal(true);
+        setHasShownOTP(true);
         
         toast({
           title: "Welcome back!",
@@ -127,6 +129,7 @@ export const LoginModal = ({
     if (!open) {
       onClose();
       form.reset();
+      setHasShownOTP(false);
     }
   };
 
