@@ -49,7 +49,7 @@ export const LoginModal = ({
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [phoneForOTP, setPhoneForOTP] = useState("");
   const [hasShownOTP, setHasShownOTP] = useState(false);
-  const { login: authLogin } = useAuth();
+  const { login: authLogin, logout } = useAuth();
   const { toast } = useToast();
 
   const form = useForm<LoginFormData>({
@@ -273,7 +273,16 @@ export const LoginModal = ({
         onSuccess?.();
       }}
       isRegistration={false}
-      isCloseable={true}
+      onWrongNumber={() => {
+        // For logged-in users with wrong number, we need to log them out
+        // so they can login with correct credentials
+        setShowOTPModal(false);
+        logout();
+        toast({
+          title: "Please login again",
+          description: "Login with your correct phone number to verify your account"
+        });
+      }}
     />
     </>
   );

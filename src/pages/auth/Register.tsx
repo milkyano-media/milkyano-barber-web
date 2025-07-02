@@ -52,7 +52,6 @@ export default function Register() {
   const [showOTPModal, setShowOTPModal] = useState(false);
   const [phoneForOTP, setPhoneForOTP] = useState("");
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [isOTPCloseable, setIsOTPCloseable] = useState(false);
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -108,9 +107,8 @@ export default function Register() {
       
       authLogin(response.accessToken, response.user);
       
-      // Since new users are always unverified, show OTP modal (closeable)
+      // Since new users are always unverified, show OTP modal
       setPhoneForOTP(data.phone_number);
-      setIsOTPCloseable(true);
       setShowOTPModal(true);
       
       toast({
@@ -397,7 +395,14 @@ export default function Register() {
         phoneNumber={phoneForOTP}
         onSuccess={handleOTPSuccess}
         isRegistration={true}
-        isCloseable={isOTPCloseable}
+        onWrongNumber={() => {
+          // Close OTP modal so user can edit their phone number in the form
+          setShowOTPModal(false);
+          toast({
+            title: "Update your phone number",
+            description: "Please correct your phone number and try again"
+          });
+        }}
       />
 
       {/* Login Modal */}
