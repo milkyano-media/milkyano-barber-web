@@ -17,6 +17,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { login } from "@/utils/authApi";
 import { useToast } from "@/components/ui/use-toast";
 import Logo from "@/components/react-svg/logo";
+import { Eye, EyeOff } from "lucide-react";
 
 const loginSchema = z.object({
   emailOrPhone: z
@@ -43,6 +44,7 @@ export const LoginModal = ({
   contextMessage
 }: LoginModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { login: authLogin } = useAuth();
   const { toast } = useToast();
 
@@ -140,12 +142,27 @@ export const LoginModal = ({
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      placeholder="Enter your password"
-                      className="bg-transparent"
-                    />
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your password"
+                        className="bg-transparent pr-10"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4 text-gray-400" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-gray-400" />
+                        )}
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
