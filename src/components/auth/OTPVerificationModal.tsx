@@ -81,9 +81,10 @@ export const OTPVerificationModal = ({
       setIsLoading(true);
       const response = await verifyOTP(phoneNumber, data.otp_code);
       
-      // Store tokens
+      // Store tokens and updated user info (now verified)
       localStorage.setItem('accessToken', response.accessToken);
       localStorage.setItem('refreshToken', response.refreshToken);
+      localStorage.setItem('user', JSON.stringify(response.user));
       
       authLogin(response.accessToken, response.user);
       

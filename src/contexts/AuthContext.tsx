@@ -19,20 +19,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const loadUserFromToken = useCallback(async () => {
     const storedAccessToken = localStorage.getItem("accessToken");
     const storedRefreshToken = localStorage.getItem("refreshToken");
+    const storedUser = localStorage.getItem("user");
 
     if (!storedAccessToken || !storedRefreshToken) {
       setIsLoading(false);
       return;
     }
 
+    // First, load user from localStorage for immediate UI update
+    if (storedUser) {
+      try {
+        const userData = JSON.parse(storedUser);
+        setUser(userData);
+        setAccessToken(storedAccessToken);
+        setRefreshToken(storedRefreshToken);
+        setIsAuthenticated(true);
+      } catch (e) {
+        console.error("Error parsing stored user data:", e);
+      }
+    }
+
     try {
-      // Try to get current user (token will be added by interceptor)
+      // Then verify with API to ensure data is fresh
       const userData = await getCurrentUser();
 
       setUser(userData);
       setAccessToken(storedAccessToken);
       setRefreshToken(storedRefreshToken);
       setIsAuthenticated(true);
+      
+      // Update localStorage with fresh data
+      localStorage.setItem("user", JSON.stringify(userData));
     } catch (error) {
       console.error("Error loading user:", error);
 
@@ -79,6 +96,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     // Clear from localStorage
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
 
     // Redirect to home if on protected route
     if (

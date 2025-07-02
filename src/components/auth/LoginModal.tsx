@@ -80,9 +80,10 @@ export const LoginModal = ({
       
       const response = await login(normalizedData);
 
-      // Store tokens
+      // Store tokens and user info
       localStorage.setItem('accessToken', response.accessToken);
       localStorage.setItem('refreshToken', response.refreshToken);
+      localStorage.setItem('user', JSON.stringify(response.user));
       
       authLogin(response.accessToken, response.user);
       
