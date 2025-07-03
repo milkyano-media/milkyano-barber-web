@@ -22,6 +22,7 @@ import { verifyOTP, requestOTP, updatePhoneNumber } from '@/utils/authApi';
 import { useToast } from '@/components/ui/use-toast';
 import Logo from '@/components/react-svg/logo';
 import { ChangePhoneNumberModal } from './ChangePhoneNumberModal';
+import { VerificationSuccessModal } from './VerificationSuccessModal';
 
 const otpSchema = z.object({
   otp_code: z.string().length(6, 'OTP must be 6 digits').regex(/^\d+$/, 'OTP must contain only numbers'),
@@ -52,6 +53,7 @@ export const OTPVerificationModal = ({
   const [currentPhoneNumber, setCurrentPhoneNumber] = useState(phoneNumber);
   const [showChangePhoneModal, setShowChangePhoneModal] = useState(false);
   const [phoneNumberChanged, setPhoneNumberChanged] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { login: authLogin } = useAuth();
   const { toast } = useToast();
 
@@ -109,15 +111,8 @@ export const OTPVerificationModal = ({
       
       authLogin(response.accessToken, response.user);
       
-      toast({
-        title: 'Success',
-        description: isRegistration 
-          ? 'Your account has been verified successfully!' 
-          : 'You have successfully logged in!',
-      });
-      
-      onSuccess?.();
-      onClose();
+      // Show success modal instead of toast
+      setShowSuccessModal(true);
       form.reset();
       setPhoneNumberChanged(false);
     } catch (error) {
@@ -273,6 +268,17 @@ export const OTPVerificationModal = ({
       onClose={() => setShowChangePhoneModal(false)}
       onPhoneNumberChange={handlePhoneNumberChange}
       currentPhoneNumber={currentPhoneNumber}
+    />
+
+    {/* Verification Success Modal */}
+    <VerificationSuccessModal
+      isOpen={showSuccessModal}
+      onClose={() => {
+        setShowSuccessModal(false);
+        onSuccess?.();
+        onClose();
+      }}
+      isRegistration={isRegistration}
     />
     </>
   );
