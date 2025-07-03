@@ -196,29 +196,6 @@ export default function Account() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-[#0a0a0a] border-stone-800">
-                <CardHeader>
-                  <CardTitle>Account Information</CardTitle>
-                  <CardDescription>
-                    Your account details and membership status
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Calendar className="w-4 h-4 text-gray-400" />
-                    <div>
-                      <p className="text-sm text-gray-400">Member Since</p>
-                      <p className="text-white">
-                        {new Date(user?.createdAt || '').toLocaleDateString('en-AU', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </TabsContent>
 
             <TabsContent value="bookings" className="space-y-6">
