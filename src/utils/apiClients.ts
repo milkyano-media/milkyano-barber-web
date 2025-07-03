@@ -19,7 +19,7 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Add response interceptor to handle token refresh
+// Add response interceptor to handle token refresh and error messages
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -49,9 +49,23 @@ apiClient.interceptors.response.use(
         // Refresh failed, redirect to login
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        window.location.href = '/login';
+        localStorage.removeItem('user');
+        window.location.href = '/';
         return Promise.reject(refreshError);
       }
+    }
+    
+    // Extract user-friendly error message from the response
+    if (error.response?.data?.error) {
+      error.message = error.response.data.error;
+    } else if (error.response?.data?.message) {
+      error.message = error.response.data.message;
+    } else if (error.response?.status === 500) {
+      error.message = 'Something went wrong. Please try again.';
+    } else if (error.response?.status === 404) {
+      error.message = 'The requested resource was not found.';
+    } else if (!error.response) {
+      error.message = 'Unable to connect to the server. Please check your internet connection.';
     }
     
     return Promise.reject(error);
