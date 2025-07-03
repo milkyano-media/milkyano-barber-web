@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -50,6 +50,17 @@ export default function Account() {
       email_address: user?.email || '',
     },
   });
+
+  // Update form values when user data changes
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        given_name: user.firstName || '',
+        family_name: user.lastName || '',
+        email_address: user.email || '',
+      });
+    }
+  }, [user, form]);
 
   const onSubmit = async (_data: ProfileFormData) => {
     try {

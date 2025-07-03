@@ -79,11 +79,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     loadUserFromToken();
   }, [loadUserFromToken]);
 
+  // Listen for storage changes to sync auth state
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'user' && e.newValue) {
+        try {
+          const updatedUser = JSON.parse(e.newValue);
+          setUser(updatedUser);
+        } catch (error) {
+          console.error("Error parsing updated user data:", error);
+        }
+      } else if ((e.key === 'accessToken' || e.key === 'refreshToken') && !e.newValue) {
+        // If tokens are removed, logout
+        logout();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const login = (newAccessToken: string, userData: UserData) => {
     setAccessToken(newAccessToken);
     setUser(userData);
     setIsAuthenticated(true);
 
+    // Update localStorage with new user data
+    localStorage.setItem('user', JSON.stringify(userData));
+    
     // Token will be automatically added by the interceptor from localStorage
   };
 
