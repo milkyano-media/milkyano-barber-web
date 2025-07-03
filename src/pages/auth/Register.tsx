@@ -392,18 +392,12 @@ export default function Register() {
       {/* OTP Verification Modal */}
       <OTPVerificationModal
         isOpen={showOTPModal}
-        onClose={() => setShowOTPModal(false)}
+        onClose={() => {
+          // OTP modal cannot be closed - user must verify or use "Wrong number?" option
+        }}
         phoneNumber={phoneForOTP}
         onSuccess={handleOTPSuccess}
         isRegistration={true}
-        onWrongNumber={() => {
-          // Close OTP modal so user can edit their phone number in the form
-          setShowOTPModal(false);
-          toast({
-            title: "Update your phone number",
-            description: "Please correct your phone number and try again"
-          });
-        }}
       />
 
       {/* Login Modal */}
