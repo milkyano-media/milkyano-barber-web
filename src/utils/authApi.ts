@@ -78,10 +78,3 @@ export const checkPhoneExists = async (phoneNumber: string): Promise<boolean> =>
   }
 };
 
-// Update user phone number
-export const updatePhoneNumber = async (phoneNumber: string): Promise<any> => {
-  const response: AxiosResponse = await apiClient.patch('/auth/update-phone', {
-    phoneNumber
-  });
-  return response.data;
-};

@@ -18,7 +18,7 @@ import {
   FormDescription,
 } from '@/components/ui/form';
 import { useAuth } from '@/hooks/useAuth';
-import { verifyOTP, requestOTP, updatePhoneNumber } from '@/utils/authApi';
+import { verifyOTP, requestOTP } from '@/utils/authApi';
 import { useToast } from '@/components/ui/use-toast';
 import Logo from '@/components/react-svg/logo';
 import { ChangePhoneNumberModal } from './ChangePhoneNumberModal';
@@ -91,16 +91,7 @@ export const OTPVerificationModal = ({
     try {
       setIsLoading(true);
       
-      // If phone number was changed, update it first
-      if (phoneNumberChanged && currentPhoneNumber !== phoneNumber) {
-        try {
-          await updatePhoneNumber(currentPhoneNumber);
-        } catch (updateError) {
-          // If update fails, we still continue with verification
-          // The backend should handle this during OTP verification
-          console.error('Failed to update phone number:', updateError);
-        }
-      }
+      // Phone number will be updated automatically by backend during verification
       
       const response = await verifyOTP(currentPhoneNumber, data.otp_code);
       
