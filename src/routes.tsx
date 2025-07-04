@@ -10,7 +10,9 @@ import PrivacyPolicy from '@/pages/web/PrivacyPolicy';
 import NotFound from '@/pages/web/NotFound';
 import Register from '@/pages/auth/Register';
 import Account from '@/pages/auth/Account';
+import VerifyOTP from '@/pages/auth/VerifyOTP';
 import { PublicRoute, ProtectedRoute } from '@/components/routes';
+import { UnverifiedUserHandler } from '@/components/auth/UnverifiedUserHandler';
 
 import JoshLanding from '@/pages/landing/JoshLanding';
 import WyattLanding from '@/pages/landing/WyattLanding';
@@ -39,6 +41,7 @@ const webRoutes = [
   { path: 'contact', component: Contacts },
   { path: 'privacy-policy', component: PrivacyPolicy },
   { path: 'register', component: Register },
+  { path: 'verify-otp', component: VerifyOTP },
   { path: 'account', component: Account },
   { path: 'book/services', component: BookList },
   { path: 'book/appointment', component: BookAppointment },
@@ -150,6 +153,7 @@ const AppRoutes: React.FC = () => {
   return (
     <Router>
       <PageTracker />
+      <UnverifiedUserHandler />
       <Routes>
         {/* LANDING ROUTES */}
         {landingRoutes.map(({ path, component: Component }) => (

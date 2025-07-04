@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,7 +19,6 @@ import { login } from "@/utils/authApi";
 import { useToast } from "@/components/ui/use-toast";
 import Logo from "@/components/react-svg/logo";
 import { Eye, EyeOff } from "lucide-react";
-import { OTPVerificationModal } from "./OTPVerificationModal";
 
 const loginSchema = z.object({
   emailOrPhone: z
@@ -46,10 +46,9 @@ export const LoginModal = ({
 }: LoginModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showOTPModal, setShowOTPModal] = useState(false);
-  const [phoneForOTP, setPhoneForOTP] = useState("");
-  const { login: authLogin, logout } = useAuth();
+  const { login: authLogin } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -64,20 +63,23 @@ export const LoginModal = ({
       setIsLoading(true);
       
       // Normalize phone number formats
-      let normalizedData = { ...data };
       const input = data.emailOrPhone.trim();
+      let normalizedEmailOrPhone = data.emailOrPhone;
       
       // Handle 61 format (without +) - e.g., 61412345678
       if (/^61\d{9}$/.test(input)) {
-        normalizedData.emailOrPhone = '+' + input;
+        normalizedEmailOrPhone = '+' + input;
       }
       // Handle 04 format - e.g., 0412345678 or 0412 345 678
       else if (/^04\d{8}$/.test(input.replace(/\s/g, ''))) {
         // Remove spaces and replace 04 with +614
-        normalizedData.emailOrPhone = '+614' + input.replace(/\s/g, '').substring(2);
+        normalizedEmailOrPhone = '+614' + input.replace(/\s/g, '').substring(2);
       }
       
-      const response = await login(normalizedData);
+      const response = await login({
+        ...data,
+        emailOrPhone: normalizedEmailOrPhone
+      });
 
       // Store tokens and user info
       localStorage.setItem('accessToken', response.accessToken);
@@ -88,18 +90,22 @@ export const LoginModal = ({
       
       // Check if user is verified
       if (!response.user.isVerified) {
-        // User is not verified, show OTP modal
-        setPhoneForOTP(response.user.phoneNumber);
-        setShowOTPModal(true);
+        // User is not verified, redirect to OTP verification page
+        const redirectUrl = window.location.pathname.includes("/book/") 
+          ? window.location.pathname 
+          : "/";
         
         toast({
           title: "Welcome back!",
           description: "Please verify your phone number to unlock all features"
         });
         
-        // Still close the login modal
+        // Close the login modal
         onClose();
         form.reset();
+        
+        // Navigate to OTP verification page
+        navigate(`/verify-otp?phone=${encodeURIComponent(response.user.phoneNumber)}&redirect=${encodeURIComponent(redirectUrl)}`);
       } else {
         toast({
           title: "Success",
@@ -132,7 +138,6 @@ export const LoginModal = ({
   };
 
   return (
-    <>
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-md bg-[#010401] border border-stone-800">
         <DialogHeader className="space-y-4">
@@ -260,22 +265,5 @@ export const LoginModal = ({
         {/* Google sign-in temporarily hidden */}
       </DialogContent>
     </Dialog>
-
-    {/* OTP Verification Modal for unverified users */}
-    <OTPVerificationModal
-      isOpen={showOTPModal}
-      onClose={() => setShowOTPModal(false)}
-      phoneNumber={phoneForOTP}
-      onSuccess={() => {
-        setShowOTPModal(false);
-        onSuccess?.();
-      }}
-      isRegistration={false}
-      onWrongNumber={() => {
-        // This will be handled within the OTPVerificationModal
-        // by showing the ChangePhoneNumberModal
-      }}
-    />
-    </>
   );
 };

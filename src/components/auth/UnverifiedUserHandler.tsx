@@ -1,42 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { OTPVerificationModal } from './OTPVerificationModal';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 /**
- * Global component that monitors auth state and shows OTP verification modal
+ * Global component that monitors auth state and redirects to OTP verification
  * for authenticated but unverified users
  */
 export const UnverifiedUserHandler = () => {
   const { user, isAuthenticated } = useAuth();
-  const [showOTPModal, setShowOTPModal] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     // Check if user is authenticated but not verified
     if (isAuthenticated && user && !user.isVerified) {
-      setShowOTPModal(true);
-    } else {
-      setShowOTPModal(false);
+      // Don't redirect if already on the verify-otp page
+      if (location.pathname !== '/verify-otp') {
+        const redirectUrl = location.pathname || '/';
+        navigate(`/verify-otp?phone=${encodeURIComponent(user.phoneNumber)}&redirect=${encodeURIComponent(redirectUrl)}`);
+      }
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, navigate, location]);
 
-  // Don't render anything if user is verified or not authenticated
-  if (!isAuthenticated || !user || user.isVerified) {
-    return null;
-  }
-
-  return (
-    <OTPVerificationModal
-      isOpen={showOTPModal}
-      onClose={() => {
-        // Modal cannot be closed - user must verify
-      }}
-      phoneNumber={user.phoneNumber}
-      onSuccess={() => {
-        // On success, the user will be updated with isVerified: true
-        // which will automatically hide this modal
-        setShowOTPModal(false);
-      }}
-      isRegistration={false}
-    />
-  );
+  // This component doesn't render anything
+  return null;
 };

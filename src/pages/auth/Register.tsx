@@ -18,7 +18,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import * as RPNInput from "react-phone-number-input";
 import { register as registerUser } from "@/utils/authApi";
-import { OTPVerificationModal } from "@/components/auth/OTPVerificationModal";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { useAuth } from "@/hooks/useAuth";
 import Layout from "@/components/web/WebLayout";
@@ -49,8 +48,6 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [showOTPModal, setShowOTPModal] = useState(false);
-  const [phoneForOTP, setPhoneForOTP] = useState("");
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const navigate = useNavigate();
@@ -108,14 +105,9 @@ export default function Register() {
       
       authLogin(response.accessToken, response.user);
       
-      // Since new users are always unverified, show OTP modal
-      setPhoneForOTP(data.phone_number);
-      setShowOTPModal(true);
-      
-      toast({
-        title: "Account Created",
-        description: "Please verify your phone number to complete registration"
-      });
+      // Since new users are always unverified, redirect to OTP verification page
+      const redirectTo = searchParams.get("redirect") || "/";
+      navigate(`/verify-otp?phone=${encodeURIComponent(data.phone_number)}&redirect=${encodeURIComponent(redirectTo)}&registration=true`);
     } catch (error) {
       toast({
         title: "Registration Failed",
@@ -127,32 +119,6 @@ export default function Register() {
       });
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleOTPSuccess = () => {
-    setShowOTPModal(false);
-    toast({
-      title: "Welcome!",
-      description: "Your account has been created successfully."
-    });
-
-    // Clear saved booking form data after successful registration
-    localStorage.removeItem('booking_form_data');
-
-    // Check for redirect query parameter first
-    const redirectParam = searchParams.get("redirect");
-    if (redirectParam) {
-      navigate(redirectParam);
-    } else {
-      // Fall back to localStorage
-      const returnUrl = localStorage.getItem("auth_return_url");
-      if (returnUrl) {
-        localStorage.removeItem("auth_return_url");
-        navigate(returnUrl);
-      } else {
-        navigate("/");
-      }
     }
   };
 
@@ -388,17 +354,6 @@ export default function Register() {
           </div>
         </div>
       </section>
-
-      {/* OTP Verification Modal */}
-      <OTPVerificationModal
-        isOpen={showOTPModal}
-        onClose={() => {
-          // OTP modal cannot be closed - user must verify or use "Wrong number?" option
-        }}
-        phoneNumber={phoneForOTP}
-        onSuccess={handleOTPSuccess}
-        isRegistration={true}
-      />
 
       {/* Login Modal */}
       <LoginModal
