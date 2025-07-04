@@ -135,7 +135,7 @@ export default function Register() {
       <section className="min-h-screen bg-[#010401] py-12 md:py-20">
         <div className="container mx-auto px-4 max-w-lg">
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-white mb-2 mt-4">
+            <h1 className="text-3xl font-bold text-white mb-2 mt-4 pt-8 md:pt-0">
               Create Your Account
             </h1>
             <p className="text-gray-400 text-sm">
