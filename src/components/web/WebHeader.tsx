@@ -330,35 +330,47 @@ const Header: React.FC = () => {
                     {links.map((link) => (
                       <NavLink key={link.to} to={link.to} label={link.label} />
                     ))}
-                  </ul>
-                  <div className="mt-6 px-4">
-                    {isAuthenticated && user ? (
-                      <div className="flex flex-col gap-4">
-                        <div className="flex items-center gap-2 text-stone-600">
-                          <User className="w-4 h-4" />
-                          <span>{user.firstName}</span>
+                    {/* Separator line */}
+                    <li className="my-4">
+                      <div className="w-full h-[0.5px] bg-stone-700/50"></div>
+                    </li>
+                    {/* Login/Account section styled as navigation link */}
+                    <li className="my-4">
+                      {isAuthenticated && user ? (
+                        <div className="space-y-4">
+                          <div className="flex items-center gap-3 text-xl font-light text-stone-400">
+                            <User className="w-5 h-5" />
+                            <span>{user.firstName}</span>
+                          </div>
+                          <button
+                            onClick={logout}
+                            className="text-2xl font-light hover:text-white transition-colors block"
+                          >
+                            Logout
+                          </button>
                         </div>
-                        <Button
-                          variant="outline"
-                          onClick={logout}
-                          className="w-full"
-                        >
-                          Logout
-                        </Button>
-                      </div>
-                    ) : (
-                      <Button
-                        variant="outline"
-                        onClick={() => {
-                          setIsMenuOpen(false);
-                          setShowLoginModal(true);
-                        }}
-                        className="w-full"
-                      >
-                        Login
-                      </Button>
-                    )}
-                  </div>
+                      ) : (
+                        <div className="flex flex-col gap-3 mt-2">
+                          <button
+                            onClick={() => {
+                              setIsMenuOpen(false);
+                              setShowLoginModal(true);
+                            }}
+                            className="w-full text-xl font-normal text-white/90 border border-white/20 hover:border-white/40 hover:text-white px-4 py-2.5 rounded-md transition-all"
+                          >
+                            Login
+                          </button>
+                          <Link
+                            to="/register"
+                            onClick={() => setIsMenuOpen(false)}
+                            className="w-full text-xl font-normal text-[#33FF00] border border-[#33FF00] hover:bg-[#33FF00] hover:text-black px-4 py-2.5 rounded-md transition-all block text-center"
+                          >
+                            Register
+                          </Link>
+                        </div>
+                      )}
+                    </li>
+                  </ul>
                 </SheetDescription>
               </SheetHeader>
             </SheetContent>
