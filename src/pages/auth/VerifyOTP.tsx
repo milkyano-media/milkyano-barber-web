@@ -36,11 +36,12 @@ export default function VerifyOTP() {
   const [resendTimer, setResendTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isAlreadyVerified, setIsAlreadyVerified] = useState(false);
   
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
-  const { login: authLogin } = useAuth();
+  const { login: authLogin, user, isAuthenticated } = useAuth();
   
   // Get phone number and redirect URL from query params
   const phoneNumber = searchParams.get("phone") || "";
@@ -53,6 +54,24 @@ export default function VerifyOTP() {
       otp_code: ""
     }
   });
+
+  // Check if user is already verified
+  useEffect(() => {
+    if (isAuthenticated && user?.isVerified) {
+      setIsAlreadyVerified(true);
+      toast({
+        title: "Already Verified",
+        description: "Your phone number is already verified.",
+      });
+      
+      // Redirect after 2 seconds
+      const timer = setTimeout(() => {
+        navigate(redirectUrl);
+      }, 2000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isAuthenticated, user, navigate, redirectUrl, toast]);
 
   // Countdown timer for resend
   useEffect(() => {
@@ -85,6 +104,16 @@ export default function VerifyOTP() {
   }, [showSuccess, navigate, redirectUrl]);
 
   const onSubmit = async (data: OTPFormData) => {
+    // Check if user is already verified
+    if (isAuthenticated && user?.isVerified) {
+      toast({
+        title: "Already Verified",
+        description: "Your phone number is already verified.",
+      });
+      navigate(redirectUrl);
+      return;
+    }
+    
     try {
       setIsLoading(true);
       
@@ -150,11 +179,13 @@ export default function VerifyOTP() {
     navigate(`/change-phone-number?${params.toString()}`);
   };
 
-  if (showSuccess) {
+  if (showSuccess || isAlreadyVerified) {
     return (
       <Layout>
         <Helmet>
-          <title>Verification Successful - Fadelines Barber Shop</title>
+          <title>
+            {isAlreadyVerified ? "Already Verified" : "Verification Successful"} - Fadelines Barber Shop
+          </title>
         </Helmet>
         
         <section className="min-h-screen bg-[#010401] py-12 md:py-20 flex items-center justify-center">
@@ -165,11 +196,13 @@ export default function VerifyOTP() {
               </div>
               
               <h1 className="text-2xl font-bold text-white mb-4">
-                Account Verified!
+                {isAlreadyVerified ? "Already Verified!" : "Account Verified!"}
               </h1>
               
               <p className="text-gray-400 mb-6">
-                {isRegistration 
+                {isAlreadyVerified
+                  ? "Your phone number is already verified. No need to verify again."
+                  : isRegistration 
                   ? "Your account has been successfully created and verified. Welcome to Faded Lines!"
                   : "Your phone number has been verified successfully."
                 }
