@@ -136,9 +136,18 @@ export default function VerifyOTP() {
     }
   };
 
-  const handleWrongNumber = () => {
-    // Navigate back to registration or login
-    navigate(isRegistration ? "/register" : "/login");
+  const handleWrongNumber = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Navigate to change phone number page
+    const params = new URLSearchParams({
+      phone: phoneNumber,
+      redirect: redirectUrl,
+      registration: isRegistration.toString()
+    });
+    
+    navigate(`/change-phone-number?${params.toString()}`);
   };
 
   if (showSuccess) {
@@ -262,7 +271,7 @@ export default function VerifyOTP() {
                 <div className="text-center">
                   <button
                     type="button"
-                    onClick={handleWrongNumber}
+                    onClick={(e) => handleWrongNumber(e)}
                     className="text-sm text-gray-400 hover:text-gray-300 underline"
                   >
                     Wrong phone number?

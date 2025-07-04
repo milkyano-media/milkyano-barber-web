@@ -11,6 +11,7 @@ import NotFound from '@/pages/web/NotFound';
 import Register from '@/pages/auth/Register';
 import Account from '@/pages/auth/Account';
 import VerifyOTP from '@/pages/auth/VerifyOTP';
+import ChangePhoneNumber from '@/pages/auth/ChangePhoneNumber';
 import { PublicRoute, ProtectedRoute } from '@/components/routes';
 import { UnverifiedUserHandler } from '@/components/auth/UnverifiedUserHandler';
 
@@ -42,6 +43,7 @@ const webRoutes = [
   { path: 'privacy-policy', component: PrivacyPolicy },
   { path: 'register', component: Register },
   { path: 'verify-otp', component: VerifyOTP },
+  { path: 'change-phone-number', component: ChangePhoneNumber },
   { path: 'account', component: Account },
   { path: 'book/services', component: BookList },
   { path: 'book/appointment', component: BookAppointment },
