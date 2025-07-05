@@ -120,31 +120,31 @@ export default function VerifyOTP() {
       
       const response = await verifyOTP(phoneNumber, data.otp_code);
       
+      // Always store tokens and login after successful OTP verification
+      localStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("refreshToken", response.refreshToken);
+      localStorage.setItem("user", JSON.stringify(response.user));
+      
+      authLogin(response.accessToken, response.user);
+      
+      // Show success state
+      setShowSuccess(true);
+      
+      // Different toast messages based on context
       if (isForgotPassword) {
-        // For forgot password, just show success and redirect
-        // Don't login the user
-        setShowSuccess(true);
-        
         toast({
           title: "Verified!",
           description: "Phone number verified. You can now reset your password."
         });
-      } else {
-        // Normal flow: store tokens and login
-        localStorage.setItem("accessToken", response.accessToken);
-        localStorage.setItem("refreshToken", response.refreshToken);
-        localStorage.setItem("user", JSON.stringify(response.user));
-        
-        authLogin(response.accessToken, response.user);
-        
-        // Show success state
-        setShowSuccess(true);
-        
+      } else if (isRegistration) {
         toast({
           title: "Success!",
-          description: isRegistration 
-            ? "Your account has been created and verified."
-            : "Your phone number has been verified."
+          description: "Your account has been created and verified."
+        });
+      } else {
+        toast({
+          title: "Success!",
+          description: "Your phone number has been verified."
         });
       }
     } catch (error) {

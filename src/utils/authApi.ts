@@ -51,6 +51,14 @@ export const forgotPassword = async (phoneNumber: string): Promise<RequestOTPRes
   return response.data;
 };
 
+// Update password (requires authentication)
+export const updatePassword = async (newPassword: string): Promise<{ message: string }> => {
+  const response: AxiosResponse<{ message: string }> = await apiClient.put('/auth/update-password', {
+    newPassword
+  });
+  return response.data;
+};
+
 // Refresh access token
 export const refreshAccessToken = async (refreshToken: string): Promise<RefreshTokenResponse> => {
   const response: AxiosResponse<RefreshTokenResponse> = await apiClient.post('/auth/refresh', {

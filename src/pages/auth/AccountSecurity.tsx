@@ -24,6 +24,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { updatePassword } from '@/utils/authApi';
 
 const passwordSchema = z
   .object({
@@ -87,8 +88,9 @@ export default function AccountSecurity() {
   const onPasswordSubmit = async (data: PasswordFormData) => {
     try {
       setIsLoading(true);
-      // In a real implementation, this would call an API to change the password
-      console.log('Changing password:', data);
+      
+      // Call API to update password
+      await updatePassword(data.newPassword);
       
       toast({
         title: 'Password Updated',
@@ -112,8 +114,9 @@ export default function AccountSecurity() {
   const onResetSubmit = async (data: ResetPasswordFormData) => {
     try {
       setIsLoading(true);
-      // In a real implementation, this would call an API to reset the password
-      console.log('Resetting password:', data);
+      
+      // Call API to update password (same endpoint for reset)
+      await updatePassword(data.newPassword);
       
       toast({
         title: 'Password Reset',
