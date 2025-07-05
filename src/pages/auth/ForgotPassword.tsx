@@ -25,6 +25,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Helmet } from 'react-helmet-async';
+import { forgotPassword } from '@/utils/authApi';
 
 const phoneSchema = z.object({
   phoneNumber: z.string().min(1, 'Phone number is required'),
@@ -73,8 +74,10 @@ export default function ForgotPassword() {
       
       const normalizedPhone = normalizePhoneNumber(data.phoneNumber);
       
-      // In a real implementation, this would check if the phone exists in the system
-      // For now, we'll just proceed to OTP verification with forgot password context
+      // Call the forgot-password API to validate phone and send OTP
+      await forgotPassword(normalizedPhone);
+      
+      // If successful, navigate to OTP verification with forgot password context
       navigate(`/verify-otp?phone=${encodeURIComponent(normalizedPhone)}&redirect=${encodeURIComponent('/account/security?reset=true')}&context=forgot-password`);
       
       toast({
@@ -82,11 +85,20 @@ export default function ForgotPassword() {
         description: `We've sent a verification code to ${normalizedPhone}`,
       });
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to process request',
-        variant: 'destructive',
-      });
+      // Handle specific error cases
+      if (error instanceof Error && error.message.includes('404')) {
+        toast({
+          title: 'Phone Number Not Found',
+          description: 'This phone number is not registered. Please check and try again.',
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: 'Error',
+          description: error instanceof Error ? error.message : 'Failed to send verification code',
+          variant: 'destructive',
+        });
+      }
     } finally {
       setIsLoading(false);
     }
