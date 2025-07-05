@@ -14,8 +14,8 @@ export const UnverifiedUserHandler = () => {
   useEffect(() => {
     // Check if user is authenticated but not verified
     if (isAuthenticated && user && !user.isVerified) {
-      // Allow both verify-otp and change-phone-number pages for unverified users
-      const allowedPaths = ['/verify-otp', '/change-phone-number'];
+      // Allow verify-otp, change-phone-number, and contact pages for unverified users
+      const allowedPaths = ['/verify-otp', '/change-phone-number', '/contact'];
       
       if (!allowedPaths.includes(location.pathname)) {
         const redirectUrl = location.pathname || '/';
