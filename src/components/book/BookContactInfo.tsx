@@ -827,6 +827,10 @@ const BookContactInfo = () => {
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
         onSuccess={handleLoginSuccess}
+        onForgotPassword={() => {
+          setShowLoginModal(false);
+          navigate('/forgot-password');
+        }}
         contextMessage={
           isAuthenticated 
             ? "Sign in to a different account" 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from '@/pages/web/Home';
 import Barbers from '@/pages/web/Barbers';
 import Gallery from '@/pages/web/Gallery';
@@ -10,8 +10,13 @@ import PrivacyPolicy from '@/pages/web/PrivacyPolicy';
 import NotFound from '@/pages/web/NotFound';
 import Register from '@/pages/auth/Register';
 import Account from '@/pages/auth/Account';
+import AccountLayout from '@/pages/auth/AccountLayout';
+import AccountProfile from '@/pages/auth/AccountProfile';
+import AccountBookings from '@/pages/auth/AccountBookings';
+import AccountSecurity from '@/pages/auth/AccountSecurity';
 import VerifyOTP from '@/pages/auth/VerifyOTP';
 import ChangePhoneNumber from '@/pages/auth/ChangePhoneNumber';
+import ForgotPassword from '@/pages/auth/ForgotPassword';
 import { PublicRoute, ProtectedRoute } from '@/components/routes';
 import { UnverifiedUserHandler } from '@/components/auth/UnverifiedUserHandler';
 
@@ -44,7 +49,7 @@ const webRoutes = [
   { path: 'register', component: Register },
   { path: 'verify-otp', component: VerifyOTP },
   { path: 'change-phone-number', component: ChangePhoneNumber },
-  { path: 'account', component: Account },
+  { path: 'forgot-password', component: ForgotPassword },
   { path: 'book/services', component: BookList },
   { path: 'book/appointment', component: BookAppointment },
   { path: 'book/contact-info', component: BookContactInfo },
@@ -220,6 +225,21 @@ const AppRoutes: React.FC = () => {
             <Route path={`/meta/${path}`} element={<Component />} />
           </React.Fragment>
         ))}
+
+        {/* ACCOUNT ROUTES - Protected with nested sub-routes */}
+        <Route 
+          path="/account" 
+          element={
+            <ProtectedRoute>
+              <AccountLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Navigate to="/account/profile" />} />
+          <Route path="profile" element={<AccountProfile />} />
+          <Route path="bookings" element={<AccountBookings />} />
+          <Route path="security" element={<AccountSecurity />} />
+        </Route>
 
         {/* NOT FOUND ROUTE */}
         <Route path='*' element={<NotFound />} />

@@ -40,6 +40,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             // Navigate back to home when modal is closed
             navigate('/');
           }}
+          onForgotPassword={() => {
+            setShowLoginModal(false);
+            navigate('/forgot-password');
+          }}
           contextMessage="Please sign in to access this page"
         />
         {/* Show a loading state or empty page while modal is open */}

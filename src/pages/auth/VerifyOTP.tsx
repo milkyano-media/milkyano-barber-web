@@ -47,6 +47,7 @@ export default function VerifyOTP() {
   const phoneNumber = searchParams.get("phone") || "";
   const redirectUrl = searchParams.get("redirect") || "/";
   const isRegistration = searchParams.get("registration") === "true";
+  const isForgotPassword = searchParams.get("context") === "forgot-password";
 
   const form = useForm<OTPFormData>({
     resolver: zodResolver(otpSchema),
@@ -55,9 +56,9 @@ export default function VerifyOTP() {
     }
   });
 
-  // Check if user is already verified
+  // Check if user is already verified (skip this check for forgot password)
   useEffect(() => {
-    if (isAuthenticated && user?.isVerified) {
+    if (!isForgotPassword && isAuthenticated && user?.isVerified) {
       setIsAlreadyVerified(true);
       toast({
         title: "Already Verified",
@@ -71,7 +72,7 @@ export default function VerifyOTP() {
       
       return () => clearTimeout(timer);
     }
-  }, [isAuthenticated, user, navigate, redirectUrl, toast]);
+  }, [isAuthenticated, user, navigate, redirectUrl, toast, isForgotPassword]);
 
   // Countdown timer for resend
   useEffect(() => {
@@ -104,8 +105,8 @@ export default function VerifyOTP() {
   }, [showSuccess, navigate, redirectUrl]);
 
   const onSubmit = async (data: OTPFormData) => {
-    // Check if user is already verified
-    if (isAuthenticated && user?.isVerified) {
+    // Check if user is already verified (skip for forgot password)
+    if (!isForgotPassword && isAuthenticated && user?.isVerified) {
       toast({
         title: "Already Verified",
         description: "Your phone number is already verified.",
@@ -119,22 +120,33 @@ export default function VerifyOTP() {
       
       const response = await verifyOTP(phoneNumber, data.otp_code);
       
-      // Store tokens and updated user info
-      localStorage.setItem("accessToken", response.accessToken);
-      localStorage.setItem("refreshToken", response.refreshToken);
-      localStorage.setItem("user", JSON.stringify(response.user));
-      
-      authLogin(response.accessToken, response.user);
-      
-      // Show success state
-      setShowSuccess(true);
-      
-      toast({
-        title: "Success!",
-        description: isRegistration 
-          ? "Your account has been created and verified."
-          : "Your phone number has been verified."
-      });
+      if (isForgotPassword) {
+        // For forgot password, just show success and redirect
+        // Don't login the user
+        setShowSuccess(true);
+        
+        toast({
+          title: "Verified!",
+          description: "Phone number verified. You can now reset your password."
+        });
+      } else {
+        // Normal flow: store tokens and login
+        localStorage.setItem("accessToken", response.accessToken);
+        localStorage.setItem("refreshToken", response.refreshToken);
+        localStorage.setItem("user", JSON.stringify(response.user));
+        
+        authLogin(response.accessToken, response.user);
+        
+        // Show success state
+        setShowSuccess(true);
+        
+        toast({
+          title: "Success!",
+          description: isRegistration 
+            ? "Your account has been created and verified."
+            : "Your phone number has been verified."
+        });
+      }
     } catch (error) {
       toast({
         title: "Error",
@@ -176,6 +188,10 @@ export default function VerifyOTP() {
       registration: isRegistration.toString()
     });
     
+    if (isForgotPassword) {
+      params.append('context', 'forgot-password');
+    }
+    
     navigate(`/change-phone-number?${params.toString()}`);
   };
 
@@ -196,12 +212,14 @@ export default function VerifyOTP() {
               </div>
               
               <h1 className="text-2xl font-bold text-white mb-4">
-                {isAlreadyVerified ? "Already Verified!" : "Account Verified!"}
+                {isAlreadyVerified ? "Already Verified!" : isForgotPassword ? "Phone Verified!" : "Account Verified!"}
               </h1>
               
               <p className="text-gray-400 mb-6">
                 {isAlreadyVerified
                   ? "Your phone number is already verified. No need to verify again."
+                  : isForgotPassword
+                  ? "Your phone number has been verified. You can now reset your password."
                   : isRegistration 
                   ? "Your account has been successfully created and verified. Welcome to Faded Lines!"
                   : "Your phone number has been verified successfully."
@@ -235,7 +253,7 @@ export default function VerifyOTP() {
               <Logo className="w-32 h-auto opacity-90" />
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">
-              Verify Your Phone
+              {isForgotPassword ? "Reset Password" : "Verify Your Phone"}
             </h1>
             <p className="text-gray-400 text-sm">
               We've sent a verification code to {phoneNumber}
