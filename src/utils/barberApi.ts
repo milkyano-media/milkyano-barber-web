@@ -34,43 +34,29 @@ export const postBooking = async (data: BookingRequest, bookFrom: string): Promi
   return response.data;
 };
 
-// Customer endpoints - NOT IMPLEMENTED IN BACKEND YET
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// Customer endpoints
 export const getCustomerStatusByEmailAndPhone = async (email: string, phone: string): Promise<CustomerStatus> => {
-  // This endpoint doesn't exist in the new API yet
-  // For now, return a mock response
-  console.warn('getCustomerStatusByEmailAndPhone is not implemented in the new API');
-  return { new_customer: true };
+  const params = new URLSearchParams({ email, phone });
+  const response: AxiosResponse<CustomerStatus> = await apiClient.get(`/customers/status?${params.toString()}`);
+  return response.data;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCustomerByEmailAndPhone = async (email: string, phone: string): Promise<CustomerDetail> => {
-  // This endpoint doesn't exist in the new API yet
-  // For now, return null to indicate customer not found
-  console.warn('getCustomerByEmailAndPhone is not implemented in the new API');
-  return null as unknown as CustomerDetail;
+  try {
+    const params = new URLSearchParams({ email, phone });
+    const response: AxiosResponse<{ customer: CustomerDetail }> = await apiClient.get(`/customers/search?${params.toString()}`);
+    return response.data.customer;
+  } catch (error: any) {
+    if (error.response?.status === 404) {
+      return null as unknown as CustomerDetail;
+    }
+    throw error;
+  }
 };
 
-// Legacy endpoints - these might need to be updated based on new API structure
 export const postCustomer = async (data: CustomerRequest): Promise<CustomerResponse> => {
-  // This functionality is now handled by the auth/register endpoint
-  // For now, return a mock response to maintain compatibility
-  console.warn('postCustomer should be replaced with proper auth/register flow');
-  
-  return {
-    customer: {
-      id: 'temp-' + Date.now(),
-      given_name: data.given_name,
-      family_name: data.family_name,
-      email_address: data.email_address,
-      phone_number: data.phone_number,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      preferences: { email_unsubscribed: false },
-      creation_source: 'WEB',
-      version: 1
-    }
-  };
+  const response: AxiosResponse<CustomerResponse> = await apiClient.post('/customers', data);
+  return response.data;
 };
 
 export const postUtmRecord = async (data: CreateRecordInput): Promise<CreateRecordInput> => {

@@ -23,6 +23,7 @@ import { useEffect, useState } from 'react';
 import { useGtm } from '../hooks/UseGtm';
 import { BarberDetailResponse } from '@/interfaces/BookingInterface';
 import { getBarberDetail } from '@/utils/barberApi';
+import { getCustomerId } from '@/utils/authApi';
 
 const ThankYouPage = () => {
   const location = useLocation();
@@ -46,7 +47,7 @@ const ThankYouPage = () => {
         const bookingId = localStorage.getItem('booking_id');
         const sendedBookingId =
           localStorage.getItem('sended_booking_id') || undefined;
-        const customerId = localStorage.getItem('customer_id');
+        const customerId = getCustomerId();
         const barberId = localStorage.getItem('barber_id');
 
         const booking_origin = localStorage.getItem('utm_source') || undefined;

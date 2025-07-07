@@ -29,21 +29,16 @@ import {
 import { Check, X } from "react-bootstrap-icons";
 import Spinner from "@/components/web/Spinner";
 import {
-  getCustomerByEmailAndPhone,
-  postBooking,
-  postCustomer
+  postBooking
 } from "@/utils/barberApi";
 import { trackBookingCreated } from "@/utils/eventTracker";
 import {
   BookingRequest,
   BookingResponse,
-  CustomerDetail,
-  CustomerRequest,
-  CustomerResponse
+  CustomerRequest
 } from "@/interfaces/BookingInterface";
 import { BookingEventData } from "@/interfaces/EventInterface";
 import { isValidPhoneNumber } from "react-phone-number-input";
-import { CustomerStatus } from "@/interfaces/UserInterface";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { useAuth } from "@/hooks/useAuth";
 import { checkPhoneExists } from "@/utils/authApi";
@@ -217,8 +212,7 @@ const BookContactInfo = () => {
 
   const submitTrackEvent = async (
     valuesWithIdempotencyKey: CustomerRequest,
-    bookingInfo: BookingResponse,
-    customerStatusResponse: CustomerStatus
+    bookingInfo: BookingResponse
   ) => {
     try {
       // Create rich booking event data
@@ -233,7 +227,7 @@ const BookContactInfo = () => {
           name: `${valuesWithIdempotencyKey.given_name} ${valuesWithIdempotencyKey.family_name}`,
           email: valuesWithIdempotencyKey.email_address,
           phone: valuesWithIdempotencyKey.phone_number,
-          isNewCustomer: customerStatusResponse.new_customer
+          isNewCustomer: false // All authenticated users are existing customers
         },
 
         // Team member information
@@ -303,30 +297,25 @@ const BookContactInfo = () => {
       }
 
       let customerId;
-      const customer: CustomerDetail = await getCustomerByEmailAndPhone(
-        valuesWithIdempotencyKey.email_address,
-        valuesWithIdempotencyKey.phone_number
-      );
-      const customerStatusResponse: CustomerStatus = {
-        new_customer: !customer?.id
-      };
-      if (customerStatusResponse.new_customer === false) {
-        customerId = customer.id;
+      
+      // Simple flow: authenticated users already have Square customer ID
+      if (isAuthenticated && user) {
+        customerId = user.id;
       } else {
-        const newCustomer: CustomerResponse = await postCustomer(
-          valuesWithIdempotencyKey
-        );
-        customerId = newCustomer.customer.id;
+        // This shouldn't happen since booking requires authentication
+        throw new Error("Authentication required for booking");
       }
+      
       if (!customerId) {
         throw new Error("Customer ID is missing from the response.");
       }
 
+      // Store the Square customer ID for all users
+      // This is needed for the thank you page analytics
       try {
         localStorage.setItem("customer_id", customerId);
-      } catch (springError) {
-        console.error("Error registering with Spring Boot:", springError);
-        localStorage.setItem("customer_id", customerId);
+      } catch (error) {
+        console.error("Error storing customer ID:", error);
       }
 
       let appointment_segments;
@@ -355,22 +344,58 @@ const BookContactInfo = () => {
           error
         );
       }
-      const handlePurchase = (customerStatus: boolean) => {
+      const handlePurchase = () => {
         localStorage.setItem("purchase_value", total.toString());
-        localStorage.setItem("new_customer", customerStatus.toString());
+        localStorage.setItem("new_customer", "false"); // Always false for authenticated users
         localStorage.setItem("booking_id", booking.booking.id);
         localStorage.setItem(
           "barber_id",
           booking.booking.appointment_segments[0].team_member_id
         );
       };
+      // Build enhanced appointment note if booking for someone else
+      let enhancedNote = values.appointment_note?.toString() || "";
+      
+      if (isAuthenticated && user) {
+        // Helper to normalize phone numbers for comparison
+        const normalizePhone = (phone: string) => {
+          if (!phone) return '';
+          // Remove spaces, dashes, parentheses, and normalize country code
+          return phone.replace(/[\s\-()]/g, '').replace(/^\+61/, '0').replace(/^61/, '0');
+        };
+        
+        // Check if the form data differs from the authenticated user's data
+        const isBookingForSomeoneElse = 
+          values.given_name !== user.firstName ||
+          values.family_name !== user.lastName ||
+          normalizePhone(values.phone_number) !== normalizePhone(user.phoneNumber) ||
+          (values.email_address && values.email_address !== user.email);
+          
+        if (isBookingForSomeoneElse) {
+          // Add the actual contact person's information to the notes
+          const contactInfoParts = [
+            `Booking for: ${values.given_name} ${values.family_name}`,
+            `Phone: ${values.phone_number}`
+          ];
+          
+          if (values.email_address) {
+            contactInfoParts.push(`Email: ${values.email_address}`);
+          }
+          
+          const contactInfo = contactInfoParts.join('\n');
+          enhancedNote = enhancedNote 
+            ? `${contactInfo}\nNote: ${enhancedNote}`
+            : contactInfo;
+        }
+      }
+      
       const bookingPayload: BookingRequest = {
         booking: {
           start_at: start_at,
           location_id: location_id,
           appointment_segments: appointment_segments,
           customer_id: customerId,
-          customer_note: values.appointment_note?.toString() || ""
+          customer_note: enhancedNote
         }
       };
       const booking: BookingResponse = await postBooking(
@@ -379,10 +404,9 @@ const BookContactInfo = () => {
       );
       await submitTrackEvent(
         valuesWithIdempotencyKey,
-        booking,
-        customerStatusResponse
+        booking
       );
-      handlePurchase(customerStatusResponse.new_customer);
+      handlePurchase();
       setStatus("succeeded");
       setTimeout(() => {
         setIsLoading(false);
@@ -799,7 +823,7 @@ const BookContactInfo = () => {
                 </div>
                 <div className="w-full grid grid-cols-3">
                   <p className="text-xs col-span-2 font-light">
-                    Due at Appointement{" "}
+                    Due at Appointment{" "}
                   </p>
                   <p className="text-xs justify-self-end font-light">
                     A${total}
@@ -815,7 +839,7 @@ const BookContactInfo = () => {
                 disabled={!isChecked}
                 className=" w-full bg-[#036901] mt-10 h-fit py-4 rounded-xl font-light"
               >
-                Book an Appointement
+                Book an Appointment
               </Button>
             </div>
           </form>

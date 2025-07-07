@@ -86,3 +86,11 @@ export const checkPhoneExists = async (phoneNumber: string): Promise<boolean> =>
   }
 };
 
+// Helper function to get Square customer ID from localStorage
+// Note: This returns the Square customer ID, not the auth user ID
+export const getCustomerId = (): string | null => {
+  // Always return the Square customer ID from localStorage
+  // This is set during the booking process for both authenticated and non-authenticated users
+  return localStorage.getItem('customer_id');
+};
+
