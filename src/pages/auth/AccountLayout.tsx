@@ -2,7 +2,6 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/use-toast';
 import Layout from '@/components/web/WebLayout';
-import { Button } from '@/components/ui/button';
 import { User, Calendar, Lock, LogOut } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cn } from '@/lib/utils';

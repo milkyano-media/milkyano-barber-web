@@ -3,11 +3,8 @@ import { AxiosResponse } from 'axios';
 import {
   RegisterPayload,
   RegisterResponse,
-  RequestOTPPayload,
   RequestOTPResponse,
-  VerifyOTPPayload,
   VerifyOTPResponse,
-  RefreshTokenPayload,
   RefreshTokenResponse,
   GetMeResponse,
   LoginPayload,

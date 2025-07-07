@@ -59,26 +59,25 @@ export default function Login() {
     try {
       setIsLoading(true);
       const response = await login({
-        phone_number: data.phone_number,
+        emailOrPhone: data.phone_number,
         password: data.password,
       });
       
-      if (response.success) {
-        authLogin(response.token, response.customer);
-        
-        toast({
-          title: 'Welcome back!',
-          description: 'You have successfully logged in.',
-        });
-        
-        // Check if user came from booking flow or another page
-        const returnUrl = localStorage.getItem('auth_return_url');
-        if (returnUrl) {
-          localStorage.removeItem('auth_return_url');
-          navigate(returnUrl);
-        } else {
-          navigate('/');
-        }
+      // LoginResponse includes accessToken and user
+      authLogin(response.accessToken, response.user);
+      
+      toast({
+        title: 'Welcome back!',
+        description: 'You have successfully logged in.',
+      });
+      
+      // Check if user came from booking flow or another page
+      const returnUrl = localStorage.getItem('auth_return_url');
+      if (returnUrl) {
+        localStorage.removeItem('auth_return_url');
+        navigate(returnUrl);
+      } else {
+        navigate('/');
       }
     } catch (error) {
       toast({

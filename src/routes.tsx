@@ -9,7 +9,6 @@ import Contacts from '@/pages/web/Contacts';
 import PrivacyPolicy from '@/pages/web/PrivacyPolicy';
 import NotFound from '@/pages/web/NotFound';
 import Register from '@/pages/auth/Register';
-import Account from '@/pages/auth/Account';
 import AccountLayout from '@/pages/auth/AccountLayout';
 import AccountProfile from '@/pages/auth/AccountProfile';
 import AccountBookings from '@/pages/auth/AccountBookings';
