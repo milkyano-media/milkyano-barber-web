@@ -364,6 +364,10 @@ export default function Register() {
           const redirect = searchParams.get("redirect");
           navigate(redirect || "/");
         }}
+        onForgotPassword={() => {
+          setShowLoginModal(false);
+          navigate('/forgot-password');
+        }}
       />
     </Layout>
   );
