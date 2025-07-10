@@ -121,10 +121,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
 
-    // Redirect to home if on protected route
+    // Redirect to home if on protected or auth-related routes
     if (
       window.location.pathname.includes("/account") ||
-      window.location.pathname.includes("/bookings")
+      window.location.pathname.includes("/bookings") ||
+      window.location.pathname.includes("/verify-otp") ||
+      window.location.pathname.includes("/change-phone-number") ||
+      window.location.pathname.includes("/forgot-password") ||
+      window.location.pathname.includes("/book/thank-you")
     ) {
       window.location.href = "/";
     }
