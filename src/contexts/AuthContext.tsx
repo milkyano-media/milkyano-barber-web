@@ -3,7 +3,9 @@ import { UserData } from "@/interfaces/AuthInterface";
 import { AuthContext } from "./AuthContextDefinition";
 import {
   refreshAccessToken as refreshTokenAPI,
-  getCurrentUser
+  getCurrentUser,
+  verifyGoogleOAuth,
+  completeGoogleOAuth
 } from "@/utils/authApi";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -158,6 +160,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const verifyGoogleAuth = async (idToken: string) => {
+    try {
+      const response = await verifyGoogleOAuth(idToken);
+      return response;
+    } catch (error) {
+      console.error("Google OAuth verification error:", error);
+      throw error;
+    }
+  };
+
+  const completeGoogleAuth = async (idToken: string, phoneNumber: string) => {
+    try {
+      const response = await completeGoogleOAuth(idToken, phoneNumber);
+      
+      // Store tokens
+      localStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("refreshToken", response.refreshToken);
+      localStorage.setItem("user", JSON.stringify(response.user));
+      
+      // Update state
+      setAccessToken(response.accessToken);
+      setRefreshToken(response.refreshToken);
+      setUser(response.user);
+      setIsAuthenticated(true);
+      
+      return response;
+    } catch (error) {
+      console.error("Google OAuth completion error:", error);
+      throw error;
+    }
+  };
+
+  const loginWithExistingGoogleUser = async (response: any) => {
+    // Store tokens for existing user
+    localStorage.setItem("accessToken", response.accessToken);
+    localStorage.setItem("refreshToken", response.refreshToken);
+    localStorage.setItem("user", JSON.stringify(response.user));
+    
+    // Update state
+    setAccessToken(response.accessToken);
+    setRefreshToken(response.refreshToken);
+    setUser(response.user);
+    setIsAuthenticated(true);
+    
+    return response;
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -168,7 +217,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         login,
         logout,
         isLoading,
-        refreshAccessToken
+        refreshAccessToken,
+        verifyGoogleAuth,
+        completeGoogleAuth,
+        loginWithExistingGoogleUser
       }}
     >
       {children}

@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { UserData } from '@/interfaces/AuthInterface';
+import { UserData, LoginResponse } from '@/interfaces/AuthInterface';
 
 export interface AuthContextType {
   isAuthenticated: boolean;
@@ -10,6 +10,9 @@ export interface AuthContextType {
   logout: () => void;
   isLoading: boolean;
   refreshAccessToken: () => Promise<void>;
+  verifyGoogleAuth: (idToken: string) => Promise<any>;
+  completeGoogleAuth: (idToken: string, phoneNumber: string) => Promise<LoginResponse>;
+  loginWithExistingGoogleUser: (response: any) => Promise<any>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

@@ -23,6 +23,8 @@ import { useAuth } from "@/hooks/useAuth";
 import Layout from "@/components/web/WebLayout";
 import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 import { Helmet } from "react-helmet-async";
+import GoogleOAuthButton from "@/components/auth/GoogleOAuthButton";
+import GooglePhoneNumberModal from "@/components/auth/GooglePhoneNumberModal";
 
 const registerSchema = z
   .object({
@@ -49,6 +51,9 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showPhoneModal, setShowPhoneModal] = useState(false);
+  const [googleProfile, setGoogleProfile] = useState<any>(null);
+  const [googleIdToken, setGoogleIdToken] = useState<string>('');
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -144,10 +149,46 @@ export default function Register() {
           </div>
 
           <div className="bg-stone-900/50 backdrop-blur-sm border border-stone-700/50 rounded-2xl p-6 shadow-2xl">
+            {/* Google OAuth Button */}
+            <div className="mb-6">
+              <GoogleOAuthButton
+                onSuccess={() => {
+                  toast({
+                    title: "Success",
+                    description: "You have successfully registered with Google!"
+                  });
+                  const redirect = searchParams.get("redirect");
+                  navigate(redirect || "/");
+                }}
+                onError={(error) => {
+                  toast({
+                    title: "Error",
+                    description: error,
+                    variant: "destructive"
+                  });
+                }}
+                onNeedPhoneNumber={(profile, idToken) => {
+                  setGoogleProfile(profile);
+                  setGoogleIdToken(idToken);
+                  setShowPhoneModal(true);
+                }}
+                disabled={isLoading}
+              />
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-stone-600" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-stone-900/50 px-2 text-stone-400">Or register with email</span>
+              </div>
+            </div>
+
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4"
+                className="space-y-4 mt-6"
               >
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
@@ -367,6 +408,23 @@ export default function Register() {
         onForgotPassword={() => {
           setShowLoginModal(false);
           navigate('/forgot-password');
+        }}
+      />
+      
+      {/* Google Phone Number Modal */}
+      <GooglePhoneNumberModal
+        isOpen={showPhoneModal}
+        onClose={() => setShowPhoneModal(false)}
+        profile={googleProfile}
+        idToken={googleIdToken}
+        onSuccess={() => {
+          setShowPhoneModal(false);
+          toast({
+            title: "Success",
+            description: "You have successfully registered with Google!"
+          });
+          const redirect = searchParams.get("redirect");
+          navigate(redirect || "/");
         }}
       />
     </Layout>

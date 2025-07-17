@@ -19,6 +19,8 @@ import { login } from "@/utils/authApi";
 import { useToast } from "@/components/ui/use-toast";
 import Logo from "@/components/react-svg/logo";
 import { Eye, EyeOff } from "lucide-react";
+import GoogleOAuthButton from "./GoogleOAuthButton";
+import GooglePhoneNumberModal from "./GooglePhoneNumberModal";
 
 const loginSchema = z.object({
   emailOrPhone: z
@@ -46,6 +48,9 @@ export const LoginModal = ({
 }: LoginModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showPhoneModal, setShowPhoneModal] = useState(false);
+  const [googleProfile, setGoogleProfile] = useState<any>(null);
+  const [googleIdToken, setGoogleIdToken] = useState<string>('');
   const { login: authLogin } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -151,6 +156,43 @@ export const LoginModal = ({
             </p>
           )}
         </DialogHeader>
+
+        {/* Google OAuth Button - Outside of form */}
+        <div className="mb-4">
+          <GoogleOAuthButton
+            onSuccess={() => {
+              toast({
+                title: "Success",
+                description: "You have successfully logged in with Google!"
+              });
+              onSuccess?.();
+              onClose();
+              form.reset();
+            }}
+            onError={(error) => {
+              toast({
+                title: "Error",
+                description: error,
+                variant: "destructive"
+              });
+            }}
+            onNeedPhoneNumber={(profile, idToken) => {
+              setGoogleProfile(profile);
+              setGoogleIdToken(idToken);
+              setShowPhoneModal(true);
+            }}
+            disabled={isLoading}
+          />
+        </div>
+
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-gray-600" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-[#010401] px-2 text-gray-400">Or continue with</span>
+          </div>
+        </div>
 
         <Form {...form}>
           <form
@@ -261,9 +303,21 @@ export const LoginModal = ({
             </div>
           </form>
         </Form>
-
-        {/* Google sign-in temporarily hidden */}
       </DialogContent>
+      
+      {/* Google Phone Number Modal */}
+      <GooglePhoneNumberModal
+        isOpen={showPhoneModal}
+        onClose={() => setShowPhoneModal(false)}
+        profile={googleProfile}
+        idToken={googleIdToken}
+        onSuccess={() => {
+          setShowPhoneModal(false);
+          onSuccess?.();
+          onClose();
+          form.reset();
+        }}
+      />
     </Dialog>
   );
 };

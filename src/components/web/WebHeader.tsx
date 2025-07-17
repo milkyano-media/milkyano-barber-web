@@ -217,7 +217,7 @@ const Header: React.FC = () => {
                 onClick={() => setShowLoginModal(true)}
                 className="text-white hover:bg-white/10"
               >
-                Login
+                Log in
               </Button>
               <Link to="/register">
                 <Button
