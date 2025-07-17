@@ -28,3 +28,4 @@ dist-ssr
 src/assets/landing/videos/*
 
 bun.lockb
+.claude
