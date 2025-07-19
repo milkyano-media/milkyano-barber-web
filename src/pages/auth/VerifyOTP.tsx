@@ -17,6 +17,9 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { verifyOTP, requestOTP } from "@/utils/authApi";
 import { useAuth } from "@/hooks/useAuth";
+import { trackRegistrationCompleted, trackRegistrationFailed } from "@/utils/eventTracker";
+import { LOCAL_STORAGE_KEYS } from "@/constants/localStorageKey.constants";
+import { useRegistrationTracking } from "@/hooks/useRegistrationTracking";
 import Layout from "@/components/web/WebLayout";
 import { CheckCircle } from "lucide-react";
 import { Helmet } from "react-helmet-async";
@@ -37,6 +40,7 @@ export default function VerifyOTP() {
   const [canResend, setCanResend] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isAlreadyVerified, setIsAlreadyVerified] = useState(false);
+  const [otpAttempts, setOtpAttempts] = useState(0);
   
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -48,6 +52,15 @@ export default function VerifyOTP() {
   const redirectUrl = searchParams.get("redirect") || "/";
   const isRegistration = searchParams.get("registration") === "true";
   const isForgotPassword = searchParams.get("context") === "forgot-password";
+
+  // Use registration tracking hook
+  useRegistrationTracking({
+    phoneNumber,
+    attemptCount: otpAttempts,
+    isRegistration,
+    currentPage: '/verify-otp',
+    isCompleted: showSuccess
+  });
 
   const form = useForm<OTPFormData>({
     resolver: zodResolver(otpSchema),
@@ -104,6 +117,53 @@ export default function VerifyOTP() {
     }
   }, [showSuccess, navigate, redirectUrl]);
 
+  // Track registration failed when user leaves verification page during registration
+  useEffect(() => {
+    if (!isRegistration) return;
+
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      // Only track if they haven't successfully completed verification
+      if (!showSuccess) {
+        trackRegistrationFailed(
+          phoneNumber,
+          'user_abandoned',
+          otpAttempts,
+          '/verify-otp'
+        );
+      }
+    };
+
+    const handlePopState = () => {
+      // Only track if they haven't successfully completed verification
+      if (!showSuccess) {
+        trackRegistrationFailed(
+          phoneNumber,
+          'navigation_away',
+          otpAttempts,
+          '/verify-otp',
+          'back_navigation'
+        );
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isRegistration, phoneNumber, otpAttempts, showSuccess]);
+
+  const calculateTimeToVerify = (): number => {
+    const startTime = localStorage.getItem(LOCAL_STORAGE_KEYS.REGISTRATION_START_TIME);
+    if (!startTime) return 0;
+    
+    const start = new Date(startTime);
+    const now = new Date();
+    return Math.floor((now.getTime() - start.getTime()) / 1000);
+  };
+
   const onSubmit = async (data: OTPFormData) => {
     // Check if user is already verified (skip for forgot password)
     if (!isForgotPassword && isAuthenticated && user?.isVerified) {
@@ -117,6 +177,7 @@ export default function VerifyOTP() {
     
     try {
       setIsLoading(true);
+      setOtpAttempts(prev => prev + 1);
       
       const response = await verifyOTP(phoneNumber, data.otp_code);
       
@@ -126,6 +187,26 @@ export default function VerifyOTP() {
       localStorage.setItem("user", JSON.stringify(response.user));
       
       authLogin(response.accessToken, response.user);
+      
+      // Track registration completed if this is a registration flow
+      if (isRegistration) {
+        await trackRegistrationCompleted(
+          {
+            userId: response.user.id,
+            phoneNumber: response.user.phoneNumber,
+            isNewCustomer: true
+          },
+          {
+            method: 'otp',
+            attemptCount: otpAttempts + 1,
+            timeToVerify: calculateTimeToVerify()
+          },
+          {
+            registrationPath: localStorage.getItem('booking_form_data') ? 'booking_flow' : 'direct',
+            redirectTo: redirectUrl
+          }
+        );
+      }
       
       // Show success state
       setShowSuccess(true);
@@ -180,6 +261,18 @@ export default function VerifyOTP() {
   const handleWrongNumber = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    // Track registration failed if user changes phone number during registration
+    // Only track if they haven't successfully completed verification
+    if (isRegistration && !showSuccess) {
+      trackRegistrationFailed(
+        phoneNumber,
+        'navigation_away',
+        otpAttempts,
+        '/verify-otp',
+        '/change-phone-number'
+      );
+    }
     
     // Navigate to change phone number page
     const params = new URLSearchParams({

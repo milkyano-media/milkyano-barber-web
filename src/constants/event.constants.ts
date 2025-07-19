@@ -1,7 +1,10 @@
 // Event types for analytics tracking
 export const EVENT_TYPES = {
   PAGE_VISIT: 'page_visit',
-  CREATE_BOOKING: 'create_booking'
+  CREATE_BOOKING: 'create_booking',
+  NEED_VERIFICATION: 'need_verification',
+  REGISTRATION_COMPLETED: 'registration_completed',
+  REGISTRATION_FAILED: 'registration_failed'
 };
 
 // Traffic source types

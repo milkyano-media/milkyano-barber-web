@@ -20,6 +20,7 @@ import * as RPNInput from "react-phone-number-input";
 import { register as registerUser } from "@/utils/authApi";
 import { LoginModal } from "@/components/auth/LoginModal";
 import { useAuth } from "@/hooks/useAuth";
+import { trackNeedVerification } from "@/utils/eventTracker";
 import Layout from "@/components/web/WebLayout";
 import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 import { Helmet } from "react-helmet-async";
@@ -95,6 +96,22 @@ export default function Register() {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       setIsLoading(true);
+      
+      // Track need verification event before API call
+      await trackNeedVerification(
+        {
+          firstName: data.given_name,
+          lastName: data.family_name,
+          email: data.email_address,
+          phoneNumber: data.phone_number
+        },
+        {
+          page: '/register',
+          referrer: document.referrer,
+          registrationTrigger: localStorage.getItem('booking_form_data') ? 'booking_flow' : 'manual'
+        }
+      );
+      
       const response = await registerUser({
         phoneNumber: data.phone_number,
         password: data.password,

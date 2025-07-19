@@ -2,7 +2,18 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import { EVENT_TYPES } from '@/constants/event.constants';
 import { LOCAL_STORAGE_KEYS } from '@/constants/localStorageKey.constants';
-import { BookingEventData, BookingEventProperties } from '@/interfaces/EventInterface';
+import { 
+  BookingEventData, 
+  BookingEventProperties,
+  RegistrationUserData,
+  RegistrationSource,
+  NeedVerificationEventData,
+  CompletedUserData,
+  VerificationData,
+  CompletionSource,
+  RegistrationCompletedEventData,
+  RegistrationFailedEventData
+} from '@/interfaces/EventInterface';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -231,7 +242,212 @@ export const trackBookingCreated = async (
   }
 };
 
+/**
+ * Get or initialize registration start timestamp
+ */
+const getRegistrationStartTime = (): string => {
+  let startTime = localStorage.getItem(LOCAL_STORAGE_KEYS.REGISTRATION_START_TIME);
+  
+  if (!startTime) {
+    startTime = new Date().toISOString();
+    localStorage.setItem(LOCAL_STORAGE_KEYS.REGISTRATION_START_TIME, startTime);
+  }
+  
+  return startTime;
+};
+
+/**
+ * Clear registration start timestamp
+ */
+const clearRegistrationStartTime = (): void => {
+  localStorage.removeItem(LOCAL_STORAGE_KEYS.REGISTRATION_START_TIME);
+};
+
+/**
+ * Calculate time from registration start to current time
+ */
+const calculateTimeFromStart = (): number => {
+  const startTime = localStorage.getItem(LOCAL_STORAGE_KEYS.REGISTRATION_START_TIME);
+  if (!startTime) return 0;
+  
+  const start = new Date(startTime);
+  const now = new Date();
+  return Math.floor((now.getTime() - start.getTime()) / 1000);
+};
+
+/**
+ * Track need verification event (when user needs to verify their phone number)
+ * @param {RegistrationUserData} userData - User registration data
+ * @param {RegistrationSource} source - Registration source information
+ */
+export const trackNeedVerification = async (
+  userData: RegistrationUserData,
+  source: RegistrationSource
+): Promise<void> => {
+  try {
+    const sessionId = localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION_ID) as string;
+    const visitorId = getUniqueVisitorId();
+    const conversionSequenceId = getConversionSequenceId();
+    const trafficSource = getTrafficSource();
+    
+    // Store registration start time
+    const startTime = getRegistrationStartTime();
+
+    // Create need verification event data
+    const needVerificationData: NeedVerificationEventData = {
+      user: userData,
+      source,
+      attribution: {
+        trafficSource: trafficSource,
+        utm_source: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_SOURCE) || null,
+        utm_medium: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_MEDIUM) || null,
+        utm_campaign: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CAMPAIGN) || null,
+        utm_content: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CONTENT) || null,
+        fbclid: localStorage.getItem(LOCAL_STORAGE_KEYS.FBCLID) || null
+      },
+      timestamp: startTime
+    };
+
+    await axios.post(EVENTS_API_URL, {
+      sessionId,
+      uniqueVisitorId: visitorId,
+      conversionSequenceId,
+      eventName: EVENT_TYPES.NEED_VERIFICATION,
+      properties: needVerificationData
+    });
+
+    console.log(`Need verification tracked for: ${userData.email}`);
+  } catch (error) {
+    console.error('Error tracking need verification:', error);
+  }
+};
+
+/**
+ * Track registration completed event
+ * @param {CompletedUserData} userData - Completed user data
+ * @param {VerificationData} verificationData - Verification details
+ * @param {CompletionSource} source - Completion source information
+ */
+export const trackRegistrationCompleted = async (
+  userData: CompletedUserData,
+  verificationData: VerificationData,
+  source: CompletionSource
+): Promise<void> => {
+  try {
+    const sessionId = localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION_ID) as string;
+    const visitorId = getUniqueVisitorId();
+    const conversionSequenceId = getConversionSequenceId();
+    const trafficSource = getTrafficSource();
+
+    // Create registration completion event data
+    const completionData: RegistrationCompletedEventData = {
+      user: userData,
+      verification: verificationData,
+      source,
+      attribution: {
+        trafficSource: trafficSource,
+        utm_source: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_SOURCE) || null,
+        utm_medium: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_MEDIUM) || null,
+        utm_campaign: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CAMPAIGN) || null,
+        utm_content: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CONTENT) || null,
+        fbclid: localStorage.getItem(LOCAL_STORAGE_KEYS.FBCLID) || null
+      },
+      timestamp: new Date().toISOString()
+    };
+
+    await axios.post(EVENTS_API_URL, {
+      sessionId,
+      uniqueVisitorId: visitorId,
+      conversionSequenceId,
+      eventName: EVENT_TYPES.REGISTRATION_COMPLETED,
+      properties: completionData
+    });
+
+    // Clear registration start time after successful completion
+    clearRegistrationStartTime();
+
+    console.log(`Registration completed tracked for: ${userData.userId}`);
+  } catch (error) {
+    console.error('Error tracking registration completed:', error);
+  }
+};
+
+/**
+ * Track registration failed event
+ * @param {string} phoneNumber - Phone number used for registration
+ * @param {string} reason - Reason for failure
+ * @param {number} attemptCount - Number of attempts made
+ * @param {string} currentPage - Current page when failure occurred
+ * @param {string} targetPage - Target page user was navigating to (if applicable)
+ */
+export const trackRegistrationFailed = async (
+  phoneNumber: string,
+  reason: 'verification_timeout' | 'user_abandoned' | 'navigation_away' | 'max_attempts_exceeded',
+  attemptCount: number,
+  currentPage: string,
+  targetPage?: string
+): Promise<void> => {
+  try {
+    const sessionId = localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION_ID) as string;
+    const visitorId = getUniqueVisitorId();
+    const conversionSequenceId = getConversionSequenceId();
+    const trafficSource = getTrafficSource();
+    
+    // Calculate time from registration start to failure
+    const timeToFailure = calculateTimeFromStart();
+    
+    // Determine registration path based on current flow
+    const registrationPath = localStorage.getItem('booking_form_data') ? 'booking_flow' : 'direct';
+
+    // Create registration failure event data
+    const failureData: RegistrationFailedEventData = {
+      user: {
+        phoneNumber,
+        registrationId: localStorage.getItem(LOCAL_STORAGE_KEYS.REGISTRATION_ID) || undefined
+      },
+      failure: {
+        reason,
+        timeToFailure,
+        attemptCount,
+        lastAttemptAt: new Date().toISOString()
+      },
+      source: {
+        registrationPath: registrationPath as 'direct' | 'booking_flow',
+        currentPage,
+        targetPage
+      },
+      attribution: {
+        trafficSource: trafficSource,
+        utm_source: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_SOURCE) || null,
+        utm_medium: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_MEDIUM) || null,
+        utm_campaign: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CAMPAIGN) || null,
+        utm_content: localStorage.getItem(LOCAL_STORAGE_KEYS.UTM_CONTENT) || null,
+        fbclid: localStorage.getItem(LOCAL_STORAGE_KEYS.FBCLID) || null
+      },
+      timestamp: new Date().toISOString()
+    };
+
+    await axios.post(EVENTS_API_URL, {
+      sessionId,
+      uniqueVisitorId: visitorId,
+      conversionSequenceId,
+      eventName: EVENT_TYPES.REGISTRATION_FAILED,
+      properties: failureData
+    });
+
+    // Clear registration start time after failure
+    clearRegistrationStartTime();
+
+    console.log(`Registration failed tracked for: ${phoneNumber}, reason: ${reason}`);
+  } catch (error) {
+    console.error('Error tracking registration failed:', error);
+  }
+};
+
 export default {
   trackPageVisit,
-  trackBookingCreated
+  trackBookingCreated,
+  trackNeedVerification,
+  trackRegistrationCompleted,
+  trackRegistrationFailed
 };

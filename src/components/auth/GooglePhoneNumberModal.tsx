@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/components/ui/use-toast';
 import { useNavigate } from 'react-router-dom';
+import { trackNeedVerification, trackRegistrationFailed } from '@/utils/eventTracker';
 
 interface GooglePhoneNumberModalProps {
   isOpen: boolean;
@@ -48,6 +49,23 @@ const GooglePhoneNumberModal: React.FC<GooglePhoneNumberModalProps> = ({
     try {
       setIsLoading(true);
       
+      // Track need verification event for OAuth registration
+      if (profile) {
+        await trackNeedVerification(
+          {
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            email: profile.email,
+            phoneNumber: phoneNumber
+          },
+          {
+            page: '/oauth-phone-modal',
+            referrer: document.referrer,
+            registrationTrigger: localStorage.getItem('booking_form_data') ? 'booking_flow' : 'header_cta'
+          }
+        );
+      }
+      
       // Complete Google OAuth registration with phone number
       const response = await completeGoogleAuth(idToken, phoneNumber);
       
@@ -60,8 +78,8 @@ const GooglePhoneNumberModal: React.FC<GooglePhoneNumberModalProps> = ({
       onClose();
       onSuccess?.();
       
-      // Navigate to OTP verification page
-      navigate(`/verify-otp?phone=${encodeURIComponent(phoneNumber)}&redirect=${encodeURIComponent(window.location.pathname)}`);
+      // Navigate to OTP verification page with registration flag
+      navigate(`/verify-otp?phone=${encodeURIComponent(phoneNumber)}&redirect=${encodeURIComponent(window.location.pathname)}&registration=true`);
       
     } catch (error: any) {
       console.error('Google OAuth completion error:', error);
@@ -77,6 +95,15 @@ const GooglePhoneNumberModal: React.FC<GooglePhoneNumberModalProps> = ({
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
+      // Track registration failed if user closes modal without completing
+      if (phoneNumber && profile) {
+        trackRegistrationFailed(
+          phoneNumber,
+          'user_abandoned',
+          0,
+          '/oauth-phone-modal'
+        );
+      }
       onClose();
     }
   };
@@ -136,7 +163,18 @@ const GooglePhoneNumberModal: React.FC<GooglePhoneNumberModalProps> = ({
               <Button
                 type="button"
                 variant="outline"
-                onClick={onClose}
+                onClick={() => {
+                  // Track registration failed if user cancels
+                  if (phoneNumber && profile) {
+                    trackRegistrationFailed(
+                      phoneNumber,
+                      'user_abandoned',
+                      0,
+                      '/oauth-phone-modal'
+                    );
+                  }
+                  onClose();
+                }}
                 disabled={isLoading}
                 className="flex-1"
               >

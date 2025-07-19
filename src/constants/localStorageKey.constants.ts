@@ -11,5 +11,9 @@ export const LOCAL_STORAGE_KEYS = {
   UTM_MEDIUM: 'utm_medium',
   UTM_CAMPAIGN: 'utm_campaign',
   UTM_CONTENT: 'utm_content',
-  FBCLID: 'fbclid'
+  FBCLID: 'fbclid',
+
+  // Registration tracking
+  REGISTRATION_START_TIME: 'registration_start_time',
+  REGISTRATION_ID: 'registration_id'
 };
