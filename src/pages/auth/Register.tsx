@@ -189,7 +189,6 @@ export default function Register() {
                   setGoogleIdToken(idToken);
                   setShowPhoneModal(true);
                 }}
-                disabled={isLoading}
               />
             </div>
 

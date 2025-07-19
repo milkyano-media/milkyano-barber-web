@@ -181,7 +181,6 @@ export const LoginModal = ({
               setGoogleIdToken(idToken);
               setShowPhoneModal(true);
             }}
-            disabled={isLoading}
           />
         </div>
 

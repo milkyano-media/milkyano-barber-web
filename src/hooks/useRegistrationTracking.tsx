@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { trackRegistrationFailed } from '@/utils/eventTracker';
 import { LOCAL_STORAGE_KEYS } from '@/constants/localStorageKey.constants';
 
@@ -22,7 +22,6 @@ export const useRegistrationTracking = ({
   isCompleted = false
 }: UseRegistrationTrackingProps) => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isRegistration || isCompleted) return;

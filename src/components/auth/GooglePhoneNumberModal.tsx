@@ -67,7 +67,7 @@ const GooglePhoneNumberModal: React.FC<GooglePhoneNumberModalProps> = ({
       }
       
       // Complete Google OAuth registration with phone number
-      const response = await completeGoogleAuth(idToken, phoneNumber);
+      await completeGoogleAuth(idToken, phoneNumber);
       
       toast({
         title: "Success",

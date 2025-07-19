@@ -121,7 +121,7 @@ export default function VerifyOTP() {
   useEffect(() => {
     if (!isRegistration) return;
 
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    const handleBeforeUnload = () => {
       // Only track if they haven't successfully completed verification
       if (!showSuccess) {
         trackRegistrationFailed(

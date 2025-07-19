@@ -1,21 +1,16 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 
 interface GoogleOAuthButtonProps {
   onSuccess?: () => void;
   onError?: (error: string) => void;
   onNeedPhoneNumber?: (profile: any, idToken: string) => void;
-  disabled?: boolean;
-  children?: React.ReactNode;
 }
 
 const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({
   onSuccess,
   onError,
-  onNeedPhoneNumber,
-  disabled = false,
-  children
+  onNeedPhoneNumber
 }) => {
   const { verifyGoogleAuth, loginWithExistingGoogleUser } = useAuth();
   const googleButtonRef = useRef<HTMLDivElement>(null);
@@ -105,7 +100,7 @@ const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({
         
         document.body.appendChild(buttonContainer);
         
-        window.google.accounts.id.renderButton(buttonContainer, {
+        (window.google.accounts.id as any).renderButton(buttonContainer, {
           theme: 'outline',
           size: 'large',
           type: 'standard',
@@ -142,7 +137,7 @@ const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({
       } else {
         // On desktop, use One Tap and render fallback button
         if (googleButtonRef.current) {
-          window.google.accounts.id.renderButton(googleButtonRef.current, {
+          (window.google.accounts.id as any).renderButton(googleButtonRef.current, {
             theme: 'outline',
             size: 'large',
             type: 'standard',
@@ -155,11 +150,7 @@ const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({
         
         // Try One Tap prompt for desktop
         try {
-          window.google.accounts.id.prompt((notification: any) => {
-            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-              console.log('Google One Tap prompt not shown, user can click the button');
-            }
-          });
+          window.google.accounts.id.prompt();
         } catch (error) {
           console.log('Google One Tap prompt failed, user can click the button');
         }
