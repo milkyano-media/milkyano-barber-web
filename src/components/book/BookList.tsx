@@ -7,6 +7,7 @@ import {
   ServicesResponse,
 } from "@/interfaces/BookingInterface";
 import { getAllBarber, getAllService } from "@/utils/barberApi";
+import { getTeamMembersDisplayOrder } from "@/utils/dashboardApi";
 import Spinner from "../web/Spinner";
 import Logo from "@/components/react-svg/logo";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -43,15 +44,47 @@ const BookList = () => {
   const [barberServices, setBarberServices] = useState<BarberServices>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [expandedBarber, setExpandedBarber] = useState<string | null>(null);
+  const [teamMembersOrder, setTeamMembersOrder] = useState<any[] | null>(null);
+
+  // Separate useEffect for team members order that doesn't depend on location
+  useEffect(() => {
+    const fetchTeamMembersOrder = async () => {
+      try {
+        const teamMembers = await getTeamMembersDisplayOrder();
+        
+        if (teamMembers?.data) {
+          setTeamMembersOrder(teamMembers.data);
+        }
+      } catch (error) {
+        // Keep teamMembersOrder as null to use fallback ordering
+      }
+    };
+
+    fetchTeamMembersOrder();
+  }, []); // Run once on mount
 
   useEffect(() => {
-    const joinBarbersAndServices = (
-      barbers: BarberResponse | undefined,
-      services: ServicesResponse | undefined,
-      specificBarber: string | null,
-    ) => {
-      const barberServices: BarberServices = { data: [] };
-      const sortOrder = [
+    const createDynamicSortOrder = (teamMembers: any[] | null): string[] => {
+      if (teamMembers && teamMembers.length > 0) {
+        // Create dynamic sort order based on displayOrder from BarberManagement
+        const sorted = teamMembers
+          .sort((a, b) => {
+            const orderA = a.details?.displayOrder ?? 999;
+            const orderB = b.details?.displayOrder ?? 999;
+            return orderA - orderB;
+          })
+          .map((member) => {
+            // Extract the first name in uppercase to match the barber images mapping
+            const firstName = member.givenName?.toUpperCase();
+            return firstName;
+          })
+          .filter(Boolean);
+          
+        return sorted;
+      }
+      
+      // Fallback to hardcoded order if dashboard API is unavailable
+      return [
         // "MUSTAFA",
         "AMIR",
         "RAYHAN",
@@ -64,6 +97,15 @@ const BookList = () => {
         "CHRISTOS",
         "WYATT",
       ];
+    };
+
+    const joinBarbersAndServices = (
+      barbers: BarberResponse | undefined,
+      services: ServicesResponse | undefined,
+      specificBarber: string | null,
+    ) => {
+      const barberServices: BarberServices = { data: [] };
+      const sortOrder = createDynamicSortOrder(teamMembersOrder);
 
       let sortedProfiles = barbers?.team_member_booking_profiles
         .filter((profile) => {
@@ -121,6 +163,7 @@ const BookList = () => {
 
     const fetchData = async () => {
       setIsLoading(true);
+      
       const parts = location.pathname.split("/");
 
       // Determine which barber to show
@@ -186,7 +229,7 @@ const BookList = () => {
     };
 
     fetchData();
-  }, [location.pathname]);
+  }, [location.pathname, teamMembersOrder]); // Re-run when team members order changes
 
   const handleBookNowClick = async (item: any) => {
     try {

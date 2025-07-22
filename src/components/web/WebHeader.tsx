@@ -217,16 +217,16 @@ const Header: React.FC = () => {
                 onClick={() => setShowLoginModal(true)}
                 className="text-white hover:bg-white/10"
               >
-                Log in
+                Log In
               </Button>
-              <Link to="/register">
+              {/* <Link to="/register">
                 <Button
                   variant="outline"
                   className="border-[#04C600] text-[#04C600] hover:bg-[#04C600] hover:text-white"
                 >
                   Sign Up
                 </Button>
-              </Link>
+              </Link> */}
             </div>
           )}
           <Button className="px-8 py-5">{generateLink("BOOK NOW")}</Button>
