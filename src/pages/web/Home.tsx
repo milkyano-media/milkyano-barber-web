@@ -1,5 +1,4 @@
 import Layout from "@/components/web/WebLayout";
-import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import {
   Accordion,
