@@ -229,7 +229,11 @@ const Header: React.FC = () => {
               </Link> */}
             </div>
           )}
-          <Button className="px-8 py-5">{generateLink("BOOK NOW")}</Button>
+          {generateLink(
+            <span className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-[#33FF00] hover:bg-[#33FF00]/80 text-black h-9 px-8 py-5">
+              BOOK NOW
+            </span>
+          )}
         </nav>
         <nav
           className="xl:hidden flex flex-col justify-center"

@@ -27,7 +27,7 @@ import instagramPhotosMobile5 from "/src/assets/follow-us/mobile/instagram_photo
 import InstagramSection from "@/components/web/InstagramSection";
 import { Link, useLocation } from "react-router-dom";
 
-export const generateLink = (text: string): JSX.Element => {
+export const generateLink = (content: string | JSX.Element): JSX.Element => {
   const customize: boolean = true;
   const squareLink: string =
     "https://book.squareup.com/appointments/ud9yhcwfqc1fg0/location/LY7BZ89WAQ2QS/services";
@@ -41,9 +41,9 @@ export const generateLink = (text: string): JSX.Element => {
   }
 
   if (customize) {
-    return <Link to={bookLink}>{text}</Link>;
+    return <Link to={bookLink} className="flex items-center justify-center w-full h-full">{content}</Link>;
   } else {
-    return <a href={squareLink}>{text}</a>;
+    return <a href={squareLink} className="flex items-center justify-center w-full h-full">{content}</a>;
   }
 };
 
@@ -190,9 +190,11 @@ export default function Home() {
             <h1 className="text-[#33FF00]">THE BEST</h1>
             <h2>FOR YOUR HAIR</h2>
           </div>
-          <Button className="bg-[#454545] border-[0.5px] border-white text-2xl text-[#33FF00] font-bold px-16 py-7 w-max self-center hover:bg-[#454545]/80">
-            {generateLink("BOOK NOW")}
-          </Button>
+          {generateLink(
+            <span className="inline-flex items-center justify-center bg-[#454545] border-[0.5px] border-white text-2xl text-[#33FF00] font-bold px-16 py-4 self-center hover:bg-[#454545]/80 rounded-md transition-colors">
+              BOOK NOW
+            </span>
+          )}
 
           <div className="flex flex-col md:flex-row gap-6 md:gap-10">
             <p>
@@ -252,7 +254,11 @@ export default function Home() {
 
             <div className="flex gap-8 justify-between mt-6">
               <h2 className="text-[#33FF00]">$50</h2>
-              <Button>{generateLink("PRICING PLANS")}</Button>
+              {generateLink(
+                <span className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-[#33FF00] font-bold hover:bg-[#33FF00]/80 text-black h-9 px-4 py-2">
+                  PRICING PLANS
+                </span>
+              )}
             </div>
           </div>
 
@@ -272,7 +278,11 @@ export default function Home() {
 
             <div className="flex gap-8 justify-between mt-6">
               <h2 className="text-[#33FF00]">$75</h2>
-              <Button>{generateLink("PRICING PLANS")}</Button>
+              {generateLink(
+                <span className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-[#33FF00] font-bold hover:bg-[#33FF00]/80 text-black h-9 px-4 py-2">
+                  PRICING PLANS
+                </span>
+              )}
             </div>
           </div>
         </div>

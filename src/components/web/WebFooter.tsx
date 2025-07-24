@@ -7,7 +7,6 @@ import Instagram from "@/assets/web/icons/Instagram.svg";
 import Youtube from "@/assets/web/icons/Youtube.svg";
 import Tiktok from "@/assets/web/icons/Tiktok.svg";
 import BgHero2 from "@/assets/web/home/hero.svg";
-import { Button } from "../ui/button";
 import { generateLink } from "@/pages/web/Home";
 
 const WebFooter: React.FC = () => {
@@ -27,9 +26,11 @@ const WebFooter: React.FC = () => {
             <h2>SAVE TIME AND</h2>
             <h1 className="text-[#33FF00]">BOOK NOW</h1>
           </div>
-          <Button className="bg-[#454545] border-[0.5px] border-white text-2xl text-[#33FF00] font-bold px-20 md:px-40 py-7 w-max self-center hover:bg-[#454545]/80">
-            {generateLink("BOOK NOW")}
-          </Button>
+          {generateLink(
+            <span className="bg-[#454545] border-[0.5px] border-white text-2xl text-[#33FF00] font-bold px-20 md:px-40 py-7 w-max self-center hover:bg-[#454545]/80 rounded-md transition-colors">
+              BOOK NOW
+            </span>
+          )}
 
           <div className="flex gap-4 md:gap-10">
             <p>

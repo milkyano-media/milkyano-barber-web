@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Dashboard API client for connecting to barber-dash-api
 const dashboardApi = axios.create({
-  baseURL: `${import.meta.env.VITE_DASHBOARD_API_URL || 'http://localhost:3001'}/api/v2`,
+  baseURL: `${import.meta.env.VITE_NEW_API || 'http://localhost:3001'}/api/v2`,
   timeout: 10000, // 10 seconds timeout
 });
 

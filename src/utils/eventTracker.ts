@@ -251,16 +251,19 @@ const getRegistrationStartTime = (): string => {
   if (!startTime) {
     startTime = new Date().toISOString();
     localStorage.setItem(LOCAL_STORAGE_KEYS.REGISTRATION_START_TIME, startTime);
+    // Clear any previous tracking flag when starting a genuinely new registration
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.NEED_VERIFICATION_TRACKED);
   }
   
   return startTime;
 };
 
 /**
- * Clear registration start timestamp
+ * Clear registration start timestamp and tracking flag
  */
 const clearRegistrationStartTime = (): void => {
   localStorage.removeItem(LOCAL_STORAGE_KEYS.REGISTRATION_START_TIME);
+  localStorage.removeItem(LOCAL_STORAGE_KEYS.NEED_VERIFICATION_TRACKED);
 };
 
 /**
@@ -285,6 +288,13 @@ export const trackNeedVerification = async (
   source: RegistrationSource
 ): Promise<void> => {
   try {
+    // Check if need_verification has already been tracked for this registration session
+    const alreadyTracked = localStorage.getItem(LOCAL_STORAGE_KEYS.NEED_VERIFICATION_TRACKED);
+    if (alreadyTracked === 'true') {
+      console.log(`Need verification already tracked for this session, skipping duplicate`);
+      return;
+    }
+
     const sessionId = localStorage.getItem(LOCAL_STORAGE_KEYS.SESSION_ID) as string;
     const visitorId = getUniqueVisitorId();
     const conversionSequenceId = getConversionSequenceId();
@@ -315,6 +325,9 @@ export const trackNeedVerification = async (
       eventName: EVENT_TYPES.NEED_VERIFICATION,
       properties: needVerificationData
     });
+
+    // Mark that need_verification has been tracked for this registration session
+    localStorage.setItem(LOCAL_STORAGE_KEYS.NEED_VERIFICATION_TRACKED, 'true');
 
     console.log(`Need verification tracked for: ${userData.email}`);
   } catch (error) {
@@ -363,8 +376,9 @@ export const trackRegistrationCompleted = async (
       properties: completionData
     });
 
-    // Clear registration start time after successful completion
+    // Clear registration start time and tracking flag after successful completion
     clearRegistrationStartTime();
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.NEED_VERIFICATION_TRACKED);
 
     console.log(`Registration completed tracked for: ${userData.userId}`);
   } catch (error) {
@@ -435,8 +449,9 @@ export const trackRegistrationFailed = async (
       properties: failureData
     });
 
-    // Clear registration start time after failure
+    // Clear registration start time and tracking flag after failure
     clearRegistrationStartTime();
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.NEED_VERIFICATION_TRACKED);
 
     console.log(`Registration failed tracked for: ${phoneNumber}, reason: ${reason}`);
   } catch (error) {

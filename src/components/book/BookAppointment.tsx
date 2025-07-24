@@ -69,7 +69,7 @@ const BookAppointment = () => {
   const fetchMultipleMonthsData = async (numberOfMonths: number) => {
     setIsLoading(true);
     const allAvailabilities: any[] = [];
-    if (bookedItems.length > 0) {
+    if (bookedItems.length > 0 && bookedItems[0]?.item_data?.variations?.[0]?.id) {
       for (let i = 0; i < numberOfMonths; i++) {
 
         if (i === 1) {
@@ -83,8 +83,14 @@ const BookAppointment = () => {
           "end_at": moment.tz(endAt, "Australia/Sydney").format()
         };
 
-        const response = await getAvailability(requestBody);
-        allAvailabilities.push(...response.availabilities);
+        try {
+          const response = await getAvailability(requestBody);
+          if (response?.availabilities) {
+            allAvailabilities.push(...response.availabilities);
+          }
+        } catch (error) {
+          console.error('Error fetching availability:', error);
+        }
       }
     }
     setIsLoading(false)
@@ -105,6 +111,8 @@ const BookAppointment = () => {
   }, [bookedItems]);
 
   useEffect(() => {
+    if (!availableDates?.availabilities || availableDates.availabilities.length === 0) return;
+    
     const today = new Date();
     const unavailable = [];
     for (let i = 0; i <= 60; i++) {
@@ -115,18 +123,39 @@ const BookAppointment = () => {
         unavailable.push(new Date(checkDate));
       }
     }
-    if (availableDates?.availabilities[0]) {
-      const nextDate: Date = new Date(availableDates.availabilities[0].start_at);
+    
+    // Safely access the first availability
+    const firstAvailability = availableDates.availabilities[0];
+    if (firstAvailability?.start_at) {
+      const nextDate: Date = new Date(firstAvailability.start_at);
       setNextAvailable(nextDate);
+      
+      // Set initial selected date to today if available, otherwise first available date
+      if (!selectedDate) {
+        const todayAvailable = checkAvailabilityByDate(today);
+        if (todayAvailable) {
+          setSelectedDate(today);
+          findAvailabilityByDate(today);
+        } else {
+          setSelectedDate(nextDate);
+          findAvailabilityByDate(nextDate);
+        }
+      }
     }
+    
     setUnavailableDates(unavailable);
   }, [availableDates])
 
 
   function findAvailabilityByDate(date: Date) {
+    if (!availableDates?.availabilities) {
+      setAvailabilitybyDate([]);
+      return null;
+    }
+
     const dateAEST = moment.tz(date, 'Australia/Sydney').startOf('day');
 
-    const results = availableDates?.availabilities.filter((item: { start_at: string; }) => {
+    const results = availableDates.availabilities.filter((item: { start_at: string; }) => {
       const itemDate = moment.tz(item.start_at, 'Australia/Sydney').startOf('day');
       return dateAEST.isSame(itemDate, 'day');
     });
@@ -136,12 +165,15 @@ const BookAppointment = () => {
   }
 
   function checkAvailabilityByDate(date: Date) {
+    if (!availableDates?.availabilities) {
+      return false;
+    }
+
     const dateAEST = moment.tz(date, 'Australia/Sydney').startOf('day');
-    const result = availableDates?.availabilities.some((item: { start_at: string; }) => {
+    const result = availableDates.availabilities.some((item: { start_at: string; }) => {
       const itemDate = moment.tz(item.start_at, 'Australia/Sydney').startOf('day');
       return dateAEST.isSame(itemDate, 'day');
     });
-    findAvailabilityByDate(new Date());
 
     return result;
   }
@@ -158,14 +190,16 @@ const BookAppointment = () => {
       setMonth(date);
       setInputValue(format(date, "MM/dd/yyyy"));
       const formattedDate = date.toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' }).replace(/(\w+), (\w+) (\d+)/, '$1, $2 $3');
-      date.setHours(currentDate.getHours() - 2);
-
-      const day = date.getDate();
-      const dayName = date.toLocaleDateString('en-AU', { weekday: 'long' });
-      const monthName = date.toLocaleDateString('en-AU', { month: 'short' });
-      const month = date.getMonth();
-      const year = date.getFullYear();
-      const time = date.toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' }).replace(/(\w+), (\w+) (\d+)/, '$1, $2 $3');
+      
+      // Create a copy of the date to avoid mutating the original
+      const dateForStorage = new Date(date);
+      
+      const day = dateForStorage.getDate();
+      const dayName = dateForStorage.toLocaleDateString('en-AU', { weekday: 'long' });
+      const monthName = dateForStorage.toLocaleDateString('en-AU', { month: 'short' });
+      const month = dateForStorage.getMonth();
+      const year = dateForStorage.getFullYear();
+      const time = dateForStorage.toLocaleDateString('en-AU', { weekday: 'long', month: 'short', day: 'numeric' }).replace(/(\w+), (\w+) (\d+)/, '$1, $2 $3');
 
       const dateObject = {
         dayName: dayName,

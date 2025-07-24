@@ -65,3 +65,27 @@ export const postUtmRecord = async (data: CreateRecordInput): Promise<CreateReco
   console.warn('postUtmRecord is not implemented in the new API');
   return data;
 };
+
+// Booking management endpoints (require authentication)
+export const cancelBooking = async (bookingId: string, bookingVersion: number): Promise<any> => {
+  const response = await apiClient.post(`/bookings/${bookingId}/cancel`, {
+    bookingVersion
+  });
+  return response.data;
+};
+
+export const rescheduleBooking = async (
+  bookingId: string, 
+  rescheduleData: {
+    start_at: string;
+    appointment_segments?: any[];
+  }
+): Promise<any> => {
+  const response = await apiClient.put(`/bookings/${bookingId}/reschedule`, rescheduleData);
+  return response.data;
+};
+
+export const getBookingDetails = async (bookingId: string): Promise<any> => {
+  const response = await apiClient.get(`/bookings/${bookingId}`);
+  return response.data;
+};

@@ -15,5 +15,6 @@ export const LOCAL_STORAGE_KEYS = {
 
   // Registration tracking
   REGISTRATION_START_TIME: 'registration_start_time',
-  REGISTRATION_ID: 'registration_id'
+  REGISTRATION_ID: 'registration_id',
+  NEED_VERIFICATION_TRACKED: 'need_verification_tracked'
 };

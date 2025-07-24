@@ -51,7 +51,7 @@ const BookContactInfo = () => {
   const [showForm, setShowForm] = useState(false);
   const booking_origin = localStorage.getItem("booking_origin") || undefined;
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showAuthRequiredModal, setShowAuthRequiredModal] = useState(false);
+  // const [showAuthRequiredModal, setShowAuthRequiredModal] = useState(false);
 
   const { isAuthenticated, user } = useAuth();
 
@@ -264,7 +264,8 @@ const BookContactInfo = () => {
   const submitContactForm = async (values: z.infer<typeof formSchema>) => {
     // Check if user is authenticated
     if (!isAuthenticated) {
-      setShowAuthRequiredModal(true);
+      // setShowAuthRequiredModal(true);
+      handleSignIn();
       return;
     }
 
@@ -491,16 +492,16 @@ const BookContactInfo = () => {
   };
 
   // Handle Create Account button in auth required modal
-  const handleCreateAccount = () => {
-    setShowAuthRequiredModal(false);
-    // Store return URL to come back after registration
-    localStorage.setItem("auth_return_url", window.location.pathname);
-    navigate(`/register?redirect=${encodeURIComponent(window.location.pathname)}`);
-  };
+  // const handleCreateAccount = () => {
+  //   // setShowAuthRequiredModal(false);
+  //   // Store return URL to come back after registration
+  //   localStorage.setItem("auth_return_url", window.location.pathname);
+  //   navigate(`/register?redirect=${encodeURIComponent(window.location.pathname)}`);
+  // };
 
   // Handle Sign In button in auth required modal
   const handleSignIn = () => {
-    setShowAuthRequiredModal(false);
+    // setShowAuthRequiredModal(false);
     setShowLoginModal(true);
   };
 
@@ -605,7 +606,7 @@ const BookContactInfo = () => {
                       >
                         Sign In
                       </Button>
-                      <Link
+                      {/* <Link
                         to={`/register?redirect=${encodeURIComponent(window.location.pathname)}`}
                         className="flex-1"
                         onClick={() => {
@@ -623,7 +624,7 @@ const BookContactInfo = () => {
                         >
                           Create Account
                         </Button>
-                      </Link>
+                      </Link> */}
                     </div>
                   </div>
                 </div>
@@ -760,22 +761,7 @@ const BookContactInfo = () => {
                     cancellation fee.{" "}
                     <a className="text-[#04C600] underline">See full policy</a>
                   </p>
-                  <div className="flex items-start space-x-3 bg-stone-900/50 border border-stone-700 rounded-lg p-3">
-                    <input
-                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-2 border-stone-500 bg-transparent checked:bg-[#04C600] checked:border-[#04C600] focus:ring-2 focus:ring-[#04C600] focus:ring-offset-0 cursor-pointer"
-                      type="checkbox"
-                      id="terms"
-                      onChange={handleCheckboxChange}
-                      checked={isChecked}
-                    />
-                    <label
-                      htmlFor="terms"
-                      className="text-xs text-gray-200 leading-relaxed cursor-pointer select-none"
-                    >
-                      I have read and agreed to the cancellation policy of
-                      Fadedlines barbershop.
-                    </label>
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -830,6 +816,22 @@ const BookContactInfo = () => {
                   </p>
                 </div>
               </div>
+              <div className="flex items-start space-x-3 bg-stone-900/50 border border-stone-700 rounded-lg p-3 mt-5">
+                    <input
+                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-2 border-stone-500 bg-transparent checked:bg-[#04C600] checked:border-[#04C600] focus:ring-2 focus:ring-[#04C600] focus:ring-offset-0 cursor-pointer"
+                      type="checkbox"
+                      id="terms"
+                      onChange={handleCheckboxChange}
+                      checked={isChecked}
+                    />
+                    <label
+                      htmlFor="terms"
+                      className="text-xs text-gray-200 leading-relaxed cursor-pointer select-none"
+                    >
+                      I have read and agreed to the cancellation policy of
+                      Fadedlines barbershop.
+                    </label>
+                  </div>
               <Button
                 onClick={() => {
                   localStorage.setItem("purchase_value", total.toString());
@@ -863,7 +865,7 @@ const BookContactInfo = () => {
       />
 
       {/* Auth Required Modal */}
-      <AlertDialog
+      {/* <AlertDialog
         open={showAuthRequiredModal}
         onOpenChange={setShowAuthRequiredModal}
       >
@@ -895,7 +897,7 @@ const BookContactInfo = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
         </AlertDialogContent>
-      </AlertDialog>
+      </AlertDialog> */}
     </section>
   );
 };
