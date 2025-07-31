@@ -5,7 +5,9 @@ import {
   refreshAccessToken as refreshTokenAPI,
   getCurrentUser,
   verifyGoogleOAuth,
-  completeGoogleOAuth
+  completeGoogleOAuth,
+  verifyAppleOAuth,
+  completeAppleOAuth
 } from "@/utils/authApi";
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -207,6 +209,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return response;
   };
 
+  const verifyAppleAuth = async (idToken: string, authorizationCode?: string) => {
+    try {
+      const response = await verifyAppleOAuth(idToken, authorizationCode);
+      return response;
+    } catch (error) {
+      console.error("Apple OAuth verification error:", error);
+      throw error;
+    }
+  };
+
+  const completeAppleAuth = async (idToken: string, phoneNumber: string) => {
+    try {
+      const response = await completeAppleOAuth(idToken, phoneNumber);
+      
+      // Store tokens
+      localStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("refreshToken", response.refreshToken);
+      localStorage.setItem("user", JSON.stringify(response.user));
+      
+      // Update state
+      setAccessToken(response.accessToken);
+      setRefreshToken(response.refreshToken);
+      setUser(response.user);
+      setIsAuthenticated(true);
+      
+      return response;
+    } catch (error) {
+      console.error("Apple OAuth completion error:", error);
+      throw error;
+    }
+  };
+
+  const loginWithExistingAppleUser = async (response: any) => {
+    // Store tokens for existing user
+    localStorage.setItem("accessToken", response.accessToken);
+    localStorage.setItem("refreshToken", response.refreshToken);
+    localStorage.setItem("user", JSON.stringify(response.user));
+    
+    // Update state
+    setAccessToken(response.accessToken);
+    setRefreshToken(response.refreshToken);
+    setUser(response.user);
+    setIsAuthenticated(true);
+    
+    return response;
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -220,7 +269,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         refreshAccessToken,
         verifyGoogleAuth,
         completeGoogleAuth,
-        loginWithExistingGoogleUser
+        loginWithExistingGoogleUser,
+        verifyAppleAuth,
+        completeAppleAuth,
+        loginWithExistingAppleUser
       }}
     >
       {children}

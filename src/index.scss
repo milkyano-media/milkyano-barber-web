@@ -456,3 +456,42 @@
     @apply object-cover rounded-2xl;
   }
 }
+
+/* OAuth Button Consistency Styles */
+@layer components {
+  /* OAuth Button Containers - Let Google determine the natural width */
+  .google-oauth-container,
+  .apple-oauth-container {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  /* Don't override Google OAuth Button - let it use its natural styling and width */
+  .google-oauth-container div[role="button"] {
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+    /* Let Google handle its own width */
+  }
+
+  /* Apple OAuth Button - Match Google's button width and styling */
+  .apple-oauth-button {
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+    /* Reduce width to better match Google's button */
+    width: 3000px !important; /* Fixed width to match Google more closely */
+    max-width: 300px !important;
+    min-width: 300px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 6px !important;
+    box-sizing: border-box !important;
+    padding: 0 16px !important; /* Reduced padding */
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+  }
+}
