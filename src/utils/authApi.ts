@@ -100,6 +100,24 @@ export const completeGoogleOAuth = async (idToken: string, phoneNumber: string):
   return response.data;
 };
 
+// Apple OAuth - Step 1: Verify token and check user status
+export const verifyAppleOAuth = async (idToken: string, authorizationCode?: string): Promise<any> => {
+  const response: AxiosResponse<any> = await apiClient.post('/auth/apple/verify', {
+    idToken,
+    authorizationCode
+  });
+  return response.data;
+};
+
+// Apple OAuth - Step 2: Complete registration with phone number
+export const completeAppleOAuth = async (idToken: string, phoneNumber: string): Promise<LoginResponse> => {
+  const response: AxiosResponse<LoginResponse> = await apiClient.post('/auth/apple/complete', {
+    idToken,
+    phoneNumber
+  });
+  return response.data;
+};
+
 // Helper function to get Square customer ID from localStorage
 // Note: This returns the Square customer ID, not the auth user ID
 export const getCustomerId = (): string | null => {
