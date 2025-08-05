@@ -81,44 +81,27 @@ const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({
         },
         auto_select: false,
         cancel_on_tap_outside: true,
-        locale: "en",
+        locale: "en_US",
       });
 
-      // Check if we're on mobile
-      const isMobile =
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent
+      // Render button for all devices in the same way
+      if (googleButtonRef.current) {
+        (window.google.accounts.id as any).renderButton(
+          googleButtonRef.current,
+          {
+            theme: "outline",
+            size: "large",
+            type: "standard",
+            text: "continue_with",
+            shape: "rectangular",
+            width: googleButtonRef.current.offsetWidth || 300,
+            locale: "en_US",
+          }
         );
-
-      if (isMobile) {
-        // On mobile, render a centered modal button
-        const buttonContainer = document.createElement("div");
-        buttonContainer.style.position = "fixed";
-        buttonContainer.style.top = "50%";
-        buttonContainer.style.left = "50%";
-        buttonContainer.style.transform = "translate(-50%, -50%)";
-        buttonContainer.style.zIndex = "9999";
-        buttonContainer.style.backgroundColor = "white";
-        buttonContainer.style.padding = "20px";
-        buttonContainer.style.borderRadius = "8px";
-        buttonContainer.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)";
-        buttonContainer.style.minWidth = "300px";
-
-        document.body.appendChild(buttonContainer);
-
-        (window.google.accounts.id as any).renderButton(buttonContainer, {
-          theme: "outline",
-          size: "large",
-          type: "standard",
-          text: "continue_with",
-          shape: "rectangular",
-          width: 400,
-          locale: "en",
-        });
 
         // Apply minimal styling - just ensure consistent height
         setTimeout(() => {
-          const googleBtn = buttonContainer.querySelector('div[role="button"]') as HTMLElement;
+          const googleBtn = googleButtonRef.current?.querySelector('div[role="button"]') as HTMLElement;
           if (googleBtn) {
             // Only set height, let Google handle its own width
             googleBtn.style.height = "40px";
@@ -126,60 +109,14 @@ const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({
             googleBtn.style.maxHeight = "40px";
           }
         }, 100);
+      }
 
-        // Add close button
-        const closeButton = document.createElement("button");
-        closeButton.innerHTML = "×";
-        closeButton.style.position = "absolute";
-        closeButton.style.top = "5px";
-        closeButton.style.right = "10px";
-        closeButton.style.border = "none";
-        closeButton.style.background = "none";
-        closeButton.style.fontSize = "20px";
-        closeButton.style.cursor = "pointer";
-        closeButton.onclick = () => {
-          if (document.body.contains(buttonContainer)) {
-            document.body.removeChild(buttonContainer);
-          }
-        };
-
-        buttonContainer.appendChild(closeButton);
-
-        // Auto-remove after 30 seconds
-        setTimeout(() => {
-          if (document.body.contains(buttonContainer)) {
-            document.body.removeChild(buttonContainer);
-          }
-        }, 60000);
-      } else {
-        // On desktop, use One Tap and render fallback button
-        if (googleButtonRef.current) {
-          (window.google.accounts.id as any).renderButton(
-            googleButtonRef.current,
-            {
-              theme: "outline",
-              size: "large",
-              type: "standard",
-              text: "continue_with",
-              shape: "rectangular",
-              width: googleButtonRef.current.offsetWidth || 300,
-              locale: "en",
-            }
-          );
-
-          // Apply minimal styling - just ensure consistent height
-          setTimeout(() => {
-            const googleBtn = googleButtonRef.current?.querySelector('div[role="button"]') as HTMLElement;
-            if (googleBtn) {
-              // Only set height, let Google handle its own width
-              googleBtn.style.height = "40px";
-              googleBtn.style.minHeight = "40px";
-              googleBtn.style.maxHeight = "40px";
-            }
-          }, 100);
-        }
-
-        // Try One Tap prompt for desktop
+      // Try One Tap prompt for desktop only
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+      
+      if (!isMobile) {
         try {
           window.google.accounts.id.prompt();
         } catch (error) {
@@ -203,12 +140,11 @@ const GoogleOAuthButton: React.FC<GoogleOAuthButtonProps> = ({
   ]);
 
   return (
-    <div className="google-oauth-container">
-      {/* Desktop: Google button renders here, Mobile: trigger button */}
+    <div className="google-oauth-container w-full">
       <div className="flex justify-center">
         <div
           ref={googleButtonRef}
-          className="flex justify-center items-center"
+          className="flex justify-center items-center w-full max-w-sm"
           style={{ minHeight: "40px" }}
         />
       </div>
