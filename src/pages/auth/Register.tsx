@@ -12,7 +12,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
 import { isValidPhoneNumber } from "react-phone-number-input";
@@ -26,6 +26,8 @@ import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import GoogleOAuthButton from "@/components/auth/GoogleOAuthButton";
 import GooglePhoneNumberModal from "@/components/auth/GooglePhoneNumberModal";
+import AppleOAuthButton from "@/components/auth/AppleOAuthButton";
+import ApplePhoneNumberModal from "@/components/auth/ApplePhoneNumberModal";
 
 const registerSchema = z
   .object({
@@ -35,14 +37,14 @@ const registerSchema = z
     phone_number: z
       .string()
       .refine((value) => isValidPhoneNumber(value || ""), {
-        message: "Please enter a valid phone number"
+        message: "Please enter a valid phone number",
       }),
     password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string()
+    confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
-    path: ["confirmPassword"]
+    path: ["confirmPassword"],
   });
 
 type RegisterFormData = z.infer<typeof registerSchema>;
@@ -54,7 +56,10 @@ export default function Register() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showPhoneModal, setShowPhoneModal] = useState(false);
   const [googleProfile, setGoogleProfile] = useState<any>(null);
-  const [googleIdToken, setGoogleIdToken] = useState<string>('');
+  const [googleIdToken, setGoogleIdToken] = useState<string>("");
+  const [showApplePhoneModal, setShowApplePhoneModal] = useState(false);
+  const [appleProfile, setAppleProfile] = useState<any>(null);
+  const [appleIdToken, setAppleIdToken] = useState<string>("");
 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -69,23 +74,23 @@ export default function Register() {
       email_address: "",
       phone_number: "",
       password: "",
-      confirmPassword: ""
-    }
+      confirmPassword: "",
+    },
   });
 
   // Set default values from localStorage or defaults on initial mount
   useEffect(() => {
     // Try to load saved booking form data
-    const savedFormData = localStorage.getItem('booking_form_data');
+    const savedFormData = localStorage.getItem("booking_form_data");
     if (savedFormData) {
       try {
         const parsedData = JSON.parse(savedFormData);
-        form.setValue('given_name', parsedData.given_name || '');
-        form.setValue('family_name', parsedData.family_name || '');
-        form.setValue('email_address', parsedData.email_address || '');
-        form.setValue('phone_number', parsedData.phone_number || '+61');
+        form.setValue("given_name", parsedData.given_name || "");
+        form.setValue("family_name", parsedData.family_name || "");
+        form.setValue("email_address", parsedData.email_address || "");
+        form.setValue("phone_number", parsedData.phone_number || "+61");
       } catch (error) {
-        console.error('Error loading saved form data:', error);
+        console.error("Error loading saved form data:", error);
         form.setValue("phone_number", "+61");
       }
     } else {
@@ -96,40 +101,46 @@ export default function Register() {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       setIsLoading(true);
-      
+
       // Track need verification event before API call
       await trackNeedVerification(
         {
           firstName: data.given_name,
           lastName: data.family_name,
           email: data.email_address,
-          phoneNumber: data.phone_number
+          phoneNumber: data.phone_number,
         },
         {
-          page: '/register',
+          page: "/register",
           referrer: document.referrer,
-          registrationTrigger: localStorage.getItem('booking_form_data') ? 'booking_flow' : 'manual'
+          registrationTrigger: localStorage.getItem("booking_form_data")
+            ? "booking_flow"
+            : "manual",
         }
       );
-      
+
       const response = await registerUser({
         phoneNumber: data.phone_number,
         password: data.password,
         firstName: data.given_name,
         lastName: data.family_name,
-        email: data.email_address
+        email: data.email_address,
       });
 
       // Registration successful, automatically log the user in
-      localStorage.setItem('accessToken', response.accessToken);
-      localStorage.setItem('refreshToken', response.refreshToken);
-      localStorage.setItem('user', JSON.stringify(response.user));
-      
+      localStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("refreshToken", response.refreshToken);
+      localStorage.setItem("user", JSON.stringify(response.user));
+
       authLogin(response.accessToken, response.user);
-      
+
       // Since new users are always unverified, redirect to OTP verification page
       const redirectTo = searchParams.get("redirect") || "/";
-      navigate(`/verify-otp?phone=${encodeURIComponent(data.phone_number)}&redirect=${encodeURIComponent(redirectTo)}&registration=true`);
+      navigate(
+        `/verify-otp?phone=${encodeURIComponent(
+          data.phone_number
+        )}&redirect=${encodeURIComponent(redirectTo)}&registration=true`
+      );
     } catch (error) {
       toast({
         title: "Registration Failed",
@@ -137,7 +148,7 @@ export default function Register() {
           error instanceof Error
             ? error.message
             : "An error occurred during registration",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -166,13 +177,14 @@ export default function Register() {
           </div>
 
           <div className="bg-stone-900/50 backdrop-blur-sm border border-stone-700/50 rounded-2xl p-6 shadow-2xl">
-            {/* Google OAuth Button */}
-            <div className="mb-6">
+            {/* OAuth Buttons */}
+            <div className="mb-3 space-y-3">
               <GoogleOAuthButton
                 onSuccess={() => {
                   toast({
                     title: "Success",
-                    description: "You have successfully registered with Google!"
+                    description:
+                      "You have successfully registered with Google!",
                   });
                   const redirect = searchParams.get("redirect");
                   navigate(redirect || "/");
@@ -181,13 +193,36 @@ export default function Register() {
                   toast({
                     title: "Error",
                     description: error,
-                    variant: "destructive"
+                    variant: "destructive",
                   });
                 }}
                 onNeedPhoneNumber={(profile, idToken) => {
                   setGoogleProfile(profile);
                   setGoogleIdToken(idToken);
                   setShowPhoneModal(true);
+                }}
+              />
+
+              <AppleOAuthButton
+                onSuccess={() => {
+                  toast({
+                    title: "Success",
+                    description: "You have successfully registered with Apple!",
+                  });
+                  const redirect = searchParams.get("redirect");
+                  navigate(redirect || "/");
+                }}
+                onError={(error) => {
+                  toast({
+                    title: "Error",
+                    description: error,
+                    variant: "destructive",
+                  });
+                }}
+                onNeedPhoneNumber={(profile, idToken) => {
+                  setAppleProfile(profile);
+                  setAppleIdToken(idToken);
+                  setShowApplePhoneModal(true);
                 }}
               />
             </div>
@@ -197,7 +232,9 @@ export default function Register() {
                 <span className="w-full border-t border-stone-600" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-stone-900/50 px-2 text-stone-400">Or register with email</span>
+                <span className="bg-stone-900/50 px-2 text-stone-400">
+                  Or register with email
+                </span>
               </div>
             </div>
 
@@ -423,10 +460,10 @@ export default function Register() {
         }}
         onForgotPassword={() => {
           setShowLoginModal(false);
-          navigate('/forgot-password');
+          navigate("/forgot-password");
         }}
       />
-      
+
       {/* Google Phone Number Modal */}
       <GooglePhoneNumberModal
         isOpen={showPhoneModal}
@@ -437,7 +474,24 @@ export default function Register() {
           setShowPhoneModal(false);
           toast({
             title: "Success",
-            description: "You have successfully registered with Google!"
+            description: "You have successfully registered with Google!",
+          });
+          const redirect = searchParams.get("redirect");
+          navigate(redirect || "/");
+        }}
+      />
+
+      {/* Apple Phone Number Modal */}
+      <ApplePhoneNumberModal
+        isOpen={showApplePhoneModal}
+        onClose={() => setShowApplePhoneModal(false)}
+        profile={appleProfile}
+        idToken={appleIdToken}
+        onSuccess={() => {
+          setShowApplePhoneModal(false);
+          toast({
+            title: "Success",
+            description: "You have successfully registered with Apple!",
           });
           const redirect = searchParams.get("redirect");
           navigate(redirect || "/");

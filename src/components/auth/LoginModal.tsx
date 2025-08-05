@@ -12,7 +12,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { useAuth } from "@/hooks/useAuth";
 import { login } from "@/utils/authApi";
@@ -21,12 +21,12 @@ import Logo from "@/components/react-svg/logo";
 import { Eye, EyeOff } from "lucide-react";
 import GoogleOAuthButton from "./GoogleOAuthButton";
 import GooglePhoneNumberModal from "./GooglePhoneNumberModal";
+import AppleOAuthButton from "./AppleOAuthButton";
+import ApplePhoneNumberModal from "./ApplePhoneNumberModal";
 
 const loginSchema = z.object({
-  emailOrPhone: z
-    .string()
-    .min(1, "Phone number or email is required"),
-  password: z.string().min(1, "Password is required")
+  emailOrPhone: z.string().min(1, "Phone number or email is required"),
+  password: z.string().min(1, "Password is required"),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -44,13 +44,16 @@ export const LoginModal = ({
   onClose,
   onSuccess,
   onForgotPassword,
-  contextMessage
+  contextMessage,
 }: LoginModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPhoneModal, setShowPhoneModal] = useState(false);
   const [googleProfile, setGoogleProfile] = useState<any>(null);
-  const [googleIdToken, setGoogleIdToken] = useState<string>('');
+  const [googleIdToken, setGoogleIdToken] = useState<string>("");
+  const [showApplePhoneModal, setShowApplePhoneModal] = useState(false);
+  const [appleProfile, setAppleProfile] = useState<any>(null);
+  const [appleIdToken, setAppleIdToken] = useState<string>("");
   const { login: authLogin } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -59,64 +62,68 @@ export const LoginModal = ({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       emailOrPhone: "",
-      password: ""
-    }
+      password: "",
+    },
   });
 
   const onSubmit = async (data: LoginFormData) => {
     try {
       setIsLoading(true);
-      
+
       // Normalize phone number formats
       const input = data.emailOrPhone.trim();
       let normalizedEmailOrPhone = data.emailOrPhone;
-      
+
       // Handle 61 format (without +) - e.g., 61412345678
       if (/^61\d{9}$/.test(input)) {
-        normalizedEmailOrPhone = '+' + input;
+        normalizedEmailOrPhone = "+" + input;
       }
       // Handle 04 format - e.g., 0412345678 or 0412 345 678
-      else if (/^04\d{8}$/.test(input.replace(/\s/g, ''))) {
+      else if (/^04\d{8}$/.test(input.replace(/\s/g, ""))) {
         // Remove spaces and replace 04 with +614
-        normalizedEmailOrPhone = '+614' + input.replace(/\s/g, '').substring(2);
+        normalizedEmailOrPhone = "+614" + input.replace(/\s/g, "").substring(2);
       }
-      
+
       const response = await login({
         ...data,
-        emailOrPhone: normalizedEmailOrPhone
+        emailOrPhone: normalizedEmailOrPhone,
       });
 
       // Store tokens and user info
-      localStorage.setItem('accessToken', response.accessToken);
-      localStorage.setItem('refreshToken', response.refreshToken);
-      localStorage.setItem('user', JSON.stringify(response.user));
-      
+      localStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("refreshToken", response.refreshToken);
+      localStorage.setItem("user", JSON.stringify(response.user));
+
       authLogin(response.accessToken, response.user);
-      
+
       // Check if user is verified
       if (!response.user.isVerified) {
         // User is not verified, redirect to OTP verification page
-        const redirectUrl = window.location.pathname.includes("/book/") 
-          ? window.location.pathname 
+        const redirectUrl = window.location.pathname.includes("/book/")
+          ? window.location.pathname
           : "/";
-        
+
         toast({
           title: "Welcome back!",
-          description: "Please verify your phone number to unlock all features"
+          description: "Please verify your phone number to unlock all features",
         });
-        
+
         // Close the login modal
         onClose();
         form.reset();
-        
+
         // Navigate to OTP verification page
-        navigate(`/verify-otp?phone=${encodeURIComponent(response.user.phoneNumber)}&redirect=${encodeURIComponent(redirectUrl)}`);
+        navigate(
+          `/verify-otp?phone=${encodeURIComponent(
+            response.user.phoneNumber
+          )}&redirect=${encodeURIComponent(redirectUrl)}`
+        );
       } else {
         toast({
           title: "Success",
-          description: "You have successfully logged in!"
+          description: "You have successfully logged in!",
         });
-        
+
         onSuccess?.();
         onClose();
         form.reset();
@@ -128,7 +135,7 @@ export const LoginModal = ({
           error instanceof Error
             ? error.message
             : "Invalid phone number/email or password",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -157,13 +164,13 @@ export const LoginModal = ({
           )}
         </DialogHeader>
 
-        {/* Google OAuth Button - Outside of form */}
-        <div className="mb-4">
+        {/* OAuth Buttons - Outside of form */}
+        <div className="mb-4 space-y-2">
           <GoogleOAuthButton
             onSuccess={() => {
               toast({
                 title: "Success",
-                description: "You have successfully logged in with Google!"
+                description: "You have successfully logged in with Google!",
               });
               onSuccess?.();
               onClose();
@@ -173,13 +180,37 @@ export const LoginModal = ({
               toast({
                 title: "Error",
                 description: error,
-                variant: "destructive"
+                variant: "destructive",
               });
             }}
             onNeedPhoneNumber={(profile, idToken) => {
               setGoogleProfile(profile);
               setGoogleIdToken(idToken);
               setShowPhoneModal(true);
+            }}
+          />
+
+          <AppleOAuthButton
+            onSuccess={() => {
+              toast({
+                title: "Success",
+                description: "You have successfully logged in with Apple!",
+              });
+              onSuccess?.();
+              onClose();
+              form.reset();
+            }}
+            onError={(error) => {
+              toast({
+                title: "Error",
+                description: error,
+                variant: "destructive",
+              });
+            }}
+            onNeedPhoneNumber={(profile, idToken) => {
+              setAppleProfile(profile);
+              setAppleIdToken(idToken);
+              setShowApplePhoneModal(true);
             }}
           />
         </div>
@@ -189,7 +220,9 @@ export const LoginModal = ({
             <span className="w-full border-t border-gray-600" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-[#010401] px-2 text-gray-400">Or continue with</span>
+            <span className="bg-[#010401] px-2 text-gray-400">
+              Or continue with
+            </span>
           </div>
         </div>
 
@@ -290,7 +323,9 @@ export const LoginModal = ({
                         "auth_return_url",
                         window.location.pathname
                       );
-                      window.location.href = `/register?redirect=${encodeURIComponent(window.location.pathname)}`;
+                      window.location.href = `/register?redirect=${encodeURIComponent(
+                        window.location.pathname
+                      )}`;
                     } else {
                       window.location.href = "/register";
                     }
@@ -303,7 +338,7 @@ export const LoginModal = ({
           </form>
         </Form>
       </DialogContent>
-      
+
       {/* Google Phone Number Modal */}
       <GooglePhoneNumberModal
         isOpen={showPhoneModal}
@@ -312,6 +347,19 @@ export const LoginModal = ({
         idToken={googleIdToken}
         onSuccess={() => {
           setShowPhoneModal(false);
+          onSuccess?.();
+          onClose();
+          form.reset();
+        }}
+      />
+
+      <ApplePhoneNumberModal
+        isOpen={showApplePhoneModal}
+        onClose={() => setShowApplePhoneModal(false)}
+        profile={appleProfile}
+        idToken={appleIdToken}
+        onSuccess={() => {
+          setShowApplePhoneModal(false);
           onSuccess?.();
           onClose();
           form.reset();
