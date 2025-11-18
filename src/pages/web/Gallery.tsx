@@ -6,10 +6,32 @@ import { useFeatureFlag, useParameterValue } from "@/hooks/useParameter";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getGalleryItems } from "@/utils/galleryApi";
+import type { GalleryItem } from "@/interfaces/GalleryInterface";
 
 export default function GalleriesPage() {
     const ctaTextParameter = useParameterValue<string>("content.cta_primary_text", "Book Now");
     const bookEnabledParameter = useFeatureFlag("booking_enabled", true);
+    const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    // Fetch gallery items from API
+    useEffect(() => {
+        const fetchGalleryItems = async () => {
+            try {
+                setLoading(true);
+                const items = await getGalleryItems(true); // Only fetch active items
+                setGalleryItems(items);
+            } catch (error) {
+                console.error("Error fetching gallery items:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchGalleryItems();
+    }, []);
 
     localStorage.removeItem("booking_source");
 
@@ -142,7 +164,13 @@ export default function GalleriesPage() {
                     </section>
 
                     <section className="relative z-[99999] flex flex-col gap-2  py-4 container mx-0 max-w-none px-0">
-                        <CarauselGallery />
+                        {loading ? (
+                            <div className="text-center py-12">
+                                <p className="text-[var(--text-color-secondary)]">Loading gallery...</p>
+                            </div>
+                        ) : (
+                            <CarauselGallery items={galleryItems} />
+                        )}
                     </section>
                 </section>
             </div>

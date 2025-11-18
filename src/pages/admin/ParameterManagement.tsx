@@ -11,8 +11,9 @@ import {
     getParametersByCategory,
     toggleParameterStatus,
 } from "@/utils/parameterApi";
-import { RefreshCw, Settings } from "lucide-react";
+import { RefreshCw, Settings, Users, Image } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function ParameterManagement() {
     const [parameters, setParameters] = useState<Parameter[]>([]);
@@ -131,14 +132,41 @@ export default function ParameterManagement() {
                             <p className="text-gray-400">Manage dynamic website appearance and behavior</p>
                         </div>
                     </div>
-                    <Button
-                        variant="outline"
-                        onClick={fetchParameters}
-                        className="border-theme-border hover:bg-theme-card"
-                    >
-                        <RefreshCw className="w-4 h-4 mr-2" />
-                        Refresh
-                    </Button>
+                    <div className="flex gap-2">
+                        <Link to="/admin/barbers">
+                            <Button
+                                variant="outline"
+                                className="border-theme-border hover:bg-theme-card"
+                            >
+                                <Users className="w-4 h-4 mr-2" />
+                                Manage Barbers
+                            </Button>
+                        </Link>
+                        <Link to="/admin/gallery">
+                            <Button
+                                variant="outline"
+                                className="border-theme-border hover:bg-theme-card"
+                            >
+                                <Image className="w-4 h-4 mr-2" />
+                                Manage Gallery
+                            </Button>
+                        </Link>
+                        <Button
+                            variant="outline"
+                            onClick={fetchParameters}
+                            className="border-theme-border hover:bg-theme-card"
+                        >
+                            <RefreshCw className="w-4 h-4 mr-2" />
+                            Refresh
+                        </Button>
+                    </div>
+                </div>
+
+                {/* Info Banner */}
+                <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
+                    <p className="text-blue-300 text-sm">
+                        <strong>Note:</strong> Barber and Gallery management have been moved to dedicated sections. Click "Manage Barbers" or "Manage Gallery" above to add, edit, or remove content displayed on the website.
+                    </p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">

@@ -37,6 +37,8 @@ import NoahLanding from './pages/landing/NoahLanding';
 import AmirLanding from './pages/landing/AmirLanding';
 import PageTracker from './components/analytics/PageTracker';
 import ParameterManagement from './pages/admin/ParameterManagement';
+import BarberManagement from './pages/admin/BarberManagement';
+import GalleryManagement from './pages/admin/GalleryManagement';
 import DynamicThemeExample from './components/web/DynamicThemeExample';
 
 const webRoutes = [
@@ -60,6 +62,8 @@ const webRoutes = [
 
 const adminRoutes = [
   { path: 'admin/parameters', component: ParameterManagement },
+  { path: 'admin/barbers', component: BarberManagement },
+  { path: 'admin/gallery', component: GalleryManagement },
   { path: 'admin/theme-example', component: DynamicThemeExample }
 ];
 
