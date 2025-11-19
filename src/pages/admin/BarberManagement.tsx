@@ -391,12 +391,12 @@ export default function BarberManagement() {
 
                 {/* Add/Edit Dialog */}
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogContent className="bg-theme-card border-theme-border max-w-2xl">
-                        <DialogHeader>
+                    <DialogContent className="bg-theme-card border-theme-border text-white max-w-2xl max-h-[85vh] flex flex-col p-0">
+                        <DialogHeader className="px-6 pt-6 pb-4 border-b border-theme-border flex-shrink-0">
                             <DialogTitle>{editingBarber ? "Edit Barber" : "Add New Barber"}</DialogTitle>
                         </DialogHeader>
 
-                        <div className="space-y-4">
+                        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="name">Name (username)</Label>
@@ -474,7 +474,7 @@ export default function BarberManagement() {
                             </div>
                         </div>
 
-                        <DialogFooter>
+                        <DialogFooter className="px-6 py-4 border-t border-theme-border flex-shrink-0">
                             <Button
                                 variant="outline"
                                 onClick={() => setIsDialogOpen(false)}
